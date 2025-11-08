@@ -5,5 +5,25 @@ date: "2025-11-05"
 output: github_document
 ---
 
+```{r}
+library(tidyverse)
+library(hms)
+
+park_ranger = read_csv("~/Desktop/Data science/p8105_final_project/data/Urban_Park_Ranger_Animal_Condition_Response_20251103.csv") %>% 
+  janitor::clean_names() %>% 
+  filter(date_and_time_of_ranger_response > date_and_time_of_initial_call) %>% 
+  mutate(
+    date_and_time_of_initial_call = mdy_hm(date_and_time_of_initial_call),
+    date_and_time_of_ranger_response = mdy_hm(date_and_time_of_ranger_response),
+    
+    call_date = as.Date(date_and_time_of_initial_call),
+    call_time = as_hms(date_and_time_of_initial_call),
+    
+    response_date = as.Date(date_and_time_of_ranger_response),
+    response_time = as_hms(date_and_time_of_ranger_response)
+  ) %>% 
+  select(-date_and_time_of_initial_call, -date_and_time_of_ranger_response) %>% 
+  relocate(call_date, call_time, response_date, response_time)
+```
 
 
