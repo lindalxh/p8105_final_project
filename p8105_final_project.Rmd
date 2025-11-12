@@ -43,7 +43,7 @@ park_ranger_new = park_ranger %>%
       
       species_description %in% c(
         "Domestic Rabbit","Domestic Ferret","Fancy Rat","Gerbil",
-        "Guinea Pig","Guniea Pig","Hamster"
+        "Guinea Pig", "Guniea Pig", "Guinea pig", "Hamster"
       ) ~ "Small Mammals",
       
       species_description %in% c(
