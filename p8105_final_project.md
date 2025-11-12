@@ -4,6 +4,8 @@ Xinwei Han (xh2601), Xinhui Lin (xl3054), Ruohan Lyu (rl3610), Xinyin
 Miao (xm2356), Fenglin Xie (fx2212)
 2025-12-06
 
+load packages
+
 ``` r
 library(tidyverse)
 ```
@@ -30,10 +32,13 @@ library(hms)
     ## 
     ##     hms
 
+Data cleaning: remove incorrect records based on call & response time,
+split date and time
+
 ``` r
 park_ranger = read_csv("~/Desktop/Data science/p8105_final_project/data/Urban_Park_Ranger_Animal_Condition_Response_20251103.csv") %>% 
   janitor::clean_names() %>% 
-  filter(date_and_time_of_ranger_response > date_and_time_of_initial_call) %>%  ## remove rows of response > initial call
+  filter(date_and_time_of_ranger_response > date_and_time_of_initial_call) %>% 
   mutate(
     date_and_time_of_initial_call = mdy_hm(date_and_time_of_initial_call),
     date_and_time_of_ranger_response = mdy_hm(date_and_time_of_ranger_response),
@@ -43,8 +48,7 @@ park_ranger = read_csv("~/Desktop/Data science/p8105_final_project/data/Urban_Pa
     response_date = as.Date(date_and_time_of_ranger_response),
     response_time = as_hms(date_and_time_of_ranger_response)  ## split date and time
   ) %>% 
-  select(-date_and_time_of_initial_call, -date_and_time_of_ranger_response) %>% 
-  relocate(call_date, call_time, response_date, response_time)
+  select(-date_and_time_of_initial_call, -date_and_time_of_ranger_response)
 ```
 
     ## Rows: 6385 Columns: 22
@@ -57,83 +61,87 @@ park_ranger = read_csv("~/Desktop/Data science/p8105_final_project/data/Urban_Pa
     ## ℹ Use `spec()` to retrieve the full column specification for this data.
     ## ℹ Specify the column types or set `show_col_types = FALSE` to quiet this message.
 
+Reclassify animal classes into 7 categories
+
 ``` r
-## reclassify animal species into 7 categories
-species_mapping = c(
-  "Animal (Unknown)" = "others",
-  "Atlantic Canary" = "Birds + raptor",
-  "Bird (Unknown)" = "Birds + raptor",
-  "Budgerigar" = "Birds + raptor",
-  "Budgerigar Parakeet" = "Birds + raptor",
-  "Cat" = "Large mammal",
-  "Cattle" = "Large mammal",
-  "Chicken" = "Birds + raptor",
-  "Chukar" = "Birds + raptor",
-  "Cockatiel" = "Birds + raptor",
-  "Dog" = "Large mammal",
-  "Domestic Dove" = "Birds + raptor",
-  "Domestic Duck" = "Birds + raptor",
-  "Domestic Ferret" = "Small mammal",
-  "Domestic Goose" = "Birds + raptor",
-  "Domestic Goose Hybrid" = "Birds + raptor",
-  "Domestic Quail" = "Birds + raptor",
-  "Domestic Rabbit" = "Small mammal",
-  "Domestic Turkey" = "Birds + raptor",
-  "Domestic Waterfowl" = "Birds + raptor",
-  "Fancy Dove" = "Birds + raptor",
-  "Fancy Rat" = "Small mammal",
-  "Gerbil" = "Small mammal",
-  "Goat" = "Large mammal",
-  "Guinea Fowl" = "Birds + raptor",
-  "Guineafowl" = "Birds + raptor",
-  "Guniea Pig" = "Small mammal",
-  "Guinea Pig" = "Small mammal",
-  "Hamster" = "Small mammal",
-  "Honey Bee" = "others",
-  "Japanese Quail" = "Birds + raptor",
-  "Khaki Campbell (domestic duck breed)" = "Birds + raptor",
-  "Muscovy Duck" = "Birds + raptor",
-  "N/A" = "others",
-  "Parakeet (Unknown)" = "Birds + raptor",
-  "Pig" = "Large mammal",
-  "Pitt Bull Mix" = "Large mammal",
-  "Rock Dove" = "Birds + raptor",
-  "Unknown" = "others" 
-)
+park_ranger_new = park_ranger %>% 
+  mutate(
+    animal_class_new = case_when(
+      species_description %in% c(
+        "Atlantic Canary","Bird (Unknown)","Budgerigar","Budgerigar Parakeet",
+        "Chicken","Chukar","Cockatiel","Domestic Dove","Domestic Duck", "Domestic duck",
+        "Domestic Goose","Domestic Goose Hybrid","Domestic Quail","Domestic Turkey",
+        "Domestic Waterfowl","Fancy Dove","Guinea Fowl","Guineafowl","Japanese Quail",
+        "Khaki Campbell","Muscovy Duck","Rock Dove",
+        "Parakeet (Unknown)"
+      ) ~ "Birds / Raptors",
+      
+      species_description %in% c(
+        "Domestic Rabbit","Domestic Ferret","Fancy Rat","Gerbil",
+        "Guinea Pig","Guniea Pig","Hamster"
+      ) ~ "Small Mammals",
+      
+      species_description %in% c(
+        "Dog","Pitt Bull Mix","Cat","Goat","Cattle","Pig"
+      ) ~ "Large Mammals",
+      
+      species_description %in% c(
+        "Animal (Unknown)","Honey Bee", "Unknown","N/A"
+      ) ~ "Others",
+      
+      animal_class %in% c(
+        "[\"Birds\"]", "[\"Raptors\"]", "Birds", "Raptors", 
+        "Raptors, Small Mammals-RVS"
+      ) ~ "Birds / Raptors",
+            
+      animal_class %in% c(
+        "[\"Small Mammals-non RVS\"]", "[\"Small Mammals-RVS\"]",
+        "Small Mammals-non RVS", "Small Mammals-RVS"
+      ) ~ "Small Mammals",
+      
+      animal_class %in% c(
+        "Coyotes", "Deer", "[\"Coyotes\"]", "[\"Deer\"]"
+      ) ~ "Large Mammals",
 
-animal_class_mapping = c(
-  "Birds" = "Birds + raptor",
-  "Coyotes" = "Large mammal",
-  "Deer" = "Large mammal",
-  "Fish-numerous quantity" = "fish",
-  "Marine Mammals-seals only" = "Marine mammal",
-  "Marine Mammals-whales,  Dolphin" = "Marine mammal",
-  "Marine Mammals-whales, Dolphin" = "Marine mammal",
-  "Marine Reptiles" = "Reptile / amphibian",
-  "Non Native Fish-(invasive)" = "fish",
-  "Raptors" = "Birds + raptor",
-  "Rare, Endangered, Dangerous" = "others",
-  "Small Mammals-non RVS" = "Small mammal",
-  "Small Mammals-RVS" = "Small mammal",
-  "Terrestrial Reptile or Amphibian" = "Reptile / amphibian",
-  "Fish-numerous quantity;#Terrestrial Reptile or Amphibian" = "fish",
-  "Marine Mammals-whales,  Dolphin" = "Marine mammal",
-  "Raptors, Small Mammals-RVS" = "Small mammal",
-  "Rare, Endangered, Dangerous" = "others",
-  "Rare,  Endangered,  Dangerous" = "others",
-  "Terrestrial Reptile or Amphibian, Fish-numerous quantity" = "Reptile / amphibian"
-)
+      animal_class %in% c(
+        "[\"Marine Mammals-whales, Dolphin\"]", "[\"Marine Mammals-seals only\"]",
+        "Marine Mammals-seals only", "Marine Mammals-whales,  Dolphin", 
+        "Marine Mammals-whales, Dolphin"
+      ) ~ "Marine Mammals",
+            
+      animal_class %in% c(
+        "[\"Fish-numerous quantity\"]", "[\"Non Native Fish-(invasive)\"]", 
+        "Fish-numerous quantity", "Fish-numerous quantity;#Terrestrial Reptile or Amphibian", 
+        "Non Native Fish-(invasive)"
+      ) ~ "Fish",
+      
+      animal_class %in% c(
+        "[\"Marine Reptiles\"]", "[\"Terrestrial Reptile or Amphibian\"]", 
+        "Marine Reptiles", "Terrestrial Reptile or Amphibian", 
+        "Terrestrial Reptile or Amphibian, Fish-numerous quantity"
+      ) ~ "Reptiles / Amphibians",
 
-park_ranger$animal_class_new = species_mapping[park_ranger$species_description]
+      animal_class %in% c(
+        "[\"Rare, Endangered, Dangerous\"]", "Rare,  Endangered,  Dangerous",
+        "Rare, Endangered, Dangerous"
+      ) ~ "Others"
+    )
+  )  %>% 
+  select(call_date, call_time, response_date, response_time, call_source,
+         borough, property, location, duration_of_response, 
+         animal_class_new, species_description, species_status, animal_condition, age,
+         number_of_animals, x311sr_number, final_ranger_action, pep_response, animal_monitored,
+         rehabilitator, hours_spent_monitoring, police_response, esu_response, acc_intake_number)
+```
 
-missing_species = is.na(park_ranger$animal_class_new)
-park_ranger$animal_class_new[missing_species] = animal_class_mapping[park_ranger$animal_class[missing_species]]
-
-table(park_ranger$animal_class_new)
+``` r
+table(park_ranger_new$animal_class_new)
 ```
 
     ## 
-    ##      Birds + raptor                fish        Large mammal       Marine mammal 
-    ##                1664                  11                 574                  29 
-    ##              others Reptile / amphibian        Small mammal 
-    ##                  14                 180                1456
+    ##       Birds / Raptors                  Fish         Large Mammals 
+    ##                  1950                    14                   594 
+    ##        Marine Mammals                Others Reptiles / Amphibians 
+    ##                    41                    16                   233 
+    ##         Small Mammals 
+    ##                  1779
