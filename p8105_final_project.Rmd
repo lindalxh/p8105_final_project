@@ -15,7 +15,6 @@ Data cleaning: remove incorrect records based on call & response time, split dat
 ```{r}
 park_ranger = read_csv("data/Urban_Park_Ranger_Animal_Condition_Response_20251103.csv") %>% 
   janitor::clean_names() %>% 
-  filter(date_and_time_of_ranger_response > date_and_time_of_initial_call) %>% 
   mutate(
     date_and_time_of_initial_call = mdy_hm(date_and_time_of_initial_call),
     date_and_time_of_ranger_response = mdy_hm(date_and_time_of_ranger_response),
@@ -25,7 +24,7 @@ park_ranger = read_csv("data/Urban_Park_Ranger_Animal_Condition_Response_2025110
     response_date = as.Date(date_and_time_of_ranger_response),
     response_time = as_hms(date_and_time_of_ranger_response)  ## split date and time
   ) %>% 
-  select(-date_and_time_of_initial_call, -date_and_time_of_ranger_response)
+  filter(date_and_time_of_ranger_response >= date_and_time_of_initial_call)
 ```
 
 Reclassify animal classes into 7 categories
@@ -92,12 +91,7 @@ park_ranger_new = park_ranger %>%
         "Rare, Endangered, Dangerous"
       ) ~ "Others"
     )
-  )  %>% 
-  select(call_date, call_time, response_date, response_time, call_source,
-         borough, property, location, duration_of_response, 
-         animal_class_new, species_description, species_status, animal_condition, age,
-         number_of_animals, x311sr_number, final_ranger_action, pep_response, animal_monitored,
-         rehabilitator, hours_spent_monitoring, police_response, esu_response, acc_intake_number)
+  )
 ```
 
 ```{r}
