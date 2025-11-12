@@ -13,7 +13,7 @@ library(hms)
 
 Data cleaning: remove incorrect records based on call & response time, split date and time
 ```{r}
-park_ranger = read_csv("~/Desktop/Data science/p8105_final_project/data/Urban_Park_Ranger_Animal_Condition_Response_20251103.csv") %>% 
+park_ranger = read_csv("data/Urban_Park_Ranger_Animal_Condition_Response_20251103.csv") %>% 
   janitor::clean_names() %>% 
   filter(date_and_time_of_ranger_response > date_and_time_of_initial_call) %>% 
   mutate(
