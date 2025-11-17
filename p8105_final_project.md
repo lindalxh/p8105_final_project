@@ -126,6 +126,7 @@ animal_class_mapping = c(
 park_ranger$animal_class_new = species_mapping[park_ranger$species_description]
 
 missing_species = is.na(park_ranger$animal_class_new)
+
 park_ranger$animal_class_new[missing_species] = animal_class_mapping[park_ranger$animal_class[missing_species]]
 
 table(park_ranger$animal_class_new)
