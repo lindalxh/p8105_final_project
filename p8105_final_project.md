@@ -610,3 +610,45 @@ plot(anova_fit_log, which = 2)  # Normal Q-Q
 ``` r
 par(mfrow = c(1, 1))
 ```
+
+# Task 8
+
+``` r
+park_model4 <- park_model |>
+  filter(!is.na(animal_condition)) |>
+  filter(animal_condition %in% c("Healthy", "Unhealthy", "Injured", "DOA"))
+```
+
+``` r
+plot_condition_bar <- function(data, cond) {
+  data |>
+    filter(animal_condition == cond) |>
+    ggplot(aes(x = final_ranger_action)) +
+    geom_bar(fill = "#4F81BD", alpha = 0.85) +
+    coord_flip() +
+    labs(
+      title = paste("Final Ranger Action for", cond),
+      x = "Final Ranger Action",
+      y = "Number of Cases"
+    ) +
+    theme_bw() +
+    theme(
+      plot.title = element_text(hjust = 0.5),
+      axis.text.y = element_text(size = 8)
+    )
+}
+```
+
+``` r
+library(patchwork)
+
+p1 <- plot_condition_bar(park_model4, "Healthy")
+p2 <- plot_condition_bar(park_model4, "Unhealthy")
+p3 <- plot_condition_bar(park_model4, "Injured")
+p4 <- plot_condition_bar(park_model4, "DOA")
+
+(p1 | p2) /
+(p3 | p4)
+```
+
+![](p8105_final_project_files/figure-gfm/unnamed-chunk-26-1.png)<!-- -->
