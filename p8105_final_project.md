@@ -354,7 +354,7 @@ park_model = park_ranger_new |>
   )
 ```
 
-# Violin plot: duration vs final_ranger_action
+# Violin plot: duration vs final_ranger_action (和boxplot合并)
 
 ``` r
 ggplot(park_model, aes(x = final_ranger_action, y = duration_hours)) +
@@ -375,6 +375,8 @@ ggplot(park_model, aes(x = final_ranger_action, y = duration_hours)) +
 ![](p8105_final_project_files/figure-gfm/unnamed-chunk-12-1.png)<!-- -->
 
 # Boxplot: duration vs final_ranger_action
+
+# 按median排
 
 ``` r
 ggplot(park_model, aes(x = final_ranger_action, y = duration_hours)) +
@@ -416,6 +418,8 @@ ggplot(park_model, aes(x = animal_condition, y = duration_hours)) +
 
 # Boxplot: duration vs animal_condition
 
+# NA 改成unknown
+
 ``` r
 ggplot(park_model, aes(x = animal_condition, y = duration_hours)) +
   geom_boxplot(outlier.alpha = 0.3, fill = "lightgreen") +
@@ -435,6 +439,8 @@ ggplot(park_model, aes(x = animal_condition, y = duration_hours)) +
 ![](p8105_final_project_files/figure-gfm/unnamed-chunk-15-1.png)<!-- -->
 
 # Density plot
+
+# 整一个density plot：横轴是救助时长，纵轴是unfounded density (unfounded/total)
 
 ``` r
 park_model2 = park_model |>
@@ -554,6 +560,8 @@ ggplot(park_model2_log,
 
 # ANOVA: Duration ~ Final Action + Condition + \# of Animals
 
+# 原先的QQ plot
+
 ``` r
 anova_fit = aov(
   duration_hours ~ final_ranger_action * animal_condition + num_animals,
@@ -638,6 +646,8 @@ plot_condition_bar <- function(data, cond) {
     )
 }
 ```
+
+# 坐标轴一致
 
 ``` r
 library(patchwork)
