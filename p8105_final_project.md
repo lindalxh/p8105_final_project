@@ -12,8 +12,8 @@ library(tidyverse)
 
     ## ── Attaching core tidyverse packages ──────────────────────── tidyverse 2.0.0 ──
     ## ✔ dplyr     1.1.4     ✔ readr     2.1.5
-    ## ✔ forcats   1.0.1     ✔ stringr   1.5.2
-    ## ✔ ggplot2   4.0.0     ✔ tibble    3.3.0
+    ## ✔ forcats   1.0.0     ✔ stringr   1.5.1
+    ## ✔ ggplot2   3.5.2     ✔ tibble    3.3.0
     ## ✔ lubridate 1.9.4     ✔ tidyr     1.3.1
     ## ✔ purrr     1.1.0     
     ## ── Conflicts ────────────────────────────────────────── tidyverse_conflicts() ──
@@ -332,3 +332,281 @@ warm-weather intake while utilizing winter for strategic planning.
 Visitor vigilance during peak seasons and prompt daylight reporting
 could improve response effectiveness, supplemented by community
 monitoring programs and coordinated rehabilitation networks.
+
+# TASK 7
+
+``` r
+park_model = park_ranger_new |>
+  rename(num_animals = matches("animals")) |>
+  mutate(
+    duration_hours      = as.numeric(duration_of_response),
+    num_animals         = as.numeric(num_animals),
+    final_ranger_action = as.factor(final_ranger_action),
+    animal_condition    = as.factor(animal_condition)
+  ) |>
+  filter(
+    !is.na(duration_hours),
+    duration_hours > 0,
+    !is.na(final_ranger_action),
+    !is.na(animal_condition),
+    !is.na(num_animals),
+    num_animals >= 0
+  )
+```
+
+# Violin plot: duration vs final_ranger_action
+
+``` r
+ggplot(park_model, aes(x = final_ranger_action, y = duration_hours)) +
+  geom_violin(trim = FALSE, fill = "skyblue", color = "grey30") +
+  coord_flip() +
+  labs(
+    x = "Final ranger action",
+    y = "Duration of response (hours)",
+    title = "Violin plot of response duration by final ranger action"
+  ) +
+  theme_bw() +
+  theme(
+    plot.title = element_text(hjust = 0.5),
+    axis.text.y = element_text(size = 8)
+  )
+```
+
+![](p8105_final_project_files/figure-gfm/unnamed-chunk-12-1.png)<!-- -->
+
+# Boxplot: duration vs final_ranger_action
+
+``` r
+ggplot(park_model, aes(x = final_ranger_action, y = duration_hours)) +
+  geom_boxplot(outlier.alpha = 0.3, fill = "lightgreen") +
+  coord_flip() +
+  labs(
+    x = "Final ranger action",
+    y = "Duration of response (hours)",
+    title = "Boxplot of response duration by final ranger action"
+  ) +
+  theme_bw() +
+  theme(
+    plot.title = element_text(hjust = 0.5),
+    axis.text.y = element_text(size = 8)
+  )
+```
+
+![](p8105_final_project_files/figure-gfm/unnamed-chunk-13-1.png)<!-- -->
+
+# Violin plot: duration vs animal_condition
+
+``` r
+ggplot(park_model, aes(x = animal_condition, y = duration_hours)) +
+  geom_violin(trim = FALSE, fill = "skyblue", color = "grey30") +
+  coord_flip() +
+  labs(
+    x = "Animal condition",
+    y = "Duration of response (hours)",
+    title = "Violin plot of response duration by animal condition"
+  ) +
+  theme_bw() +
+  theme(
+    plot.title = element_text(hjust = 0.5),
+    axis.text.y = element_text(size = 8)
+  )
+```
+
+![](p8105_final_project_files/figure-gfm/unnamed-chunk-14-1.png)<!-- -->
+
+# Boxplot: duration vs animal_condition
+
+``` r
+ggplot(park_model, aes(x = animal_condition, y = duration_hours)) +
+  geom_boxplot(outlier.alpha = 0.3, fill = "lightgreen") +
+  coord_flip() +
+  labs(
+    x = "Animal condition",
+    y = "Duration of response (hours)",
+    title = "Boxplot of response duration by animal condition"
+  ) +
+  theme_bw() +
+  theme(
+    plot.title = element_text(hjust = 0.5),
+    axis.text.y = element_text(size = 8)
+  )
+```
+
+![](p8105_final_project_files/figure-gfm/unnamed-chunk-15-1.png)<!-- -->
+
+# Density plot
+
+``` r
+park_model2 = park_model |>
+  mutate(
+    action_group = if_else(
+      final_ranger_action == "Unfounded",
+      "Unfounded",
+      "Other actions"
+    )
+  )
+```
+
+``` r
+duration_mean = park_model2 |>
+  group_by(action_group) |>
+  summarise(
+    mean_duration = mean(duration_hours, na.rm = TRUE),
+    .groups = "drop"
+  )
+duration_mean
+```
+
+    ## # A tibble: 2 × 2
+    ##   action_group  mean_duration
+    ##   <chr>                 <dbl>
+    ## 1 Other actions         1.52 
+    ## 2 Unfounded             0.997
+
+``` r
+ggplot(park_model2, aes(x = duration_hours,
+                        fill  = action_group,
+                        color = action_group)) +
+  geom_density(alpha = 0.3, adjust = 1, linewidth = 1) +
+  
+  geom_vline(data = duration_mean,
+             aes(xintercept = mean_duration, color = action_group),
+             linewidth = 1.2) +
+  
+  labs(
+    title = "Density of response duration by action group",
+    x = "Duration of response (hours)",
+    y = "Density",
+    fill  = "Action group",
+    color = "Action group"
+  ) +
+  theme_bw() +
+  theme(
+    plot.title = element_text(hjust = 0.5)
+  )
+```
+
+![](p8105_final_project_files/figure-gfm/unnamed-chunk-18-1.png)<!-- -->
+
+``` r
+ggplot(park_model2,
+       aes(x = duration_hours, fill = action_group, color = action_group)) +
+  geom_density(alpha = 0.4, adjust = 1, linewidth = 0.7) +
+  coord_cartesian(xlim = c(0, 4)) +   # 只看 0–4 小时
+  labs(
+    title = "Density of response duration (zoomed to 0–4 hours)",
+    x = "Duration of response (hours)",
+    y = "Density",
+    fill  = "Action group",
+    color = "Action group"
+  ) +
+  theme_bw() +
+  theme(
+    plot.title = element_text(hjust = 0.5)
+  )
+```
+
+![](p8105_final_project_files/figure-gfm/unnamed-chunk-19-1.png)<!-- -->
+
+``` r
+ggplot(park_model2,
+       aes(x = duration_hours, fill = action_group)) +
+  geom_density(alpha = 0.6, adjust = 1, linewidth = 0.6, color = NA) +
+  coord_cartesian(xlim = c(0, 4)) +
+  facet_wrap(~ action_group, ncol = 1, scales = "free_y") +
+  labs(
+    title = "Response duration density by action group (0–4 hours)",
+    x = "Duration of response (hours)",
+    y = "Density"
+  ) +
+  theme_bw() +
+  theme(
+    plot.title = element_text(hjust = 0.5)
+  )
+```
+
+![](p8105_final_project_files/figure-gfm/unnamed-chunk-20-1.png)<!-- -->
+
+## log 变换
+
+``` r
+park_model2_log = park_model2 |>
+  filter(duration_hours > 0) |>
+  mutate(duration_log = log1p(duration_hours))  # log(1 + x)
+
+ggplot(park_model2_log,
+       aes(x = duration_log, fill = action_group, color = action_group)) +
+  geom_density(alpha = 0.4, adjust = 1, linewidth = 0.7) +
+  labs(
+    title = "Density of log-transformed response duration",
+    x = "log(1 + duration of response, hours)",
+    y = "Density",
+    fill  = "Action group",
+    color = "Action group"
+  ) +
+  theme_bw() +
+  theme(
+    plot.title = element_text(hjust = 0.5)
+  )
+```
+
+![](p8105_final_project_files/figure-gfm/unnamed-chunk-21-1.png)<!-- -->
+
+# ANOVA: Duration ~ Final Action + Condition + \# of Animals
+
+``` r
+anova_fit = aov(
+  duration_hours ~ final_ranger_action * animal_condition + num_animals,
+  data = park_model
+)
+
+summary(anova_fit)
+```
+
+    ##                                        Df Sum Sq Mean Sq F value   Pr(>F)    
+    ## final_ranger_action                     7   1441  205.86 145.072  < 2e-16 ***
+    ## animal_condition                        4      5    1.28   0.900 0.462720    
+    ## num_animals                             1      0    0.09   0.062 0.803400    
+    ## final_ranger_action:animal_condition   24     81    3.38   2.383 0.000165 ***
+    ## Residuals                            6094   8648    1.42                     
+    ## ---
+    ## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+
+## log
+
+``` r
+park_model2 = park_model |>
+  filter(duration_hours > 0) |>
+  mutate(log_duration = log(duration_hours))
+
+anova_fit_log = aov(
+  log_duration ~ final_ranger_action * animal_condition + num_animals,
+  data = park_model2
+)
+
+summary(anova_fit_log)
+```
+
+    ##                                        Df Sum Sq Mean Sq F value   Pr(>F)    
+    ## final_ranger_action                     7 1028.8  146.97 356.111  < 2e-16 ***
+    ## animal_condition                        4    8.4    2.11   5.108 0.000416 ***
+    ## num_animals                             1    0.5    0.50   1.221 0.269247    
+    ## final_ranger_action:animal_condition   24   30.3    1.26   3.059 7.34e-07 ***
+    ## Residuals                            6094 2515.1    0.41                     
+    ## ---
+    ## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+
+``` r
+par(mfrow = c(1, 2))
+plot(anova_fit_log, which = 1)  # Residuals vs Fitted
+plot(anova_fit_log, which = 2)  # Normal Q-Q
+```
+
+    ## Warning: not plotting observations with leverage one:
+    ##   3810, 4638, 5038
+
+![](p8105_final_project_files/figure-gfm/unnamed-chunk-23-1.png)<!-- -->
+
+``` r
+par(mfrow = c(1, 1))
+```
