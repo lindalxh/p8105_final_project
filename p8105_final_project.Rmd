@@ -36,28 +36,6 @@ Reclassify animal classes into 7 categories
 park_ranger_new = park_ranger %>% 
   mutate(
     animal_class_new = case_when(
-      species_description %in% c(
-        "Atlantic Canary","Bird (Unknown)","Budgerigar","Budgerigar Parakeet",
-        "Chicken","Chukar","Cockatiel","Domestic Dove","Domestic Duck", "Domestic duck",
-        "Domestic Goose","Domestic Goose Hybrid","Domestic Quail","Domestic Turkey",
-        "Domestic Waterfowl","Fancy Dove","Guinea Fowl","Guineafowl","Japanese Quail",
-        "Khaki Campbell","Muscovy Duck","Rock Dove",
-        "Parakeet (Unknown)"
-      ) ~ "Birds / Raptors",
-      
-      species_description %in% c(
-        "Domestic Rabbit","Domestic Ferret","Fancy Rat","Gerbil",
-        "Guinea Pig", "Guniea Pig", "Guinea pig", "Hamster"
-      ) ~ "Small Mammals",
-      
-      species_description %in% c(
-        "Dog","Pitt Bull Mix","Cat","Goat","Cattle","Pig"
-      ) ~ "Large Mammals",
-      
-      species_description %in% c(
-        "Animal (Unknown)","Honey Bee", "Unknown","N/A"
-      ) ~ "Others",
-      
       animal_class %in% c(
         "[\"Birds\"]", "[\"Raptors\"]", "Birds", "Raptors", 
         "Raptors, Small Mammals-RVS"
@@ -93,6 +71,28 @@ park_ranger_new = park_ranger %>%
       animal_class %in% c(
         "[\"Rare, Endangered, Dangerous\"]", "Rare,  Endangered,  Dangerous",
         "Rare, Endangered, Dangerous"
+      ) ~ "Others",
+      
+      species_description %in% c(
+        "Atlantic Canary","Bird (Unknown)","Budgerigar","Budgerigar Parakeet",
+        "Chicken","Chukar","Cockatiel","Domestic Dove","Domestic Duck", "Domestic duck",
+        "Domestic Goose","Domestic Goose Hybrid","Domestic Quail","Domestic Turkey",
+        "Domestic Waterfowl","Fancy Dove","Guinea Fowl","Guineafowl","Japanese Quail",
+        "Khaki Campbell","Muscovy Duck","Rock Dove",
+        "Parakeet (Unknown)"
+      ) ~ "Birds / Raptors",
+      
+      species_description %in% c(
+        "Domestic Rabbit","Domestic Ferret","Fancy Rat","Gerbil",
+        "Guinea Pig", "Guniea Pig", "Guinea pig", "Hamster"
+      ) ~ "Small Mammals",
+      
+      species_description %in% c(
+        "Dog","Pitt Bull Mix","Cat","Goat","Cattle","Pig"
+      ) ~ "Large Mammals",
+      
+      species_description %in% c(
+        "Animal (Unknown)","Honey Bee", "Unknown","N/A"
       ) ~ "Others"
     )
   )
