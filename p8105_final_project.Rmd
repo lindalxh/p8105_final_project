@@ -109,28 +109,28 @@ park_ranger_new = park_ranger %>%
       ) ~ "Others"),
     
     animal_class_new = factor(animal_class_new, 
-                              levels = c("Small Mammals", "Large Mammals", "Marine Mammals", 
-                                         "Birds / Raptors", "Reptiles / Amphibians", "Fish", "Others")),
+                              levels = c("Birds / Raptors", "Small Mammals", "Large Mammals", 
+                                         "Marine Mammals", "Reptiles / Amphibians", "Fish", "Others")),
     
-    borough = factor(borough, levels = c("Queens", "Manhattan", "Brooklyn", "Bronx", "Staten Island")),
+    borough = factor(borough, levels = c("Manhattan", "Brooklyn", "Queens", "Bronx", "Staten Island")),
     
-    call_source = factor(call_source, levels = c("Employee", "Public", "Central", 
+    call_source = factor(call_source, levels = c("Public", "Central", "Employee", 
                                                  "Conservancies/\"Friends of\" Groups", 
                                                  "Observed by Ranger", "WBF", "WINORR", "Other")),
     
     species_status = ifelse(species_status == "N/A" | is.na(species_status), 
                             "Unknown", species_status),
-    species_status = factor(species_status, levels = c("Unknown", "Native", "Domestic", 
-                                                       "Exotic", "Invasive")),
+    species_status = factor(species_status, levels = c("Native", "Invasive", "Domestic", 
+                                                       "Exotic", "Unknown")),
     
     animal_condition = ifelse(animal_condition == "N/A" | is.na(animal_condition), 
                               "Unknown", animal_condition),
-    animal_condition = factor(animal_condition, levels = c("Unknown", "Healthy", 
-                                                           "Unhealthy", "Injured", "DOA")),
+    animal_condition = factor(animal_condition, levels = c("Healthy", "Unhealthy", "Injured", 
+                                                           "DOA", "Unknown")),
     
-    adult   = if_else(str_detect(age, "Adult"),   1L, 0L, missing = 0L),
+    adult   = if_else(str_detect(age, "Adult"), 1L, 0L, missing = 0L),
     juvenile = if_else(str_detect(age, "Juvenile"), 1L, 0L, missing = 0L),
-    infant  = if_else(str_detect(age, "Infant"),  1L, 0L, missing = 0L)
+    infant  = if_else(str_detect(age, "Infant"), 1L, 0L, missing = 0L)
   )
 ```
 
