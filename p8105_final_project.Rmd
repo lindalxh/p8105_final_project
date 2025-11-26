@@ -13,8 +13,8 @@ library(lubridate)
 library(viridis)
 library(ggthemes)
 library(scales)
-library(stringr)
 library(glmnet)
+library(patchwork)
 ```
 
 Data cleaning: 
