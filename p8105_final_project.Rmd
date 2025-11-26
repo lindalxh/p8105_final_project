@@ -5,7 +5,7 @@ date: "2025-12-06"
 output: github_document
 ---
 
-load packages
+Load packages:
 ```{r}
 library(tidyverse)
 library(hms)
@@ -13,9 +13,18 @@ library(lubridate)
 library(viridis)
 library(ggthemes)
 library(scales)
+library(stringr)
+library(glmnet)
 ```
 
-Data cleaning: remove incorrect records based on call & response time, split date and time
+Data cleaning: 
+
+- Split date and time
+
+- Remove incorrect records based on call & response time
+
+- Rename variable `duration_of_response` to `duration_of_action`
+
 ```{r}
 park_ranger = read_csv("data/Urban_Park_Ranger_Animal_Condition_Response_20251103.csv") %>% 
   janitor::clean_names() %>% 
@@ -26,12 +35,16 @@ park_ranger = read_csv("data/Urban_Park_Ranger_Animal_Condition_Response_2025110
     call_date = as.Date(date_and_time_of_initial_call),
     call_time = as_hms(date_and_time_of_initial_call),
     response_date = as.Date(date_and_time_of_ranger_response),
-    response_time = as_hms(date_and_time_of_ranger_response)  ## split date and time
+    response_time = as_hms(date_and_time_of_ranger_response)
   ) %>% 
-  filter(date_and_time_of_ranger_response >= date_and_time_of_initial_call)
+  filter(date_and_time_of_ranger_response >= date_and_time_of_initial_call) %>% 
+  rename(duration_of_action = duration_of_response)
 ```
 
-Reclassify animal classes into 7 categories
+- Reclassify animal classes into 7 categories
+
+- Factor categorical variables & set reference level
+
 ```{r}
 park_ranger_new = park_ranger %>% 
   mutate(
@@ -93,8 +106,31 @@ park_ranger_new = park_ranger %>%
       
       species_description %in% c(
         "Animal (Unknown)","Honey Bee", "Unknown","N/A"
-      ) ~ "Others"
-    )
+      ) ~ "Others"),
+    
+    animal_class_new = factor(animal_class_new, 
+                              levels = c("Small Mammals", "Large Mammals", "Marine Mammals", 
+                                         "Birds / Raptors", "Reptiles / Amphibians", "Fish", "Others")),
+    
+    borough = factor(borough, levels = c("Queens", "Manhattan", "Brooklyn", "Bronx", "Staten Island")),
+    
+    call_source = factor(call_source, levels = c("Employee", "Public", "Central", 
+                                                 "Conservancies/\"Friends of\" Groups", 
+                                                 "Observed by Ranger", "WBF", "WINORR", "Other")),
+    
+    species_status = ifelse(species_status == "N/A" | is.na(species_status), 
+                            "Unknown", species_status),
+    species_status = factor(species_status, levels = c("Unknown", "Native", "Domestic", 
+                                                       "Exotic", "Invasive")),
+    
+    animal_condition = ifelse(animal_condition == "N/A" | is.na(animal_condition), 
+                              "Unknown", animal_condition),
+    animal_condition = factor(animal_condition, levels = c("Unknown", "Healthy", 
+                                                           "Unhealthy", "Injured", "DOA")),
+    
+    adult   = if_else(str_detect(age, "Adult"),   1L, 0L, missing = 0L),
+    juvenile = if_else(str_detect(age, "Juvenile"), 1L, 0L, missing = 0L),
+    infant  = if_else(str_detect(age, "Infant"),  1L, 0L, missing = 0L)
   )
 ```
 
@@ -248,7 +284,7 @@ Enhanced ranger coverage during summer afternoons could address elevated case fr
 park_model = park_ranger_new |>
   rename(num_animals = matches("animals")) |>
   mutate(
-    duration_hours      = as.numeric(duration_of_response),
+    duration_hours      = as.numeric(duration_of_action),
     num_animals         = as.numeric(num_animals),
     final_ranger_action = as.factor(final_ranger_action),
     animal_condition    = as.factor(animal_condition)
@@ -338,7 +374,7 @@ Across multiple actions—especially ACC, Unfounded, and Rehabilitator—there a
 park_model <- park_ranger_new |>
   rename(num_animals = matches("animals")) |>
   mutate(
-    duration_hours      = as.numeric(duration_of_response),
+    duration_hours      = as.numeric(duration_of_action),
     num_animals         = as.numeric(num_animals),
 
     animal_condition    = as.character(animal_condition),

@@ -4,7 +4,7 @@ Xinwei Han (xh2601), Xinhui Lin (xl3054), Ruohan Lyu (rl3610), Xinyin
 Miao (xm2356), Fenglin Xie (fx2212)
 2025-12-06
 
-load packages
+Load packages:
 
 ``` r
 library(tidyverse)
@@ -59,8 +59,28 @@ library(scales)
     ## 
     ##     col_factor
 
-Data cleaning: remove incorrect records based on call & response time,
-split date and time
+``` r
+library(stringr)
+library(glmnet)
+```
+
+    ## Loading required package: Matrix
+    ## 
+    ## Attaching package: 'Matrix'
+    ## 
+    ## The following objects are masked from 'package:tidyr':
+    ## 
+    ##     expand, pack, unpack
+    ## 
+    ## Loaded glmnet 4.1-10
+
+Data cleaning:
+
+- Split date and time
+
+- Remove incorrect records based on call & response time
+
+- Rename variable `duration_of_response` to `duration_of_action`
 
 ``` r
 park_ranger = read_csv("data/Urban_Park_Ranger_Animal_Condition_Response_20251103.csv") %>% 
@@ -72,9 +92,10 @@ park_ranger = read_csv("data/Urban_Park_Ranger_Animal_Condition_Response_2025110
     call_date = as.Date(date_and_time_of_initial_call),
     call_time = as_hms(date_and_time_of_initial_call),
     response_date = as.Date(date_and_time_of_ranger_response),
-    response_time = as_hms(date_and_time_of_ranger_response)  ## split date and time
+    response_time = as_hms(date_and_time_of_ranger_response)
   ) %>% 
-  filter(date_and_time_of_ranger_response >= date_and_time_of_initial_call)
+  filter(date_and_time_of_ranger_response >= date_and_time_of_initial_call) %>% 
+  rename(duration_of_action = duration_of_response)
 ```
 
     ## Rows: 6385 Columns: 22
@@ -87,34 +108,14 @@ park_ranger = read_csv("data/Urban_Park_Ranger_Animal_Condition_Response_2025110
     ## ℹ Use `spec()` to retrieve the full column specification for this data.
     ## ℹ Specify the column types or set `show_col_types = FALSE` to quiet this message.
 
-Reclassify animal classes into 7 categories
+- Reclassify animal classes into 7 categories
+
+- Factor categorical variables & set reference level
 
 ``` r
 park_ranger_new = park_ranger %>% 
   mutate(
     animal_class_new = case_when(
-      species_description %in% c(
-        "Atlantic Canary","Bird (Unknown)","Budgerigar","Budgerigar Parakeet",
-        "Chicken","Chukar","Cockatiel","Domestic Dove","Domestic Duck", "Domestic duck",
-        "Domestic Goose","Domestic Goose Hybrid","Domestic Quail","Domestic Turkey",
-        "Domestic Waterfowl","Fancy Dove","Guinea Fowl","Guineafowl","Japanese Quail",
-        "Khaki Campbell","Muscovy Duck","Rock Dove",
-        "Parakeet (Unknown)"
-      ) ~ "Birds / Raptors",
-      
-      species_description %in% c(
-        "Domestic Rabbit","Domestic Ferret","Fancy Rat","Gerbil",
-        "Guinea Pig", "Guniea Pig", "Guinea pig", "Hamster"
-      ) ~ "Small Mammals",
-      
-      species_description %in% c(
-        "Dog","Pitt Bull Mix","Cat","Goat","Cattle","Pig"
-      ) ~ "Large Mammals",
-      
-      species_description %in% c(
-        "Animal (Unknown)","Honey Bee", "Unknown","N/A"
-      ) ~ "Others",
-      
       animal_class %in% c(
         "[\"Birds\"]", "[\"Raptors\"]", "Birds", "Raptors", 
         "Raptors, Small Mammals-RVS"
@@ -150,8 +151,53 @@ park_ranger_new = park_ranger %>%
       animal_class %in% c(
         "[\"Rare, Endangered, Dangerous\"]", "Rare,  Endangered,  Dangerous",
         "Rare, Endangered, Dangerous"
-      ) ~ "Others"
-    )
+      ) ~ "Others",
+      
+      species_description %in% c(
+        "Atlantic Canary","Bird (Unknown)","Budgerigar","Budgerigar Parakeet",
+        "Chicken","Chukar","Cockatiel","Domestic Dove","Domestic Duck", "Domestic duck",
+        "Domestic Goose","Domestic Goose Hybrid","Domestic Quail","Domestic Turkey",
+        "Domestic Waterfowl","Fancy Dove","Guinea Fowl","Guineafowl","Japanese Quail",
+        "Khaki Campbell","Muscovy Duck","Rock Dove",
+        "Parakeet (Unknown)"
+      ) ~ "Birds / Raptors",
+      
+      species_description %in% c(
+        "Domestic Rabbit","Domestic Ferret","Fancy Rat","Gerbil",
+        "Guinea Pig", "Guniea Pig", "Guinea pig", "Hamster"
+      ) ~ "Small Mammals",
+      
+      species_description %in% c(
+        "Dog","Pitt Bull Mix","Cat","Goat","Cattle","Pig"
+      ) ~ "Large Mammals",
+      
+      species_description %in% c(
+        "Animal (Unknown)","Honey Bee", "Unknown","N/A"
+      ) ~ "Others"),
+    
+    animal_class_new = factor(animal_class_new, 
+                              levels = c("Small Mammals", "Large Mammals", "Marine Mammals", 
+                                         "Birds / Raptors", "Reptiles / Amphibians", "Fish", "Others")),
+    
+    borough = factor(borough, levels = c("Queens", "Manhattan", "Brooklyn", "Bronx", "Staten Island")),
+    
+    call_source = factor(call_source, levels = c("Employee", "Public", "Central", 
+                                                 "Conservancies/\"Friends of\" Groups", 
+                                                 "Observed by Ranger", "WBF", "WINORR", "Other")),
+    
+    species_status = ifelse(species_status == "N/A" | is.na(species_status), 
+                            "Unknown", species_status),
+    species_status = factor(species_status, levels = c("Unknown", "Native", "Domestic", 
+                                                       "Exotic", "Invasive")),
+    
+    animal_condition = ifelse(animal_condition == "N/A" | is.na(animal_condition), 
+                              "Unknown", animal_condition),
+    animal_condition = factor(animal_condition, levels = c("Unknown", "Healthy", 
+                                                           "Unhealthy", "Injured", "DOA")),
+    
+    adult   = if_else(str_detect(age, "Adult"),   1L, 0L, missing = 0L),
+    juvenile = if_else(str_detect(age, "Juvenile"), 1L, 0L, missing = 0L),
+    infant  = if_else(str_detect(age, "Infant"),  1L, 0L, missing = 0L)
   )
 ```
 
@@ -160,12 +206,12 @@ table(park_ranger_new$animal_class_new)
 ```
 
     ## 
-    ##       Birds / Raptors                  Fish         Large Mammals 
-    ##                  2670                    20                   771 
-    ##        Marine Mammals                Others Reptiles / Amphibians 
-    ##                    49                    22                   378 
-    ##         Small Mammals 
-    ##                  2267
+    ##         Small Mammals         Large Mammals        Marine Mammals 
+    ##                  2270                   770                    49 
+    ##       Birds / Raptors Reptiles / Amphibians                  Fish 
+    ##                  2672                   378                    20 
+    ##                Others 
+    ##                    18
 
 # TASK 1: Monthly trends by animal class using the new classification
 
@@ -339,7 +385,7 @@ monitoring programs and coordinated rehabilitation networks.
 park_model = park_ranger_new |>
   rename(num_animals = matches("animals")) |>
   mutate(
-    duration_hours      = as.numeric(duration_of_response),
+    duration_hours      = as.numeric(duration_of_action),
     num_animals         = as.numeric(num_animals),
     final_ranger_action = as.factor(final_ranger_action),
     animal_condition    = as.factor(animal_condition)
@@ -452,7 +498,7 @@ rehabilitation partners.
 park_model <- park_ranger_new |>
   rename(num_animals = matches("animals")) |>
   mutate(
-    duration_hours      = as.numeric(duration_of_response),
+    duration_hours      = as.numeric(duration_of_action),
     num_animals         = as.numeric(num_animals),
 
     animal_condition    = as.character(animal_condition),
@@ -564,8 +610,8 @@ duration_mean
     ## # A tibble: 2 × 2
     ##   action_group  mean_duration
     ##   <chr>                 <dbl>
-    ## 1 Other actions         1.52 
-    ## 2 Unfounded             0.997
+    ## 1 Other actions         1.54 
+    ## 2 Unfounded             0.995
 
 ## Density Plot
 
@@ -664,12 +710,12 @@ anova_fit = aov(
 summary(anova_fit)
 ```
 
-    ##                                        Df Sum Sq Mean Sq F value   Pr(>F)    
-    ## final_ranger_action                     7   1441  205.86 145.072  < 2e-16 ***
-    ## animal_condition                        4      5    1.28   0.900 0.462720    
-    ## num_animals                             1      0    0.09   0.062 0.803400    
-    ## final_ranger_action:animal_condition   24     81    3.38   2.383 0.000165 ***
-    ## Residuals                            6094   8648    1.42                     
+    ##                                        Df Sum Sq Mean Sq F value Pr(>F)    
+    ## final_ranger_action                     7   1519  216.94  97.825 <2e-16 ***
+    ## animal_condition                        4      6    1.57   0.706  0.588    
+    ## num_animals                             1      4    4.27   1.924  0.165    
+    ## final_ranger_action:animal_condition   24    492   20.51   9.249 <2e-16 ***
+    ## Residuals                            6127  13588    2.22                   
     ## ---
     ## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
 
@@ -705,11 +751,11 @@ summary(anova_fit_log)
 ```
 
     ##                                        Df Sum Sq Mean Sq F value   Pr(>F)    
-    ## final_ranger_action                     7 1028.8  146.97 356.111  < 2e-16 ***
-    ## animal_condition                        4    8.4    2.11   5.108 0.000416 ***
-    ## num_animals                             1    0.5    0.50   1.221 0.269247    
-    ## final_ranger_action:animal_condition   24   30.3    1.26   3.059 7.34e-07 ***
-    ## Residuals                            6094 2515.1    0.41                     
+    ## final_ranger_action                     7 1037.5  148.22 357.609  < 2e-16 ***
+    ## animal_condition                        4    7.9    1.96   4.736 0.000816 ***
+    ## num_animals                             1    0.6    0.65   1.564 0.211132    
+    ## final_ranger_action:animal_condition   24   29.1    1.21   2.924 2.27e-06 ***
+    ## Residuals                            6127 2539.5    0.41                     
     ## ---
     ## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
 
@@ -720,7 +766,7 @@ plot(anova_fit_log, which = 2)  # Normal Q-Q
 ```
 
     ## Warning: not plotting observations with leverage one:
-    ##   3810, 4638, 5038
+    ##   4660, 5064
 
 ![](p8105_final_project_files/figure-gfm/unnamed-chunk-19-1.png)<!-- -->
 
