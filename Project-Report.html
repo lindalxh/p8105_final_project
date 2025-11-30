@@ -9,9 +9,11 @@
 <meta http-equiv="X-UA-Compatible" content="IE=EDGE" />
 
 
+<meta name="author" content="Xinwei Han (xh2601), Xinhui Lin (xl3054), Ruohan Lyu (rl3610), Xinyin Miao (xm2356), Fenglin Xie (fx2212)" />
 
+<meta name="date" content="2025-12-06" />
 
-<title>Project-Report</title>
+<title>Project Report</title>
 
 <script src="site_libs/header-attrs-2.29/header-attrs.js"></script>
 <script src="site_libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
@@ -29,10 +31,15 @@
        h6 {font-size: 12px;}
        code {color: inherit; background-color: rgba(0, 0, 0, 0.04);}
        pre:not([class]) { background-color: white }</style>
+<script src="site_libs/jqueryui-1.13.2/jquery-ui.min.js"></script>
+<link href="site_libs/tocify-1.9.1/jquery.tocify.css" rel="stylesheet" />
+<script src="site_libs/tocify-1.9.1/jquery.tocify.js"></script>
 <script src="site_libs/navigation-1.1/tabsets.js"></script>
 <script src="site_libs/navigation-1.1/codefolding.js"></script>
 <link href="site_libs/highlightjs-9.12.0/default.css" rel="stylesheet" />
 <script src="site_libs/highlightjs-9.12.0/highlight.js"></script>
+<link href="site_libs/font-awesome-6.5.2/css/all.min.css" rel="stylesheet" />
+<link href="site_libs/font-awesome-6.5.2/css/v4-shims.min.css" rel="stylesheet" />
 
 <style type="text/css">
   code{white-space: pre-wrap;}
@@ -223,6 +230,69 @@ $(document).ready(function () {
 
 
 
+<style type="text/css">
+
+#TOC {
+  margin: 25px 0px 20px 0px;
+}
+@media (max-width: 768px) {
+#TOC {
+  position: relative;
+  width: 100%;
+}
+}
+
+@media print {
+.toc-content {
+  /* see https://github.com/w3c/csswg-drafts/issues/4434 */
+  float: right;
+}
+}
+
+.toc-content {
+  padding-left: 30px;
+  padding-right: 40px;
+}
+
+div.main-container {
+  max-width: 1200px;
+}
+
+div.tocify {
+  width: 20%;
+  max-width: 260px;
+  max-height: 85%;
+}
+
+@media (min-width: 768px) and (max-width: 991px) {
+  div.tocify {
+    width: 25%;
+  }
+}
+
+@media (max-width: 767px) {
+  div.tocify {
+    width: 100%;
+    max-width: none;
+  }
+}
+
+.tocify ul, .tocify li {
+  line-height: 20px;
+}
+
+.tocify-subheader .tocify-item {
+  font-size: 0.90em;
+}
+
+.tocify .list-group-item {
+  border-radius: 0px;
+}
+
+
+</style>
+
+
 
 </head>
 
@@ -230,6 +300,16 @@ $(document).ready(function () {
 
 
 <div class="container-fluid main-container">
+
+
+<!-- setup 3col/9col grid for toc_float and main content  -->
+<div class="row">
+<div class="col-xs-12 col-sm-4 col-md-3">
+<div id="TOC" class="tocify">
+</div>
+</div>
+
+<div class="toc-content col-xs-12 col-sm-8 col-md-9">
 
 
 
@@ -289,15 +369,14 @@ $(document).ready(function () {
 
 
 
+<h1 class="title toc-ignore">Project Report</h1>
+<h4 class="author">Xinwei Han (xh2601), Xinhui Lin (xl3054), Ruohan Lyu
+(rl3610), Xinyin Miao (xm2356), Fenglin Xie (fx2212)</h4>
+<h4 class="date">2025-12-06</h4>
 
 </div>
 
 
-<div id="project-report" class="section level1">
-<h1>Project Report</h1>
-<p>Xinwei Han (xh2601), Xinhui Lin (xl3054), Ruohan Lyu (rl3610), Xinyin
-Miao (xm2356), Fenglin Xie (fx2212) 2025-12-06</p>
-<p>Load packages:</p>
 <pre class="r"><code>library(tidyverse)
 library(hms)
 library(lubridate)
@@ -306,7 +385,6 @@ library(ggthemes)
 library(scales)
 library(glmnet)
 library(patchwork)</code></pre>
-</div>
 <div
 id="motivation-provide-an-overview-of-the-project-goals-and-motivation."
 class="section level1">
@@ -340,30 +418,6 @@ class="section level1">
 time</p></li>
 <li><p>Rename variable <code>duration_of_response</code> to
 <code>duration_of_action</code></p></li>
-</ul>
-<pre class="r"><code>park_ranger = read_csv(&quot;data/Urban_Park_Ranger_Animal_Condition_Response_20251103.csv&quot;) %&gt;% 
-  janitor::clean_names() %&gt;% 
-  mutate(
-    date_and_time_of_initial_call = mdy_hm(date_and_time_of_initial_call),
-    date_and_time_of_ranger_response = mdy_hm(date_and_time_of_ranger_response),
-    
-    call_date = as.Date(date_and_time_of_initial_call),
-    call_time = as_hms(date_and_time_of_initial_call),
-    response_date = as.Date(date_and_time_of_ranger_response),
-    response_time = as_hms(date_and_time_of_ranger_response)
-  ) %&gt;% 
-  filter(date_and_time_of_ranger_response &gt;= date_and_time_of_initial_call) %&gt;% 
-  rename(duration_of_action = duration_of_response)</code></pre>
-<pre><code>## Rows: 6385 Columns: 22
-## ── Column specification ─────────────────────────────────────
-## Delimiter: &quot;,&quot;
-## chr (15): Date and Time of initial call, Date and time of Ranger response, B...
-## dbl  (3): Duration of Response, # of Animals, Hours spent monitoring
-## lgl  (4): PEP Response, Animal Monitored, Police Response, ESU Response
-## 
-## ℹ Use `spec()` to retrieve the full column specification for this data.
-## ℹ Specify the column types or set `show_col_types = FALSE` to quiet this message.</code></pre>
-<ul>
 <li><p>Reclassify animal classes into 7 categories: Birds / Raptors,
 Small Mammals, Large Mammals, Marine Mammals, Reptiles / Amphibians,
 Fish, Others</p></li>
@@ -546,8 +600,7 @@ ranger_response_hr %&gt;%
     x = &quot;Hour of Day (24-hour)&quot;,
     y = &quot;Average Response Hours&quot;) +
   theme_minimal()</code></pre>
-<p><img
-src="Project-Report_files/figure-gfm/unnamed-chunk-4-1.png" /><!-- --></p>
+<p><img src="Project-Report_files/figure-html/unnamed-chunk-4-1.png" width="672" /></p>
 <p>This line plot visualizes variation in response duration across the
 24-hour day.</p>
 <ul>
@@ -610,8 +663,7 @@ p4 = resp_dur_dist %&gt;%
   resp_dur_dist_plot(&quot;&gt;24 hours&quot;)
 
 (p1 | p2) / (p3 | p4) + plot_annotation(title =&quot;Distribution of Response Duration&quot;)</code></pre>
-<p><img
-src="Project-Report_files/figure-gfm/unnamed-chunk-5-1.png" /><!-- --></p>
+<p><img src="Project-Report_files/figure-html/unnamed-chunk-5-1.png" width="1344" /></p>
 <p>Because response durations are highly right-skewed, the data were
 split more at the lower end (0–1 and 1–4 hours) where most observations
 occur, while broader segments were used for longer delays (4–24 and
@@ -645,10 +697,9 @@ ranger_model %&gt;%
        y = &quot;Density&quot;,
        color = &quot;Borough&quot;) +
   theme_minimal()</code></pre>
-<pre><code>## Warning: Removed 1224 rows containing non-finite outside the scale
-## range (`stat_density()`).</code></pre>
-<p><img
-src="Project-Report_files/figure-gfm/unnamed-chunk-6-1.png" /><!-- --></p>
+<pre><code>## Warning: Removed 1224 rows containing non-finite outside the scale range
+## (`stat_density()`).</code></pre>
+<p><img src="Project-Report_files/figure-html/unnamed-chunk-6-1.png" width="672" /></p>
 <p>Because the response-duration distribution is highly right-skewed,
 with a long tail extending to several hundred hours, we applied a
 natural log transformation to stabilize the variance and make
@@ -713,12 +764,13 @@ summary(model)$coefficients %&gt;%
                caption = &quot;Regression Coefficient Table&quot;, 
                align = c(&quot;l&quot;, &quot;r&quot;, &quot;r&quot;, &quot;r&quot;, &quot;r&quot;)) </code></pre>
 <table>
+<caption>Regression Coefficient Table</caption>
 <colgroup>
-<col width="20%" />
-<col width="20%" />
-<col width="20%" />
-<col width="20%" />
-<col width="20%" />
+<col width="56%" />
+<col width="11%" />
+<col width="12%" />
+<col width="10%" />
+<col width="10%" />
 </colgroup>
 <thead>
 <tr class="header">
@@ -956,7 +1008,6 @@ summary(model)$coefficients %&gt;%
 </tr>
 </tbody>
 </table>
-<p>Regression Coefficient Table</p>
 <p>We use a multiple linear regression model to estimate the independent
 contribution of each predictor to response duration, allowing us to
 isolate the effect of each variable while holding other factors
@@ -1077,8 +1128,7 @@ species, play a comparatively smaller role.</p>
        x = &quot;Predictor Variables&quot;,
        y = &quot;Estimated Coefficient (hours)&quot;) +
   theme_minimal()</code></pre>
-<p><img
-src="Project-Report_files/figure-gfm/unnamed-chunk-8-1.png" /><!-- --></p>
+<p><img src="Project-Report_files/figure-html/unnamed-chunk-8-1.png" width="672" /></p>
 <p>This coefficient plot highlights the same general patterns seen in
 the regression table:</p>
 <ul>
@@ -1109,6 +1159,7 @@ coef(fit_cv, s = &quot;lambda.min&quot;) %&gt;%
     digits = 4,
     align = &quot;l&quot;)</code></pre>
 <table>
+<caption>Elastic Net Coefficients at lambda_min (0.1811)</caption>
 <thead>
 <tr class="header">
 <th align="left">variable</th>
@@ -1210,7 +1261,6 @@ coef(fit_cv, s = &quot;lambda.min&quot;) %&gt;%
 </tr>
 </tbody>
 </table>
-<p>Elastic Net Coefficients at lambda_min (0.1811)</p>
 <p>Compared with the original linear model, the Elastic Net model
 resulted in a more simplified set of predictors. Several variables that
 had non-zero coefficients under OLS were reduced to zero, such as
@@ -1262,6 +1312,8 @@ insights into the data can you make?</h1>
 
 
 
+</div>
+</div>
 
 </div>
 
@@ -1299,6 +1351,35 @@ $(document).ready(function () {
 });
 </script>
 
+<script>
+$(document).ready(function ()  {
+
+    // temporarily add toc-ignore selector to headers for the consistency with Pandoc
+    $('.unlisted.unnumbered').addClass('toc-ignore')
+
+    // move toc-ignore selectors from section div to header
+    $('div.section.toc-ignore')
+        .removeClass('toc-ignore')
+        .children('h1,h2,h3,h4,h5').addClass('toc-ignore');
+
+    // establish options
+    var options = {
+      selectors: "h1,h2,h3",
+      theme: "bootstrap3",
+      context: '.toc-content',
+      hashGenerator: function (text) {
+        return text.replace(/[.\\/?&!#<>]/g, '').replace(/\s/g, '_');
+      },
+      ignoreSelector: ".toc-ignore",
+      scrollTo: 0
+    };
+    options.showAndHide = true;
+    options.smoothScroll = true;
+
+    // tocify
+    var toc = $("#TOC").tocify(options).data("toc-tocify");
+});
+</script>
 
 <!-- dynamically load mathjax for compatibility with self-contained -->
 <script>
