@@ -361,7 +361,7 @@ Their mean duration is higher at 1.52 hours.
 
 ## ANOVA Models for Response Duration
 
-### ANOVA Using Raw Duration
+### Using Raw Duration
 ```{r}
 anova_fit = aov(
   duration_hours ~ final_ranger_action * animal_condition + num_animals,
@@ -399,7 +399,7 @@ Number of animals has no effect (p = 0.80).
 The interaction is significant (p = 0.000165), meaning the impact of action type depends on the animal’s condition.
 
 
-### ANOVA Using Log-Transformed Duration
+### Using Log-Transformed Duration
 ```{r}
 park_model2 = park_model |>
   filter(duration_hours > 0) |>
