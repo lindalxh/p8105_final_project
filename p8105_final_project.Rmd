@@ -610,7 +610,6 @@ Q–Q plot is much closer to the reference line, though long-tail deviations sti
 # Task 8: Final Ranger Actions by Animal Condition
 
 ```{r}
-library(patchwork)
 park_model4 <- park_model |>
   filter(!is.na(animal_condition)) |>
   filter(animal_condition %in% c("Healthy", "Unhealthy", "Injured", "DOA"))
