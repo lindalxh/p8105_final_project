@@ -1,0 +1,25 @@
+name: "Tiny Paws, Big Rescue: A Data Story of Seasonal and Spatial Animal Saving"
+output_dir: "."
+navbar:
+  title: "Home"
+  left:
+    - text: "About"
+      href: about.html
+    - text: "Temporal Pattern"
+      href: Temporal-Pattern.html
+    - text: "Health Condition"
+      href: Health-Condition.html
+    - text: "Ranger Response"
+      href: Ranger-Response.html
+    - text: "Final Action"
+      href: Final-Action.html
+  right:
+    - text: "Report"
+      href: Project-Report.html
+    - icon: fa-github fa-lg
+      href: https://github.com/lindalxh/p8105_final_project
+output:
+  html_document:
+    code_folding: hide
+    theme: flatly
+---
