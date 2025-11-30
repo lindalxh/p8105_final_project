@@ -181,8 +181,13 @@ resp_dur_dist_plot = function(df, title_suffix) {
     labs(title = title_suffix,
          x = "Animal Condition", y = "Response Duration (hours)") +
     theme_minimal() +
-    theme(axis.text.x = element_text(angle = 45, hjust = 1))
-}
+    theme(
+      plot.title = element_text(size = 18, face = "bold"),
+      axis.title = element_text(size = 14),
+      axis.text  = element_text(size = 12),
+      axis.text.x = element_text(angle = 45, hjust = 1, size = 12)
+    )
+  }
 
 p1 = resp_dur_dist %>% 
   filter(resp_bin == "0-1 hours") %>% 
@@ -200,7 +205,8 @@ p4 = resp_dur_dist %>%
   filter(resp_bin == ">24 hours") %>% 
   resp_dur_dist_plot(">24 hours")
 
-(p1 | p2) / (p3 | p4) + plot_annotation(title ="Distribution of Response Duration")
+(p1 | p2) / (p3 | p4) + plot_annotation(title ="Distribution of Response Duration") &
+  theme(text = element_text(size = 24))
 ```
 
 Because response durations are highly right-skewed, the data were split more at the lower end (0–1 and 1–4 hours) where most observations occur, while broader segments were used for longer delays (4–24 and >24 hours). 
