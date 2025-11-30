@@ -2,10 +2,13 @@
 title: "Project Report"
 author: Xinwei Han (xh2601), Xinhui Lin (xl3054), Ruohan Lyu (rl3610), Xinyin Miao (xm2356), Fenglin Xie (fx2212)
 date: "2025-12-06"
-output: github_document
+output:
+  html_document:
+    toc: true
+    toc_float: true
+    code_folding: hide
 ---
 
-Load packages:
 ```{r, message = FALSE}
 library(tidyverse)
 library(hms)
@@ -35,7 +38,7 @@ library(patchwork)
 
 - Rename variable `duration_of_response` to `duration_of_action`
 
-```{r}
+```{r, echo = FALSE, message = FALSE}
 park_ranger = read_csv("data/Urban_Park_Ranger_Animal_Condition_Response_20251103.csv") %>% 
   janitor::clean_names() %>% 
   mutate(
