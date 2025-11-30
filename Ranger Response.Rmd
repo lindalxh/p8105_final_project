@@ -1,0 +1,12 @@
+---
+title: "Ranger Response"
+output:
+  html_document:
+    toc_float: true
+---
+
+<br>
+<div align="center">
+![](images/urgent-caref-service.jpg)
+</div>
+<br>

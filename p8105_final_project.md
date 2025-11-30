@@ -8,71 +8,14 @@ Load packages:
 
 ``` r
 library(tidyverse)
-```
-
-    ## ── Attaching core tidyverse packages ──────────────────────── tidyverse 2.0.0 ──
-    ## ✔ dplyr     1.1.4     ✔ readr     2.1.5
-    ## ✔ forcats   1.0.0     ✔ stringr   1.5.1
-    ## ✔ ggplot2   3.5.2     ✔ tibble    3.3.0
-    ## ✔ lubridate 1.9.4     ✔ tidyr     1.3.1
-    ## ✔ purrr     1.1.0     
-    ## ── Conflicts ────────────────────────────────────────── tidyverse_conflicts() ──
-    ## ✖ dplyr::filter() masks stats::filter()
-    ## ✖ dplyr::lag()    masks stats::lag()
-    ## ℹ Use the conflicted package (<http://conflicted.r-lib.org/>) to force all conflicts to become errors
-
-``` r
 library(hms)
-```
-
-    ## 
-    ## Attaching package: 'hms'
-    ## 
-    ## The following object is masked from 'package:lubridate':
-    ## 
-    ##     hms
-
-``` r
 library(lubridate)
 library(viridis)
-```
-
-    ## Loading required package: viridisLite
-
-``` r
 library(ggthemes)
 library(scales)
-```
-
-    ## 
-    ## Attaching package: 'scales'
-    ## 
-    ## The following object is masked from 'package:viridis':
-    ## 
-    ##     viridis_pal
-    ## 
-    ## The following object is masked from 'package:purrr':
-    ## 
-    ##     discard
-    ## 
-    ## The following object is masked from 'package:readr':
-    ## 
-    ##     col_factor
-
-``` r
-library(stringr)
 library(glmnet)
+library(patchwork)
 ```
-
-    ## Loading required package: Matrix
-    ## 
-    ## Attaching package: 'Matrix'
-    ## 
-    ## The following objects are masked from 'package:tidyr':
-    ## 
-    ##     expand, pack, unpack
-    ## 
-    ## Loaded glmnet 4.1-10
 
 Data cleaning:
 
@@ -99,7 +42,7 @@ park_ranger = read_csv("data/Urban_Park_Ranger_Animal_Condition_Response_2025110
 ```
 
     ## Rows: 6385 Columns: 22
-    ## ── Column specification ────────────────────────────────────────────────────────
+    ## ── Column specification ─────────────────────────────────────
     ## Delimiter: ","
     ## chr (15): Date and Time of initial call, Date and time of Ranger response, B...
     ## dbl  (3): Duration of Response, # of Animals, Hours spent monitoring
@@ -176,28 +119,28 @@ park_ranger_new = park_ranger %>%
       ) ~ "Others"),
     
     animal_class_new = factor(animal_class_new, 
-                              levels = c("Small Mammals", "Large Mammals", "Marine Mammals", 
-                                         "Birds / Raptors", "Reptiles / Amphibians", "Fish", "Others")),
+                              levels = c("Birds / Raptors", "Small Mammals", "Large Mammals", 
+                                         "Marine Mammals", "Reptiles / Amphibians", "Fish", "Others")),
     
-    borough = factor(borough, levels = c("Queens", "Manhattan", "Brooklyn", "Bronx", "Staten Island")),
+    borough = factor(borough, levels = c("Manhattan", "Brooklyn", "Queens", "Bronx", "Staten Island")),
     
-    call_source = factor(call_source, levels = c("Employee", "Public", "Central", 
+    call_source = factor(call_source, levels = c("Public", "Central", "Employee", 
                                                  "Conservancies/\"Friends of\" Groups", 
                                                  "Observed by Ranger", "WBF", "WINORR", "Other")),
     
     species_status = ifelse(species_status == "N/A" | is.na(species_status), 
                             "Unknown", species_status),
-    species_status = factor(species_status, levels = c("Unknown", "Native", "Domestic", 
-                                                       "Exotic", "Invasive")),
+    species_status = factor(species_status, levels = c("Native", "Invasive", "Domestic", 
+                                                       "Exotic", "Unknown")),
     
     animal_condition = ifelse(animal_condition == "N/A" | is.na(animal_condition), 
                               "Unknown", animal_condition),
-    animal_condition = factor(animal_condition, levels = c("Unknown", "Healthy", 
-                                                           "Unhealthy", "Injured", "DOA")),
+    animal_condition = factor(animal_condition, levels = c("Healthy", "Unhealthy", "Injured", 
+                                                           "DOA", "Unknown")),
     
-    adult   = if_else(str_detect(age, "Adult"),   1L, 0L, missing = 0L),
+    adult   = if_else(str_detect(age, "Adult"), 1L, 0L, missing = 0L),
     juvenile = if_else(str_detect(age, "Juvenile"), 1L, 0L, missing = 0L),
-    infant  = if_else(str_detect(age, "Infant"),  1L, 0L, missing = 0L)
+    infant  = if_else(str_detect(age, "Infant"), 1L, 0L, missing = 0L)
   )
 ```
 
@@ -206,10 +149,10 @@ table(park_ranger_new$animal_class_new)
 ```
 
     ## 
-    ##         Small Mammals         Large Mammals        Marine Mammals 
-    ##                  2270                   770                    49 
-    ##       Birds / Raptors Reptiles / Amphibians                  Fish 
-    ##                  2672                   378                    20 
+    ##       Birds / Raptors         Small Mammals         Large Mammals 
+    ##                  2672                  2270                   770 
+    ##        Marine Mammals Reptiles / Amphibians                  Fish 
+    ##                    49                   378                    20 
     ##                Others 
     ##                    18
 

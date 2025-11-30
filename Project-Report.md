@@ -52,7 +52,7 @@ park_ranger = read_csv("data/Urban_Park_Ranger_Animal_Condition_Response_2025110
 ```
 
     ## Rows: 6385 Columns: 22
-    ## ── Column specification ────────────────────────────────────────────────────────
+    ## ── Column specification ─────────────────────────────────────
     ## Delimiter: ","
     ## chr (15): Date and Time of initial call, Date and time of Ranger response, B...
     ## dbl  (3): Duration of Response, # of Animals, Hours spent monitoring
@@ -371,8 +371,8 @@ ranger_model %>%
   theme_minimal()
 ```
 
-    ## Warning: Removed 1224 rows containing non-finite outside the scale range
-    ## (`stat_density()`).
+    ## Warning: Removed 1224 rows containing non-finite outside the scale
+    ## range (`stat_density()`).
 
 ![](Project-Report_files/figure-gfm/unnamed-chunk-6-1.png)<!-- -->
 

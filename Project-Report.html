@@ -1,0 +1,1300 @@
+<!DOCTYPE html>
+
+<html>
+
+<head>
+
+<meta charset="utf-8" />
+<meta name="generator" content="pandoc" />
+<meta http-equiv="X-UA-Compatible" content="IE=EDGE" />
+
+
+
+
+<title>Project-Report</title>
+
+<script src="site_libs/header-attrs-2.29/header-attrs.js"></script>
+<script src="site_libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<link href="site_libs/bootstrap-3.3.5/css/bootstrap.min.css" rel="stylesheet" />
+<script src="site_libs/bootstrap-3.3.5/js/bootstrap.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/html5shiv.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/respond.min.js"></script>
+<style>h1 {font-size: 34px;}
+       h1.title {font-size: 38px;}
+       h2 {font-size: 30px;}
+       h3 {font-size: 24px;}
+       h4 {font-size: 18px;}
+       h5 {font-size: 16px;}
+       h6 {font-size: 12px;}
+       code {color: inherit; background-color: rgba(0, 0, 0, 0.04);}
+       pre:not([class]) { background-color: white }</style>
+<script src="site_libs/navigation-1.1/tabsets.js"></script>
+<link href="site_libs/highlightjs-9.12.0/default.css" rel="stylesheet" />
+<script src="site_libs/highlightjs-9.12.0/highlight.js"></script>
+
+<style type="text/css">
+  code{white-space: pre-wrap;}
+  span.smallcaps{font-variant: small-caps;}
+  span.underline{text-decoration: underline;}
+  div.column{display: inline-block; vertical-align: top; width: 50%;}
+  div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+  ul.task-list{list-style: none;}
+    </style>
+
+<style type="text/css">code{white-space: pre;}</style>
+<script type="text/javascript">
+if (window.hljs) {
+  hljs.configure({languages: []});
+  hljs.initHighlightingOnLoad();
+  if (document.readyState && document.readyState === "complete") {
+    window.setTimeout(function() { hljs.initHighlighting(); }, 0);
+  }
+}
+</script>
+
+
+
+
+
+
+
+
+
+<style type = "text/css">
+.main-container {
+  max-width: 940px;
+  margin-left: auto;
+  margin-right: auto;
+}
+img {
+  max-width:100%;
+}
+.tabbed-pane {
+  padding-top: 12px;
+}
+.html-widget {
+  margin-bottom: 20px;
+}
+button.code-folding-btn:focus {
+  outline: none;
+}
+summary {
+  display: list-item;
+}
+details > summary > p:only-child {
+  display: inline;
+}
+pre code {
+  padding: 0;
+}
+</style>
+
+
+<style type="text/css">
+.dropdown-submenu {
+  position: relative;
+}
+.dropdown-submenu>.dropdown-menu {
+  top: 0;
+  left: 100%;
+  margin-top: -6px;
+  margin-left: -1px;
+  border-radius: 0 6px 6px 6px;
+}
+.dropdown-submenu:hover>.dropdown-menu {
+  display: block;
+}
+.dropdown-submenu>a:after {
+  display: block;
+  content: " ";
+  float: right;
+  width: 0;
+  height: 0;
+  border-color: transparent;
+  border-style: solid;
+  border-width: 5px 0 5px 5px;
+  border-left-color: #cccccc;
+  margin-top: 5px;
+  margin-right: -10px;
+}
+.dropdown-submenu:hover>a:after {
+  border-left-color: #adb5bd;
+}
+.dropdown-submenu.pull-left {
+  float: none;
+}
+.dropdown-submenu.pull-left>.dropdown-menu {
+  left: -100%;
+  margin-left: 10px;
+  border-radius: 6px 0 6px 6px;
+}
+</style>
+
+<script type="text/javascript">
+// manage active state of menu based on current page
+$(document).ready(function () {
+  // active menu anchor
+  href = window.location.pathname
+  href = href.substr(href.lastIndexOf('/') + 1)
+  if (href === "")
+    href = "index.html";
+  var menuAnchor = $('a[href="' + href + '"]');
+
+  // mark the anchor link active (and if it's in a dropdown, also mark that active)
+  var dropdown = menuAnchor.closest('li.dropdown');
+  if (window.bootstrap) { // Bootstrap 4+
+    menuAnchor.addClass('active');
+    dropdown.find('> .dropdown-toggle').addClass('active');
+  } else { // Bootstrap 3
+    menuAnchor.parent().addClass('active');
+    dropdown.addClass('active');
+  }
+
+  // Navbar adjustments
+  var navHeight = $(".navbar").first().height() + 15;
+  var style = document.createElement('style');
+  var pt = "padding-top: " + navHeight + "px; ";
+  var mt = "margin-top: -" + navHeight + "px; ";
+  var css = "";
+  // offset scroll position for anchor links (for fixed navbar)
+  for (var i = 1; i <= 6; i++) {
+    css += ".section h" + i + "{ " + pt + mt + "}\n";
+  }
+  style.innerHTML = "body {" + pt + "padding-bottom: 40px; }\n" + css;
+  document.head.appendChild(style);
+});
+</script>
+
+<!-- tabsets -->
+
+<style type="text/css">
+.tabset-dropdown > .nav-tabs {
+  display: inline-table;
+  max-height: 500px;
+  min-height: 44px;
+  overflow-y: auto;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+}
+
+.tabset-dropdown > .nav-tabs > li.active:before, .tabset-dropdown > .nav-tabs.nav-tabs-open:before {
+  content: "\e259";
+  font-family: 'Glyphicons Halflings';
+  display: inline-block;
+  padding: 10px;
+  border-right: 1px solid #ddd;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open > li.active:before {
+  content: "\e258";
+  font-family: 'Glyphicons Halflings';
+  border: none;
+}
+
+.tabset-dropdown > .nav-tabs > li.active {
+  display: block;
+}
+
+.tabset-dropdown > .nav-tabs > li > a,
+.tabset-dropdown > .nav-tabs > li > a:focus,
+.tabset-dropdown > .nav-tabs > li > a:hover {
+  border: none;
+  display: inline-block;
+  border-radius: 4px;
+  background-color: transparent;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open > li {
+  display: block;
+  float: none;
+}
+
+.tabset-dropdown > .nav-tabs > li {
+  display: none;
+}
+</style>
+
+<!-- code folding -->
+
+
+
+
+</head>
+
+<body>
+
+
+<div class="container-fluid main-container">
+
+
+
+
+<div class="navbar navbar-default  navbar-fixed-top" role="navigation">
+  <div class="container">
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-bs-toggle="collapse" data-target="#navbar" data-bs-target="#navbar">
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <a class="navbar-brand" href="index.html">Home</a>
+    </div>
+    <div id="navbar" class="navbar-collapse collapse">
+      <ul class="nav navbar-nav">
+        <li>
+  <a href="about.html">About</a>
+</li>
+<li>
+  <a href="Temporal-Pattern.html">Temporal Pattern</a>
+</li>
+<li>
+  <a href="Health-Condition.html">Health Condition</a>
+</li>
+<li>
+  <a href="Ranger-Response.html">Ranger Response</a>
+</li>
+<li>
+  <a href="Final-Action.html">Final Action</a>
+</li>
+<li>
+  <a href="Project-Report.html">Report</a>
+</li>
+      </ul>
+      <ul class="nav navbar-nav navbar-right">
+        <li>
+  <a href="Project-Report.html">Report</a>
+</li>
+<li>
+  <a href="https://github.com/lindalxh/p8105_final_project">
+    <span class="fa fa-github fa-lg"></span>
+     
+  </a>
+</li>
+      </ul>
+    </div><!--/.nav-collapse -->
+  </div><!--/.container -->
+</div><!--/.navbar -->
+
+<div id="header">
+
+
+
+
+</div>
+
+
+<div id="project-report" class="section level1">
+<h1>Project Report</h1>
+<p>Xinwei Han (xh2601), Xinhui Lin (xl3054), Ruohan Lyu (rl3610), Xinyin
+Miao (xm2356), Fenglin Xie (fx2212) 2025-12-06</p>
+<p>Load packages:</p>
+<pre class="r"><code>library(tidyverse)
+library(hms)
+library(lubridate)
+library(viridis)
+library(ggthemes)
+library(scales)
+library(glmnet)
+library(patchwork)</code></pre>
+</div>
+<div
+id="motivation-provide-an-overview-of-the-project-goals-and-motivation."
+class="section level1">
+<h1>Motivation: Provide an overview of the project goals and
+motivation.</h1>
+</div>
+<div
+id="related-work-anything-that-inspired-you-such-as-a-paper-a-web-site-or-something-we-discussed-in-class."
+class="section level1">
+<h1>Related work: Anything that inspired you, such as a paper, a web
+site, or something we discussed in class.</h1>
+</div>
+<div
+id="initial-questions-what-questions-are-you-trying-to-answer-how-did-these-questions-evolve-over-the-course-of-the-project-what-new-questions-did-you-consider-in-the-course-of-your-analysis"
+class="section level1">
+<h1>Initial questions: What questions are you trying to answer? How did
+these questions evolve over the course of the project? What new
+questions did you consider in the course of your analysis?</h1>
+</div>
+<div id="data-source-scraping-method-cleaning-etc."
+class="section level1">
+<h1>Data: Source, scraping method, cleaning, etc.</h1>
+<div id="data-source" class="section level2">
+<h2>Data Source</h2>
+</div>
+<div id="data-cleaning-process" class="section level2">
+<h2>Data cleaning process</h2>
+<ul>
+<li><p>Split date and time</p></li>
+<li><p>Remove incorrect records based on call &amp; response
+time</p></li>
+<li><p>Rename variable <code>duration_of_response</code> to
+<code>duration_of_action</code></p></li>
+</ul>
+<pre class="r"><code>park_ranger = read_csv(&quot;data/Urban_Park_Ranger_Animal_Condition_Response_20251103.csv&quot;) %&gt;% 
+  janitor::clean_names() %&gt;% 
+  mutate(
+    date_and_time_of_initial_call = mdy_hm(date_and_time_of_initial_call),
+    date_and_time_of_ranger_response = mdy_hm(date_and_time_of_ranger_response),
+    
+    call_date = as.Date(date_and_time_of_initial_call),
+    call_time = as_hms(date_and_time_of_initial_call),
+    response_date = as.Date(date_and_time_of_ranger_response),
+    response_time = as_hms(date_and_time_of_ranger_response)
+  ) %&gt;% 
+  filter(date_and_time_of_ranger_response &gt;= date_and_time_of_initial_call) %&gt;% 
+  rename(duration_of_action = duration_of_response)</code></pre>
+<pre><code>## Rows: 6385 Columns: 22
+## ── Column specification ─────────────────────────────────────
+## Delimiter: &quot;,&quot;
+## chr (15): Date and Time of initial call, Date and time of Ranger response, B...
+## dbl  (3): Duration of Response, # of Animals, Hours spent monitoring
+## lgl  (4): PEP Response, Animal Monitored, Police Response, ESU Response
+## 
+## ℹ Use `spec()` to retrieve the full column specification for this data.
+## ℹ Specify the column types or set `show_col_types = FALSE` to quiet this message.</code></pre>
+<ul>
+<li><p>Reclassify animal classes into 7 categories: Birds / Raptors,
+Small Mammals, Large Mammals, Marine Mammals, Reptiles / Amphibians,
+Fish, Others</p></li>
+<li><p>Factor categorical variables &amp; set reference level</p></li>
+</ul>
+<pre class="r"><code>park_ranger_new = park_ranger %&gt;% 
+  mutate(
+    animal_class_new = case_when(
+      animal_class %in% c(
+        &quot;[\&quot;Birds\&quot;]&quot;, &quot;[\&quot;Raptors\&quot;]&quot;, &quot;Birds&quot;, &quot;Raptors&quot;, 
+        &quot;Raptors, Small Mammals-RVS&quot;
+      ) ~ &quot;Birds / Raptors&quot;,
+            
+      animal_class %in% c(
+        &quot;[\&quot;Small Mammals-non RVS\&quot;]&quot;, &quot;[\&quot;Small Mammals-RVS\&quot;]&quot;,
+        &quot;Small Mammals-non RVS&quot;, &quot;Small Mammals-RVS&quot;
+      ) ~ &quot;Small Mammals&quot;,
+      
+      animal_class %in% c(
+        &quot;Coyotes&quot;, &quot;Deer&quot;, &quot;[\&quot;Coyotes\&quot;]&quot;, &quot;[\&quot;Deer\&quot;]&quot;
+      ) ~ &quot;Large Mammals&quot;,
+
+      animal_class %in% c(
+        &quot;[\&quot;Marine Mammals-whales, Dolphin\&quot;]&quot;, &quot;[\&quot;Marine Mammals-seals only\&quot;]&quot;,
+        &quot;Marine Mammals-seals only&quot;, &quot;Marine Mammals-whales,  Dolphin&quot;, 
+        &quot;Marine Mammals-whales, Dolphin&quot;
+      ) ~ &quot;Marine Mammals&quot;,
+            
+      animal_class %in% c(
+        &quot;[\&quot;Fish-numerous quantity\&quot;]&quot;, &quot;[\&quot;Non Native Fish-(invasive)\&quot;]&quot;, 
+        &quot;Fish-numerous quantity&quot;, &quot;Fish-numerous quantity;#Terrestrial Reptile or Amphibian&quot;, 
+        &quot;Non Native Fish-(invasive)&quot;
+      ) ~ &quot;Fish&quot;,
+      
+      animal_class %in% c(
+        &quot;[\&quot;Marine Reptiles\&quot;]&quot;, &quot;[\&quot;Terrestrial Reptile or Amphibian\&quot;]&quot;, 
+        &quot;Marine Reptiles&quot;, &quot;Terrestrial Reptile or Amphibian&quot;, 
+        &quot;Terrestrial Reptile or Amphibian, Fish-numerous quantity&quot;
+      ) ~ &quot;Reptiles / Amphibians&quot;,
+
+      animal_class %in% c(
+        &quot;[\&quot;Rare, Endangered, Dangerous\&quot;]&quot;, &quot;Rare,  Endangered,  Dangerous&quot;,
+        &quot;Rare, Endangered, Dangerous&quot;
+      ) ~ &quot;Others&quot;,
+      
+      species_description %in% c(
+        &quot;Atlantic Canary&quot;,&quot;Bird (Unknown)&quot;,&quot;Budgerigar&quot;,&quot;Budgerigar Parakeet&quot;,
+        &quot;Chicken&quot;,&quot;Chukar&quot;,&quot;Cockatiel&quot;,&quot;Domestic Dove&quot;,&quot;Domestic Duck&quot;, &quot;Domestic duck&quot;,
+        &quot;Domestic Goose&quot;,&quot;Domestic Goose Hybrid&quot;,&quot;Domestic Quail&quot;,&quot;Domestic Turkey&quot;,
+        &quot;Domestic Waterfowl&quot;,&quot;Fancy Dove&quot;,&quot;Guinea Fowl&quot;,&quot;Guineafowl&quot;,&quot;Japanese Quail&quot;,
+        &quot;Khaki Campbell&quot;,&quot;Muscovy Duck&quot;,&quot;Rock Dove&quot;,
+        &quot;Parakeet (Unknown)&quot;
+      ) ~ &quot;Birds / Raptors&quot;,
+      
+      species_description %in% c(
+        &quot;Domestic Rabbit&quot;,&quot;Domestic Ferret&quot;,&quot;Fancy Rat&quot;,&quot;Gerbil&quot;,
+        &quot;Guinea Pig&quot;, &quot;Guniea Pig&quot;, &quot;Guinea pig&quot;, &quot;Hamster&quot;
+      ) ~ &quot;Small Mammals&quot;,
+      
+      species_description %in% c(
+        &quot;Dog&quot;,&quot;Pitt Bull Mix&quot;,&quot;Cat&quot;,&quot;Goat&quot;,&quot;Cattle&quot;,&quot;Pig&quot;
+      ) ~ &quot;Large Mammals&quot;,
+      
+      species_description %in% c(
+        &quot;Animal (Unknown)&quot;,&quot;Honey Bee&quot;, &quot;Unknown&quot;,&quot;N/A&quot;
+      ) ~ &quot;Others&quot;),
+    
+    animal_class_new = factor(animal_class_new, 
+                              levels = c(&quot;Birds / Raptors&quot;, &quot;Small Mammals&quot;, &quot;Large Mammals&quot;, 
+                                         &quot;Marine Mammals&quot;, &quot;Reptiles / Amphibians&quot;, &quot;Fish&quot;, &quot;Others&quot;)),
+    
+    borough = factor(borough, levels = c(&quot;Manhattan&quot;, &quot;Brooklyn&quot;, &quot;Queens&quot;, &quot;Bronx&quot;, &quot;Staten Island&quot;)),
+    
+    call_source = factor(call_source, levels = c(&quot;Public&quot;, &quot;Central&quot;, &quot;Employee&quot;, 
+                                                 &quot;Conservancies/\&quot;Friends of\&quot; Groups&quot;, 
+                                                 &quot;Observed by Ranger&quot;, &quot;WBF&quot;, &quot;WINORR&quot;, &quot;Other&quot;)),
+    
+    species_status = ifelse(species_status == &quot;N/A&quot; | is.na(species_status), 
+                            &quot;Unknown&quot;, species_status),
+    species_status = factor(species_status, levels = c(&quot;Native&quot;, &quot;Invasive&quot;, &quot;Domestic&quot;, 
+                                                       &quot;Exotic&quot;, &quot;Unknown&quot;)),
+    
+    animal_condition = ifelse(animal_condition == &quot;N/A&quot; | is.na(animal_condition), 
+                              &quot;Unknown&quot;, animal_condition),
+    animal_condition = factor(animal_condition, levels = c(&quot;Healthy&quot;, &quot;Unhealthy&quot;, &quot;Injured&quot;, 
+                                                           &quot;DOA&quot;, &quot;Unknown&quot;)),
+    
+    adult   = if_else(str_detect(age, &quot;Adult&quot;), 1L, 0L, missing = 0L),
+    juvenile = if_else(str_detect(age, &quot;Juvenile&quot;), 1L, 0L, missing = 0L),
+    infant  = if_else(str_detect(age, &quot;Infant&quot;), 1L, 0L, missing = 0L)
+  )</code></pre>
+</div>
+<div id="cleaned-dataset" class="section level2">
+<h2>Cleaned dataset</h2>
+<p>The cleaned data includes the following variables:</p>
+<p><code>date_and_time_of_initial_call</code>: The date and time of the
+initial request for animal rescue</p>
+<p><code>date_and_time_of_ranger_response</code>: The date and time when
+the Ranger responded to the request (/arrived at the site)xxxxxxxxxx</p>
+<p><code>borough</code>: Borough in which request for assistance was
+(Manhattan, Brooklyn, Queens, Bronx, Staten Island)</p>
+<p><code>property</code>: Name of location of rescue</p>
+<p><code>location</code>: Specific cross street of location of
+rescue</p>
+<p><code>species_description</code>: The species being rescued</p>
+<p><code>call_source</code>: Location of initial call</p>
+<p><code>species_status</code>: The species status (Native, Invasive,
+Domestic, Exotic, Unknown)</p>
+<p><code>animal_condition</code>: The status of the animal reported by
+initial request</p>
+<p><code>duration_of_action</code>: A numerical value representing the
+amount of time spent responding upon arrival xxxxxxx</p>
+<p><code>age</code>: The original age column that contains age of each
+animal xxxxxxxx</p>
+<p><code>animal_class</code>: The original column describing type of
+species of animal</p>
+<p><code>x311sr_number</code>: Service request number generated by the
+311 system</p>
+<p><code>final_ranger_action</code>: Final action outcome of responding
+Ranger</p>
+<p><code>number_of_animals</code>: Number of animals attended
+toxxxxxxxx</p>
+<p><code>pep_response</code>: An indicator variable representing if
+Parks Enforcement Patrol was called</p>
+<p><code>animal_monitored</code>: An indicator variable representing if
+the animal was monitored during visit</p>
+<p><code>rehabilitator</code>: Name of a rehabilitator if animal was
+taken to one</p>
+<p><code>hours_spent_monitoring</code>: Indicates how many hours were
+spent monitoring the animal</p>
+<p><code>police_response</code>: An indicator variable representing if
+Police were called</p>
+<p><code>esu_response</code>: An indicator variable representing if ESU
+were called</p>
+<p><code>acc_intake_number</code>: Reference number if the animal was
+sent to ACC</p>
+<p><code>call_date</code>: Date of the initial request for animal
+rescue</p>
+<p><code>call_time</code>: Time of the initial request for animal
+rescue</p>
+<p><code>response_date</code>: Date when the Ranger responded to the
+request (/arrived at the site)xxxxxxxxxx</p>
+<p><code>response_time</code>: Time when the Ranger responded to the
+request (/arrived at the site)xxxxxxxxxx</p>
+<p><code>animal_class_new</code>: Reclassification of
+<code>animal_class</code> into 7 categories (Birds / Raptors, Small
+Mammals, Large Mammals, Marine Mammals, Reptiles / Amphibians, Fish,
+Others)</p>
+<p><code>adult</code>, <code>juvenile</code>, <code>infant</code>: An
+indicator variable representing the age of the animal being rescued</p>
+</div>
+</div>
+<div
+id="exploratory-analysis-visualizations-summaries-and-exploratory-statistical-analyses.-justify-the-steps-you-took-and-show-any-major-changes-to-your-ideas."
+class="section level1">
+<h1>Exploratory analysis: Visualizations, summaries, and exploratory
+statistical analyses. Justify the steps you took, and show any major
+changes to your ideas.</h1>
+<div id="response-duration" class="section level2">
+<h2>Response Duration</h2>
+<p>We would like to explore how response duration, which we define as
+the duration between the initial request and the time that Rangers
+arrived at the site
+(<code>date_and_time_of_ranger_response - date_and_time_of_initial_call</code>),
+is associated with different incident characteristics.</p>
+<pre class="r"><code>ranger_response_hr = park_ranger_new %&gt;% 
+  mutate(day_diff = as.numeric(difftime(response_date, call_date, units = &quot;days&quot;)),
+         time_diff_hrs = as.numeric(difftime(response_time, call_time, units = &quot;hours&quot;)),
+         response_hrs = time_diff_hrs + 24 * day_diff,
+         call_hour = hour(call_time))
+
+ranger_response_hr %&gt;% 
+  group_by(call_hour) %&gt;%
+  summarise(mean_duration = mean(response_hrs, na.rm = TRUE)) %&gt;% 
+  ggplot(aes(x = call_hour, y = mean_duration)) +
+  geom_line(linewidth = 0.8) + 
+  scale_x_continuous(breaks = 0:23) +
+  labs(
+    title = &quot;Average Response Duration by Time of Initial Request&quot;,
+    x = &quot;Hour of Day (24-hour)&quot;,
+    y = &quot;Average Response Hours&quot;) +
+  theme_minimal()</code></pre>
+<p><img
+src="Project-Report_files/figure-gfm/unnamed-chunk-4-1.png" /><!-- --></p>
+<p>This line plot visualizes variation in response duration across the
+24-hour day.</p>
+<ul>
+<li><p>Cases reported during regular daytime hours (approximately 8:00 -
+16:00) have the shortest response duration, typically around 2-4 hours
+from the time of initial request to the arrival of a Ranger. This
+pattern suggests that Ranger availability and operational capacity are
+highest during standard working hours.</p></li>
+<li><p>Response duration keeps increasing in the late afternoon and
+early evening (17:00-22:00), reaching an extended period of long delays
+in responses, with average response duration approaching 15 hours. This
+rise likely reflects reduced staffing after 5 PM, and the possibility
+that non-urgent incidents are deferred until the working hours the next
+day.</p></li>
+<li><p>Cases reported late at night and in the early morning
+(approximately 20:00-5:00) also show longer response durations, often
+exceeding 10 hours, consistent with limited overnight staffing or slower
+processing of after-hours calls.</p></li>
+<li><p>One notable irregularity is the sharp drop in average response
+duration around 23:00, followed by a spike at 0:00. This pattern may
+indicate hour misclassification, where some late-night incidents were
+miscoded as 0:00, combined with small sample sizes or boundary effects
+at the end of the day. These potential misclassifications should be
+considered and interpreted with cautions.</p></li>
+</ul>
+<pre class="r"><code>resp_dur_dist = ranger_response_hr %&gt;% 
+  mutate(resp_bin = case_when(
+    response_hrs &lt; 1 ~ &quot;0-1 hours&quot;, 
+    response_hrs &gt;= 1 &amp; response_hrs &lt; 4 ~ &quot;1-4 hours&quot;,
+    response_hrs &gt;= 4 &amp; response_hrs &lt; 24 ~ &quot;4-24 hours&quot;,
+    response_hrs &gt;= 24 ~ &quot;&gt;24 hours&quot;),
+    resp_bin = factor(resp_bin, levels = c(&quot;0-1 hours&quot;, &quot;1-4 hours&quot;, &quot;4-24 hours&quot;, &quot;&gt;24 hours&quot;))
+  )
+
+resp_dur_dist_plot = function(df, title_suffix) {
+  ggplot(df, aes(x = reorder(animal_condition, response_hrs, FUN = median),
+                 y = response_hrs)) +
+    geom_violin(trim = FALSE, fill = &quot;skyblue&quot;, alpha = 0.5) +
+    geom_boxplot(width = 0.3, alpha = 0.8) +
+    labs(title = title_suffix,
+         x = &quot;Animal Condition&quot;, y = &quot;Response Duration (hours)&quot;) +
+    theme_minimal() +
+    theme(axis.text.x = element_text(angle = 45, hjust = 1))
+}
+
+p1 = resp_dur_dist %&gt;% 
+  filter(resp_bin == &quot;0-1 hours&quot;) %&gt;% 
+  resp_dur_dist_plot(&quot;0–1 hours&quot;)
+
+p2 = resp_dur_dist %&gt;% 
+  filter(resp_bin == &quot;1-4 hours&quot;) %&gt;% 
+  resp_dur_dist_plot(&quot;1–4 hours&quot;)
+
+p3 = resp_dur_dist %&gt;% 
+  filter(resp_bin == &quot;4-24 hours&quot;) %&gt;% 
+  resp_dur_dist_plot(&quot;4–24 hours&quot;)
+
+p4 = resp_dur_dist %&gt;% 
+  filter(resp_bin == &quot;&gt;24 hours&quot;) %&gt;% 
+  resp_dur_dist_plot(&quot;&gt;24 hours&quot;)
+
+(p1 | p2) / (p3 | p4) + plot_annotation(title =&quot;Distribution of Response Duration&quot;)</code></pre>
+<p><img
+src="Project-Report_files/figure-gfm/unnamed-chunk-5-1.png" /><!-- --></p>
+<p>Because response durations are highly right-skewed, the data were
+split more at the lower end (0–1 and 1–4 hours) where most observations
+occur, while broader segments were used for longer delays (4–24 and
+&gt;24 hours).</p>
+<p>The plots show that response duration does not meaningfully differ
+across animal condition categories. All five groups (Healthy, Injured,
+Unhealthy, DOA, and Unknown) display highly overlapping distributions
+with similar central tendencies. The within-condition variability is
+much larger than any between-condition differences. The long right tails
+are present across all categories, especially in the &gt;24 hour panel,
+suggesting that extremely slow responses occur regardless of the
+reported condition.</p>
+<p>Overall, the figure indicates that the reported animal condition
+plays only a minimal role.</p>
+<pre class="r"><code>ranger_model = ranger_response_hr %&gt;%
+  mutate(
+    call_hour_cat = case_when(call_hour &gt;= 0 &amp; call_hour &lt; 8 ~ &quot;0-8&quot;,
+                              call_hour &gt;= 8 &amp; call_hour &lt; 16 ~ &quot;8-16&quot;,
+                              call_hour &gt;= 16 &amp; call_hour &lt; 24 ~ &quot;16-24&quot;),
+    call_hour_cat = factor(call_hour_cat, levels = c(&quot;8-16&quot;, &quot;0-8&quot;, &quot;16-24&quot;))
+  ) %&gt;% 
+  select(response_hrs, borough, call_source, species_status, animal_condition, 
+         adult, juvenile, infant, animal_class_new, number_of_animals, call_hour_cat) %&gt;% 
+  na.omit()
+
+ranger_model %&gt;% 
+  ggplot(aes(x = log(response_hrs), color = borough)) +
+  geom_density() +
+  labs(title = &quot;Density of Ranger Response Duration by Borough&quot;,
+       x = &quot;Response Duration (hours)&quot;,
+       y = &quot;Density&quot;,
+       color = &quot;Borough&quot;) +
+  theme_minimal()</code></pre>
+<pre><code>## Warning: Removed 1224 rows containing non-finite outside the scale
+## range (`stat_density()`).</code></pre>
+<p><img
+src="Project-Report_files/figure-gfm/unnamed-chunk-6-1.png" /><!-- --></p>
+<p>Because the response-duration distribution is highly right-skewed,
+with a long tail extending to several hundred hours, we applied a
+natural log transformation to stabilize the variance and make
+differences across boroughs more interpretable.</p>
+<p>Across boroughs, the density curves show only small differences in
+response duration. All boroughs have an average of
+<code>log(response duration)</code> less than 0, which means the average
+of response duration is less than 1 hour, showing fast response duration
+on average.</p>
+<ul>
+<li><p>Manhattan and Brooklyn have slightly right-shifted peaks on the
+log scale, indicating somewhat slower responses on average compared to
+others. This might be because these boroughs tend to have higher call
+volume and more complex environment, which can slow down dispatch and
+travel time. Manhattan’s dense urban setting and Brooklyn’s large
+geographic area may also contribute to longer navigation times and
+resource constraints relative to the other boroughs.</p></li>
+<li><p>Queens, the Bronx, and Staten Island have slightly left-shifted
+peaks on the log scale, indicating somewhat faster responses on average.
+Operationally, these boroughs may experience less congestion and fewer
+competing requests, contributing to slightly shorter response
+duration.</p></li>
+</ul>
+<p>Despite these minor shifts in central tendency, the overall shapes of
+the distributions are highly similar. Within-borough variation is much
+greater than between-borough variation.</p>
+</div>
+</div>
+<div
+id="additional-analysis-if-you-undertake-formal-statistical-analyses-describe-these-in-detail"
+class="section level1">
+<h1>Additional analysis: If you undertake formal statistical analyses,
+describe these in detail</h1>
+<div id="response-duration-1" class="section level2">
+<h2>Response Duration</h2>
+<p>When examining animal condition and borough individually in the raw
+distributions, neither appears to be a strong or consistent determinant
+of response duration. These unadjusted patterns suggest that other
+confounding factors (e.g., call timing, call source) may play a larger
+role. To evaluate these effects while holding other variables constant,
+we fit a multiple linear regression model that incorporates incident
+characteristics including borough, call source, species status, animal
+condition, age category, animal class, number of animals, and call
+time.</p>
+<pre class="r"><code>model = lm(response_hrs ~ borough + call_source + species_status + animal_condition + 
+             adult + juvenile + infant + animal_class_new + number_of_animals + 
+             call_hour_cat, data = ranger_model)
+
+summary(model)$coefficients %&gt;%
+  as.data.frame() %&gt;%
+  tibble::rownames_to_column(&quot;Variable&quot;) %&gt;%
+  dplyr::rename(
+    Estimate   = Estimate,
+    Std_Error  = `Std. Error`,
+    t_value    = `t value`,
+    p_value    = `Pr(&gt;|t|)`
+  ) %&gt;% 
+  mutate(
+    p_value = format.pval(p_value, digits = 2, eps = 2e-16)
+  ) %&gt;% 
+  knitr::kable(format  = &quot;markdown&quot;, digits = 4, 
+               caption = &quot;Regression Coefficient Table&quot;, 
+               align = c(&quot;l&quot;, &quot;r&quot;, &quot;r&quot;, &quot;r&quot;, &quot;r&quot;)) </code></pre>
+<table>
+<colgroup>
+<col width="20%" />
+<col width="20%" />
+<col width="20%" />
+<col width="20%" />
+<col width="20%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th align="left">Variable</th>
+<th align="right">Estimate</th>
+<th align="right">Std_Error</th>
+<th align="right">t_value</th>
+<th align="right">p_value</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="left">(Intercept)</td>
+<td align="right">1.6332</td>
+<td align="right">2.3377</td>
+<td align="right">0.6986</td>
+<td align="right">0.4848</td>
+</tr>
+<tr class="even">
+<td align="left">boroughBrooklyn</td>
+<td align="right">-1.8113</td>
+<td align="right">0.7800</td>
+<td align="right">-2.3223</td>
+<td align="right">0.0202</td>
+</tr>
+<tr class="odd">
+<td align="left">boroughQueens</td>
+<td align="right">-0.3071</td>
+<td align="right">0.8139</td>
+<td align="right">-0.3773</td>
+<td align="right">0.7060</td>
+</tr>
+<tr class="even">
+<td align="left">boroughBronx</td>
+<td align="right">-1.7034</td>
+<td align="right">0.8927</td>
+<td align="right">-1.9081</td>
+<td align="right">0.0564</td>
+</tr>
+<tr class="odd">
+<td align="left">boroughStaten Island</td>
+<td align="right">1.3162</td>
+<td align="right">0.9035</td>
+<td align="right">1.4568</td>
+<td align="right">0.1452</td>
+</tr>
+<tr class="even">
+<td align="left">call_sourceCentral</td>
+<td align="right">-2.1874</td>
+<td align="right">0.7802</td>
+<td align="right">-2.8035</td>
+<td align="right">0.0051</td>
+</tr>
+<tr class="odd">
+<td align="left">call_sourceEmployee</td>
+<td align="right">-1.6941</td>
+<td align="right">0.7285</td>
+<td align="right">-2.3256</td>
+<td align="right">0.0201</td>
+</tr>
+<tr class="even">
+<td align="left">call_sourceConservancies/“Friends of” Groups</td>
+<td align="right">-1.9136</td>
+<td align="right">1.0345</td>
+<td align="right">-1.8497</td>
+<td align="right">0.0644</td>
+</tr>
+<tr class="odd">
+<td align="left">call_sourceObserved by Ranger</td>
+<td align="right">-1.9815</td>
+<td align="right">1.1534</td>
+<td align="right">-1.7179</td>
+<td align="right">0.0859</td>
+</tr>
+<tr class="even">
+<td align="left">call_sourceWBF</td>
+<td align="right">-0.8176</td>
+<td align="right">2.2056</td>
+<td align="right">-0.3707</td>
+<td align="right">0.7109</td>
+</tr>
+<tr class="odd">
+<td align="left">call_sourceWINORR</td>
+<td align="right">-5.0417</td>
+<td align="right">14.5890</td>
+<td align="right">-0.3456</td>
+<td align="right">0.7297</td>
+</tr>
+<tr class="even">
+<td align="left">call_sourceOther</td>
+<td align="right">2.4337</td>
+<td align="right">1.7276</td>
+<td align="right">1.4087</td>
+<td align="right">0.1590</td>
+</tr>
+<tr class="odd">
+<td align="left">species_statusInvasive</td>
+<td align="right">-0.6809</td>
+<td align="right">1.2733</td>
+<td align="right">-0.5348</td>
+<td align="right">0.5928</td>
+</tr>
+<tr class="even">
+<td align="left">species_statusDomestic</td>
+<td align="right">0.3621</td>
+<td align="right">0.9448</td>
+<td align="right">0.3833</td>
+<td align="right">0.7015</td>
+</tr>
+<tr class="odd">
+<td align="left">species_statusExotic</td>
+<td align="right">6.8255</td>
+<td align="right">2.2204</td>
+<td align="right">3.0739</td>
+<td align="right">0.0021</td>
+</tr>
+<tr class="even">
+<td align="left">species_statusUnknown</td>
+<td align="right">0.0431</td>
+<td align="right">2.8020</td>
+<td align="right">0.0154</td>
+<td align="right">0.9877</td>
+</tr>
+<tr class="odd">
+<td align="left">animal_conditionUnhealthy</td>
+<td align="right">-0.7356</td>
+<td align="right">0.7912</td>
+<td align="right">-0.9298</td>
+<td align="right">0.3525</td>
+</tr>
+<tr class="even">
+<td align="left">animal_conditionInjured</td>
+<td align="right">0.3857</td>
+<td align="right">0.7840</td>
+<td align="right">0.4919</td>
+<td align="right">0.6228</td>
+</tr>
+<tr class="odd">
+<td align="left">animal_conditionDOA</td>
+<td align="right">-1.4589</td>
+<td align="right">0.9737</td>
+<td align="right">-1.4983</td>
+<td align="right">0.1341</td>
+</tr>
+<tr class="even">
+<td align="left">animal_conditionUnknown</td>
+<td align="right">-0.0279</td>
+<td align="right">0.9737</td>
+<td align="right">-0.0286</td>
+<td align="right">0.9772</td>
+</tr>
+<tr class="odd">
+<td align="left">adult</td>
+<td align="right">3.8987</td>
+<td align="right">2.1736</td>
+<td align="right">1.7937</td>
+<td align="right">0.0729</td>
+</tr>
+<tr class="even">
+<td align="left">juvenile</td>
+<td align="right">3.0032</td>
+<td align="right">2.1610</td>
+<td align="right">1.3898</td>
+<td align="right">0.1647</td>
+</tr>
+<tr class="odd">
+<td align="left">infant</td>
+<td align="right">2.7739</td>
+<td align="right">2.3026</td>
+<td align="right">1.2047</td>
+<td align="right">0.2284</td>
+</tr>
+<tr class="even">
+<td align="left">animal_class_newSmall Mammals</td>
+<td align="right">-1.2785</td>
+<td align="right">0.6615</td>
+<td align="right">-1.9328</td>
+<td align="right">0.0533</td>
+</tr>
+<tr class="odd">
+<td align="left">animal_class_newLarge Mammals</td>
+<td align="right">-0.8069</td>
+<td align="right">1.0486</td>
+<td align="right">-0.7695</td>
+<td align="right">0.4416</td>
+</tr>
+<tr class="even">
+<td align="left">animal_class_newMarine Mammals</td>
+<td align="right">-2.1962</td>
+<td align="right">3.0076</td>
+<td align="right">-0.7302</td>
+<td align="right">0.4653</td>
+</tr>
+<tr class="odd">
+<td align="left">animal_class_newReptiles / Amphibians</td>
+<td align="right">-3.2878</td>
+<td align="right">1.2722</td>
+<td align="right">-2.5844</td>
+<td align="right">0.0098</td>
+</tr>
+<tr class="even">
+<td align="left">animal_class_newFish</td>
+<td align="right">5.0966</td>
+<td align="right">4.9631</td>
+<td align="right">1.0269</td>
+<td align="right">0.3045</td>
+</tr>
+<tr class="odd">
+<td align="left">animal_class_newOthers</td>
+<td align="right">-2.3422</td>
+<td align="right">4.9451</td>
+<td align="right">-0.4736</td>
+<td align="right">0.6358</td>
+</tr>
+<tr class="even">
+<td align="left">number_of_animals</td>
+<td align="right">-0.0104</td>
+<td align="right">0.0227</td>
+<td align="right">-0.4583</td>
+<td align="right">0.6468</td>
+</tr>
+<tr class="odd">
+<td align="left">call_hour_cat0-8</td>
+<td align="right">7.4563</td>
+<td align="right">1.6516</td>
+<td align="right">4.5146</td>
+<td align="right">6.5e-06</td>
+</tr>
+<tr class="even">
+<td align="left">call_hour_cat16-24</td>
+<td align="right">3.8927</td>
+<td align="right">0.7501</td>
+<td align="right">5.1892</td>
+<td align="right">2.2e-07</td>
+</tr>
+</tbody>
+</table>
+<p>Regression Coefficient Table</p>
+<p>We use a multiple linear regression model to estimate the independent
+contribution of each predictor to response duration, allowing us to
+isolate the effect of each variable while holding other factors
+constant.</p>
+<p>After adjustment, several predictors show meaningful statistical
+associations:</p>
+<p><strong>Call time of day</strong> (reference = 8:00-16:00)</p>
+<ul>
+<li><p>Overnight incidents (0:00–8:00) take about 7.5 hours longer to
+receive a response, which is one of the strongest effects in the
+model.</p></li>
+<li><p>Evening incidents (16:00–24:00) also experience significantly
+slower responses, with delays of nearly 4 hours compared to
+daytime.</p></li>
+<li><p>Overall, daytime remains the period with the fastest and most
+efficient ranger responses.</p></li>
+<li><p>These patterns suggest a progressive decline in responsiveness
+after normal working hours, likely reflecting reduced staffing and
+slower processing outside regular working shifts.</p></li>
+</ul>
+<p><strong>Call source</strong> (reference = Public)</p>
+<ul>
+<li><p>Incidents reported from Central Dispatch, conservancies,
+employees, and rangers tend to receive responses that are 1.7–2.2 hours
+faster than public reports, with the Central Dispatch and employee
+categories showing statistically significant effects. This suggests that
+internal reporting channels, which are more direct and reliable, are
+easier to prioritize, whereas public reports can vary widely in urgency
+and clarity, potentially slowing response duration.</p></li>
+<li><p>Reports categorized as “Other” tend to be slower than public
+calls, indicating greater variability in information quality or
+urgency.</p></li>
+<li><p>Categories with very small sample sizes (such as WINORR or WBF)
+display large estimated effects but also uncertainty, so these results
+should be interpreted cautiously.</p></li>
+</ul>
+<p><strong>Species status</strong> (reference = Native)</p>
+<ul>
+<li><p>Incidents involving exotic species require significantly more
+response duration, with responses roughly 7 hours slower than those
+involving native species. This delay may reflect additional safety
+assessments, limited availability of specialized handlers, or the need
+for species identification before dispatch.</p></li>
+<li><p>Other species-status categories show little or no meaningful
+differences in response duration compared to native species.</p></li>
+</ul>
+<p><strong>Animal class</strong> (reference = Birds / Raptors)</p>
+<ul>
+<li><p>Reptile or amphibian cases are handled about 3 hours faster than
+birds or raptors, which represents a clear and consistent pattern,
+suggesting these cases require less pre-arrival preparation, whereas
+birds/raptors may require nets, protective gear, or specialized
+carriers.</p></li>
+<li><p>Fish-related incidents tend to be much slower, but this pattern
+is unstable due to very small sample size.</p></li>
+<li><p>Other animal classes show minor or uncertain differences relative
+to birds or raptors.</p></li>
+</ul>
+<p><strong>Borough effects</strong> (reference = Manhattan)</p>
+<ul>
+<li><p>After adjusting for call characteristics and operational factors,
+the borough effects differ from the raw patterns observed
+earlier.</p></li>
+<li><p>Compared with Manhattan, both Brooklyn and the Bronx show
+meaningfully faster response duration (about 1.7–1.8 hours shorter) -
+although difference between the Bronx and Manhattan is only borderline
+significant. A possible explanation is that these boroughs may have more
+concentrated ranger coverage and experience less congestion, allowing
+for faster travel times.</p></li>
+<li><p>In contrast, Staten Island, despite being geographically smaller
+and less densely populated, shows a possible tendency toward slower
+responses, but the estimate is not statistically significant. This
+pattern likely reflects limited ranger staffing, longer travel distances
+between regions, and the need to cross bridges, which can offset the
+potential advantages of a smaller service area.</p></li>
+<li><p>Queens differs very little from Manhattan, with only a small and
+negligible difference in response duration</p></li>
+<li><p>Overall, borough effects seem to be driven by a combination of
+coverage density, traffic patterns, and logistical constraints rather
+than size alone.</p></li>
+</ul>
+<p>In contrast, the following variables do not show meaningful
+associations with response duration when controlling for other
+factors:</p>
+<p><strong>Animal Condition</strong> (reference = Healthy)</p>
+<ul>
+<li><p>Dead-on-arrival cases tend to be handled about 1.5 hours faster,
+likely because they require fewer preparation, though this difference is
+not statistically significant.</p></li>
+<li><p>Cases involving injured, unhealthy, or unknown animal conditions
+show small and inconsistent differences compared with healthy
+animals.</p></li>
+</ul>
+<p><strong>Age</strong> (Adult, Juvenile, Infant)</p>
+<ul>
+<li><p>Although the estimated coefficients are relatively large, the
+effects are not statistically meaningful and do not indicate a real
+influence on response duration</p></li>
+<li><p>These effects likely reflect case-specific variability rather
+than systematic prioritization.</p></li>
+</ul>
+<p><strong>Number of Animals</strong></p>
+<ul>
+<li>The number of animals involved has no meaningful impact on response
+duration.</li>
+</ul>
+<p>Taken together, these results suggest that operational factors-such
+as when, where, and through which channel an incident is
+reported-explain most of the observed differences in response duration.
+Biological characteristics of the animals, with the exception of exotic
+species, play a comparatively smaller role.</p>
+<pre class="r"><code>broom::tidy(model, conf.int = TRUE) %&gt;% 
+  ggplot(aes(x = reorder(term, estimate), y = estimate)) +
+  geom_pointrange(aes(ymin = conf.low, ymax = conf.high)) +
+  geom_hline(yintercept = 0, linetype = &quot;dashed&quot;, color = &quot;red&quot;) +
+  coord_flip() +
+  labs(title = &quot;Predictor Effects on Response Duration&quot;,
+       x = &quot;Predictor Variables&quot;,
+       y = &quot;Estimated Coefficient (hours)&quot;) +
+  theme_minimal()</code></pre>
+<p><img
+src="Project-Report_files/figure-gfm/unnamed-chunk-8-1.png" /><!-- --></p>
+<p>This coefficient plot highlights the same general patterns seen in
+the regression table:</p>
+<ul>
+<li>Time of day, call source, exotic species, and several animal classes
+stand out with clearer effects, whereas most predictors lie near zero or
+have confidence intervals crossing zero, indicating little or no
+meaningful association.</li>
+</ul>
+<p>Elastic Net was used as a complementary approach to assess variable
+stability and identify predictors with more consistent signals beyond
+the Ordinary Least Squares (OLS) estimates.</p>
+<pre class="r"><code>X = model.matrix(~ borough + call_source + species_status + animal_condition + 
+                   adult + juvenile + infant + animal_class_new + number_of_animals + 
+                   call_hour_cat, data = ranger_model)[, -1]
+y = ranger_model$response_hrs
+
+set.seed(123)
+fit_cv = cv.glmnet(X, y, alpha = 0.5)
+
+coef(fit_cv, s = &quot;lambda.min&quot;) %&gt;% 
+  as.matrix() %&gt;% 
+  as.data.frame() %&gt;% 
+  rownames_to_column(var = &quot;variable&quot;) %&gt;% 
+  rename(coefficient = 2) %&gt;% 
+  filter(coefficient != 0) %&gt;% 
+  knitr::kable(format  = &quot;markdown&quot;,
+    caption = &quot;Elastic Net Coefficients at lambda_min (0.1811)&quot;,
+    digits = 4,
+    align = &quot;l&quot;)</code></pre>
+<table>
+<thead>
+<tr class="header">
+<th align="left">variable</th>
+<th align="left">coefficient</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="left">(Intercept)</td>
+<td align="left">3.8675</td>
+</tr>
+<tr class="even">
+<td align="left">boroughBrooklyn</td>
+<td align="left">-1.3585</td>
+</tr>
+<tr class="odd">
+<td align="left">boroughBronx</td>
+<td align="left">-1.2663</td>
+</tr>
+<tr class="even">
+<td align="left">boroughStaten Island</td>
+<td align="left">1.2604</td>
+</tr>
+<tr class="odd">
+<td align="left">call_sourceCentral</td>
+<td align="left">-1.5033</td>
+</tr>
+<tr class="even">
+<td align="left">call_sourceEmployee</td>
+<td align="left">-1.0224</td>
+</tr>
+<tr class="odd">
+<td align="left">call_sourceConservancies/“Friends of” Groups</td>
+<td align="left">-1.0709</td>
+</tr>
+<tr class="even">
+<td align="left">call_sourceObserved by Ranger</td>
+<td align="left">-1.1177</td>
+</tr>
+<tr class="odd">
+<td align="left">call_sourceOther</td>
+<td align="left">2.5146</td>
+</tr>
+<tr class="even">
+<td align="left">species_statusInvasive</td>
+<td align="left">-0.2856</td>
+</tr>
+<tr class="odd">
+<td align="left">species_statusExotic</td>
+<td align="left">5.8171</td>
+</tr>
+<tr class="even">
+<td align="left">animal_conditionUnhealthy</td>
+<td align="left">-0.5726</td>
+</tr>
+<tr class="odd">
+<td align="left">animal_conditionInjured</td>
+<td align="left">0.3360</td>
+</tr>
+<tr class="even">
+<td align="left">animal_conditionDOA</td>
+<td align="left">-1.1085</td>
+</tr>
+<tr class="odd">
+<td align="left">adult</td>
+<td align="left">0.7251</td>
+</tr>
+<tr class="even">
+<td align="left">animal_class_newSmall Mammals</td>
+<td align="left">-1.0641</td>
+</tr>
+<tr class="odd">
+<td align="left">animal_class_newLarge Mammals</td>
+<td align="left">-0.1611</td>
+</tr>
+<tr class="even">
+<td align="left">animal_class_newMarine Mammals</td>
+<td align="left">-1.1040</td>
+</tr>
+<tr class="odd">
+<td align="left">animal_class_newReptiles / Amphibians</td>
+<td align="left">-2.6405</td>
+</tr>
+<tr class="even">
+<td align="left">animal_class_newFish</td>
+<td align="left">3.2763</td>
+</tr>
+<tr class="odd">
+<td align="left">animal_class_newOthers</td>
+<td align="left">-0.5500</td>
+</tr>
+<tr class="even">
+<td align="left">call_hour_cat0-8</td>
+<td align="left">6.8038</td>
+</tr>
+<tr class="odd">
+<td align="left">call_hour_cat16-24</td>
+<td align="left">3.7262</td>
+</tr>
+</tbody>
+</table>
+<p>Elastic Net Coefficients at lambda_min (0.1811)</p>
+<p>Compared with the original linear model, the Elastic Net model
+resulted in a more simplified set of predictors. Several variables that
+had non-zero coefficients under OLS were reduced to zero, such as
+<code>boroughQueens</code>, <code>call_sourceWBF</code>,
+<code>call_sourceWINORR</code>, <code>species_statusDomestic</code>,
+<code>species_statusUnknown</code>,
+<code>animal_conditionUnknown</code>, <code>juvenile</code> and
+<code>infant</code> age indicators, and <code>number_of_animals</code>.
+This suggests that these variables do not provide stable or meaningful
+predictive contribution once penalization is applied.</p>
+<p>Among the variables that remained, all effects continued to move in
+the same direction as in the OLS model. The strongest and most
+consistent patterns also remained largely unchanged: overnight and
+evening reports still show longer response duration compared with
+daytime reports. In addition, internal call sources (e.g., Central
+Dispatch, employees, rangers) continue to be associated with faster
+responses than public reports. Exotic species consistently require much
+longer response duration than native species. Certain animal classes,
+especially reptiles/amphibians (faster) and fish (slower), also retain
+relatively large effects even after shrinkage.</p>
+<p>Several predictors that originally appeared moderately influential in
+the OLS model, such as the <code>adult</code> age indicator,
+<code>animal_class_newMarine Mammals</code>, and
+<code>animal_class_newFish</code>, showed noticeable reductions in
+magnitude under Elastic Net. Although the direction of these effects
+remained the same, their shrinkage suggests that the larger OLS
+estimates were likely inflated by noise or multicollinearity rather than
+reflecting a stable underlying effect.</p>
+<p>The remaining predictors still show only small or negligible effects
+in the Elastic Net model, indicating that their contribution to response
+duration is minimal once penalization removes unstable signals.</p>
+<p>Because Elastic Net does not provide p-values or standard errors,
+these coefficients should be interpreted as indicators of relative
+importance rather than formal statistical significance.</p>
+<p>Overall, response duration appears to be driven primarily by
+operational characteristics, most notably call timing and call source,
+rather than biological or borough-specific features. Adjusted modeling
+reveals patterns not visible in the raw data, highlighting the
+importance of accounting for confounding factors when interpreting
+response-time differences.</p>
+</div>
+</div>
+<div
+id="discussion-what-were-your-findings-are-they-what-you-expect-what-insights-into-the-data-can-you-make"
+class="section level1">
+<h1>Discussion: What were your findings? Are they what you expect? What
+insights into the data can you make?</h1>
+</div>
+
+
+
+
+</div>
+
+<script>
+
+// add bootstrap table styles to pandoc tables
+function bootstrapStylePandocTables() {
+  $('tr.odd').parent('tbody').parent('table').addClass('table table-condensed');
+}
+$(document).ready(function () {
+  bootstrapStylePandocTables();
+});
+
+
+</script>
+
+<!-- tabsets -->
+
+<script>
+$(document).ready(function () {
+  window.buildTabsets("TOC");
+});
+
+$(document).ready(function () {
+  $('.tabset-dropdown > .nav-tabs > li').click(function () {
+    $(this).parent().toggleClass('nav-tabs-open');
+  });
+});
+</script>
+
+<!-- code folding -->
+
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    script.src  = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML";
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+
+</body>
+</html>
