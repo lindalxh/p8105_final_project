@@ -553,11 +553,10 @@ greater than between-borough variation.</p>
 <p><br></p>
 </div>
 </div>
-</div>
-<div id="model-building" class="section level1">
-<h1>Model Building</h1>
-<div id="multiple-linear-regression" class="section level2">
-<h2>Multiple Linear Regression</h2>
+<div id="model-building" class="section level2">
+<h2>Model Building</h2>
+<div id="multiple-linear-regression" class="section level3">
+<h3>Multiple Linear Regression</h3>
 <p>When examining animal condition and borough individually in the raw
 distributions, neither appears to be a strong or consistent determinant
 of response duration. These unadjusted patterns suggest that other
@@ -1271,8 +1270,8 @@ Biological characteristics of the animals, with the exception of exotic
 species, play a comparatively smaller role.</p>
 <p><br></p>
 </div>
-<div id="coefficient-plot" class="section level2">
-<h2>Coefficient Plot</h2>
+<div id="coefficient-plot" class="section level3">
+<h3>Coefficient Plot</h3>
 <pre class="r"><code>broom::tidy(model, conf.int = TRUE) %&gt;% 
   ggplot(aes(x = reorder(term, estimate), y = estimate)) +
   geom_pointrange(aes(ymin = conf.low, ymax = conf.high)) +
@@ -1293,8 +1292,8 @@ meaningful association.</li>
 </ul>
 <p><br></p>
 </div>
-<div id="elastic-net" class="section level2">
-<h2>Elastic Net</h2>
+<div id="elastic-net" class="section level3">
+<h3>Elastic Net</h3>
 <p>Elastic Net was used as a complementary approach to assess variable
 stability and identify predictors with more consistent signals beyond
 the Ordinary Least Squares (OLS) estimates.</p>
@@ -1460,6 +1459,7 @@ rather than biological or borough-specific features. Adjusted modeling
 reveals patterns not visible in the raw data, highlighting the
 importance of accounting for confounding factors when interpreting
 response-time differences.</p>
+</div>
 </div>
 </div>
 
