@@ -481,7 +481,7 @@ duration_mean |>
 
 
 ### Density of Raw Response Duration
-```{r}
+```{r, fig.width=5, fig.height=3, fig.align = "center"}
 ggplot(park_model_group, aes(x = duration_hours,
                         fill  = action_group,
                         color = action_group)) +
@@ -509,7 +509,7 @@ ggplot(park_model_group, aes(x = duration_hours,
 The first density plot shows that the distribution of raw response duration is extremely right-skewed, with most incidents resolved within a short time but a small number taking many hours. This heavy skew makes it difficult to visually compare “Unfounded” cases with all other ranger actions on the original scale because the long tail compresses the main density near zero.
 
 ### Density of Log-Transformed Response Duration
-```{r}
+```{r, fig.width=5, fig.height=3, fig.align = "center"}
 park_model2_log = park_model_group |>
   mutate(duration_log = log1p(duration_hours))  # log(1 + x)
 
@@ -554,7 +554,7 @@ park_model4 <- park_model |>
   filter(animal_condition %in% c("Healthy", "Unhealthy", "Injured", "DOA"))
 ```
 
-```{r}
+```{r, fig.align = "center"}
 plot_condition_bar <- function(data, cond, ymax) {
 
   df <- data |>
@@ -815,7 +815,7 @@ The interaction between final action and condition is significant (p = 0.000165)
 
 
 ### Using Log-Transformed Duration
-```{r}
+```{r, fig.align = "center"}
 park_model2 = park_model |>
   mutate(log_duration = log(duration_hours))
 

@@ -946,7 +946,7 @@ duration_mean |&gt;
   theme(
     plot.title = element_text(hjust = 0.5)
   )</code></pre>
-<p><img src="Project-Report_files/figure-html/unnamed-chunk-11-1.png" width="672" /></p>
+<p><img src="Project-Report_files/figure-html/unnamed-chunk-11-1.png" width="480" style="display: block; margin: auto;" /></p>
 <p>The first density plot shows that the distribution of raw response
 duration is extremely right-skewed, with most incidents resolved within
 a short time but a small number taking many hours. This heavy skew makes
@@ -974,7 +974,7 @@ ggplot(park_model2_log,
   theme(
     plot.title = element_text(hjust = 0.5)
   )</code></pre>
-<p><img src="Project-Report_files/figure-html/unnamed-chunk-12-1.png" width="672" /></p>
+<p><img src="Project-Report_files/figure-html/unnamed-chunk-12-1.png" width="480" style="display: block; margin: auto;" /></p>
 <p>To address this issue, we applied a log-transformation, using log(1 +
 duration).</p>
 <p>This transformation compresses long-duration outliers and spreads out
@@ -1038,7 +1038,7 @@ p4 &lt;- plot_condition_bar(park_model4, &quot;DOA&quot;,       max_cases)
 
 (p1 | p2) /
 (p3 | p4)</code></pre>
-<p><img src="Project-Report_files/figure-html/unnamed-chunk-14-1.png" width="672" /></p>
+<p><img src="Project-Report_files/figure-html/unnamed-chunk-14-1.png" width="672" style="display: block; margin: auto;" /></p>
 <p>The four-panel visualization compares how ranger actions differ
 depending on the animal’s condition at the time of the call.</p>
 <ol style="list-style-type: decimal">
@@ -1847,7 +1847,7 @@ plot(anova_fit_log, which = 1)  # Residuals vs Fitted
 plot(anova_fit_log, which = 2)  # Normal Q-Q</code></pre>
 <pre><code>## Warning: not plotting observations with leverage one:
 ##   4660</code></pre>
-<p><img src="Project-Report_files/figure-html/unnamed-chunk-19-1.png" width="672" /></p>
+<p><img src="Project-Report_files/figure-html/unnamed-chunk-19-1.png" width="672" style="display: block; margin: auto;" /></p>
 <pre class="r"><code>par(mfrow = c(1, 1))</code></pre>
 <p>Because response duration is highly right-skewed with many long-tail
 outliers, ANOVA assumptions were violated when using raw duration
