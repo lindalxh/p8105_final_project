@@ -143,9 +143,9 @@ Despite these minor shifts in central tendency, the overall shapes of the distri
 
 <br>
 
-## Model Building
+# Model Building
 
-### Multiple Linear Regression
+## Multiple Linear Regression
 When examining animal condition and borough individually in the raw distributions, neither appears to be a strong or consistent determinant of response duration. These unadjusted patterns suggest that other confounding factors (e.g., call timing, call source) may play a larger role. To evaluate these effects while holding other variables constant, we fit a multiple linear regression model that incorporates incident characteristics including borough, call source, species status, animal condition, age category, animal class, number of animals, and call time.
 
 ```{r}
@@ -242,7 +242,7 @@ Taken together, these results suggest that operational factors-such as when, whe
 
 <br>
 
-### Coefficient Plot
+## Coefficient Plot
 ```{r}
 broom::tidy(model, conf.int = TRUE) %>% 
   ggplot(aes(x = reorder(term, estimate), y = estimate)) +
@@ -261,7 +261,7 @@ This coefficient plot highlights the same general patterns seen in the regressio
 
 <br>
 
-### Elastic Net
+## Elastic Net
 
 Elastic Net was used as a complementary approach to assess variable stability and identify predictors with more consistent signals beyond the Ordinary Least Squares (OLS) estimates.
 
