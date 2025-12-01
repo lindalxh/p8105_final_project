@@ -17,10 +17,9 @@ library(patchwork)
 library(knitr)
 ```
 
-# Tiny Paws, Big Rescue: 
-## A Data Story of Seasonal and Spatial Animal Saving
+# Tiny Paws, Big Rescue: A Data Story of Seasonal and Spatial Animal Saving
 
-## Motivation: Provide an overview of the project goals and motivation.
+## Motivation: 
 During the 2025 NYC Tree Count, one of our team members observed a raccoon hiding inside a tree cavity in Morningside Park. Park rangers noted that animals living in urban parks are often stressed or displaced by human activity, yet these encounters also give citizens opportunities to notice injuries, abnormal behavior, or animals in distress. These experiences highlight the importance of citizen science in helping residents recognize that cities serve as shared habitats for both humans and wildlife, and in encouraging community involvement in reporting and supporting animals that may need assistance.
 
 Animals play an essential role in maintaining ecological balance, yet those living in dense urban environments like New York City face unique challenges, including traffic, pollution, habitat fragmentation, and frequent interactions with humans. By analyzing the Urban Park Ranger Animal Response dataset, we aim to identify when and where animals most frequently require help, ultimately raising public awareness and supporting timely rescue and conservation efforts.
@@ -28,22 +27,22 @@ Animals play an essential role in maintaining ecological balance, yet those livi
 To achieve this, we are developing an interactive, data-driven website that allows visitors to explore animal rescue patterns through a variety of visualizations. For instance, the site includes interactive maps that display the geographic locations of animal aid incidents, enabling users to identify high-risk areas and examine the number of reported cases in parks of interest. By showing where different animal species are typically found, when incidents occur most frequently, and how park rangers respond, our platform aims to connect the public with the city’s urban wildlife and promote informed, community-supported conservation.
 
 
-# Related work: Anything that inspired you, such as a paper, a web site, or something we discussed in class.
+## Related work:
 Our project is inspired by a range of citizen science and urban ecology initiatives that highlight how collaboration between the public and park agencies can improve wildlife protection in cities. For example, large-scale volunteer programs such as the NYC Tree Census (led by NYC Parks and NYC TreesCount!) demonstrate how citizen science can successfully mobilize thousands of residents to monitor environmental conditions across the city. Similar community-based wildlife monitoring efforts, such as iNaturalist, eBird, and the Urban Wildlife Information Network (UWIN), show that public participation can generate high-quality ecological data and increase awareness of human–wildlife interactions.
 
-# Initial questions: What questions are you trying to answer? How did these questions evolve over the course of the project? What new questions did you consider in the course of your analysis?
+## Initial questions:
 
 We originally planned to analyze the associations between animal conditions, locations, and time, both across the year and throughout the day. Additional analyses will examine factors that may influence response time, such as park location, animal condition or number, and temporal variables like time of day or frequency within a week or month. Examples of visualizations include a heatmap illustrating the density of injured animals by month and time of day, as well as violin plots grouped by boroughs to show the distribution of response times across regions. We will also conduct statistical tests, such as ANOVA, to evaluate relationships among variables, including borough, response time, animal condition, and time factors.
 
-# Data: Source, scraping method, cleaning, etc.
+## Data: 
 
-## Data Source
+### Data Source
 
 Our primary dataset is provided by the Department of Parks and Recreation (DPR) and is made publicly available through the NYC OpenData portal [(Urban Park Ranger Animal Condition Response)](https://data.cityofnewyork.us/Environment/Urban-Park-Ranger-Animal-Condition-Response/fuhs-xmg2/about_data). This dataset contains 6,385 records of animal rescue requests, including detailed information such as the date and time of each call, ranger response time, park name, specific location descriptions, animal species, and the condition of the animals involved.
 
 One essential component of the website visualization is displaying the number of total cases reported to park rangers for each park. The Park Ranger dataset does not contain geographic coordinates, but it provides the park name or the location associated with each case. To map these cases spatially, we used the [Parks Properties](https://data.cityofnewyork.us/Recreation/Parks-Properties/enfh-gkve/about_data) dataset released by the Department of Parks and Recreation (DPR) on NYC OpenData. This dataset contains 2,054 parks and corresponding geographic coordinates in New York City across five boroughs. Coordinates of the 5 boroughs are from the [Borough Boundaries](https://data.cityofnewyork.us/City-Government/Borough-Boundaries/gthc-hcne/about_data) dataset released by the Department of City Planning (DCP) on NYC OpenData.
 
-## Data cleaning process
+### Data cleaning process
 
 - Split date and time
 
@@ -160,7 +159,7 @@ park_ranger_new = park_ranger %>%
   )
 ```
 
-## Matching Process for Park Properties
+### Matching Process for Park Properties
 
 After comparing the **Park Ranger** and **Parks Properties** datasets, we found that many park names in Park Ranger (*property*) did not match the official park names (*signname*) in Parks Properties Specifically, 208 out of 703 unique *property* values had no exact match in *signname*. To recover as many matches as possible, we applied the Jaro–Winkler algorithm from the fuzzyjoin package to perform inexact matching on all unique park names.
 
@@ -168,7 +167,7 @@ We selected Jaro–Winkler algorithm because it is designed for short strings su
 
 All fuzzy-matched pairs with similarity scores less than 1 were then manually reviewed by three members of the group, and each match was checked independently by two reviewers to ensure accuracy and inter-rater reliability. After this process, 35 unique property values remained unmatched, typically because they referred to street names (e.g., “Green Street”), or parks that exist but are not included in the Parks Properties dataset (e.g., “Mannahatta Park”). The final map includes 6,118 reported cases across 546 unique parks. Using Jaro–Winkler with a maximum distance threshold of 0.25 resulted in an overall matching accuracy of 43.75% among the 208 originally unmatched values.
 
-## Cleaned dataset
+### Cleaned dataset
 
 The cleaned data includes the following variables:
 
@@ -229,17 +228,17 @@ The cleaned data includes the following variables:
 `adult`, `juvenile`, `infant`: An indicator variable representing the age of the animal being rescued
 
 
-# Exploratory analysis: Visualizations, summaries, and exploratory statistical analyses. Justify the steps you took, and show any major changes to your ideas.
+## Exploratory analysis: 
 
-## Temporal Pattern
+### Temporal Pattern
 
 This part presents a comprehensive analysis and visualization of temporal patterns in wildlife incident reports, with the goal of generating data-driven insights to optimize rescue response strategies and operational efficiency within urban park systems. Through an in-depth examination of seasonal fluctuations, daily cycles, and categorical trends, it seeks to inform proactive planning, improve resource allocation, and enhance protection efforts for urban wildlife.
 
-### Monthly Trends Analysis
+#### Monthly Trends Analysis
 
 This analysis examines seasonal patterns in animal rescue cases to identify how different animal categories respond to environmental changes throughout the year. Understanding these temporal patterns helps predict peak demand periods for wildlife services.
 
-#### Monthly Animal Response Trends
+##### Monthly Animal Response Trends
 
 ```{r, fig.width=9, fig.height=5}
 monthly_animal_trends = park_ranger_new |> 
@@ -278,7 +277,7 @@ mon_case_plot = monthly_animal_trends |>
 print(mon_case_plot)
 ```
 
-#### Chart Interpretation
+##### Chart Interpretation
 
 This line chart displays the monthly distribution of animal response cases across 7 reclassified animal categories throughout the year.
 
@@ -294,11 +293,11 @@ Key Findings:
 
 5. Marine mammals and other categories remain consistently minimal with case counts in the single digits, possibly due to their limited presence in urban park ecosystems or lower detection rates.
 
-### Temporal Distribution Analysis
+#### Temporal Distribution Analysis
 
 We use heatmap visualization to reveal how animal rescue cases distribute across both daily hours and monthly periods, identifying optimal response windows and understanding the interplay between human activity cycles and wildlife behavior.
 
-#### Animal Response Cases Heatmap
+##### Animal Response Cases Heatmap
 
 ```{r, fig.width=9, fig.height=5.5}
 hourly_monthly_heatmap = park_ranger_new |> 
@@ -361,18 +360,20 @@ plot(case_heatmap)
 
 ```
 
-#### Time-Month Heatmap Analysis
+##### Time-Month Heatmap Analysis
 
 Case distribution primarily concentrates between 8:00 and 18:00, aligning with peak park visitation and diurnal animal activity. Summer exhibits extended evening activity likely due to increased daylight and recreational use, while winter shows contracted midday patterns corresponding to reduced daylight availability. Minimal overnight reporting may reflect limited detection capabilities during low-human-activity periods.
 
-### Recommendations Section
+#### Recommendations Section
 
 Enhanced ranger coverage during summer afternoons could address elevated case frequencies across multiple species. Early spring public education initiatives might mitigate conflicts by raising awareness of seasonal animal behaviors. Rescue organizations should anticipate increased warm-weather intake while utilizing winter for strategic planning. Visitor vigilance during peak seasons and prompt daylight reporting could improve response effectiveness, supplemented by community monitoring programs and coordinated rehabilitation networks.
 
 
-## Response Duration
+### Response Duration
 
 We would like to explore how response duration, which we define as the duration between the initial request and the time that Rangers arrived at the site (`date_and_time_of_ranger_response - date_and_time_of_initial_call`), is associated with different incident characteristics.
+
+#### Average Response Duration by Time of Initial Request
 
 ```{r}
 ranger_response_hr = park_ranger_new %>% 
@@ -404,6 +405,7 @@ This line plot visualizes variation in response duration across the 24-hour day.
 
 - One notable irregularity is the sharp drop in average response duration around 23:00, followed by a spike at 0:00. This pattern may indicate hour misclassification, where some late-night incidents were miscoded as 0:00, combined with small sample sizes or boundary effects at the end of the day. These potential misclassifications should be considered and interpreted with cautions.
 
+#### Distribution of Response Duration
 
 ```{r, fig.width=14, fig.height=12}
 resp_dur_dist = ranger_response_hr %>% 
@@ -451,6 +453,8 @@ The plots show that response duration does not meaningfully differ across animal
 
 Overall, the figure indicates that the reported animal condition plays only a minimal role. 
 
+#### Density of Ranger Response Duration by Borough
+
 ```{r}
 ranger_model = ranger_response_hr %>%
   mutate(
@@ -483,6 +487,8 @@ Across boroughs, the density curves show only small differences in response dura
 
 Despite these minor shifts in central tendency, the overall shapes of the distributions are highly similar. Within-borough variation is much greater than between-borough variation.
 
+### Final Ranger Action
+
 ```{r}
 park_model = park_ranger_new |>
   rename(num_animals = matches("animals")) |>
@@ -498,10 +504,9 @@ park_model = park_ranger_new |>
     !is.na(num_animals),
     num_animals >= 0
   )
-
 ```
 
-## Response Duration by Final Ranger Action
+#### Response Duration by Final Ranger Action
 ```{r, fig.width=7, fig.height=5, fig.align = "center"}
 action_order <- park_model |>
   group_by(final_ranger_action) |>
@@ -527,7 +532,6 @@ ggplot(park_model_action, aes(x = final_ranger_action, y = duration_hours)) +
     plot.title = element_text(hjust = 0.5),
     axis.text.y = element_text(size = 8)
   )
-
 ```
 
 The combined violin-and-boxplot visualization provides insight into how long Urban Park Rangers spend responding to different types of animal-related incidents. 
@@ -561,7 +565,7 @@ Although typically short, several cases show unusually long durations. These may
 Across multiple actions—especially ACC, Unfounded, and Rehabilitator—there are visible outliers extending to 30+ hours. These are likely: long-term monitoring cases, situations requiring multiple returns to the site, or logistical delays in handing off animals to rehabilitation partners.
 
 
-## Response Duration by Animal Condition
+#### Response Duration by Animal Condition
 
 ```{r, fig.width=6, fig.height=4, fig.align = "center"}
 park_model_cond <- park_model |>
@@ -615,7 +619,7 @@ The DOA (Dead on Arrival) category generally shows short median durations, consi
 However, some notable long-duration outliers appear—possibly tied to: coordinating with external agencies (e.g., ACC), species identification procedures, or waiting for specialized disposal assistance.
 
 
-## Distribution of Response Duration by Action Group
+#### Distribution of Response Duration by Action Group
 ```{r}
 park_model_group = park_model |>
   mutate(
@@ -641,7 +645,7 @@ duration_mean |>
 ```
 
 
-### Density of Raw Response Duration
+##### Density of Raw Response Duration
 ```{r, fig.width=5, fig.height=3, fig.align = "center"}
 ggplot(park_model_group, aes(x = duration_hours,
                         fill  = action_group,
@@ -669,7 +673,7 @@ ggplot(park_model_group, aes(x = duration_hours,
 
 The first density plot shows that the distribution of raw response duration is extremely right-skewed, with most incidents resolved within a short time but a small number taking many hours. This heavy skew makes it difficult to visually compare “Unfounded” cases with all other ranger actions on the original scale because the long tail compresses the main density near zero.
 
-### Density of Log-Transformed Response Duration
+##### Density of Log-Transformed Response Duration
 ```{r, fig.width=5, fig.height=3, fig.align = "center"}
 park_model2_log = park_model_group |>
   mutate(duration_log = log1p(duration_hours))  # log(1 + x)
@@ -708,7 +712,7 @@ Show a broader distribution with higher density at larger log-duration values, m
 
 Their mean duration is significantly higher at 1.52 hours.
 
-## Final Ranger Actions by Animal Condition
+#### Final Ranger Actions by Animal Condition
 
 ```{r}
 park_model4 <- park_model |>
@@ -787,9 +791,10 @@ The presence of some actions like ACC transfer or DEC Testing reflects cases whe
 
 
 
-# Additional analysis: If you undertake formal statistical analyses, describe these in detail
+## Additional analysis:
 
-## Response Duration
+
+### Multiple Linear Regression for Response Duration
 
 When examining animal condition and borough individually in the raw distributions, neither appears to be a strong or consistent determinant of response duration. These unadjusted patterns suggest that other confounding factors (e.g., call timing, call source) may play a larger role. To evaluate these effects while holding other variables constant, we fit a multiple linear regression model that incorporates incident characteristics including borough, call source, species status, animal condition, age category, animal class, number of animals, and call time.
 
@@ -899,6 +904,8 @@ This coefficient plot highlights the same general patterns seen in the regressio
 
 - Time of day, call source, exotic species, and several animal classes stand out with clearer effects, whereas most predictors lie near zero or have confidence intervals crossing zero, indicating little or no meaningful association.
 
+### Elastic Net
+
 Elastic Net was used as a complementary approach to assess variable stability and identify predictors with more consistent signals beyond the Ordinary Least Squares (OLS) estimates.
 
 ```{r}
@@ -934,9 +941,9 @@ Because Elastic Net does not provide p-values or standard errors, these coeffici
 
 Overall, response duration appears to be driven primarily by operational characteristics, most notably call timing and call source, rather than biological or borough-specific features. Adjusted modeling reveals patterns not visible in the raw data, highlighting the importance of accounting for confounding factors when interpreting response-time differences.
 
-## ANOVA Models for Response Duration
+### ANOVA Models for Response Duration
 
-### Using Raw Duration
+#### Using Raw Duration
 ```{r}
 anova_fit = aov(
   duration_hours ~ final_ranger_action * animal_condition + num_animals,
@@ -975,7 +982,7 @@ Number of animals has no effect (p = 0.80).
 The interaction between final action and condition is significant (p = 0.000165), suggesting that the effect of action type depends on the condition of the animal.
 
 
-### Using Log-Transformed Duration
+#### Using Log-Transformed Duration
 ```{r, fig.align = "center"}
 park_model2 = park_model |>
   mutate(log_duration = log(duration_hours))
@@ -1006,8 +1013,6 @@ par(mfrow = c(1, 2))
 plot(anova_fit_log, which = 1)  # Residuals vs Fitted
 plot(anova_fit_log, which = 2)  # Normal Q-Q
 par(mfrow = c(1, 1))
-
-
 ```
 
 Because response duration is highly right-skewed with many long-tail outliers, ANOVA assumptions were violated when using raw duration values. This motivated the use of a log-transformation to stabilize variance and improve normality of residuals.
@@ -1033,7 +1038,7 @@ Residuals vs fitted plot shows more stable variance.
 Q–Q plot is much closer to the reference line, though long-tail deviations still exist (expected with field-based rescue data).
 
 
-## Chi-Square Test Between Species Status and Animal Condition
+### Chi-Square Test Between Species Status and Animal Condition
 chi-square test between species status and animal condition
 
 ```{r}
@@ -1061,15 +1066,23 @@ A chi-square test of independence was conducted to evaluate the association betw
 
 The tables of observed and expected counts are shown above, along with the plot of standardized residuals for the two variables. Based on both the contingency table and the residual plot, domestic species are noticeably overrepresented in the Healthy category, while native (non-domestic) species are underrepresented. Domestic species are also underrepresented in the Injured category, whereas native species show the opposite pattern, with more Injured or Unhealthy cases than expected.
 
-# Discussion: What were your findings? Are they what you expect? What insights into the data can you make?
+## Discussion: What were your findings? Are they what you expect? What insights into the data can you make?
 
-## Species Status and Animal Condition
-One possible explanation of the overrepresented healthy cases for domestic species is reporting behavior. Domestic animals may be reported for a wider range of reasons, such as being lost, found unattended, or involved in non-medical encounters, which increases the number of Healthy reports. In contrast, native wildlife is more likely to be reported only when something is wrong, such as being injured, sick, or otherwise in distress, leading to higher counts in those categories.
+### Species Status and Animal Condition
+One possible explanation of the over-represented healthy cases for domestic species is reporting behavior. Domestic animals may be reported for a wider range of reasons, such as being lost, found unattended, or involved in non-medical encounters, which increases the number of Healthy reports. In contrast, native wildlife is more likely to be reported only when something is wrong, such as being injured, sick, or otherwise in distress, leading to higher counts in those categories.
 
-## Borough and Animal Class
+### Borough and Animal Class
 Manhattan has the highest total number of cases, driven largely by small mammals. Manhattan, Queens, and Brooklyn all report particularly high counts for birds/raptors, whereas Staten Island shows the highest numbers for marine mammals, fish, and reptiles/amphibians, and the Bronx reports the highest number of cases involving large mammals.
 
 These patterns may be influenced by differences in human population density and land use. Manhattan, Queens, and Brooklyn have denser human activity, which may increase both encounter rates and incident reporting, especially for small mammals. Human activities in Staten Island often take place near coastal or aquatic environments, making marine animals and other water-dependent species more visible to the public. The Bronx includes the Bronx Zoo and several large parks, which may contribute to a greater presence of large mammals.
 
 Based on these observations, the Parks and Recreation Department could consider allocating more aquatic-animal expertise to Staten Island and strengthening monitoring capacity for its land areas. Additional resources could also be directed toward managing large mammals in the Bronx and reducing human–wildlife disturbances involving small mammals in Manhattan.
+
+### Response Duration
+Our analyses show that response duration is driven mainly by operational factors, especially call timing and call source, rather than animal-related characteristics. These findings highlight that delays are largely shaped by staffing patterns, dispatch workflows, and after-hours procedures.
+
+At the same time, data limitations such as small sample sizes in some categories, potential timestamp inconsistencies, and unmeasured factors (e.g., traffic, weather, case urgency) suggest that some effects should be interpreted with caution.
+
+
+
 

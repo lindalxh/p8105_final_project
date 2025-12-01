@@ -386,17 +386,13 @@ library(scales)
 library(glmnet)
 library(patchwork)
 library(knitr)</code></pre>
-<div id="tiny-paws-big-rescue" class="section level1">
-<h1>Tiny Paws, Big Rescue:</h1>
-<div id="a-data-story-of-seasonal-and-spatial-animal-saving"
-class="section level2">
-<h2>A Data Story of Seasonal and Spatial Animal Saving</h2>
-</div>
 <div
-id="motivation-provide-an-overview-of-the-project-goals-and-motivation."
-class="section level2">
-<h2>Motivation: Provide an overview of the project goals and
-motivation.</h2>
+id="tiny-paws-big-rescue-a-data-story-of-seasonal-and-spatial-animal-saving"
+class="section level1">
+<h1>Tiny Paws, Big Rescue: A Data Story of Seasonal and Spatial Animal
+Saving</h1>
+<div id="motivation" class="section level2">
+<h2>Motivation:</h2>
 <p>During the 2025 NYC Tree Count, one of our team members observed a
 raccoon hiding inside a tree cavity in Morningside Park. Park rangers
 noted that animals living in urban parks are often stressed or displaced
@@ -424,12 +420,8 @@ how park rangers respond, our platform aims to connect the public with
 the city’s urban wildlife and promote informed, community-supported
 conservation.</p>
 </div>
-</div>
-<div
-id="related-work-anything-that-inspired-you-such-as-a-paper-a-web-site-or-something-we-discussed-in-class."
-class="section level1">
-<h1>Related work: Anything that inspired you, such as a paper, a web
-site, or something we discussed in class.</h1>
+<div id="related-work" class="section level2">
+<h2>Related work:</h2>
 <p>Our project is inspired by a range of citizen science and urban
 ecology initiatives that highlight how collaboration between the public
 and park agencies can improve wildlife protection in cities. For
@@ -442,12 +434,8 @@ Network (UWIN), show that public participation can generate high-quality
 ecological data and increase awareness of human–wildlife
 interactions.</p>
 </div>
-<div
-id="initial-questions-what-questions-are-you-trying-to-answer-how-did-these-questions-evolve-over-the-course-of-the-project-what-new-questions-did-you-consider-in-the-course-of-your-analysis"
-class="section level1">
-<h1>Initial questions: What questions are you trying to answer? How did
-these questions evolve over the course of the project? What new
-questions did you consider in the course of your analysis?</h1>
+<div id="initial-questions" class="section level2">
+<h2>Initial questions:</h2>
 <p>We originally planned to analyze the associations between animal
 conditions, locations, and time, both across the year and throughout the
 day. Additional analyses will examine factors that may influence
@@ -460,11 +448,10 @@ regions. We will also conduct statistical tests, such as ANOVA, to
 evaluate relationships among variables, including borough, response
 time, animal condition, and time factors.</p>
 </div>
-<div id="data-source-scraping-method-cleaning-etc."
-class="section level1">
-<h1>Data: Source, scraping method, cleaning, etc.</h1>
-<div id="data-source" class="section level2">
-<h2>Data Source</h2>
+<div id="data" class="section level2">
+<h2>Data:</h2>
+<div id="data-source" class="section level3">
+<h3>Data Source</h3>
 <p>Our primary dataset is provided by the Department of Parks and
 Recreation (DPR) and is made publicly available through the NYC OpenData
 portal <a
@@ -488,8 +475,8 @@ href="https://data.cityofnewyork.us/City-Government/Borough-Boundaries/gthc-hcne
 Boundaries</a> dataset released by the Department of City Planning (DCP)
 on NYC OpenData.</p>
 </div>
-<div id="data-cleaning-process" class="section level2">
-<h2>Data cleaning process</h2>
+<div id="data-cleaning-process" class="section level3">
+<h3>Data cleaning process</h3>
 <ul>
 <li><p>Split date and time</p></li>
 <li><p>Remove incorrect records based on call &amp; response
@@ -588,8 +575,8 @@ Fish, Others</p></li>
     infant  = if_else(str_detect(age, &quot;Infant&quot;), 1L, 0L, missing = 0L)
   )</code></pre>
 </div>
-<div id="matching-process-for-park-properties" class="section level2">
-<h2>Matching Process for Park Properties</h2>
+<div id="matching-process-for-park-properties" class="section level3">
+<h3>Matching Process for Park Properties</h3>
 <p>After comparing the <strong>Park Ranger</strong> and <strong>Parks
 Properties</strong> datasets, we found that many park names in Park
 Ranger (<em>property</em>) did not match the official park names
@@ -615,8 +602,8 @@ Jaro–Winkler with a maximum distance threshold of 0.25 resulted in an
 overall matching accuracy of 43.75% among the 208 originally unmatched
 values.</p>
 </div>
-<div id="cleaned-dataset" class="section level2">
-<h2>Cleaned dataset</h2>
+<div id="cleaned-dataset" class="section level3">
+<h3>Cleaned dataset</h3>
 <p>The cleaned data includes the following variables:</p>
 <p><code>date_and_time_of_initial_call</code>: The date and time of the
 initial request for animal rescue</p>
@@ -675,14 +662,10 @@ Others)</p>
 indicator variable representing the age of the animal being rescued</p>
 </div>
 </div>
-<div
-id="exploratory-analysis-visualizations-summaries-and-exploratory-statistical-analyses.-justify-the-steps-you-took-and-show-any-major-changes-to-your-ideas."
-class="section level1">
-<h1>Exploratory analysis: Visualizations, summaries, and exploratory
-statistical analyses. Justify the steps you took, and show any major
-changes to your ideas.</h1>
-<div id="temporal-pattern" class="section level2">
-<h2>Temporal Pattern</h2>
+<div id="exploratory-analysis" class="section level2">
+<h2>Exploratory analysis:</h2>
+<div id="temporal-pattern" class="section level3">
+<h3>Temporal Pattern</h3>
 <p>This part presents a comprehensive analysis and visualization of
 temporal patterns in wildlife incident reports, with the goal of
 generating data-driven insights to optimize rescue response strategies
@@ -691,14 +674,14 @@ in-depth examination of seasonal fluctuations, daily cycles, and
 categorical trends, it seeks to inform proactive planning, improve
 resource allocation, and enhance protection efforts for urban
 wildlife.</p>
-<div id="monthly-trends-analysis" class="section level3">
-<h3>Monthly Trends Analysis</h3>
+<div id="monthly-trends-analysis" class="section level4">
+<h4>Monthly Trends Analysis</h4>
 <p>This analysis examines seasonal patterns in animal rescue cases to
 identify how different animal categories respond to environmental
 changes throughout the year. Understanding these temporal patterns helps
 predict peak demand periods for wildlife services.</p>
-<div id="monthly-animal-response-trends" class="section level4">
-<h4>Monthly Animal Response Trends</h4>
+<div id="monthly-animal-response-trends" class="section level5">
+<h5>Monthly Animal Response Trends</h5>
 <pre class="r"><code>monthly_animal_trends = park_ranger_new |&gt; 
   mutate(
     call_month = month(date_and_time_of_initial_call, label = TRUE, abbr = TRUE)
@@ -735,8 +718,8 @@ mon_case_plot = monthly_animal_trends |&gt;
 print(mon_case_plot)</code></pre>
 <p><img src="Project-Report_files/figure-html/unnamed-chunk-4-1.png" width="864" /></p>
 </div>
-<div id="chart-interpretation" class="section level4">
-<h4>Chart Interpretation</h4>
+<div id="chart-interpretation" class="section level5">
+<h5>Chart Interpretation</h5>
 <p>This line chart displays the monthly distribution of animal response
 cases across 7 reclassified animal categories throughout the year.</p>
 <p>Key Findings:</p>
@@ -763,14 +746,14 @@ presence in urban park ecosystems or lower detection rates.</p></li>
 </ol>
 </div>
 </div>
-<div id="temporal-distribution-analysis" class="section level3">
-<h3>Temporal Distribution Analysis</h3>
+<div id="temporal-distribution-analysis" class="section level4">
+<h4>Temporal Distribution Analysis</h4>
 <p>We use heatmap visualization to reveal how animal rescue cases
 distribute across both daily hours and monthly periods, identifying
 optimal response windows and understanding the interplay between human
 activity cycles and wildlife behavior.</p>
-<div id="animal-response-cases-heatmap" class="section level4">
-<h4>Animal Response Cases Heatmap</h4>
+<div id="animal-response-cases-heatmap" class="section level5">
+<h5>Animal Response Cases Heatmap</h5>
 <pre class="r"><code>hourly_monthly_heatmap = park_ranger_new |&gt; 
   mutate(
     call_month = month(date_and_time_of_initial_call, label = TRUE, abbr = TRUE),
@@ -830,8 +813,8 @@ case_heatmap = hourly_monthly_heatmap |&gt;
 plot(case_heatmap)</code></pre>
 <p><img src="Project-Report_files/figure-html/unnamed-chunk-5-1.png" width="864" /></p>
 </div>
-<div id="time-month-heatmap-analysis" class="section level4">
-<h4>Time-Month Heatmap Analysis</h4>
+<div id="time-month-heatmap-analysis" class="section level5">
+<h5>Time-Month Heatmap Analysis</h5>
 <p>Case distribution primarily concentrates between 8:00 and 18:00,
 aligning with peak park visitation and diurnal animal activity. Summer
 exhibits extended evening activity likely due to increased daylight and
@@ -841,8 +824,8 @@ reporting may reflect limited detection capabilities during
 low-human-activity periods.</p>
 </div>
 </div>
-<div id="recommendations-section" class="section level3">
-<h3>Recommendations Section</h3>
+<div id="recommendations-section" class="section level4">
+<h4>Recommendations Section</h4>
 <p>Enhanced ranger coverage during summer afternoons could address
 elevated case frequencies across multiple species. Early spring public
 education initiatives might mitigate conflicts by raising awareness of
@@ -854,13 +837,16 @@ community monitoring programs and coordinated rehabilitation
 networks.</p>
 </div>
 </div>
-<div id="response-duration" class="section level2">
-<h2>Response Duration</h2>
+<div id="response-duration" class="section level3">
+<h3>Response Duration</h3>
 <p>We would like to explore how response duration, which we define as
 the duration between the initial request and the time that Rangers
 arrived at the site
 (<code>date_and_time_of_ranger_response - date_and_time_of_initial_call</code>),
 is associated with different incident characteristics.</p>
+<div id="average-response-duration-by-time-of-initial-request"
+class="section level4">
+<h4>Average Response Duration by Time of Initial Request</h4>
 <pre class="r"><code>ranger_response_hr = park_ranger_new %&gt;% 
   mutate(day_diff = as.numeric(difftime(response_date, call_date, units = &quot;days&quot;)),
          time_diff_hrs = as.numeric(difftime(response_time, call_time, units = &quot;hours&quot;)),
@@ -904,6 +890,9 @@ miscoded as 0:00, combined with small sample sizes or boundary effects
 at the end of the day. These potential misclassifications should be
 considered and interpreted with cautions.</p></li>
 </ul>
+</div>
+<div id="distribution-of-response-duration" class="section level4">
+<h4>Distribution of Response Duration</h4>
 <pre class="r"><code>resp_dur_dist = ranger_response_hr %&gt;% 
   mutate(resp_bin = case_when(
     response_hrs &lt; 1 ~ &quot;0-1 hours&quot;, 
@@ -956,6 +945,10 @@ suggesting that extremely slow responses occur regardless of the
 reported condition.</p>
 <p>Overall, the figure indicates that the reported animal condition
 plays only a minimal role.</p>
+</div>
+<div id="density-of-ranger-response-duration-by-borough"
+class="section level4">
+<h4>Density of Ranger Response Duration by Borough</h4>
 <pre class="r"><code>ranger_model = ranger_response_hr %&gt;%
   mutate(
     call_hour_cat = case_when(call_hour &gt;= 0 &amp; call_hour &lt; 8 ~ &quot;0-8&quot;,
@@ -1004,6 +997,10 @@ duration.</p></li>
 <p>Despite these minor shifts in central tendency, the overall shapes of
 the distributions are highly similar. Within-borough variation is much
 greater than between-borough variation.</p>
+</div>
+</div>
+<div id="final-ranger-action" class="section level3">
+<h3>Final Ranger Action</h3>
 <pre class="r"><code>park_model = park_ranger_new |&gt;
   rename(num_animals = matches(&quot;animals&quot;)) |&gt;
   mutate(
@@ -1018,10 +1015,9 @@ greater than between-borough variation.</p>
     !is.na(num_animals),
     num_animals &gt;= 0
   )</code></pre>
-</div>
 <div id="response-duration-by-final-ranger-action"
-class="section level2">
-<h2>Response Duration by Final Ranger Action</h2>
+class="section level4">
+<h4>Response Duration by Final Ranger Action</h4>
 <pre class="r"><code>action_order &lt;- park_model |&gt;
   group_by(final_ranger_action) |&gt;
   summarise(med = median(duration_hours, na.rm = TRUE)) |&gt;
@@ -1097,8 +1093,8 @@ are likely: long-term monitoring cases, situations requiring multiple
 returns to the site, or logistical delays in handing off animals to
 rehabilitation partners.</p>
 </div>
-<div id="response-duration-by-animal-condition" class="section level2">
-<h2>Response Duration by Animal Condition</h2>
+<div id="response-duration-by-animal-condition" class="section level4">
+<h4>Response Duration by Animal Condition</h4>
 <pre class="r"><code>park_model_cond &lt;- park_model |&gt;
   mutate(
     animal_condition = fct_reorder(
@@ -1160,8 +1156,8 @@ coordinating with external agencies (e.g., ACC), species identification
 procedures, or waiting for specialized disposal assistance.</p>
 </div>
 <div id="distribution-of-response-duration-by-action-group"
-class="section level2">
-<h2>Distribution of Response Duration by Action Group</h2>
+class="section level4">
+<h4>Distribution of Response Duration by Action Group</h4>
 <pre class="r"><code>park_model_group = park_model |&gt;
   mutate(
     action_group = if_else(
@@ -1202,8 +1198,8 @@ duration_mean |&gt;
 </tr>
 </tbody>
 </table>
-<div id="density-of-raw-response-duration" class="section level3">
-<h3>Density of Raw Response Duration</h3>
+<div id="density-of-raw-response-duration" class="section level5">
+<h5>Density of Raw Response Duration</h5>
 <pre class="r"><code>ggplot(park_model_group, aes(x = duration_hours,
                         fill  = action_group,
                         color = action_group)) +
@@ -1233,8 +1229,8 @@ actions on the original scale because the long tail compresses the main
 density near zero.</p>
 </div>
 <div id="density-of-log-transformed-response-duration"
-class="section level3">
-<h3>Density of Log-Transformed Response Duration</h3>
+class="section level5">
+<h5>Density of Log-Transformed Response Duration</h5>
 <pre class="r"><code>park_model2_log = park_model_group |&gt;
   mutate(duration_log = log1p(duration_hours))  # log(1 + x)
 
@@ -1276,8 +1272,8 @@ time for assessment, handling, or coordination.</p>
 </div>
 </div>
 <div id="final-ranger-actions-by-animal-condition"
-class="section level2">
-<h2>Final Ranger Actions by Animal Condition</h2>
+class="section level4">
+<h4>Final Ranger Actions by Animal Condition</h4>
 <pre class="r"><code>park_model4 &lt;- park_model |&gt;
   filter(animal_condition %in% c(&quot;Healthy&quot;, &quot;Unhealthy&quot;, &quot;Injured&quot;, &quot;DOA&quot;))</code></pre>
 <pre class="r"><code>plot_condition_bar &lt;- function(data, cond, ymax) {
@@ -1358,13 +1354,12 @@ like ACC transfer or DEC Testing reflects cases where the animal needed
 identification or documentation before final handling.</p>
 </div>
 </div>
-<div
-id="additional-analysis-if-you-undertake-formal-statistical-analyses-describe-these-in-detail"
-class="section level1">
-<h1>Additional analysis: If you undertake formal statistical analyses,
-describe these in detail</h1>
-<div id="response-duration-1" class="section level2">
-<h2>Response Duration</h2>
+</div>
+<div id="additional-analysis" class="section level2">
+<h2>Additional analysis:</h2>
+<div id="multiple-linear-regression-for-response-duration"
+class="section level3">
+<h3>Multiple Linear Regression for Response Duration</h3>
 <p>When examining animal condition and borough individually in the raw
 distributions, neither appears to be a strong or consistent determinant
 of response duration. These unadjusted patterns suggest that other
@@ -1767,6 +1762,9 @@ stand out with clearer effects, whereas most predictors lie near zero or
 have confidence intervals crossing zero, indicating little or no
 meaningful association.</li>
 </ul>
+</div>
+<div id="elastic-net" class="section level3">
+<h3>Elastic Net</h3>
 <p>Elastic Net was used as a complementary approach to assess variable
 stability and identify predictors with more consistent signals beyond
 the Ordinary Least Squares (OLS) estimates.</p>
@@ -1932,10 +1930,10 @@ reveals patterns not visible in the raw data, highlighting the
 importance of accounting for confounding factors when interpreting
 response-time differences.</p>
 </div>
-<div id="anova-models-for-response-duration" class="section level2">
-<h2>ANOVA Models for Response Duration</h2>
-<div id="using-raw-duration" class="section level3">
-<h3>Using Raw Duration</h3>
+<div id="anova-models-for-response-duration" class="section level3">
+<h3>ANOVA Models for Response Duration</h3>
+<div id="using-raw-duration" class="section level4">
+<h4>Using Raw Duration</h4>
 <pre class="r"><code>anova_fit = aov(
   duration_hours ~ final_ranger_action * animal_condition + num_animals,
   data = park_model
@@ -2031,8 +2029,8 @@ strong differences in response duration across action types.</p>
 = 0.000165), suggesting that the effect of action type depends on the
 condition of the animal.</p>
 </div>
-<div id="using-log-transformed-duration" class="section level3">
-<h3>Using Log-Transformed Duration</h3>
+<div id="using-log-transformed-duration" class="section level4">
+<h4>Using Log-Transformed Duration</h4>
 <pre class="r"><code>park_model2 = park_model |&gt;
   mutate(log_duration = log(duration_hours))
 
@@ -2154,8 +2152,8 @@ deviations still exist (expected with field-based rescue data).</p>
 </div>
 </div>
 <div id="chi-square-test-between-species-status-and-animal-condition"
-class="section level2">
-<h2>Chi-Square Test Between Species Status and Animal Condition</h2>
+class="section level3">
+<h3>Chi-Square Test Between Species Status and Animal Condition</h3>
 <p>chi-square test between species status and animal condition</p>
 <pre class="r"><code># conduct a chi-square test on species_status and animal_condition
 spec_health_tbl = table(park_ranger_new$species_status, park_ranger_new$animal_condition)
@@ -2304,12 +2302,12 @@ expected.</p>
 </div>
 <div
 id="discussion-what-were-your-findings-are-they-what-you-expect-what-insights-into-the-data-can-you-make"
-class="section level1">
-<h1>Discussion: What were your findings? Are they what you expect? What
-insights into the data can you make?</h1>
-<div id="species-status-and-animal-condition" class="section level2">
-<h2>Species Status and Animal Condition</h2>
-<p>One possible explanation of the overrepresented healthy cases for
+class="section level2">
+<h2>Discussion: What were your findings? Are they what you expect? What
+insights into the data can you make?</h2>
+<div id="species-status-and-animal-condition" class="section level3">
+<h3>Species Status and Animal Condition</h3>
+<p>One possible explanation of the over-represented healthy cases for
 domestic species is reporting behavior. Domestic animals may be reported
 for a wider range of reasons, such as being lost, found unattended, or
 involved in non-medical encounters, which increases the number of
@@ -2317,8 +2315,8 @@ Healthy reports. In contrast, native wildlife is more likely to be
 reported only when something is wrong, such as being injured, sick, or
 otherwise in distress, leading to higher counts in those categories.</p>
 </div>
-<div id="borough-and-animal-class" class="section level2">
-<h2>Borough and Animal Class</h2>
+<div id="borough-and-animal-class" class="section level3">
+<h3>Borough and Animal Class</h3>
 <p>Manhattan has the highest total number of cases, driven largely by
 small mammals. Manhattan, Queens, and Brooklyn all report particularly
 high counts for birds/raptors, whereas Staten Island shows the highest
@@ -2338,6 +2336,19 @@ and strengthening monitoring capacity for its land areas. Additional
 resources could also be directed toward managing large mammals in the
 Bronx and reducing human–wildlife disturbances involving small mammals
 in Manhattan.</p>
+</div>
+<div id="response-duration-1" class="section level3">
+<h3>Response Duration</h3>
+<p>Our analyses show that response duration is driven mainly by
+operational factors, especially call timing and call source, rather than
+animal-related characteristics. These findings highlight that delays are
+largely shaped by staffing patterns, dispatch workflows, and after-hours
+procedures.</p>
+<p>At the same time, data limitations such as small sample sizes in some
+categories, potential timestamp inconsistencies, and unmeasured factors
+(e.g., traffic, weather, case urgency) suggest that some effects should
+be interpreted with caution.</p>
+</div>
 </div>
 </div>
 
