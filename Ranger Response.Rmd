@@ -6,6 +6,7 @@ output: html_document
 ```{r, include = FALSE}
 source("data_cleaning.R")
 ```
+
 <br>
 <div align="center">
   <img src="images/urgent-caref-service.jpg" width="50%" />
