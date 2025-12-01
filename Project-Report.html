@@ -730,9 +730,7 @@ greater than between-borough variation.</p>
   rename(num_animals = matches(&quot;animals&quot;)) |&gt;
   mutate(
     duration_hours      = as.numeric(duration_of_action),
-    num_animals         = as.numeric(num_animals),
-    final_ranger_action = as.factor(final_ranger_action),
-    animal_condition    = as.factor(animal_condition)
+    num_animals         = as.numeric(num_animals)
   ) |&gt;
   filter(
     !is.na(duration_hours),
@@ -752,31 +750,25 @@ class="section level2">
   arrange(med) |&gt;
   pull(final_ranger_action)
 
-park_model2 &lt;- park_model |&gt;
+park_model_action &lt;- park_model |&gt;
   mutate(final_ranger_action = factor(final_ranger_action, levels = action_order))
 
-ggplot(park_model2, aes(x = final_ranger_action, y = duration_hours)) +
-
-  # Violin plot
-  geom_violin(trim = FALSE, fill = &quot;#BFCDE0&quot;, color = &quot;#5D7CA6&quot;, alpha = 0.5, scale = &quot;width&quot;) +
-
-  # Boxplot
+ggplot(park_model_action, aes(x = final_ranger_action, y = duration_hours)) +
+  geom_violin(trim = FALSE, fill = &quot;#BFCDE0&quot;, color = &quot;#5D7CA6&quot;,
+              alpha = 0.5, scale = &quot;width&quot;) +
   geom_boxplot(width = 0.5, fill = &quot;white&quot;, outlier.alpha = 0.3) +
-
   coord_flip() +
-
   labs(
     title = &quot;Distribution of Response Duration by Final Ranger Action&quot;,
     x = &quot;Final Ranger Action (sorted by median duration)&quot;,
     y = &quot;Duration of Response (hours)&quot;
   ) +
-
   theme_bw() +
   theme(
     plot.title = element_text(hjust = 0.5),
     axis.text.y = element_text(size = 8)
   )</code></pre>
-<p><img src="Project-Report_files/figure-html/unnamed-chunk-8-1.png" width="672" /></p>
+<p><img src="Project-Report_files/figure-html/unnamed-chunk-8-1.png" width="672" style="display: block; margin: auto;" /></p>
 <p>The combined violin-and-boxplot visualization provides insight into
 how long Urban Park Rangers spend responding to different types of
 animal-related incidents.</p>
@@ -829,57 +821,32 @@ rehabilitation partners.</p>
 </div>
 <div id="response-duration-by-animal-condition" class="section level2">
 <h2>Response Duration by Animal Condition</h2>
-<pre class="r"><code>park_model &lt;- park_ranger_new |&gt;
-  rename(num_animals = matches(&quot;animals&quot;)) |&gt;
-  mutate(
-    duration_hours      = as.numeric(duration_of_action),
-    num_animals         = as.numeric(num_animals),
-
-    animal_condition    = as.character(animal_condition),
-    animal_condition    = ifelse(animal_condition == &quot;N/A&quot;, &quot;Unknown&quot;, animal_condition),
-
-    final_ranger_action = as.factor(final_ranger_action),
-    animal_condition    = as.factor(animal_condition)
-  ) |&gt;
-  filter(
-    !is.na(duration_hours),
-    duration_hours &gt; 0,
-    !is.na(final_ranger_action),
-    !is.na(animal_condition),
-    !is.na(num_animals),
-    num_animals &gt;= 0
-  )
-
-park_model2 &lt;- park_model |&gt;
+<pre class="r"><code>park_model_cond &lt;- park_model |&gt;
   mutate(
     animal_condition = fct_reorder(
       animal_condition,
       duration_hours,
       .fun = median,
-      na.rm = TRUE))
+      na.rm = TRUE
+    )
+  )
 
-ggplot(park_model2, aes(x = animal_condition, y = duration_hours)) +
-  # Violin layer
+ggplot(park_model_cond, aes(x = animal_condition, y = duration_hours)) +
   geom_violin(trim = FALSE, fill = &quot;#BFCDE0&quot;, color = &quot;#5D7CA6&quot;,
               alpha = 0.5, scale = &quot;width&quot;) +
-  
-  # Boxplot layer
   geom_boxplot(width = 0.5, fill = &quot;white&quot;, outlier.alpha = 0.3) +
-  
   coord_flip() +
-  
   labs(
     title = &quot;Distribution of Response Duration by Animal Condition&quot;,
     x = &quot;Animal Condition&quot;,
     y = &quot;Duration of Response (hours)&quot;
   ) +
-  
   theme_bw() +
   theme(
     plot.title = element_text(hjust = 0.5),
     axis.text.y = element_text(size = 8)
   )</code></pre>
-<p><img src="Project-Report_files/figure-html/unnamed-chunk-9-1.png" width="672" /></p>
+<p><img src="Project-Report_files/figure-html/unnamed-chunk-9-1.png" width="576" style="display: block; margin: auto;" /></p>
 <p>The violin-and-boxplot visualization shows how response time varies
 across different animal conditions.</p>
 <ol style="list-style-type: decimal">
@@ -917,7 +884,7 @@ procedures, or waiting for specialized disposal assistance.</p>
 <div id="distribution-of-response-duration-by-action-group"
 class="section level2">
 <h2>Distribution of Response Duration by Action Group</h2>
-<pre class="r"><code>park_model2 = park_model |&gt;
+<pre class="r"><code>park_model_group = park_model |&gt;
   mutate(
     action_group = if_else(
       final_ranger_action == &quot;Unfounded&quot;,
@@ -926,7 +893,7 @@ class="section level2">
     )
   )
 
-duration_mean = park_model2 |&gt;
+duration_mean = park_model_group |&gt;
   group_by(action_group) |&gt;
   summarise(
     mean_duration = mean(duration_hours, na.rm = TRUE),
@@ -959,7 +926,7 @@ duration_mean |&gt;
 </table>
 <div id="density-of-raw-response-duration" class="section level3">
 <h3>Density of Raw Response Duration</h3>
-<pre class="r"><code>ggplot(park_model2, aes(x = duration_hours,
+<pre class="r"><code>ggplot(park_model_group, aes(x = duration_hours,
                         fill  = action_group,
                         color = action_group)) +
   geom_density(alpha = 0.3, adjust = 1, linewidth = 1) +
@@ -990,8 +957,7 @@ density near zero.</p>
 <div id="density-of-log-transformed-response-duration"
 class="section level3">
 <h3>Density of Log-Transformed Response Duration</h3>
-<pre class="r"><code>park_model2_log = park_model2 |&gt;
-  filter(duration_hours &gt; 0) |&gt;
+<pre class="r"><code>park_model2_log = park_model_group |&gt;
   mutate(duration_log = log1p(duration_hours))  # log(1 + x)
 
 ggplot(park_model2_log,
@@ -1035,7 +1001,6 @@ time for assessment, handling, or coordination.</p>
 class="section level2">
 <h2>Final Ranger Actions by Animal Condition</h2>
 <pre class="r"><code>park_model4 &lt;- park_model |&gt;
-  filter(!is.na(animal_condition)) |&gt;
   filter(animal_condition %in% c(&quot;Healthy&quot;, &quot;Unhealthy&quot;, &quot;Injured&quot;, &quot;DOA&quot;))</code></pre>
 <pre class="r"><code>plot_condition_bar &lt;- function(data, cond, ymax) {
 
@@ -1788,10 +1753,9 @@ strong differences in response duration across action types.</p>
 = 0.000165), suggesting that the effect of action type depends on the
 condition of the animal.</p>
 </div>
-<div id="anova-using-log-transformed-duration" class="section level3">
-<h3>ANOVA Using Log-Transformed Duration</h3>
+<div id="using-log-transformed-duration" class="section level3">
+<h3>Using Log-Transformed Duration</h3>
 <pre class="r"><code>park_model2 = park_model |&gt;
-  filter(duration_hours &gt; 0) |&gt;
   mutate(log_duration = log(duration_hours))
 
 anova_fit_log = aov(
@@ -1882,7 +1846,7 @@ knitr::kable(
 plot(anova_fit_log, which = 1)  # Residuals vs Fitted
 plot(anova_fit_log, which = 2)  # Normal Q-Q</code></pre>
 <pre><code>## Warning: not plotting observations with leverage one:
-##   4660, 5064</code></pre>
+##   4660</code></pre>
 <p><img src="Project-Report_files/figure-html/unnamed-chunk-19-1.png" width="672" /></p>
 <pre class="r"><code>par(mfrow = c(1, 1))</code></pre>
 <p>Because response duration is highly right-skewed with many long-tail

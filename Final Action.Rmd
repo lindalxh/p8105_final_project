@@ -145,9 +145,7 @@ park_model = park_ranger_new |>
   rename(num_animals = matches("animals")) |>
   mutate(
     duration_hours      = as.numeric(duration_of_action),
-    num_animals         = as.numeric(num_animals),
-    final_ranger_action = as.factor(final_ranger_action),
-    animal_condition    = as.factor(animal_condition)
+    num_animals         = as.numeric(num_animals)
   ) |>
   filter(
     !is.na(duration_hours),
@@ -164,25 +162,19 @@ action_order <- park_model |>
   arrange(med) |>
   pull(final_ranger_action)
 
-park_model2 <- park_model |>
+park_model_action <- park_model |>
   mutate(final_ranger_action = factor(final_ranger_action, levels = action_order))
 
-ggplot(park_model2, aes(x = final_ranger_action, y = duration_hours)) +
-
-  # Violin plot
-  geom_violin(trim = FALSE, fill = "#BFCDE0", color = "#5D7CA6", alpha = 0.5, scale = "width") +
-
-  # Boxplot
+ggplot(park_model_action, aes(x = final_ranger_action, y = duration_hours)) +
+  geom_violin(trim = FALSE, fill = "#BFCDE0", color = "#5D7CA6",
+              alpha = 0.5, scale = "width") +
   geom_boxplot(width = 0.5, fill = "white", outlier.alpha = 0.3) +
-
   coord_flip() +
-
   labs(
     title = "Distribution of Response Duration by Final Ranger Action",
     x = "Final Ranger Action (sorted by median duration)",
     y = "Duration of Response (hours)"
   ) +
-
   theme_bw() +
   theme(
     plot.title = element_text(hjust = 0.5),
@@ -209,51 +201,26 @@ Several actions—especially ACC, Unfounded, and Rehabilitator—include outlier
 ## Response Duration by Animal Condition
 
 ```{r, fig.width=6, fig.height=4, fig.align = "center"}
-park_model <- park_ranger_new |>
-  rename(num_animals = matches("animals")) |>
-  mutate(
-    duration_hours      = as.numeric(duration_of_action),
-    num_animals         = as.numeric(num_animals),
-
-    animal_condition    = as.character(animal_condition),
-    animal_condition    = ifelse(animal_condition == "N/A", "Unknown", animal_condition),
-
-    final_ranger_action = as.factor(final_ranger_action),
-    animal_condition    = as.factor(animal_condition)
-  ) |>
-  filter(
-    !is.na(duration_hours),
-    duration_hours > 0,
-    !is.na(final_ranger_action),
-    !is.na(animal_condition),
-    !is.na(num_animals),
-    num_animals >= 0
-  )
-
-park_model2 <- park_model |>
+park_model_cond <- park_model |>
   mutate(
     animal_condition = fct_reorder(
       animal_condition,
       duration_hours,
       .fun = median,
-      na.rm = TRUE))
+      na.rm = TRUE
+    )
+  )
 
-ggplot(park_model2, aes(x = animal_condition, y = duration_hours)) +
-  # Violin layer
+ggplot(park_model_cond, aes(x = animal_condition, y = duration_hours)) +
   geom_violin(trim = FALSE, fill = "#BFCDE0", color = "#5D7CA6",
               alpha = 0.5, scale = "width") +
-  
-  # Boxplot layer
   geom_boxplot(width = 0.5, fill = "white", outlier.alpha = 0.3) +
-  
   coord_flip() +
-  
   labs(
     title = "Distribution of Response Duration by Animal Condition",
     x = "Animal Condition",
     y = "Duration of Response (hours)"
   ) +
-  
   theme_bw() +
   theme(
     plot.title = element_text(hjust = 0.5),
@@ -277,7 +244,7 @@ Most require minimal handling, but some last longer due to coordination with ext
 
 ## Distribution of Response Duration by Action Group
 ```{r}
-park_model2 = park_model |>
+park_model_group = park_model |>
   mutate(
     action_group = if_else(
       final_ranger_action == "Unfounded",
@@ -285,7 +252,8 @@ park_model2 = park_model |>
       "Other actions"
     )
   )
-duration_mean = park_model2 |>
+
+duration_mean = park_model_group |>
   group_by(action_group) |>
   summarise(
     mean_duration = mean(duration_hours, na.rm = TRUE),
@@ -301,7 +269,7 @@ duration_mean |>
 
 ### Density of Raw Response Duration
 ```{r, fig.width=5, fig.height=3, fig.align = "center"}
-ggplot(park_model2, aes(x = duration_hours,
+ggplot(park_model_group, aes(x = duration_hours,
                         fill  = action_group,
                         color = action_group)) +
   geom_density(alpha = 0.3, adjust = 1, linewidth = 1) +
@@ -328,8 +296,7 @@ The first density plot shows that the distribution of raw response duration is e
 
 ### Density of Log-Transformed Response Duration
 ```{r, fig.width=5, fig.height=3, fig.align = "center"}
-park_model2_log = park_model2 |>
-  filter(duration_hours > 0) |>
+park_model2_log = park_model_group |>
   mutate(duration_log = log1p(duration_hours))  # log(1 + x)
 
 ggplot(park_model2_log,
@@ -402,7 +369,6 @@ The interaction is significant (p = 0.000165), meaning the impact of action type
 ### Using Log-Transformed Duration
 ```{r}
 park_model2 = park_model |>
-  filter(duration_hours > 0) |>
   mutate(log_duration = log(duration_hours))
 
 anova_fit_log = aov(
@@ -455,7 +421,6 @@ The log transformation reduces extreme values and spreads out lower durations, y
 
 ```{r}
 park_model4 <- park_model |>
-  filter(!is.na(animal_condition)) |>
   filter(animal_condition %in% c("Healthy", "Unhealthy", "Injured", "DOA"))
 ```
 
