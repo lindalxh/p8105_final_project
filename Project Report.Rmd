@@ -14,6 +14,7 @@ library(ggthemes)
 library(scales)
 library(glmnet)
 library(patchwork)
+library(knitr)
 ```
 
 # Tiny Paws, Big Rescue: 
@@ -836,7 +837,7 @@ The interaction between final action and condition is significant (p = 0.000165)
 
 
 ### Using Log-Transformed Duration
-```{r, fig.align = "center"}
+```{r, fig.align = "center", warning=FALSE}
 park_model2 = park_model |>
   mutate(log_duration = log(duration_hours))
 
