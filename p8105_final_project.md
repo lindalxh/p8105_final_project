@@ -9,7 +9,7 @@ source("data_cleaning.R")
 ```
 
     ## Rows: 6385 Columns: 22
-    ## ── Column specification ──────────────────────────────────────────
+    ## ── Column specification ─────────────────────────────────────
     ## Delimiter: ","
     ## chr (15): Date and Time of initial call, Date and time of Ranger response, B...
     ## dbl  (3): Duration of Response, # of Animals, Hours spent monitoring
@@ -18,7 +18,7 @@ source("data_cleaning.R")
     ## ℹ Use `spec()` to retrieve the full column specification for this data.
     ## ℹ Specify the column types or set `show_col_types = FALSE` to quiet this message.
     ## Rows: 2054 Columns: 34
-    ## ── Column specification ──────────────────────────────────────────
+    ## ── Column specification ─────────────────────────────────────
     ## Delimiter: ","
     ## chr (22): ACQUISITIONDATE, ADDRESS, BOROUGH, CLASS, COUNCILDISTRICT, DEPARTM...
     ## dbl  (1): PRECINCT
@@ -28,7 +28,7 @@ source("data_cleaning.R")
     ## ℹ Use `spec()` to retrieve the full column specification for this data.
     ## ℹ Specify the column types or set `show_col_types = FALSE` to quiet this message.
     ## Rows: 703 Columns: 4
-    ## ── Column specification ──────────────────────────────────────────
+    ## ── Column specification ─────────────────────────────────────
     ## Delimiter: ","
     ## chr (3): original_park, matched_park, final_match
     ## dbl (1): similarity

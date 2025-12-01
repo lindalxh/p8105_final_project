@@ -121,8 +121,8 @@ add video
 
 <!-- Linda -->
 <div style="width:180px; text-align:center;">
-  <img src="images/sam.jpeg" style="width:100%; border-radius:50%; border:2px solid #ddd;">
-  <div style="margin-top:10px; font-size:16px; font-weight:bold;">Xinhui Lin</div>
+  <img src="images/linda.JPG" style="width:100%; border-radius:50%; border:2px solid #ddd;">
+  <div style="margin-top:10px; font-size:16px; font-weight:bold;">Xinhui (Linda) Lin</div>
   <a href="mailto:xl3054@cumc.columbia.edu" style="text-decoration:none; color:#444;">
     <i class="fa fa-envelope" style="font-size:18px;"></i>
     <span style="font-size:14px; margin-left:5px;">xl3054@cumc.columbia.edu</span>
