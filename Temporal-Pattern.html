@@ -379,95 +379,22 @@ div.tocify {
 <p><a
 href="https://www.thedodo.com/daily-dodo/shelter-staff-realize-fierce-little-rescue-kitten-isnt-who-she-seems">image
 source</a></p>
-<pre class="r"><code>source(&quot;data_cleaning.R&quot;)</code></pre>
-<pre><code>## ── Attaching core tidyverse packages ──────────────────────── tidyverse 2.0.0 ──
-## ✔ dplyr     1.1.4     ✔ readr     2.1.5
-## ✔ forcats   1.0.1     ✔ stringr   1.5.2
-## ✔ ggplot2   4.0.0     ✔ tibble    3.3.0
-## ✔ lubridate 1.9.4     ✔ tidyr     1.3.1
-## ✔ purrr     1.1.0     
-## ── Conflicts ────────────────────────────────────────── tidyverse_conflicts() ──
-## ✖ dplyr::filter() masks stats::filter()
-## ✖ dplyr::lag()    masks stats::lag()
-## ℹ Use the conflicted package (&lt;http://conflicted.r-lib.org/&gt;) to force all conflicts to become errors
-## 
-## Attaching package: &#39;hms&#39;
-## 
-## 
-## The following object is masked from &#39;package:lubridate&#39;:
-## 
-##     hms
-## 
-## 
-## Loading required package: viridisLite
-## 
-## 
-## Attaching package: &#39;scales&#39;
-## 
-## 
-## The following object is masked from &#39;package:viridis&#39;:
-## 
-##     viridis_pal
-## 
-## 
-## The following object is masked from &#39;package:purrr&#39;:
-## 
-##     discard
-## 
-## 
-## The following object is masked from &#39;package:readr&#39;:
-## 
-##     col_factor
-## 
-## 
-## Loading required package: Matrix
-## 
-## 
-## Attaching package: &#39;Matrix&#39;
-## 
-## 
-## The following objects are masked from &#39;package:tidyr&#39;:
-## 
-##     expand, pack, unpack
-## 
-## 
-## Loaded glmnet 4.1-10
-## 
-## Rows: 6385 Columns: 22
-## ── Column specification ────────────────────────────────────────────────────────
-## Delimiter: &quot;,&quot;
-## chr (15): Date and Time of initial call, Date and time of Ranger response, B...
-## dbl  (3): Duration of Response, # of Animals, Hours spent monitoring
-## lgl  (4): PEP Response, Animal Monitored, Police Response, ESU Response
-## 
-## ℹ Use `spec()` to retrieve the full column specification for this data.
-## ℹ Specify the column types or set `show_col_types = FALSE` to quiet this message.
-## Rows: 2054 Columns: 34
-## ── Column specification ────────────────────────────────────────────────────────
-## Delimiter: &quot;,&quot;
-## chr (22): ACQUISITIONDATE, ADDRESS, BOROUGH, CLASS, COUNCILDISTRICT, DEPARTM...
-## dbl  (1): PRECINCT
-## num  (7): ACRES, COMMUNITYBOARD, GISOBJID, NYS_ASSEMBLY, NYS_SENATE, OBJECTI...
-## lgl  (4): PERMIT, PIP_RATABLE, RETIRED, WATERFRONT
-## 
-## ℹ Use `spec()` to retrieve the full column specification for this data.
-## ℹ Specify the column types or set `show_col_types = FALSE` to quiet this message.
-## Rows: 703 Columns: 4
-## ── Column specification ────────────────────────────────────────────────────────
-## Delimiter: &quot;,&quot;
-## chr (3): original_park, matched_park, final_match
-## dbl (1): similarity
-## 
-## ℹ Use `spec()` to retrieve the full column specification for this data.
-## ℹ Specify the column types or set `show_col_types = FALSE` to quiet this message.</code></pre>
-<div id="section-1-monthly-trends-analysis" class="section level1">
-<h1>Section 1: Monthly Trends Analysis</h1>
-<div id="monthly-animal-response-trends" class="section level2">
-<h2>Monthly Animal Response Trends</h2>
+<p>This page presents a comprehensive analysis and visualization of
+temporal patterns in wildlife incident reports, with the goal of
+generating data-driven insights to optimize rescue response strategies
+and operational efficiency within urban park systems. Through an
+in-depth examination of seasonal fluctuations, daily cycles, and
+categorical trends, it seeks to inform proactive planning, improve
+resource allocation, and enhance protection efforts for urban
+wildlife.</p>
+<div id="monthly-trends-analysis" class="section level2">
+<h2>Monthly Trends Analysis</h2>
 <p>This analysis examines seasonal patterns in animal rescue cases to
 identify how different animal categories respond to environmental
 changes throughout the year. Understanding these temporal patterns helps
 predict peak demand periods for wildlife services.</p>
+<div id="monthly-animal-response-trends" class="section level3">
+<h3>Monthly Animal Response Trends</h3>
 <pre class="r"><code>monthly_animal_trends = park_ranger_new |&gt; 
   mutate(
     call_month = month(date_and_time_of_initial_call, label = TRUE, abbr = TRUE)
@@ -475,11 +402,9 @@ predict peak demand periods for wildlife services.</p>
   group_by(call_month, animal_class_new) |&gt; 
   summarise(case_count = n(), .groups = &quot;drop&quot;) |&gt; 
   # Ensure all months are represented for each animal class
-  complete(call_month, animal_class_new, fill = list(case_count = 0))</code></pre>
-</div>
-<div id="monthly-animal-response-cases-chart" class="section level2">
-<h2>Monthly Animal Response Cases Chart</h2>
-<pre class="r"><code>mon_case_plot = monthly_animal_trends |&gt; 
+  complete(call_month, animal_class_new, fill = list(case_count = 0))
+
+mon_case_plot = monthly_animal_trends |&gt; 
   ggplot(aes(x = call_month, y = case_count, group = animal_class_new, color = animal_class_new)) +
   geom_line(linewidth = 1.2) +
   geom_point(size = 2) +
@@ -491,21 +416,23 @@ predict peak demand periods for wildlife services.</p>
     y = &quot;Number of Cases&quot;,
     color = &quot;Animal Class&quot;
   ) +
-  theme_fivethirtyeight() +
+  theme_minimal() + 
   theme(
     axis.text.x = element_text(angle = 45, hjust = 1),
     legend.position = &quot;bottom&quot;,
     plot.title = element_text(face = &quot;bold&quot;, size = 14),
     plot.subtitle = element_text(size = 10),
-    legend.text = element_text(size = 8)
-  ) +
+    legend.text = element_text(size = 8),
+    panel.background = element_rect(fill = &quot;white&quot;, color = NA), 
+    plot.background = element_rect(fill = &quot;white&quot;, color = NA)
+  )  +
   scale_color_viridis_d()
 
 print(mon_case_plot)</code></pre>
-<p><img src="Temporal-Pattern_files/figure-html/unnamed-chunk-3-1.png" width="672" /></p>
+<p><img src="Temporal-Pattern_files/figure-html/unnamed-chunk-2-1.png" width="864" /></p>
 </div>
-<div id="chart-interpretation" class="section level2">
-<h2>Chart Interpretation</h2>
+<div id="chart-interpretation" class="section level3">
+<h3>Chart Interpretation</h3>
 <p>This line chart displays the monthly distribution of animal response
 cases across 7 reclassified animal categories throughout the year.</p>
 <p>Key Findings:</p>
@@ -539,15 +466,14 @@ href="https://bestfriends.org/stories/features/owls-rare-return-best-friends-ani
 source</a></p>
 </div>
 </div>
-<div id="section-2-temporal-distribution-analysis"
-class="section level1">
-<h1>Section 2: Temporal Distribution Analysis</h1>
-<div id="temporal-distribution-of-cases" class="section level2">
-<h2>Temporal Distribution of Cases</h2>
-<p>This heatmap visualization reveals how animal rescue cases distribute
-across both daily hours and monthly periods, identifying optimal
-response windows and understanding the interplay between human activity
-cycles and wildlife behavior.</p>
+<div id="temporal-distribution-analysis" class="section level2">
+<h2>Temporal Distribution Analysis</h2>
+<p>We use heatmap visualization to reveal how animal rescue cases
+distribute across both daily hours and monthly periods, identifying
+optimal response windows and understanding the interplay between human
+activity cycles and wildlife behavior.</p>
+<div id="animal-response-cases-heatmap" class="section level3">
+<h3>Animal Response Cases Heatmap</h3>
 <pre class="r"><code>hourly_monthly_heatmap = park_ranger_new |&gt; 
   mutate(
     call_month = month(date_and_time_of_initial_call, label = TRUE, abbr = TRUE),
@@ -561,11 +487,9 @@ cycles and wildlife behavior.</p>
 max_cases = max(hourly_monthly_heatmap$case_count)
 color_breaks = c(0, 1, 5, 10, 20, 50, max_cases)
 
-red_palette = colorRampPalette(c(&quot;#FFF5F0&quot;, &quot;#FEE0D2&quot;, &quot;#FCBBA1&quot;, &quot;#FC9272&quot;, &quot;#FB6A4A&quot;, &quot;#EF3B2C&quot;, &quot;#CB181D&quot;, &quot;#99000D&quot;))(length(color_breaks))</code></pre>
-</div>
-<div id="animal-response-cases-heatmap" class="section level2">
-<h2>Animal Response Cases Heatmap</h2>
-<pre class="r"><code>case_heatmap = hourly_monthly_heatmap |&gt;
+red_palette = colorRampPalette(c(&quot;#FFF5F0&quot;, &quot;#FEE0D2&quot;, &quot;#FCBBA1&quot;, &quot;#FC9272&quot;, &quot;#FB6A4A&quot;, &quot;#EF3B2C&quot;, &quot;#CB181D&quot;, &quot;#99000D&quot;))(length(color_breaks))
+
+case_heatmap = hourly_monthly_heatmap |&gt;
   ggplot(aes(x = call_hour, y = call_month, fill = case_count)) +
   geom_tile(color = &quot;white&quot;, linewidth = 0.3) +
   scale_fill_gradientn(
@@ -593,20 +517,24 @@ red_palette = colorRampPalette(c(&quot;#FFF5F0&quot;, &quot;#FEE0D2&quot;, &quot
   ) +
   theme_fivethirtyeight() +
   theme(
-    axis.text.x = element_text(angle = 45, hjust = 1, size = 8),
-    axis.text.y = element_text(size = 9),
-    plot.title = element_text(face = &quot;bold&quot;, size = 14),
-    plot.subtitle = element_text(size = 10),
+    axis.text.x = element_text(angle = 45, hjust = 1, size = 8, color = &quot;black&quot;),
+    axis.text.y = element_text(size = 9, color = &quot;black&quot;),
+    axis.title = element_text(color = &quot;black&quot;),
+    plot.title = element_text(face = &quot;bold&quot;, size = 14, color = &quot;black&quot;),
+    plot.subtitle = element_text(size = 10, color = &quot;#333333&quot;),
     legend.position = &quot;bottom&quot;,
-    legend.title = element_text(size = 9),
-    legend.text = element_text(size = 8)
+    legend.title = element_text(size = 9, color = &quot;black&quot;),
+    legend.text = element_text(size = 8, color = &quot;black&quot;), 
+    legend.background = element_rect(fill = &quot;white&quot;, color = NA),
+    panel.background = element_rect(fill = &quot;white&quot;, color = NA),
+    plot.background = element_rect(fill = &quot;white&quot;, color = NA)
   )
 
 plot(case_heatmap)</code></pre>
-<p><img src="Temporal-Pattern_files/figure-html/unnamed-chunk-5-1.png" width="672" /></p>
+<p><img src="Temporal-Pattern_files/figure-html/unnamed-chunk-3-1.png" width="864" /></p>
 </div>
-<div id="time-month-heatmap-analysis" class="section level2">
-<h2>Time-Month Heatmap Analysis:</h2>
+<div id="time-month-heatmap-analysis" class="section level3">
+<h3>Time-Month Heatmap Analysis</h3>
 <p>Case distribution primarily concentrates between 8:00 and 18:00,
 aligning with peak park visitation and diurnal animal activity. Summer
 exhibits extended evening activity likely due to increased daylight and
@@ -623,8 +551,8 @@ href="https://bestfriends.org/stories/julie-castle-blog/answering-call-wild-wild
 source</a></p>
 </div>
 </div>
-<div id="recommendations-section" class="section level1">
-<h1>Recommendations Section</h1>
+<div id="recommendations-section" class="section level2">
+<h2>Recommendations Section</h2>
 <p>Enhanced ranger coverage during summer afternoons could address
 elevated case frequencies across multiple species. Early spring public
 education initiatives might mitigate conflicts by raising awareness of
@@ -636,10 +564,10 @@ community monitoring programs and coordinated rehabilitation
 networks.</p>
 <br>
 <div align="center">
-<p><img src="images/two_cats.jpg.webp" style="width:50.0%" /></p>
+<p><img src="images/falcon.jpg" style="width:60.0%" /></p>
 </div>
 <p><a
-href="https://www.thedodo.com/daily-dodo/shelter-staff-realize-fierce-little-rescue-kitten-isnt-who-she-seems">image
+href="https://bestfriends.org/stories/julie-castle-blog/answering-call-wild-wild-friends-inside-wildlife-rehabilitation-best">image
 source</a></p>
 </div>
 
