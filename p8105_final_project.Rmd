@@ -233,7 +233,7 @@ plot(case_heatmap)
 
 ```
 
-## Time-Month Heatmap Analysis:
+Time-Month Heatmap Analysis:
 
 Case distribution primarily concentrates between 8:00 and 18:00, aligning with peak park visitation and diurnal animal activity. Summer exhibits extended evening activity likely due to increased daylight and recreational use, while winter shows contracted midday patterns corresponding to reduced daylight availability. Minimal overnight reporting may reflect limited detection capabilities during low-human-activity periods.
 

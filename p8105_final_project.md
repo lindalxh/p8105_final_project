@@ -312,7 +312,7 @@ plot(case_heatmap)
 
 ![](p8105_final_project_files/figure-gfm/unnamed-chunk-10-1.png)<!-- -->
 
-## Time-Month Heatmap Analysis:
+Time-Month Heatmap Analysis:
 
 Case distribution primarily concentrates between 8:00 and 18:00,
 aligning with peak park visitation and diurnal animal activity. Summer
