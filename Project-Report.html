@@ -9,11 +9,9 @@
 <meta http-equiv="X-UA-Compatible" content="IE=EDGE" />
 
 
-<meta name="author" content="Xinwei Han (xh2601), Xinhui Lin (xl3054), Ruohan Lyu (rl3610), Xinyin Miao (xm2356), Fenglin Xie (fx2212)" />
 
-<meta name="date" content="2025-12-06" />
 
-<title>Project Report</title>
+<title>Project-Report</title>
 
 <script src="site_libs/header-attrs-2.29/header-attrs.js"></script>
 <script src="site_libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
@@ -38,8 +36,6 @@
 <script src="site_libs/navigation-1.1/codefolding.js"></script>
 <link href="site_libs/highlightjs-9.12.0/default.css" rel="stylesheet" />
 <script src="site_libs/highlightjs-9.12.0/highlight.js"></script>
-<link href="site_libs/font-awesome-6.5.2/css/all.min.css" rel="stylesheet" />
-<link href="site_libs/font-awesome-6.5.2/css/v4-shims.min.css" rel="stylesheet" />
 
 <style type="text/css">
   code{white-space: pre-wrap;}
@@ -369,14 +365,15 @@ div.tocify {
 
 
 
-<h1 class="title toc-ignore">Project Report</h1>
-<h4 class="author">Xinwei Han (xh2601), Xinhui Lin (xl3054), Ruohan Lyu
-(rl3610), Xinyin Miao (xm2356), Fenglin Xie (fx2212)</h4>
-<h4 class="date">2025-12-06</h4>
 
 </div>
 
 
+<div id="project-report" class="section level1">
+<h1>Project Report</h1>
+<p>Xinwei Han (xh2601), Xinhui Lin (xl3054), Ruohan Lyu (rl3610), Xinyin
+Miao (xm2356), Fenglin Xie (fx2212) 2025-12-06</p>
+<p>Load packages:</p>
 <pre class="r"><code>library(tidyverse)
 library(hms)
 library(lubridate)
@@ -385,6 +382,7 @@ library(ggthemes)
 library(scales)
 library(glmnet)
 library(patchwork)</code></pre>
+</div>
 <div
 id="motivation-provide-an-overview-of-the-project-goals-and-motivation."
 class="section level1">
@@ -418,6 +416,30 @@ class="section level1">
 time</p></li>
 <li><p>Rename variable <code>duration_of_response</code> to
 <code>duration_of_action</code></p></li>
+</ul>
+<pre class="r"><code>park_ranger = read_csv(&quot;data/Urban_Park_Ranger_Animal_Condition_Response_20251103.csv&quot;) %&gt;% 
+  janitor::clean_names() %&gt;% 
+  mutate(
+    date_and_time_of_initial_call = mdy_hm(date_and_time_of_initial_call),
+    date_and_time_of_ranger_response = mdy_hm(date_and_time_of_ranger_response),
+    
+    call_date = as.Date(date_and_time_of_initial_call),
+    call_time = as_hms(date_and_time_of_initial_call),
+    response_date = as.Date(date_and_time_of_ranger_response),
+    response_time = as_hms(date_and_time_of_ranger_response)
+  ) %&gt;% 
+  filter(date_and_time_of_ranger_response &gt;= date_and_time_of_initial_call) %&gt;% 
+  rename(duration_of_action = duration_of_response)</code></pre>
+<pre><code>## Rows: 6385 Columns: 22
+## ── Column specification ─────────────────────────────────────
+## Delimiter: &quot;,&quot;
+## chr (15): Date and Time of initial call, Date and time of Ranger response, B...
+## dbl  (3): Duration of Response, # of Animals, Hours spent monitoring
+## lgl  (4): PEP Response, Animal Monitored, Police Response, ESU Response
+## 
+## ℹ Use `spec()` to retrieve the full column specification for this data.
+## ℹ Specify the column types or set `show_col_types = FALSE` to quiet this message.</code></pre>
+<ul>
 <li><p>Reclassify animal classes into 7 categories: Birds / Raptors,
 Small Mammals, Large Mammals, Marine Mammals, Reptiles / Amphibians,
 Fish, Others</p></li>
@@ -600,7 +622,8 @@ ranger_response_hr %&gt;%
     x = &quot;Hour of Day (24-hour)&quot;,
     y = &quot;Average Response Hours&quot;) +
   theme_minimal()</code></pre>
-<p><img src="Project-Report_files/figure-html/unnamed-chunk-4-1.png" width="672" /></p>
+<p><img
+src="Project-Report_files/figure-gfm/unnamed-chunk-4-1.png" /><!-- --></p>
 <p>This line plot visualizes variation in response duration across the
 24-hour day.</p>
 <ul>
@@ -663,7 +686,8 @@ p4 = resp_dur_dist %&gt;%
   resp_dur_dist_plot(&quot;&gt;24 hours&quot;)
 
 (p1 | p2) / (p3 | p4) + plot_annotation(title =&quot;Distribution of Response Duration&quot;)</code></pre>
-<p><img src="Project-Report_files/figure-html/unnamed-chunk-5-1.png" width="1344" /></p>
+<p><img
+src="Project-Report_files/figure-gfm/unnamed-chunk-5-1.png" /><!-- --></p>
 <p>Because response durations are highly right-skewed, the data were
 split more at the lower end (0–1 and 1–4 hours) where most observations
 occur, while broader segments were used for longer delays (4–24 and
@@ -697,9 +721,10 @@ ranger_model %&gt;%
        y = &quot;Density&quot;,
        color = &quot;Borough&quot;) +
   theme_minimal()</code></pre>
-<pre><code>## Warning: Removed 1224 rows containing non-finite outside the scale range
-## (`stat_density()`).</code></pre>
-<p><img src="Project-Report_files/figure-html/unnamed-chunk-6-1.png" width="672" /></p>
+<pre><code>## Warning: Removed 1224 rows containing non-finite outside the scale
+## range (`stat_density()`).</code></pre>
+<p><img
+src="Project-Report_files/figure-gfm/unnamed-chunk-6-1.png" /><!-- --></p>
 <p>Because the response-duration distribution is highly right-skewed,
 with a long tail extending to several hundred hours, we applied a
 natural log transformation to stabilize the variance and make
@@ -726,358 +751,6 @@ duration.</p></li>
 <p>Despite these minor shifts in central tendency, the overall shapes of
 the distributions are highly similar. Within-borough variation is much
 greater than between-borough variation.</p>
-<pre class="r"><code>park_model = park_ranger_new |&gt;
-  rename(num_animals = matches(&quot;animals&quot;)) |&gt;
-  mutate(
-    duration_hours      = as.numeric(duration_of_action),
-    num_animals         = as.numeric(num_animals)
-  ) |&gt;
-  filter(
-    !is.na(duration_hours),
-    duration_hours &gt; 0,
-    !is.na(final_ranger_action),
-    !is.na(animal_condition),
-    !is.na(num_animals),
-    num_animals &gt;= 0
-  )</code></pre>
-</div>
-<div id="response-duration-by-final-ranger-action"
-class="section level2">
-<h2>Response Duration by Final Ranger Action</h2>
-<pre class="r"><code>action_order &lt;- park_model |&gt;
-  group_by(final_ranger_action) |&gt;
-  summarise(med = median(duration_hours, na.rm = TRUE)) |&gt;
-  arrange(med) |&gt;
-  pull(final_ranger_action)
-
-park_model_action &lt;- park_model |&gt;
-  mutate(final_ranger_action = factor(final_ranger_action, levels = action_order))
-
-ggplot(park_model_action, aes(x = final_ranger_action, y = duration_hours)) +
-  geom_violin(trim = FALSE, fill = &quot;#BFCDE0&quot;, color = &quot;#5D7CA6&quot;,
-              alpha = 0.5, scale = &quot;width&quot;) +
-  geom_boxplot(width = 0.5, fill = &quot;white&quot;, outlier.alpha = 0.3) +
-  coord_flip() +
-  labs(
-    title = &quot;Distribution of Response Duration by Final Ranger Action&quot;,
-    x = &quot;Final Ranger Action (sorted by median duration)&quot;,
-    y = &quot;Duration of Response (hours)&quot;
-  ) +
-  theme_bw() +
-  theme(
-    plot.title = element_text(hjust = 0.5),
-    axis.text.y = element_text(size = 8)
-  )</code></pre>
-<p><img src="Project-Report_files/figure-html/unnamed-chunk-8-1.png" width="672" style="display: block; margin: auto;" /></p>
-<p>The combined violin-and-boxplot visualization provides insight into
-how long Urban Park Rangers spend responding to different types of
-animal-related incidents.</p>
-<ol style="list-style-type: decimal">
-<li>Actions Involving Rehabilitation Have the Longest Response
-Durations</li>
-</ol>
-<p>Final actions such as “Released back into Park after Rehabilitation”
-and “Rehabilitator” show the highest median response durations, as well
-as the widest spread of times.</p>
-<p>These actions often require: on-site assessment, coordination with
-licensed wildlife rehabilitators, transport of animals, or extended
-monitoring before the animal can be safely released.</p>
-<p>As a result, longer rescue times are expected. The long right-tails
-in these distributions reflect occasional cases that require many hours
-of handling or follow-up visits.</p>
-<ol start="2" style="list-style-type: decimal">
-<li>Administrative or Low-Intervention Actions Are Generally Short</li>
-</ol>
-<p>Actions such as: “Advised/Educated others”, “Submitted for DEC
-Testing”, “Relocated/Condition Corrected”, “Monitored Animal” show much
-shorter median durations.</p>
-<p>These categories often represent cases where: the ranger provides
-guidance to the public, conducts a quick field assessment, performs
-minor relocation, or verifies that an animal is behaving normally.</p>
-<p>Because they involve limited physical intervention, these responses
-tend to be resolved quickly, reflected in the tight, compact violins and
-small IQRs.</p>
-<ol start="3" style="list-style-type: decimal">
-<li>“Unfounded” and “ACC” Responses Show High Variability</li>
-</ol>
-<p>ACC (Animal Care Center Transfer): While the median duration is
-moderate, the long right tail indicates that some cases require
-significant time—often due to: waiting for ACC personnel to arrive,
-multi-agency coordination, or handling distressed or dangerous
-animals.</p>
-<p>Unfounded: Although typically short, several cases show unusually
-long durations. These may correspond to: extended attempts to locate an
-animal that was ultimately not found, misreported incidents requiring
-prolonged investigation, or delays in confirming that no intervention
-was needed.</p>
-<ol start="4" style="list-style-type: decimal">
-<li>Outliers Reflect a Small Number of Long-Duration Incidents</li>
-</ol>
-<p>Across multiple actions—especially ACC, Unfounded, and
-Rehabilitator—there are visible outliers extending to 30+ hours. These
-are likely: long-term monitoring cases, situations requiring multiple
-returns to the site, or logistical delays in handing off animals to
-rehabilitation partners.</p>
-</div>
-<div id="response-duration-by-animal-condition" class="section level2">
-<h2>Response Duration by Animal Condition</h2>
-<pre class="r"><code>park_model_cond &lt;- park_model |&gt;
-  mutate(
-    animal_condition = fct_reorder(
-      animal_condition,
-      duration_hours,
-      .fun = median,
-      na.rm = TRUE
-    )
-  )
-
-ggplot(park_model_cond, aes(x = animal_condition, y = duration_hours)) +
-  geom_violin(trim = FALSE, fill = &quot;#BFCDE0&quot;, color = &quot;#5D7CA6&quot;,
-              alpha = 0.5, scale = &quot;width&quot;) +
-  geom_boxplot(width = 0.5, fill = &quot;white&quot;, outlier.alpha = 0.3) +
-  coord_flip() +
-  labs(
-    title = &quot;Distribution of Response Duration by Animal Condition&quot;,
-    x = &quot;Animal Condition&quot;,
-    y = &quot;Duration of Response (hours)&quot;
-  ) +
-  theme_bw() +
-  theme(
-    plot.title = element_text(hjust = 0.5),
-    axis.text.y = element_text(size = 8)
-  )</code></pre>
-<p><img src="Project-Report_files/figure-html/unnamed-chunk-9-1.png" width="576" style="display: block; margin: auto;" /></p>
-<p>The violin-and-boxplot visualization shows how response time varies
-across different animal conditions.</p>
-<ol style="list-style-type: decimal">
-<li>Unhealthy and Injured Animals Tend to Receive Longer Responses</li>
-</ol>
-<p>The Unhealthy and Injured categories show slightly higher median
-response durations and wider distributions.</p>
-<p>This pattern is expected because these cases usually require detailed
-on-site assessment, safe handling of distressed animals, and possibly
-coordination with rehabilitation partners.</p>
-<ol start="2" style="list-style-type: decimal">
-<li>Healthy Animals Show Shorter and More Consistent Response Times</li>
-</ol>
-<p>The Healthy category has a shorter median response duration and a
-narrower distribution. Healthy animals often require quick verification
-that no intervention is needed, or simple relocation or observation.</p>
-<ol start="3" style="list-style-type: decimal">
-<li>Unknown Conditions Have High Variability</li>
-</ol>
-<p>The Unknown group displays substantial variation, including several
-long-duration outliers. These likely reflect situations where limited
-information during the call required extended investigation, or the
-ranger spent additional time determining whether intervention was
-necessary.</p>
-<ol start="4" style="list-style-type: decimal">
-<li>DOA Cases Involve Minimal Handling but Occasionally Long
-Investigations</li>
-</ol>
-<p>The DOA (Dead on Arrival) category generally shows short median
-durations, consistent with the limited intervention required. However,
-some notable long-duration outliers appear—possibly tied to:
-coordinating with external agencies (e.g., ACC), species identification
-procedures, or waiting for specialized disposal assistance.</p>
-</div>
-<div id="distribution-of-response-duration-by-action-group"
-class="section level2">
-<h2>Distribution of Response Duration by Action Group</h2>
-<pre class="r"><code>park_model_group = park_model |&gt;
-  mutate(
-    action_group = if_else(
-      final_ranger_action == &quot;Unfounded&quot;,
-      &quot;Unfounded&quot;,
-      &quot;Other actions&quot;
-    )
-  )
-
-duration_mean = park_model_group |&gt;
-  group_by(action_group) |&gt;
-  summarise(
-    mean_duration = mean(duration_hours, na.rm = TRUE),
-    .groups = &quot;drop&quot;
-  )
-duration_mean |&gt;
-  knitr::kable(
-    digits = 3,
-    caption = &quot;Mean Duration by Action Group&quot;,
-    align = &quot;c&quot;
-  )</code></pre>
-<table>
-<caption>Mean Duration by Action Group</caption>
-<thead>
-<tr class="header">
-<th align="center">action_group</th>
-<th align="center">mean_duration</th>
-</tr>
-</thead>
-<tbody>
-<tr class="odd">
-<td align="center">Other actions</td>
-<td align="center">1.537</td>
-</tr>
-<tr class="even">
-<td align="center">Unfounded</td>
-<td align="center">0.995</td>
-</tr>
-</tbody>
-</table>
-<div id="density-of-raw-response-duration" class="section level3">
-<h3>Density of Raw Response Duration</h3>
-<pre class="r"><code>ggplot(park_model_group, aes(x = duration_hours,
-                        fill  = action_group,
-                        color = action_group)) +
-  geom_density(alpha = 0.3, adjust = 1, linewidth = 1) +
-  
-  geom_vline(data = duration_mean,
-             aes(xintercept = mean_duration, color = action_group),
-             linewidth = 1.2) +
-  
-  labs(
-    title = &quot;Density of response duration by action group&quot;,
-    x = &quot;Duration of response (hours)&quot;,
-    y = &quot;Density&quot;,
-    fill  = &quot;Action group&quot;,
-    color = &quot;Action group&quot;
-  ) +
-  theme_bw() +
-  theme(
-    plot.title = element_text(hjust = 0.5)
-  )</code></pre>
-<p><img src="Project-Report_files/figure-html/unnamed-chunk-11-1.png" width="480" style="display: block; margin: auto;" /></p>
-<p>The first density plot shows that the distribution of raw response
-duration is extremely right-skewed, with most incidents resolved within
-a short time but a small number taking many hours. This heavy skew makes
-it difficult to visually compare “Unfounded” cases with all other ranger
-actions on the original scale because the long tail compresses the main
-density near zero.</p>
-</div>
-<div id="density-of-log-transformed-response-duration"
-class="section level3">
-<h3>Density of Log-Transformed Response Duration</h3>
-<pre class="r"><code>park_model2_log = park_model_group |&gt;
-  mutate(duration_log = log1p(duration_hours))  # log(1 + x)
-
-ggplot(park_model2_log,
-       aes(x = duration_log, fill = action_group, color = action_group)) +
-  geom_density(alpha = 0.4, adjust = 1, linewidth = 0.7) +
-  labs(
-    title = &quot;Density of log-transformed response duration&quot;,
-    x = &quot;log(1 + duration of response, hours)&quot;,
-    y = &quot;Density&quot;,
-    fill  = &quot;Action group&quot;,
-    color = &quot;Action group&quot;
-  ) +
-  theme_bw() +
-  theme(
-    plot.title = element_text(hjust = 0.5)
-  )</code></pre>
-<p><img src="Project-Report_files/figure-html/unnamed-chunk-12-1.png" width="480" style="display: block; margin: auto;" /></p>
-<p>To address this issue, we applied a log-transformation, using log(1 +
-duration).</p>
-<p>This transformation compresses long-duration outliers and spreads out
-the dense mass near zero, making group differences more interpretable
-and improving visualization.</p>
-<p>Comparison Between Unfounded and Other Actions:</p>
-<ol style="list-style-type: decimal">
-<li>Unfounded cases</li>
-</ol>
-<p>Display a higher density at lower log-duration values, indicating
-that these calls are typically resolved very quickly.</p>
-<p>The mean duration of unfounded responses is approximately 1.0 hour,
-confirming their shorter nature.</p>
-<ol start="2" style="list-style-type: decimal">
-<li>Other actions</li>
-</ol>
-<p>Show a broader distribution with higher density at larger
-log-duration values, meaning that these incidents often require more
-time for assessment, handling, or coordination.</p>
-<p>Their mean duration is significantly higher at 1.52 hours.</p>
-</div>
-</div>
-<div id="final-ranger-actions-by-animal-condition"
-class="section level2">
-<h2>Final Ranger Actions by Animal Condition</h2>
-<pre class="r"><code>park_model4 &lt;- park_model |&gt;
-  filter(animal_condition %in% c(&quot;Healthy&quot;, &quot;Unhealthy&quot;, &quot;Injured&quot;, &quot;DOA&quot;))</code></pre>
-<pre class="r"><code>plot_condition_bar &lt;- function(data, cond, ymax) {
-
-  df &lt;- data |&gt;
-    filter(animal_condition == cond) |&gt;
-    count(final_ranger_action) |&gt;
-    arrange(n)
-
-  df$final_ranger_action &lt;- factor(df$final_ranger_action,
-                                   levels = df$final_ranger_action)
-
-  ggplot(df, aes(x = final_ranger_action, y = n)) +
-    geom_col(fill = &quot;#4F81BD&quot;, alpha = 0.85) +
-    coord_flip() +
-    scale_y_continuous(limits = c(0, ymax),
-                       expand = expansion(mult = c(0, 0.05))) +
-    labs(
-      title = paste(&quot;Final Ranger Action for&quot;, cond),
-      x = &quot;Final Ranger Action&quot;,
-      y = &quot;Number of Cases&quot;) +
-    theme_bw() +
-    theme(
-      plot.title = element_text(hjust = 0.5),
-      axis.text.y = element_text(size = 8))
-}
-max_cases &lt;- park_model4 |&gt;
-  count(animal_condition, final_ranger_action) |&gt;
-  pull(n) |&gt;
-  max()
-
-p1 &lt;- plot_condition_bar(park_model4, &quot;Healthy&quot;,   max_cases)
-p2 &lt;- plot_condition_bar(park_model4, &quot;Unhealthy&quot;, max_cases)
-p3 &lt;- plot_condition_bar(park_model4, &quot;Injured&quot;,   max_cases)
-p4 &lt;- plot_condition_bar(park_model4, &quot;DOA&quot;,       max_cases)
-
-(p1 | p2) /
-(p3 | p4)</code></pre>
-<p><img src="Project-Report_files/figure-html/unnamed-chunk-14-1.png" width="672" style="display: block; margin: auto;" /></p>
-<p>The four-panel visualization compares how ranger actions differ
-depending on the animal’s condition at the time of the call.</p>
-<ol style="list-style-type: decimal">
-<li>Healthy Animals</li>
-</ol>
-<p>For Healthy animals, the most common actions are: relocated /
-condition corrected, ACC.</p>
-<p>These results suggest that many healthy animals were either moved
-from unsafe locations or transferred to the Animal Care Center for
-further evaluation. Lower-frequency actions (e.g., rehabilitation)
-reflect that healthy animals rarely require intensive care.</p>
-<ol start="2" style="list-style-type: decimal">
-<li>Unhealthy Animals</li>
-</ol>
-<p>In the Unhealthy group, ACC overwhelmingly dominates as the most
-frequent action, followed by Rehabilitator.</p>
-<p>Because unhealthy animals typically need medical evaluation or
-long-term care, leading to high ACC involvement. Minimal counts in
-actions like “Submitted for DEC Testing” or “Relocated” indicate that
-relocation alone is usually insufficient for visibly unhealthy
-cases.</p>
-<ol start="3" style="list-style-type: decimal">
-<li>Injured Animals</li>
-</ol>
-<p>For Injured animals, the dominant actions are rehabilitator,
-unfounded, ACC.</p>
-<p>Injured animals frequently require hands-on treatment or
-rehabilitation. The relatively high number of “Unfounded” cases likely
-reflects situations where the animal could not be located or its
-condition improved by the time the ranger arrived.</p>
-<ol start="4" style="list-style-type: decimal">
-<li>DOA Animals</li>
-</ol>
-<p>Among DOA cases, the most common action is relocated / condition
-corrected.</p>
-<p>This is because dead wildlife generally require removal from public
-spaces rather than medical intervention. The presence of some actions
-like ACC transfer or DEC Testing reflects cases where the animal needed
-identification or documentation before final handling.</p>
 </div>
 </div>
 <div
@@ -1116,13 +789,12 @@ summary(model)$coefficients %&gt;%
                caption = &quot;Regression Coefficient Table&quot;, 
                align = c(&quot;l&quot;, &quot;r&quot;, &quot;r&quot;, &quot;r&quot;, &quot;r&quot;)) </code></pre>
 <table>
-<caption>Regression Coefficient Table</caption>
 <colgroup>
-<col width="56%" />
-<col width="11%" />
-<col width="12%" />
-<col width="10%" />
-<col width="10%" />
+<col width="20%" />
+<col width="20%" />
+<col width="20%" />
+<col width="20%" />
+<col width="20%" />
 </colgroup>
 <thead>
 <tr class="header">
@@ -1360,6 +1032,7 @@ summary(model)$coefficients %&gt;%
 </tr>
 </tbody>
 </table>
+<p>Regression Coefficient Table</p>
 <p>We use a multiple linear regression model to estimate the independent
 contribution of each predictor to response duration, allowing us to
 isolate the effect of each variable while holding other factors
@@ -1480,7 +1153,8 @@ species, play a comparatively smaller role.</p>
        x = &quot;Predictor Variables&quot;,
        y = &quot;Estimated Coefficient (hours)&quot;) +
   theme_minimal()</code></pre>
-<p><img src="Project-Report_files/figure-html/unnamed-chunk-16-1.png" width="672" /></p>
+<p><img
+src="Project-Report_files/figure-gfm/unnamed-chunk-8-1.png" /><!-- --></p>
 <p>This coefficient plot highlights the same general patterns seen in
 the regression table:</p>
 <ul>
@@ -1511,7 +1185,6 @@ coef(fit_cv, s = &quot;lambda.min&quot;) %&gt;%
     digits = 4,
     align = &quot;l&quot;)</code></pre>
 <table>
-<caption>Elastic Net Coefficients at lambda_min (0.1811)</caption>
 <thead>
 <tr class="header">
 <th align="left">variable</th>
@@ -1613,6 +1286,7 @@ coef(fit_cv, s = &quot;lambda.min&quot;) %&gt;%
 </tr>
 </tbody>
 </table>
+<p>Elastic Net Coefficients at lambda_min (0.1811)</p>
 <p>Compared with the original linear model, the Elastic Net model
 resulted in a more simplified set of predictors. Several variables that
 had non-zero coefficients under OLS were reduced to zero, such as
@@ -1653,227 +1327,6 @@ rather than biological or borough-specific features. Adjusted modeling
 reveals patterns not visible in the raw data, highlighting the
 importance of accounting for confounding factors when interpreting
 response-time differences.</p>
-</div>
-<div id="anova-models-for-response-duration" class="section level2">
-<h2>ANOVA Models for Response Duration</h2>
-<div id="using-raw-duration" class="section level3">
-<h3>Using Raw Duration</h3>
-<pre class="r"><code>anova_fit = aov(
-  duration_hours ~ final_ranger_action * animal_condition + num_animals,
-  data = park_model
-)
-
-anova_raw_tbl &lt;- broom::tidy(anova_fit) |&gt;
-  select(
-    term,
-    Df      = df,
-    `Sum Sq`  = sumsq,
-    `Mean Sq` = meansq,
-    `F value` = statistic,
-    `Pr(&gt;F)`  = p.value
-  )
-
-knitr::kable(
-  anova_raw_tbl,
-  digits  = 3,
-  caption = &quot;ANOVA table for raw response duration&quot;,
-  align   = &quot;c&quot;
-)</code></pre>
-<table>
-<caption>ANOVA table for raw response duration</caption>
-<colgroup>
-<col width="46%" />
-<col width="7%" />
-<col width="13%" />
-<col width="11%" />
-<col width="11%" />
-<col width="9%" />
-</colgroup>
-<thead>
-<tr class="header">
-<th align="center">term</th>
-<th align="center">Df</th>
-<th align="center">Sum Sq</th>
-<th align="center">Mean Sq</th>
-<th align="center">F value</th>
-<th align="center">Pr(&gt;F)</th>
-</tr>
-</thead>
-<tbody>
-<tr class="odd">
-<td align="center">final_ranger_action</td>
-<td align="center">7</td>
-<td align="center">1518.595</td>
-<td align="center">216.942</td>
-<td align="center">97.825</td>
-<td align="center">0.000</td>
-</tr>
-<tr class="even">
-<td align="center">animal_condition</td>
-<td align="center">4</td>
-<td align="center">6.266</td>
-<td align="center">1.566</td>
-<td align="center">0.706</td>
-<td align="center">0.588</td>
-</tr>
-<tr class="odd">
-<td align="center">num_animals</td>
-<td align="center">1</td>
-<td align="center">4.267</td>
-<td align="center">4.267</td>
-<td align="center">1.924</td>
-<td align="center">0.165</td>
-</tr>
-<tr class="even">
-<td align="center">final_ranger_action:animal_condition</td>
-<td align="center">24</td>
-<td align="center">492.264</td>
-<td align="center">20.511</td>
-<td align="center">9.249</td>
-<td align="center">0.000</td>
-</tr>
-<tr class="odd">
-<td align="center">Residuals</td>
-<td align="center">6127</td>
-<td align="center">13587.609</td>
-<td align="center">2.218</td>
-<td align="center">NA</td>
-<td align="center">NA</td>
-</tr>
-</tbody>
-</table>
-<p>The original ANOVA model: duration_hours ~ final_ranger_action *
-animal_condition + num_animals</p>
-<p>It shows:</p>
-<p>Final ranger action is highly significant (p &lt; 2e-16), indicating
-strong differences in response duration across action types.</p>
-<p>Animal condition is not significant (p = 0.46) in the raw model.</p>
-<p>Number of animals has no effect (p = 0.80).</p>
-<p>The interaction between final action and condition is significant (p
-= 0.000165), suggesting that the effect of action type depends on the
-condition of the animal.</p>
-</div>
-<div id="using-log-transformed-duration" class="section level3">
-<h3>Using Log-Transformed Duration</h3>
-<pre class="r"><code>park_model2 = park_model |&gt;
-  mutate(log_duration = log(duration_hours))
-
-anova_fit_log = aov(
-  log_duration ~ final_ranger_action * animal_condition + num_animals,
-  data = park_model2
-)
-
-anova_log_tbl &lt;- broom::tidy(anova_fit_log) |&gt;
-  select(
-    term,
-    Df      = df,
-    `Sum Sq`  = sumsq,
-    `Mean Sq` = meansq,
-    `F value` = statistic,
-    `Pr(&gt;F)`  = p.value
-  )
-
-knitr::kable(
-  anova_log_tbl,
-  digits  = 3,
-  caption = &quot;ANOVA table for log-transformed response duration&quot;,
-  align   = &quot;c&quot;
-)</code></pre>
-<table>
-<caption>ANOVA table for log-transformed response duration</caption>
-<colgroup>
-<col width="47%" />
-<col width="7%" />
-<col width="12%" />
-<col width="11%" />
-<col width="11%" />
-<col width="10%" />
-</colgroup>
-<thead>
-<tr class="header">
-<th align="center">term</th>
-<th align="center">Df</th>
-<th align="center">Sum Sq</th>
-<th align="center">Mean Sq</th>
-<th align="center">F value</th>
-<th align="center">Pr(&gt;F)</th>
-</tr>
-</thead>
-<tbody>
-<tr class="odd">
-<td align="center">final_ranger_action</td>
-<td align="center">7</td>
-<td align="center">1037.528</td>
-<td align="center">148.218</td>
-<td align="center">357.609</td>
-<td align="center">0.000</td>
-</tr>
-<tr class="even">
-<td align="center">animal_condition</td>
-<td align="center">4</td>
-<td align="center">7.851</td>
-<td align="center">1.963</td>
-<td align="center">4.736</td>
-<td align="center">0.001</td>
-</tr>
-<tr class="odd">
-<td align="center">num_animals</td>
-<td align="center">1</td>
-<td align="center">0.648</td>
-<td align="center">0.648</td>
-<td align="center">1.564</td>
-<td align="center">0.211</td>
-</tr>
-<tr class="even">
-<td align="center">final_ranger_action:animal_condition</td>
-<td align="center">24</td>
-<td align="center">29.083</td>
-<td align="center">1.212</td>
-<td align="center">2.924</td>
-<td align="center">0.000</td>
-</tr>
-<tr class="odd">
-<td align="center">Residuals</td>
-<td align="center">6127</td>
-<td align="center">2539.457</td>
-<td align="center">0.414</td>
-<td align="center">NA</td>
-<td align="center">NA</td>
-</tr>
-</tbody>
-</table>
-<pre class="r"><code>par(mfrow = c(1, 2))
-plot(anova_fit_log, which = 1)  # Residuals vs Fitted
-plot(anova_fit_log, which = 2)  # Normal Q-Q</code></pre>
-<pre><code>## Warning: not plotting observations with leverage one:
-##   4660</code></pre>
-<p><img src="Project-Report_files/figure-html/unnamed-chunk-19-1.png" width="672" style="display: block; margin: auto;" /></p>
-<pre class="r"><code>par(mfrow = c(1, 1))</code></pre>
-<p>Because response duration is highly right-skewed with many long-tail
-outliers, ANOVA assumptions were violated when using raw duration
-values. This motivated the use of a log-transformation to stabilize
-variance and improve normality of residuals.</p>
-<p>Model: log_duration ~ final_ranger_action * animal_condition +
-num_animals</p>
-<p>The results:</p>
-<p>Final ranger action remains highly significant (p &lt; 2e-16),
-confirming strong differences in rescue duration across action types
-even after transformation.</p>
-<p>Animal condition becomes significant (p = 0.000416), suggesting that
-after correcting skewness and long tails, condition differences emerge
-more clearly.</p>
-<p>Number of animals remains non-significant (p = 0.27).</p>
-<p>Interaction term remains significant (p = 7.3e-07), indicating that
-the influence of action types varies across conditions.</p>
-<p>The log-transformation compresses extreme high-duration responses and
-spreads out low values, resulting in more homogeneous variance across
-fitted values , more normal residual distribution, clearer signal for
-predictors previously overshadowed by extreme right-skewed values.</p>
-<p>This is evident in the diagnostics:</p>
-<p>Residuals vs fitted plot shows more stable variance.</p>
-<p>Q–Q plot is much closer to the reference line, though long-tail
-deviations still exist (expected with field-based rescue data).</p>
-</div>
 </div>
 </div>
 <div

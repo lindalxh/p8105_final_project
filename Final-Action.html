@@ -429,7 +429,7 @@ ggplot(park_model_action, aes(x = final_ranger_action, y = duration_hours)) +
     plot.title = element_text(hjust = 0.5),
     axis.text.y = element_text(size = 8)
   )</code></pre>
-<p><img src="Final-Action_files/figure-html/unnamed-chunk-3-1.png" width="672" style="display: block; margin: auto;" /></p>
+<p><img src="Final-Action_files/figure-html/unnamed-chunk-2-1.png" width="672" style="display: block; margin: auto;" /></p>
 <p>The combined violin–boxplot shows clear differences in response
 duration across ranger actions.</p>
 <p>Rehabilitation-related actions take the longest. Categories such as
@@ -478,7 +478,7 @@ ggplot(park_model_cond, aes(x = animal_condition, y = duration_hours)) +
     plot.title = element_text(hjust = 0.5),
     axis.text.y = element_text(size = 8)
   )</code></pre>
-<p><img src="Final-Action_files/figure-html/unnamed-chunk-4-1.png" width="576" style="display: block; margin: auto;" /></p>
+<p><img src="Final-Action_files/figure-html/unnamed-chunk-3-1.png" width="576" style="display: block; margin: auto;" /></p>
 <p>The violin–boxplot shows how response duration differs across animal
 conditions.</p>
 <p>Unhealthy and Injured animals require longer responses. These
@@ -560,7 +560,7 @@ duration_mean |&gt;
   theme(
     plot.title = element_text(hjust = 0.5)
   )</code></pre>
-<p><img src="Final-Action_files/figure-html/unnamed-chunk-6-1.png" width="480" style="display: block; margin: auto;" /></p>
+<p><img src="Final-Action_files/figure-html/unnamed-chunk-5-1.png" width="480" style="display: block; margin: auto;" /></p>
 <p>The first density plot shows that the distribution of raw response
 duration is extremely right-skewed, with most incidents resolved within
 a short time but a small number taking many hours. This heavy skew makes
@@ -588,7 +588,7 @@ ggplot(park_model2_log,
   theme(
     plot.title = element_text(hjust = 0.5)
   )</code></pre>
-<p><img src="Final-Action_files/figure-html/unnamed-chunk-7-1.png" width="480" style="display: block; margin: auto;" /></p>
+<p><img src="Final-Action_files/figure-html/unnamed-chunk-6-1.png" width="480" style="display: block; margin: auto;" /></p>
 <p>To improve interpretability, we applied a log (1 + duration)
 transformation, which compresses long outliers and spreads the dense
 cluster near zero.</p>
@@ -791,7 +791,7 @@ knitr::kable(
 <pre class="r"><code>par(mfrow = c(1, 2))
 plot(anova_fit_log, which = 1)  # Residuals vs Fitted
 plot(anova_fit_log, which = 2)  # Normal Q-Q</code></pre>
-<p><img src="Final-Action_files/figure-html/unnamed-chunk-9-1.png" width="672" /></p>
+<p><img src="Final-Action_files/figure-html/unnamed-chunk-8-1.png" width="672" /></p>
 <pre class="r"><code>par(mfrow = c(1, 1))</code></pre>
 <p>Because response duration is highly right-skewed with many long
 outliers, the raw ANOVA violated assumptions. A log transformation was
@@ -854,7 +854,7 @@ p4 &lt;- plot_condition_bar(park_model4, &quot;DOA&quot;,       max_cases)
 
 (p1 | p2) /
 (p3 | p4)</code></pre>
-<p><img src="Final-Action_files/figure-html/unnamed-chunk-11-1.png" width="672" /></p>
+<p><img src="Final-Action_files/figure-html/unnamed-chunk-10-1.png" width="672" /></p>
 <p>The four-panel plot compares ranger actions across animal
 conditions.</p>
 <p>Healthy animals： Most cases involve Relocated/Condition Corrected or

@@ -1,0 +1,704 @@
+"original_park","matched_park","similarity"
+"""uncle"" vito e. maranzano glendale playground","""uncle"" vito f. maranzano glendale playground",0.909427609427609
+"2099-2033 colonial ave",NA,NA
+"2930 w fifth st, coney island",NA,NA
+"30-30 thomson avenue",NA,NA
+"35th street",NA,NA
+"406 woodward avenue",NA,NA
+"5 east 102nd st",NA,NA
+"593 132nd st",NA,NA
+"851 fairmont pl",NA,NA
+"abc playground","abc playground",1
+"abingdon square","abingdon square",1
+"aesop park","aesop park",1
+"agnes haywood playground","agnes haywood playground",1
+"al oerter recreation center","kwame ture recreation center",0.852843915343915
+"albemarle playground","albemarle playground",1
+"albert j. parham playground","albert l. parham playground",0.904795821462488
+"alice austen house park","alice austen park",0.913043478260869
+"alice austen park","alice austen park",1
+"allerton playground","allerton playground",1
+"alley athletic playground","alley athletic playground",1
+"alley pond park","alley pond park",1
+"alley pond park oakland lake","alley pond park",0.845238095238095
+"alley pond park tennis courts near court 16","alley pond park",0.782945736434108
+"allison pond park","allison pond park",1
+"altamont house","walton slope",0.76058201058201
+"american veterans memorial pier","american veterans memorial pier",1
+"ampere playground","ampere playground",1
+"amundsen circle","amundsen circle",1
+"andrews grove","andrews grove",1
+"andries playground","andries playground",1
+"annadale green","annadale green",1
+"annunciation park","annunciation playground",0.878942881500426
+"aqueduct walk","aqueduct walk",1
+"archie signer park","archie spigner park",0.917641325536062
+"archie spigner park","archie spigner park",1
+"arcilla playground","arcilla playground",1
+"arden woods","arden woods",1
+"arrochar playground","arrochar playground",1
+"arsenal north",NA,NA
+"asphalt green","asphalt green",1
+"asser levy park","asser levy park",1
+"astoria park","astoria park",1
+"b116 street boardwalk","box street park",0.79047619047619
+"bailey playground","bailey playground",1
+"baisley pond park","baisley pond park",1
+"barretto point park","barretto point park",1
+"barrier playground","barrier playground",1
+"bartel-pritchard square","bartel-pritchard square",1
+"bartlett playground","bartlett playground",1
+"bartow pell mansion",NA,NA
+"bathgate playground","bathgate playground",1
+"battery park","battery park city",0.901960784313726
+"battery park city","battery park city",1
+"bayswater park","bayswater park",1
+"bayview playground","bayview playground",1
+"bayview terrace park","bayview terrace park",1
+"beach 30th street playground","beach 30th street playground",1
+"beach 59th st playground","beach 59th st playground",1
+"beach channel playground","beach channel playground",1
+"beanstalk playground","beanstalk playground",1
+"bedford green","bedford green",1
+"bedford playground","bedford playground",1
+"behagen playground","behagen playground",1
+"bella abzug park","bella abzug park",1
+"bellaire playground","bellaire playground",1
+"bellevue south park","bellevue south park",1
+"belmont playground","belmont playground",1
+"belt parkway/shore parkway","belt parkway/shore parkway",1
+"benson playground","benson playground",1
+"bensonhurst park","bensonhurst park",1
+"bergen beach","bergen beach playground",0.840579710144927
+"bergen beach playground","bergen beach playground",1
+"betsy head park","betsy head park",1
+"betsy head pool","betsy head park",0.866666666666667
+"bill brown playground","bill brown playground",1
+"bill rainey park","bill rainey park",1
+"blake hobbs playground","blake hobbs playground",1
+"blood root valley","blood root valley",1
+"bloomingdale park","bloomingdale park",1
+"blue heron park","blue heron park",1
+"bowling green","bowling green",1
+"bowne park","bowne park",1
+"bradys pond park","bradys pond park",1
+"breininger park","brower park",0.806060606060606
+"breukelen ballfields","breukelen ballfields",1
+"bridge and tunnel park",NA,NA
+"bridge park 3","bridge park 3",1
+"brighton beach",NA,NA
+"brighton playground","brighton playground",1
+"broad channel american park","broad channel american park",1
+"broad channel wetlands","broad channel wetlands",1
+"bronx park","bronx park",1
+"brookfield park","brookfield park",1
+"brooklyn bridge park","brooklyn bridge park",1
+"brooklyn heights promenade","brooklyn heights promenade",1
+"brookville park","brookville park",1
+"brower park","brower park",1
+"brownsville playground","brownsville playground",1
+"brust park","brust park",1
+"bryant park","bryant park",1
+"bunker ponds park","bunker ponds park",1
+"bush terminal park","thursby basin park",0.777777777777778
+"bushwick inlet","bushwick inlet park",0.912280701754386
+"bushwick inlet park","bushwick inlet park",1
+"bushwick playground","bushwick playground",1
+"c.s. 134",NA,NA
+"cadman plaza park","cadman plaza park",1
+"calvary monument","calvary monument",1
+"calvert vaux park","calvert vaux park",1
+"cambria playground","cambria playground",1
+"canal park","canal park",1
+"canarsie park","canarsie park",1
+"captain tilly park","captain tilly park",1
+"carl schurz park","carl schurz park",1
+"catharine turner richardson park","catharine turner richardson park",1
+"cedar grove beach","cedar grove playground",0.785204991087344
+"cedar grove park","cedar grove playground",0.87310606060606
+"cedar playground","cedar playground",1
+"cenral park","central park",0.972222222222222
+"centrail park","central park",0.974358974358974
+"central  park","central park",0.974358974358974
+"central park","central park",1
+"centreville playground","centreville playground",1
+"challenge playground","challenge playground",1
+"chapin woods","arden woods",0.797979797979798
+"charlie's place","charlie's place",1
+"charlton garden","oriental garden",0.85982905982906
+"chelsea park","chelsea park",1
+"chelsea recreation center","chelsea recreation center",1
+"chiarantano playground","chiarantano playground",1
+"churchill school",NA,NA
+"city line park","city line park",1
+"claremont park","claremont park",1
+"claremont playground","coleman playground",0.938888888888889
+"clark playground","clark playground",1
+"clason point park","clason point park",1
+"classon playground","classon playground",1
+"clearview park golf course","clearview park golf course",1
+"clove lakes park","clove lakes park",1
+"cloves lakes park","clove lakes park",0.917892156862745
+"coffey park","coffey park",1
+"colden playground","colden playground",1
+"colgate close","colgate close",1
+"colgate close parks","colgate close",0.894736842105263
+"collect pond park","collect pond park",1
+"college point fields","college point fields",1
+"college point park","college point park",1
+"colonel charles young playground","courtney callender playground",0.768917624521073
+"colucci playground","colucci playground",1
+"columbus circle","columbus square",0.822222222222222
+"columbus park","columbus park",1
+"commodore barry park","commodore barry park",1
+"concrete plant park","concrete plant park",1
+"coney island beach &amp; boardwalk","coney island beach & boardwalk",0.916339869281046
+"coney island beach and boardwalk","coney island beach & boardwalk",0.911661877394636
+"coney island creek park","coney island creek park",1
+"conference house park","conference house park",1
+"cooper park","cooper park",1
+"cooper triangle","cooper triangle",1
+"corlears hook park","corlears hook park",1
+"court square park","court square park",1
+"cpl. thompson park","cpl. thompson park",1
+"crack is wack playground","crack is wack playground",1
+"crescent beach park","crescent beach park",1
+"crocheron park","crocheron park",1
+"cross street marsh ave & westport street",NA,NA
+"crotona park","crotona park",1
+"crotona parkway malls","crotona parkway malls",1
+"cunningham park","cunningham park",1
+"daniel boone playground","daniel boone playground",1
+"dawson playground","dawson playground",1
+"de matti park","de matti park",1
+"de witt clinton park","de witt clinton park",1
+"decatur playground","decatur playground",1
+"deere park","deere park",1
+"detective keith l williams park","detective keith l williams park",1
+"devoe park","devoe park",1
+"dongan playground","dongan playground",1
+"doughboy plaza","doughboy park",0.877289377289377
+"dr. ronald mcnair park","dr. ronald mcnair park",1
+"dubos point wildlife sanctuary","dubos point wildlife sanctuary",1
+"dugan playground","grand playground",0.913888888888889
+"dunningham triangle","dunningham triangle",1
+"dyker beach park","dyker beach park",1
+"east 71st street between avenue v and avenue w",NA,NA
+"east river esplanade","east river esplanade",1
+"east river park","east river walk",0.911111111111111
+"edenwald playground","edenwald playground",1
+"ehrenreich-austin playground","ehrenreich-austin playground",1
+"eibs pond park","eibs pond park",1
+"elmhurst park","elmhurst park",1
+"emerald playground","emerald playground",1
+"emt yadira arroyo playground","fdny-emt yadira arroyo playground",0.82449494949495
+"evelina antonetty playground","evelina antonetty playground",1
+"evergreen park","evergreen park",1
+"ewen park","ewen park",1
+"faber park recreation center","kwame ture recreation center",0.772256728778468
+"faber pool and park","faber pool and park",1
+"fairview park","fairview park",1
+"farm playground","farm playground",1
+"federoff triangle","freedom triangle",0.906617647058823
+"ferry point park","ferry point park",1
+"flatbush and tilden avenues","flatbush mall",0.751187084520418
+"flatbush malls","flatbush malls",1
+"flushing fields","flushing fields",1
+"flushing meadows corona park","flushing meadows corona park",1
+"flushing meadows corona park boathouse","flushing meadows corona park",0.912280701754386
+"flushing meadows corona park pool & rink","flushing meadows corona park",0.9
+"foley square","alben square",0.833333333333333
+"fordham landing playground","fordham landing playground",1
+"forest grove","forest grove",1
+"forest park","forest park",1
+"fort greene park","fort greene park",1
+"fort hamilton recreation center","metropolitan recreation center",0.868138760880696
+"fort independence playground","fort independence playground",1
+"fort totten park","fort totten park",1
+"fort tryon","fort tryon park",0.888888888888889
+"fort tryon park","fort tryon park",1
+"fort washington park","fort washington park",1
+"forth greene park","fort greene park",0.980392156862745
+"four sparrow marsh","four sparrow marsh",1
+"francis lewis park","francis lewis park",1
+"francis lewis playground","francis lewis playground",1
+"frank golden park","frank golden park",1
+"frank principe park","frank principe park",1
+"franklin d. roosevelt boardwalk and beach","franklin d. roosevelt boardwalk and beach",1
+"franz sigel park","franz sigel park",1
+"frederick b. judge playground","frederick b. judge playground",1
+"frederick douglass playground","frederick douglass playground",1
+"frederick johnson playground","frederick johnson playground",1
+"fresh creek nature preserve","fresh creek nature preserve",1
+"freshkills park","freshkills park",1
+"friends field","friends field",1
+"frontera park","frontera park",1
+"ft tryon park","fort totten park",0.835470085470085
+"fulton park","fulton park",1
+"garden playground","garden playground",1
+"garibaldi playground","garibaldi playground",1
+"gateway park","gateway park",1
+"gateway triangle","gateway triangle",1
+"gemini fields","gemini fields",1
+"gen. douglas macarthur park","gen. douglas macarthur park",1
+"gene gray playground","gene gray playground",1
+"gertrude ederle recreation center","gertrude ederle recreation center",1
+"gilbert ramirez park","gilbert ramirez park",1
+"givan square","givan square",1
+"glenwood playground","glenwood playground",1
+"goodhue park","goodhue park",1
+"gorman playground","gorman playground",1
+"grand army plaza","grand army plaza",1
+"grand central parkway extension","grand central parkway extension",1
+"gravesend park","gravesend park",1
+"great kills park","great kills park",1
+"great kills veterans playground","great kills veterans playground",1
+"greeley square park","greeley square park",1
+"green central knoll","green central knoll",1
+"green street","green gems",0.780555555555556
+"green street arthur kill and woodrow road",NA,NA
+"green street at intersection of 120th street and marsden avenue",NA,NA
+"greenbelt native plant center","greenbelt native plant center",1
+"greenbelt nature center","greenbelt native plant center",0.847314438019086
+"greenbelt recreation center","greenbelt native plant center",0.782054259065753
+"greenbelt white trail","greenbelt native plant center",0.761129355956942
+"greencroft playground","greencroft playground",1
+"greenstreet across 269 cambridge avenue",NA,NA
+"greenstreets between pacific avenue and beach road",NA,NA
+"grover cleveland playground","grover cleveland playground",1
+"gun hill playground","gun hill playground",1
+"haffen park","haffen park",1
+"haggerty park","haggerty park",1
+"hallets cove park","hallets cove playground",0.878942881500426
+"hallets cove playground","hallets cove playground",1
+"hamilton fish park","hamilton fish park",1
+"hamilton fish recreation center","hamilton fish park",0.780839307048984
+"hands and heart community garden","6th st and ave b community garden",0.788545173961841
+"harding park","harding park",1
+"harlem river park","harlem river park",1
+"harris park","harris park",1
+"harry maze playground","harry maze playground",1
+"hart island","hart island",1
+"harvey park","harvey park",1
+"henry chapin playgorund","harry chapin playground",0.894409937888199
+"henry hudson park","henry hudson park",1
+"herbert von king park","herbert von king park",1
+"hero park","hero park",1
+"hester st. playground","chester playground",0.917989417989418
+"high bridge park recreation center basement",NA,NA
+"high line","the high line",0.823361823361823
+"high line park","city line park",0.857142857142857
+"high rock park","high rock park",1
+"highbridge park","highbridge park",1
+"highbridge recreation center","highbridge park",0.751343101343101
+"highland park","highland park",1
+"highline",NA,NA
+"highline park","hines park",0.864102564102564
+"hill street community garden","java street community garden",0.904761904761905
+"hines park","hines park",1
+"hinton park","hinton park",1
+"historic richmond town",NA,NA
+"historic richmondtown",NA,NA
+"hoffman park","hoffman park",1
+"holocaust memorial park","father macris park",0.778180354267311
+"holy cow playground","holy cow playground",1
+"homecrest playground","homecrest playground",1
+"hoover - manton playgrounds","hoover - manton playgrounds",1
+"horace harding playground","horace harding playground",1
+"hot spot tot lot","hot spot tot lot",1
+"hoyt playground","hoyt playground",1
+"hudson park","seton park",0.842424242424242
+"hudson river park","hutchinson river parkway",0.806781045751634
+"hudson yards",NA,NA
+"hudson yards entrance to highline park",NA,NA
+"hunter's point south park","hunter's point south park",1
+"hunts point playground","hunts point playground",1
+"hutchinson river parkway","hutchinson river parkway",1
+"hylan boulevard and ithaca street",NA,NA
+"idlewild park","idlewild park",1
+"industrial park","central park",0.833333333333333
+"ingram woods","ingram woods",1
+"inwood hill park","inwood hill park",1
+"irving square park","irving square park",1
+"isham park","isham park",1
+"j hood wright park","j. hood wright park",0.982456140350877
+"j. hood wright park","j. hood wright park",1
+"j. hood wright recreation center","j. hood wright park",0.7890544375645
+"j.j. byrne playground","century playground",0.804761904761905
+"jackie robinson park","jackie robinson park",1
+"jackie robinson recreation center","jackie robinson community garden",0.815510878010878
+"jackson pond playground","john hancock playground",0.83804347826087
+"jacob h. schiff playground","jacob h. schiff playground",1
+"jacob joffe fields","jacob joffe fields",1
+"jacob riis beach","jacob riis triangle",0.806595816464238
+"jacob's ladder playground","jacob's ladder playground",1
+"jaime campiz playground","jaime campiz playground",1
+"jamaica gateway park","jamaica bay park",0.851388888888889
+"james finley walk",NA,NA
+"jennifer's playground","jennifer's playground",1
+"jerome park reservoir","jerome park",0.841269841269841
+"jerome x o'donovan park",NA,NA
+"jesse owens playground","jesse owens playground",1
+"joe michaels mile",NA,NA
+"john e. white park","john e. white park",1
+"john golden park","john golden park",1
+"john j carty park","john j carty park",1
+"john jay park","john jay park",1
+"john paul jones park","john paul jones park",1
+"john v. lindsay east river park","john v. lindsay east river park",1
+"jones woods park","jones woods park",1
+"joseph manna park","joseph manna park",1
+"joseph rodman drake park","joseph rodman drake park & enslaved african burial ground",0.807017543859649
+"joyce kilmer park","joyce kilmer park",1
+"judge moses weinstein playground","judge moses weinstein playground",1
+"juniper valley park","juniper valley park",1
+"kaiser park","kaiser park",1
+"kelly park","alley park",0.896296296296296
+"kennedy king playground","kennedy king playground",1
+"kensington dog run",NA,NA
+"king fisher park","king fisher park",1
+"kingdom pond park","kingdom pond park",1
+"kissena corridor park","kissena corridor park",1
+"kissena park","kissena park",1
+"kolbert playground","kolbert playground",1
+"l/cpl thomas p. noonan jr. playground","l/cpl thomas p. noonan jr. playground",1
+"laguardia landing lights","laguardia landing lights",1
+"laredo avenue parcel","laredo avenue parcel",1
+"latourette park","latourette park & golf course",0.839080459770115
+"latourette park & golf course","latourette park & golf course",1
+"lawrence virgilio playground","lawrence virgilio playground",1
+"lefferts blvd and jamaica ave",NA,NA
+"leif ericson park","leif ericson park",1
+"lemon creek park","lemon creek park",1
+"levy park","alley park",0.896296296296296
+"lew fiddler park","bell tower park",0.794444444444444
+"lew fidler park","bell tower park",0.811111111111111
+"lincoln terrace / arthur s. somers park","lincoln terrace / arthur s. somers park",1
+"lincoln terrace park","richmond terrace park",0.857096171802054
+"linden park","linden park",1
+"linnaeus park","linnaeus park",1
+"little bay park","little bay park",1
+"livonia park","livonia park",1
+"locust manor playground","locust manor playground",1
+"long island mews","long island mews",1
+"loreto playground","loreto playground",1
+"louis armstrong playground","louis armstrong playground",1
+"lt. federico narvaez tot lot","lt. federico narvaez tot lot",1
+"lt. frank mcconnell park","lt. frank mcconnell park",1
+"lyons pool","lyons pool",1
+"lyons pool recreation center","tony dapolito recreation center",0.794221907125133
+"macdonald park","macdonald park",1
+"macneil park","marconi park",0.888888888888889
+"macombs dam park","macombs dam park",1
+"madison square park","madison square park",1
+"mafera park","mafera park",1
+"magenta playground","magenta playground",1
+"mall forty","mall forty two xlii",0.842105263157895
+"manhattan beach","manhattan beach park",0.916666666666667
+"manhattan beach park","manhattan beach park",1
+"mannahatta park","manhattan beach park",0.838888888888889
+"mapes pool","mapes pool",1
+"marble hill playground","marble hill playground",1
+"marco giovanelli playground","lawrence virgilio playground",0.811177248677249
+"marconi park","marconi park",1
+"marcus garvey park","marcus garvey park",1
+"marcy playground","marcy playground",1
+"maria hernandez park","maria hernandez park",1
+"marie curie park","marie curie playground",0.87310606060606
+"marine park","marine park",1
+"marion hopkinson playground","marion hopkinson playground",1
+"martin luther king jr. park","martin luther king jr. playground",0.916947250280584
+"mary o'connor playground","mary o'connor playground",1
+"matthews muliner playground","matthews muliner playground",1
+"mccarren park","mccarren park",1
+"mcgolrick park","mill rock park",0.821428571428571
+"mckinley park","mckinley park",1
+"mellet playground","mellett playground",0.981481481481482
+"melrose commons park","melrose commons park",1
+"mercer playground","mercer playground",1
+"merriam playground","merriam playground",1
+"midland beach","midland field",0.794871794871795
+"midland field","midland field",1
+"midland playground","midland playground",1
+"mill pond park","mill pond park",1
+"mitchel square","mitchel square",1
+"mobilization for change community garden","mobilization for change",0.858333333333333
+"montbellier park","montbellier park",1
+"morningside park","morningside park",1
+"mosholu parkway","mosholu parkway",1
+"mosholu playground","mosholu playground",1
+"motor parkway","motor parkway",1
+"mount prospect park","mount prospect park",1
+"msgr. mcgolrick park","msgr. mcgolrick park",1
+"mullaly park","alley park",0.846296296296296
+"murray playground","murray playground",1
+"n/a",NA,NA
+"naples playground","naples playground",1
+"near roebling playground","daniel boone playground",0.842046238785369
+"nelson playground","nelson playground",1
+"new dorp lane and new dorp plaza",NA,NA
+"new dorp park","new dorp park",1
+"norelli-hargreaves playground","norelli-hargreaves playground",1
+"ny botanical garden","6bc botanical garden",0.865892672858617
+"nyc parking garage",NA,NA
+"o'sullivan plaza","o'sullivan plaza",1
+"oak grove park","frank golden park",0.8265639589169
+"oakland gardens","oakland gardens",1
+"oakland gardens playground","oakland gardens",0.858974358974359
+"oakland lake","oakland gardens",0.833333333333333
+"oakwood beach",NA,NA
+"ocean breeze park","ocean breeze park",1
+"ocean breeze track & field athletic complex","ocean breeze park",0.750256497948016
+"old town playground","old town playground",1
+"olmsted-beil house park","olmsted-beil house park",1
+"orchard beach",NA,NA
+"othmar ammann playground","chiarantano playground",0.847474747474747
+"outside of prospect park on private property",NA,NA
+"owl hollow fields",NA,NA
+"owl's head park","owl's head park",1
+"owls head park","owl's head park",0.977777777777778
+"p.o. serrano playground","p.o. serrano playground",1
+"p.s.117 playground","p.s. 125 playground",0.889498050682261
+"paerdegat park","paerdegat park",1
+"palmer inlet","palmer inlet",1
+"parade ground","parade ground",1
+"parade place","padre plaza",0.797474747474747
+"park avenue green space","park avenue malls",0.786932164170016
+"park avenue malls","park avenue malls",1
+"park of the americas","park of the americas",1
+"park slope playground","park slope playground",1
+"parks street tree",NA,NA
+"parque de los ninos baseball field",NA,NA
+"paul raimonda playground","paul raimonda playground",1
+"payson playground","davidson playground",0.890608875128999
+"pelham bay park","pelham bay park",1
+"pelham parkway","pelham parkway",1
+"pena herrera park","pena herrera playground",0.878942881500426
+"peter detmold park","peter detmold park",1
+"peters field","peters field",1
+"phil ""scooter"" rizzuto park","phil ""scooter"" rizzuto park",1
+"pier 11","pier 42",0.80952380952381
+"playground 103 ciii","playground 103 ciii",1
+"playground 115","playground 115",1
+"playground eighty lxxx","playground eighty lxxx",1
+"playground eighty nine lxxxix","playground eighty nine lxxxix",1
+"playground ninety","playground ninety",1
+"playground one forty","playground one forty",1
+"playground thirty five xxxv","playground thirty five xxxv",1
+"plaza 67","plaza",0.875
+"plimpton playground","plimpton playground",1
+"plumb beach",NA,NA
+"poe park","poe park",1
+"police officer edward byrne park","police officer edward byrne park",1
+"potomac playground","potomac playground",1
+"powell's cove park","powell's cove park",1
+"power playground","power playground",1
+"pratt playground","pratt playground",1
+"prescott playground","prospect playground",0.909356725146199
+"printers park","printers park",1
+"private property",NA,NA
+"prospect park","prospect park",1
+"prospect park lake","prospect park",0.907407407407407
+"ps 153","ps 53",0.944444444444444
+"pugsley creek park","pugsley creek park",1
+"pulaski park","pulaski park",1
+"purple playground","purple playground",1
+"queens borough hall","queensboro oval",0.786189833558255
+"queens botanical garden","united block association garden",0.752376499922082
+"queens bridge park","queensbridge park",0.912854030501089
+"queens farm park","queens farm park",1
+"queensboro hall","queensboro oval",0.911111111111111
+"queensbridge park","queensbridge park",1
+"railroad park","railroad park",1
+"rainbow garden of life and health","rainbow garden of life and health",1
+"rainey park","rainey park",1
+"ralph demarco park","ralph demarco park",1
+"ranaqua garage","ranaqua playground",0.768638768638769
+"ranaqua park","ranaqua playground",0.842592592592593
+"randall's island","randall's island park",0.920634920634921
+"randall's island park","randall's island park",1
+"raoul wallenberg forest","raoul wallenberg forest",1
+"rappaport playground","rappaport playground",1
+"ravenswood playground","ravenswood playground",1
+"raymond o'connor park","raymond o’connor park",0.968253968253968
+"red hook park.","brook park",0.792063492063492
+"red hook recreation area","red hook recreation area",1
+"red hook recreation center","red hook recreation area",0.905788655788656
+"reed's basket willow swamp park","reed's basket willow swamp park",1
+"reiff playground","reiff playground",1
+"rev j polite playground","rev j polite playground",1
+"rev. t. wendell foster park and recreation center","rev. t. wendell foster park and recreation center",1
+"richman (echo) park","richman (echo) park",1
+"ridgewood reservoir",NA,NA
+"rienzi playground","rienzi playground",1
+"riverdale park","riverdale park",1
+"riverdale playground","riverdale playground",1
+"riverside park","riverside park",1
+"riverside park south","riverside park south",1
+"robert bendheim playground","riverbend playground",0.867273954116059
+"robert l. clinkscales playground and community garden","robert l. clinkscales playground and community garden",1
+"robert moses playground","robert moses playground",1
+"rock garden park","rock garden park",1
+"rockaway beach 48 street","rockaway beach",0.861111111111111
+"rockaway beach 95th street","rockaway beach",0.846153846153846
+"rockaway beach and boardwalk","rockaway beach and boardwalk",1
+"rockaway community park","rockaway community park",1
+"rockaway freeway","rockaway freeway",1
+"rocket park","hackett park",0.856060606060606
+"rodney playground center","rodney playground center",1
+"roebling playground","roebling playground",1
+"roger morris park","roger morris park",1
+"roy wilkins park","bushwick inlet park",0.780954790823212
+"roy wilkins recreation center","roy wilkins recreation center",1
+"rufus king park","rufus king park",1
+"russell pedersen playground","russell pedersen playground",1
+"russell sage playground","russell sage playground",1
+"sachkerah woods playground","south rochdale playground",0.825384615384615
+"sara d. roosevelt park","sara d. roosevelt park",1
+"saratoga park","saratoga park",1
+"sarsfield playground","sarsfield playground",1
+"schmul park","schmul park",1
+"schmul park 40.589434, -74.187249","schmul park",0.777777777777778
+"seaside playground","seaside playground",1
+"seaside wildlife nature park","seaside wildlife nature park",1
+"sedgwick playground","sedgwick playground",1
+"seguine mansion","genesis community garden",0.752777777777778
+"seguine mansion- historical building",NA,NA
+"seth low playground/ bealin square","seth low playground/ bealin square",1
+"seton falls park","seton falls park",1
+"seton park","seton park",1
+"sheepshead bay piers","sheepshead bay piers",1
+"sheepshead playground","sheepshead playground",1
+"sheltering arms playground","sheltering arms playground",1
+"sheridan triangle","sheridan triangle",1
+"sherman creek","sherman creek",1
+"sherman park","sherman creek",0.867521367521368
+"shoelace park","peace park",0.864102564102564
+"shore park and parkway","shore park and parkway",1
+"shore parkway","hero park",0.86039886039886
+"shore road park","owl's head park",0.797222222222222
+"silver lake park","silver lake park",1
+"silverstein family park","silver lake park",0.829891304347826
+"siren slope","siren slope",1
+"skyline playground","mckinley playground",0.897374154340099
+"snug harbor cultural center","snug harbor cultural center",1
+"sobelsohn playground","glenwood playground",0.849451754385965
+"socrates sculpture park","socrates sculpture park",1
+"sorrentino recreation center","sorrentino recreation center",1
+"soundview park","soundview park",1
+"south beach","south beach wetlands",0.85
+"south beach wetlands","south beach wetlands",1
+"south oxford park","south oxford park",1
+"south pacific playground","south pacific playground",1
+"south rochdale playground","south rochdale playground",1
+"south shore country club","south shore country club",1
+"southern fields athletic fields","southern fields",0.827956989247312
+"southern stables","southern fields",0.822222222222222
+"southwest playground","mott playground",0.877777777777778
+"space time playground","space time playground",1
+"spirit playground","spirit playground",1
+"spring creek park","spring creek park",1
+"spring creek park addition","spring creek park addition",1
+"springfield park","springfield park",1
+"st. albans park","st. vartan park",0.866666666666667
+"st. andrew's playground","st. andrew's playground",1
+"st. catherine's park","st. catherine's park",1
+"st. james park","st. james park",1
+"st. james recreation center","st. james triangle",0.76466049382716
+"st. john's recreation center","st. john's park",0.751343101343101
+"st. mary's park","st. mary's park",1
+"st. mary's recreation center","hansborough recreation center",0.777093596059113
+"st. michael's playground","st. michael's playground",1
+"st. nicholas park","st. nicholas park",1
+"st. nicholas playground south","st. nicholas playground south",1
+"stanley isaacs playground","stanley isaacs playground",1
+"stapleton esplanade","stapleton esplanade",1
+"stapleton playground","telephone playground",0.880392156862745
+"starlight park","starlight park",1
+"starlight park zone 1","starlight park",0.888888888888889
+"starlight park-starlight park playground","starlight park",0.783333333333333
+"stebbins playground","stebbins playground",1
+"sternberg park","sternberg park",1
+"story playground","story playground",1
+"street tree",NA,NA
+"street tree in sunnyside",NA,NA
+"stroud playground","stroud playground",1
+"stuyvesant cove park","sunset cove park",0.808333333333333
+"stuyvesant square","stuyvesant square",1
+"sumner playground","sumner playground",1
+"sunners playground","sunners playground",1
+"sunrise playground","sunrise playground",1
+"sunset cove","sunset cove park",0.895833333333333
+"sunset park","sunset park",1
+"sunshine playground","sunshine playground",1
+"sutton place park","sutton place park",1
+"tappen park","tappen park",1
+"taylor playground","taylor playground",1
+"ten eyck playground","ten eyck playground",1
+"the battery","the battery",1
+"the big park","the big park",1
+"the high line","the high line",1
+"theodore roosevelt park","theodore roosevelt park",1
+"thomas boyland park","thomas boyland park",1
+"thomas j. cuite park","thomas j. cuite park",1
+"thomas jefferson park","thomas jefferson park",1
+"thomas jefferson recreation center","thomas jefferson park",0.803651285075434
+"thorpe family playground","thorpe family playground",1
+"tompkins square park","tompkins square park",1
+"tompkinsville park","tompkinsville park",1
+"torsney playground","torsney playground",1
+"tottenville pool","tottenville pool",1
+"travers park","travers park",1
+"tremont park","claremont park",0.900793650793651
+"trinity park","trinity park",1
+"tucker place","tucker place",1
+"tudor park","tudor park",1
+"udall's park preserve","udall's park preserve",1
+"umoja learning garden","umoja garden",0.801587301587302
+"underhill playground","gun hill playground",0.875696594427244
+"underwood park","underwood park",1
+"union square park","union square park",1
+"university woods","university woods",1
+"utopia parkway and 77th road",NA,NA
+"valentine varian house","valentine varian house",1
+"van cortlandt park","van cortlandt park",1
+"van dyke playground","van dyke playground",1
+"van nest park","van nest park",1
+"van voorhees park","van voorhees playground",0.878942881500426
+"vidalia park","vidalia park",1
+"von briesen park","von briesen park",1
+"wagner playground","wagner playground",1
+"walker park","walker park",1
+"walt whitman park","walt whitman park",1
+"walter gladwin park","walter gladwin park",1
+"walton park","walton park",1
+"washingtom square park","washington square park",0.96969696969697
+"washington market park","washington market park",1
+"washington park","washington park",1
+"washington square park","washington square park",1
+"watson gleason playground","watson gleason playground",1
+"weeping beech park","wegener park",0.781986531986532
+"wegener park","wegener park",1
+"west harlem piers","west harlem piers",1
+"westbourne playground","westbourne playground",1
+"westerleigh park","westerleigh park",1
+"westwood park","westwood park",1
+"wild bird fund",NA,NA
+"william mccray playground","william mccray playground",1
+"william t davis wildlife refuge",NA,NA
+"william t. davis wildlife refuge",NA,NA
+"williamsbridge oval","williamsbridge oval",1
+"williamsbridge oval recreation center","williamsbridge oval",0.837837837837838
+"williamsbridge square","williamsbridge oval",0.868003341687552
+"willow lake playground","willow lake playground",1
+"willowbrook park","willowbrook park",1
+"windmuller park","lindower park",0.87991452991453
+"wnyc transmitter park","wnyc transmitter park",1
+"wolfe's pond park","wolfe's pond park",1
+"wood park","wood park",1
+"woodlawn cemetery",NA,NA
+"woodrow wilson triangle","woodrow wilson triangle",1
+"wright brothers playground","wright brothers playground",1
+"yellowstone park","yellowstone park",1
+"young park","young park",1
+"youth village","youth village",1
