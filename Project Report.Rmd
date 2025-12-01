@@ -19,7 +19,8 @@ library(knitr)
 
 # Tiny Paws, Big Rescue: A Data Story of Seasonal and Spatial Animal Saving
 
-## Motivation: 
+## Motivation
+
 During the 2025 NYC Tree Count, one of our team members observed a raccoon hiding inside a tree cavity in Morningside Park. Park rangers noted that animals living in urban parks are often stressed or displaced by human activity, yet these encounters also give citizens opportunities to notice injuries, abnormal behavior, or animals in distress. These experiences highlight the importance of citizen science in helping residents recognize that cities serve as shared habitats for both humans and wildlife, and in encouraging community involvement in reporting and supporting animals that may need assistance.
 
 Animals play an essential role in maintaining ecological balance, yet those living in dense urban environments like New York City face unique challenges, including traffic, pollution, habitat fragmentation, and frequent interactions with humans. By analyzing the Urban Park Ranger Animal Response dataset, we aim to identify when and where animals most frequently require help, ultimately raising public awareness and supporting timely rescue and conservation efforts.
@@ -27,14 +28,15 @@ Animals play an essential role in maintaining ecological balance, yet those livi
 To achieve this, we are developing an interactive, data-driven website that allows visitors to explore animal rescue patterns through a variety of visualizations. For instance, the site includes interactive maps that display the geographic locations of animal aid incidents, enabling users to identify high-risk areas and examine the number of reported cases in parks of interest. By showing where different animal species are typically found, when incidents occur most frequently, and how park rangers respond, our platform aims to connect the public with the city’s urban wildlife and promote informed, community-supported conservation.
 
 
-## Related work:
+## Related Work
+
 Our project is inspired by a range of citizen science and urban ecology initiatives that highlight how collaboration between the public and park agencies can improve wildlife protection in cities. For example, large-scale volunteer programs such as the NYC Tree Census (led by NYC Parks and NYC TreesCount!) demonstrate how citizen science can successfully mobilize thousands of residents to monitor environmental conditions across the city. Similar community-based wildlife monitoring efforts, such as iNaturalist, eBird, and the Urban Wildlife Information Network (UWIN), show that public participation can generate high-quality ecological data and increase awareness of human–wildlife interactions.
 
-## Initial questions:
+## Initial Questions
 
 We originally planned to analyze the associations between animal conditions, locations, and time, both across the year and throughout the day. Additional analyses will examine factors that may influence response time, such as park location, animal condition or number, and temporal variables like time of day or frequency within a week or month. Examples of visualizations include a heatmap illustrating the density of injured animals by month and time of day, as well as violin plots grouped by boroughs to show the distribution of response times across regions. We will also conduct statistical tests, such as ANOVA, to evaluate relationships among variables, including borough, response time, animal condition, and time factors.
 
-## Data: 
+## Data
 
 ### Data Source
 
@@ -42,7 +44,7 @@ Our primary dataset is provided by the Department of Parks and Recreation (DPR) 
 
 One essential component of the website visualization is displaying the number of total cases reported to park rangers for each park. The Park Ranger dataset does not contain geographic coordinates, but it provides the park name or the location associated with each case. To map these cases spatially, we used the [Parks Properties](https://data.cityofnewyork.us/Recreation/Parks-Properties/enfh-gkve/about_data) dataset released by the Department of Parks and Recreation (DPR) on NYC OpenData. This dataset contains 2,054 parks and corresponding geographic coordinates in New York City across five boroughs. Coordinates of the 5 boroughs are from the [Borough Boundaries](https://data.cityofnewyork.us/City-Government/Borough-Boundaries/gthc-hcne/about_data) dataset released by the Department of City Planning (DCP) on NYC OpenData.
 
-### Data cleaning process
+### Data Cleaning Process
 
 - Split date and time
 
@@ -167,7 +169,7 @@ We selected Jaro–Winkler algorithm because it is designed for short strings su
 
 All fuzzy-matched pairs with similarity scores less than 1 were then manually reviewed by three members of the group, and each match was checked independently by two reviewers to ensure accuracy and inter-rater reliability. After this process, 35 unique property values remained unmatched, typically because they referred to street names (e.g., “Green Street”), or parks that exist but are not included in the Parks Properties dataset (e.g., “Mannahatta Park”). The final map includes 6,118 reported cases across 546 unique parks. Using Jaro–Winkler with a maximum distance threshold of 0.25 resulted in an overall matching accuracy of 43.75% among the 208 originally unmatched values.
 
-### Cleaned dataset
+### Cleaned Dataset
 
 The cleaned data includes the following variables:
 
@@ -228,7 +230,7 @@ The cleaned data includes the following variables:
 `adult`, `juvenile`, `infant`: An indicator variable representing the age of the animal being rescued
 
 
-## Exploratory analysis: 
+## Exploratory Analysis
 
 ### Temporal Pattern
 
@@ -791,8 +793,7 @@ The presence of some actions like ACC transfer or DEC Testing reflects cases whe
 
 
 
-## Additional analysis:
-
+## Additional Analysis
 
 ### Multiple Linear Regression for Response Duration
 
@@ -1066,7 +1067,7 @@ A chi-square test of independence was conducted to evaluate the association betw
 
 The tables of observed and expected counts are shown above, along with the plot of standardized residuals for the two variables. Based on both the contingency table and the residual plot, domestic species are noticeably overrepresented in the Healthy category, while native (non-domestic) species are underrepresented. Domestic species are also underrepresented in the Injured category, whereas native species show the opposite pattern, with more Injured or Unhealthy cases than expected.
 
-## Discussion:
+## Discussion
 
 ### Species Status and Animal Condition
 One possible explanation of the over-represented healthy cases for domestic species is reporting behavior. Domestic animals may be reported for a wider range of reasons, such as being lost, found unattended, or involved in non-medical encounters, which increases the number of Healthy reports. In contrast, native wildlife is more likely to be reported only when something is wrong, such as being injured, sick, or otherwise in distress, leading to higher counts in those categories.
