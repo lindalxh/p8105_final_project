@@ -379,6 +379,248 @@ div.tocify {
 <p><a
 href="https://www.thedodo.com/daily-dodo/shelter-staff-realize-fierce-little-rescue-kitten-isnt-who-she-seems">image
 source</a></p>
+<pre class="r"><code>source(&quot;data_cleaning.R&quot;)</code></pre>
+<pre><code>## ── Attaching core tidyverse packages ──────────────────────── tidyverse 2.0.0 ──
+## ✔ dplyr     1.1.4     ✔ readr     2.1.5
+## ✔ forcats   1.0.1     ✔ stringr   1.5.2
+## ✔ ggplot2   4.0.0     ✔ tibble    3.3.0
+## ✔ lubridate 1.9.4     ✔ tidyr     1.3.1
+## ✔ purrr     1.1.0     
+## ── Conflicts ────────────────────────────────────────── tidyverse_conflicts() ──
+## ✖ dplyr::filter() masks stats::filter()
+## ✖ dplyr::lag()    masks stats::lag()
+## ℹ Use the conflicted package (&lt;http://conflicted.r-lib.org/&gt;) to force all conflicts to become errors
+## 
+## Attaching package: &#39;hms&#39;
+## 
+## 
+## The following object is masked from &#39;package:lubridate&#39;:
+## 
+##     hms
+## 
+## 
+## Loading required package: viridisLite
+## 
+## 
+## Attaching package: &#39;scales&#39;
+## 
+## 
+## The following object is masked from &#39;package:viridis&#39;:
+## 
+##     viridis_pal
+## 
+## 
+## The following object is masked from &#39;package:purrr&#39;:
+## 
+##     discard
+## 
+## 
+## The following object is masked from &#39;package:readr&#39;:
+## 
+##     col_factor
+## 
+## 
+## Loading required package: Matrix
+## 
+## 
+## Attaching package: &#39;Matrix&#39;
+## 
+## 
+## The following objects are masked from &#39;package:tidyr&#39;:
+## 
+##     expand, pack, unpack
+## 
+## 
+## Loaded glmnet 4.1-10
+## 
+## Rows: 6385 Columns: 22
+## ── Column specification ────────────────────────────────────────────────────────
+## Delimiter: &quot;,&quot;
+## chr (15): Date and Time of initial call, Date and time of Ranger response, B...
+## dbl  (3): Duration of Response, # of Animals, Hours spent monitoring
+## lgl  (4): PEP Response, Animal Monitored, Police Response, ESU Response
+## 
+## ℹ Use `spec()` to retrieve the full column specification for this data.
+## ℹ Specify the column types or set `show_col_types = FALSE` to quiet this message.
+## Rows: 2054 Columns: 34
+## ── Column specification ────────────────────────────────────────────────────────
+## Delimiter: &quot;,&quot;
+## chr (22): ACQUISITIONDATE, ADDRESS, BOROUGH, CLASS, COUNCILDISTRICT, DEPARTM...
+## dbl  (1): PRECINCT
+## num  (7): ACRES, COMMUNITYBOARD, GISOBJID, NYS_ASSEMBLY, NYS_SENATE, OBJECTI...
+## lgl  (4): PERMIT, PIP_RATABLE, RETIRED, WATERFRONT
+## 
+## ℹ Use `spec()` to retrieve the full column specification for this data.
+## ℹ Specify the column types or set `show_col_types = FALSE` to quiet this message.
+## Rows: 703 Columns: 4
+## ── Column specification ────────────────────────────────────────────────────────
+## Delimiter: &quot;,&quot;
+## chr (3): original_park, matched_park, final_match
+## dbl (1): similarity
+## 
+## ℹ Use `spec()` to retrieve the full column specification for this data.
+## ℹ Specify the column types or set `show_col_types = FALSE` to quiet this message.</code></pre>
+<div id="section-1-monthly-trends-analysis" class="section level1">
+<h1>Section 1: Monthly Trends Analysis</h1>
+<div id="monthly-animal-response-trends" class="section level2">
+<h2>Monthly Animal Response Trends</h2>
+<p>This analysis examines seasonal patterns in animal rescue cases to
+identify how different animal categories respond to environmental
+changes throughout the year. Understanding these temporal patterns helps
+predict peak demand periods for wildlife services.</p>
+<pre class="r"><code>monthly_animal_trends = park_ranger_new |&gt; 
+  mutate(
+    call_month = month(date_and_time_of_initial_call, label = TRUE, abbr = TRUE)
+  ) |&gt; 
+  group_by(call_month, animal_class_new) |&gt; 
+  summarise(case_count = n(), .groups = &quot;drop&quot;) |&gt; 
+  # Ensure all months are represented for each animal class
+  complete(call_month, animal_class_new, fill = list(case_count = 0))</code></pre>
+</div>
+<div id="monthly-animal-response-cases-chart" class="section level2">
+<h2>Monthly Animal Response Cases Chart</h2>
+<pre class="r"><code>mon_case_plot = monthly_animal_trends |&gt; 
+  ggplot(aes(x = call_month, y = case_count, group = animal_class_new, color = animal_class_new)) +
+  geom_line(linewidth = 1.2) +
+  geom_point(size = 2) +
+  scale_y_continuous(breaks = pretty_breaks()) +
+  labs(
+    title = &quot;Monthly Animal Response Cases by Animal Class (New Classification)&quot;,
+    subtitle = &quot;Urban Park Ranger Animal Condition Response&quot;,
+    x = &quot;Month&quot;,
+    y = &quot;Number of Cases&quot;,
+    color = &quot;Animal Class&quot;
+  ) +
+  theme_fivethirtyeight() +
+  theme(
+    axis.text.x = element_text(angle = 45, hjust = 1),
+    legend.position = &quot;bottom&quot;,
+    plot.title = element_text(face = &quot;bold&quot;, size = 14),
+    plot.subtitle = element_text(size = 10),
+    legend.text = element_text(size = 8)
+  ) +
+  scale_color_viridis_d()
+
+print(mon_case_plot)</code></pre>
+<p><img src="Temporal-Pattern_files/figure-html/unnamed-chunk-3-1.png" width="672" /></p>
+</div>
+<div id="chart-interpretation" class="section level2">
+<h2>Chart Interpretation</h2>
+<p>This line chart displays the monthly distribution of animal response
+cases across 7 reclassified animal categories throughout the year.</p>
+<p>Key Findings:</p>
+<ol style="list-style-type: decimal">
+<li><p>Birds and raptors demonstrate a notable increase in cases
+beginning in February, reaching a peak in June, and declining to their
+lowest levels by November, possibly reflecting migratory patterns,
+nesting seasons, and reduced activity during colder months.</p></li>
+<li><p>Small mammals exhibit three distinct peaks in case numbers during
+April, August, and October, which may suggest potential associations
+with breeding cycles, seasonal resource availability, or periodic
+human-wildlife interactions in urban environments.</p></li>
+<li><p>Large mammals maintain relatively consistent case numbers between
+70 and 80 throughout the year, indicating potentially stable population
+dynamics or continuous human encounters despite seasonal
+variations.</p></li>
+<li><p>Reptiles and amphibians show generally low and stable case
+numbers with a moderate peak around 100 in June, which might be linked
+to temperature-dependent activity patterns and increased visibility
+during warmer conditions.</p></li>
+<li><p>Marine mammals and other categories remain consistently minimal
+with case counts in the single digits, possibly due to their limited
+presence in urban park ecosystems or lower detection rates.</p></li>
+</ol>
+</div>
+</div>
+<div id="section-2-temporal-distribution-analysis"
+class="section level1">
+<h1>Section 2: Temporal Distribution Analysis</h1>
+<div id="temporal-distribution-of-cases" class="section level2">
+<h2>Temporal Distribution of Cases</h2>
+<p>This heatmap visualization reveals how animal rescue cases distribute
+across both daily hours and monthly periods, identifying optimal
+response windows and understanding the interplay between human activity
+cycles and wildlife behavior.</p>
+<pre class="r"><code>hourly_monthly_heatmap = park_ranger_new |&gt; 
+  mutate(
+    call_month = month(date_and_time_of_initial_call, label = TRUE, abbr = TRUE),
+    call_hour = hour(date_and_time_of_initial_call)
+  ) |&gt; 
+  filter(!is.na(call_month) &amp; !is.na(call_hour)) |&gt; 
+  group_by(call_month, call_hour) |&gt; 
+  summarise(case_count = n(), .groups = &quot;drop&quot;) |&gt; 
+  complete(call_month, call_hour, fill = list(case_count = 0))
+
+max_cases = max(hourly_monthly_heatmap$case_count)
+color_breaks = c(0, 1, 5, 10, 20, 50, max_cases)
+
+red_palette = colorRampPalette(c(&quot;#FFF5F0&quot;, &quot;#FEE0D2&quot;, &quot;#FCBBA1&quot;, &quot;#FC9272&quot;, &quot;#FB6A4A&quot;, &quot;#EF3B2C&quot;, &quot;#CB181D&quot;, &quot;#99000D&quot;))(length(color_breaks))</code></pre>
+</div>
+<div id="animal-response-cases-heatmap" class="section level2">
+<h2>Animal Response Cases Heatmap</h2>
+<pre class="r"><code>case_heatmap = hourly_monthly_heatmap |&gt;
+  ggplot(aes(x = call_hour, y = call_month, fill = case_count)) +
+  geom_tile(color = &quot;white&quot;, linewidth = 0.3) +
+  scale_fill_gradientn(
+    name = &quot;Case Count&quot;,
+    colors = red_palette,
+    values = rescale(color_breaks),
+    breaks = color_breaks,
+    guide = guide_colorbar(
+      barwidth = 30,
+      barheight = 0.8,
+      direction = &quot;horizontal&quot;,
+      title.position = &quot;top&quot;
+    )
+  ) +
+  scale_x_continuous(
+    breaks = seq(0, 23, by = 2),
+    labels = c(&quot;12AM&quot;, &quot;2AM&quot;, &quot;4AM&quot;, &quot;6AM&quot;, &quot;8AM&quot;, &quot;10AM&quot;, 
+               &quot;12PM&quot;, &quot;2PM&quot;, &quot;4PM&quot;, &quot;6PM&quot;, &quot;8PM&quot;, &quot;10PM&quot;)
+  ) +
+  labs(
+    title = &quot;Animal Response Cases: Detailed Hourly and Monthly Distribution&quot;,
+    subtitle = &quot;Enhanced color gradient reveals subtle patterns in case distribution&quot;,
+    x = &quot;Hour of Day&quot;,
+    y = &quot;Month&quot;
+  ) +
+  theme_fivethirtyeight() +
+  theme(
+    axis.text.x = element_text(angle = 45, hjust = 1, size = 8),
+    axis.text.y = element_text(size = 9),
+    plot.title = element_text(face = &quot;bold&quot;, size = 14),
+    plot.subtitle = element_text(size = 10),
+    legend.position = &quot;bottom&quot;,
+    legend.title = element_text(size = 9),
+    legend.text = element_text(size = 8)
+  )
+
+plot(case_heatmap)</code></pre>
+<p><img src="Temporal-Pattern_files/figure-html/unnamed-chunk-5-1.png" width="672" /></p>
+</div>
+<div id="time-month-heatmap-analysis" class="section level2">
+<h2>Time-Month Heatmap Analysis:</h2>
+<p>Case distribution primarily concentrates between 8:00 and 18:00,
+aligning with peak park visitation and diurnal animal activity. Summer
+exhibits extended evening activity likely due to increased daylight and
+recreational use, while winter shows contracted midday patterns
+corresponding to reduced daylight availability. Minimal overnight
+reporting may reflect limited detection capabilities during
+low-human-activity periods.</p>
+</div>
+</div>
+<div id="recommendations-section" class="section level1">
+<h1>Recommendations Section</h1>
+<p>Enhanced ranger coverage during summer afternoons could address
+elevated case frequencies across multiple species. Early spring public
+education initiatives might mitigate conflicts by raising awareness of
+seasonal animal behaviors. Rescue organizations should anticipate
+increased warm-weather intake while utilizing winter for strategic
+planning. Visitor vigilance during peak seasons and prompt daylight
+reporting could improve response effectiveness, supplemented by
+community monitoring programs and coordinated rehabilitation
+networks.</p>
+</div>
 
 
 
