@@ -8,7 +8,7 @@ output:
 
 <br>
 <div align="center">
-![](images/cute_cat2.tiff){width=60%}
+![](images/cute_cat2.jpg){width=60%}
 </div>
 [image source](https://www.thedodo.com/daily-dodo/shelter-staff-realize-fierce-little-rescue-kitten-isnt-who-she-seems)
 
