@@ -52,7 +52,11 @@ One essential component of the website visualization is displaying the number of
 
 - Rename variable `duration_of_response` to `duration_of_action`
 
-```{r, echo = FALSE, message = FALSE}
+- Reclassify animal classes into 7 categories: Birds / Raptors, Small Mammals, Large Mammals, Marine Mammals, Reptiles / Amphibians, Fish, Others
+
+- Factor categorical variables & set reference level
+
+```{r, message = FALSE}
 park_ranger = read_csv("data/Urban_Park_Ranger_Animal_Condition_Response_20251103.csv") %>% 
   janitor::clean_names() %>% 
   mutate(
@@ -66,13 +70,7 @@ park_ranger = read_csv("data/Urban_Park_Ranger_Animal_Condition_Response_2025110
   ) %>% 
   filter(date_and_time_of_ranger_response >= date_and_time_of_initial_call) %>% 
   rename(duration_of_action = duration_of_response)
-```
 
-- Reclassify animal classes into 7 categories: Birds / Raptors, Small Mammals, Large Mammals, Marine Mammals, Reptiles / Amphibians, Fish, Others
-
-- Factor categorical variables & set reference level
-
-```{r}
 park_ranger_new = park_ranger %>% 
   mutate(
     animal_class_new = case_when(
