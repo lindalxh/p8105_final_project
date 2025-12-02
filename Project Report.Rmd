@@ -368,6 +368,119 @@ Case distribution primarily concentrates between 8:00 and 18:00, aligning with p
 
 Enhanced ranger coverage during summer afternoons could address elevated case frequencies across multiple species. Early spring public education initiatives might mitigate conflicts by raising awareness of seasonal animal behaviors. Rescue organizations should anticipate increased warm-weather intake while utilizing winter for strategic planning. Visitor vigilance during peak seasons and prompt daylight reporting could improve response effectiveness, supplemented by community monitoring programs and coordinated rehabilitation networks.
 
+### Health condition
+
+```{r, include=FALSE}
+library(plotly)
+
+# --- Create color palette ---
+custom_colors = c("#0868ac", "#43a2ca", "#7bccc4", "#bae4bc", "#f0f9e8")
+
+# --- health_by_class dataset ---
+health_by_class =
+  park_ranger_new |>
+    count(animal_class_new, animal_condition, name = "n")
+
+class_order =
+  health_by_class |>
+    group_by(animal_class_new) |>
+    summarise(total = sum(n), .groups = "drop") |>
+    arrange(desc(total)) |>
+    pull(animal_class_new)
+
+health_by_class$animal_class_new =
+  factor(health_by_class$animal_class_new, levels = class_order)
+
+# --- health_by_borough dataset ---
+health_by_borough =
+  park_ranger_new |>
+    count(borough, animal_condition, name = "n")
+
+borough_order =
+  health_by_borough |>
+    group_by(borough) |>
+    summarise(total = sum(n), .groups = "drop") |>
+    arrange(desc(total)) |>
+    pull(borough)
+
+health_by_borough$borough =
+  factor(health_by_borough$borough, levels = borough_order)
+
+health_by_borough$hover_text =
+  paste0(
+    "Borough: ", health_by_borough$borough, "<br>",
+    "Health Condition: ", health_by_borough$animal_condition, "<br>",
+    "Count: ", health_by_borough$n
+  )
+```
+
+```{r}
+# --- Plot 1: by animal class ---
+p1 <- plot_ly(
+    data  = health_by_class,
+    x     = ~animal_class_new,
+    y     = ~n,
+    color = ~animal_condition,
+    type  = "bar",
+    colors = custom_colors,
+    hovertemplate = paste(
+      "Animal Class: ", health_by_class$animal_class_new, "<br>",
+      "Health Condition: ", health_by_class$animal_condition, "<br>",
+      "Count: ", health_by_class$n
+    ),
+    showlegend = TRUE
+) |>
+  layout(
+    title  = "By Animal Class",
+    barmode = "stack",
+    xaxis = list(title = "Animal Class"),
+    yaxis = list(title = "Number of Cases")
+  )
+
+# --- Plot 2: by borough ---
+p2 <- plot_ly(
+    data  = health_by_borough,
+    x     = ~borough,
+    y     = ~n,
+    color = ~animal_condition,
+    type  = "bar",
+    colors = custom_colors,
+    text  = ~hover_text,
+    hoverinfo = "text",
+    showlegend = FALSE   # <- only one legend kept!
+) |>
+  layout(
+    title  = "By Borough",
+    barmode = "stack",
+    xaxis = list(title = "Borough"),
+    yaxis = list(title = "Number of Cases")
+  )
+
+# --- merge into one figure ---
+fig <- subplot(p1, p2, nrows = 1, shareY = FALSE) |>
+  layout(
+    title = "Health Conditions Overview",
+    showlegend = TRUE,
+    legend = list(
+      orientation = "h",
+      x = 0.5,
+      y = -0.25,
+      xanchor = "center",
+      yanchor = "top"
+    ),
+    height = 550,
+    margin = list(b = 150)  # ensure text does not cut off
+  )
+
+fig
+```
+
+The distribution of animal health conditions shows clear variation across both animal classes and boroughs. Birds/Raptors and Small Mammals account for most wildlife-related calls, but when health conditions are examined separately, Small Mammals display disproportionately higher numbers of Unhealthy, DOA, and Unknown cases compared with Birds. This suggests that small mammals are often not detected until their condition is severe, whereas birds tend to be reported earlier because they are more visible in open spaces and their abnormal behavior is easier for the public to notice.  
+
+Spatial patterns further highlight differences in how and when animals are found. Manhattan has the highest overall case count, reflecting dense human activity and frequent wildlife encounters, yet its Injured cases are slightly fewer than expected—possibly because animals in Manhattan are noticed and assisted before injuries become severe. Queens shows unusually few Unknown cases, suggesting clearer initial reporting or more consistent condition assessment. Staten Island has more DOA but fewer Unhealthy cases, consistent with an area where wildlife is abundant but human presence is sparse, causing sick animals to go unnoticed until death. In contrast, the Bronx shows somewhat more Healthy cases, possibly due to large park areas where routine, non-emergency wildlife encounters are common.  
+
+Together, these patterns indicate that reported health conditions depend not only on animal behavior and species visibility but also on borough-specific environments, human activity, and differences in how quickly animals are noticed and reported. 
+
 
 ### Response Duration
 
