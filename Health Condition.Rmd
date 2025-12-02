@@ -97,14 +97,15 @@ plot_ly(
 ```
 
 Birds/Raptors have the highest overall number of reports, followed by Small Mammals and Large Mammals.  
+
 However, once the data are split by health condition, several patterns deviate from this overall ranking:  
 
-  • Small Mammals show more Unknown, DOA, and Unhealthy cases than Birds/Raptors, despite having a lower total count.  
+- Small Mammals show more Unknown, DOA, and Unhealthy cases than Birds/Raptors, despite having a lower total count.  
 This may be because small mammals (like rats, hamsters, rabbits) are harder to observe when sick and often found only when severely ill or deceased.  
 
-  • Fish and Marine Mammals have extremely few reports overall, but their conditions tend to cluster (e.g., more DOA), likely due to rare sightings and the difficulty of detecting mild illness in aquatic species.  
+- Fish and Marine Mammals have extremely few reports overall, but their conditions tend to cluster (e.g., more DOA), likely due to rare sightings and the difficulty of detecting mild illness in aquatic species.  
   
-  • Reptiles/Amphibians form a small portion of total cases yet show a relatively higher share of Injured or DOA reports, possibly because people notice them mainly when something is visibly wrong. 
+- Reptiles/Amphibians form a small portion of total cases yet show a relatively higher share of Injured or DOA reports, possibly because people notice them mainly when something is visibly wrong. 
   
 These differences suggest that how often an animal is reported—and why it is reported—depends heavily on visibility, human contact, and the ease of identifying distress across species.  
 
@@ -163,12 +164,16 @@ plot_ly(
 ```
 
 Manhattan has the highest overall number of reports, followed by Queens and Brooklyn.  
+
 But once the data are split by health condition, several boroughs show patterns that differ from their overall ranking:  
 
-  • Queens has very few Unknown cases, possibly because calls there provide clearer information or responders have better visibility.  
-  • Staten Island has more DOA cases but fewer Unhealthy ones, likely because the area is less populated—wildlife is less monitored, so sick animals are less often noticed, whereas dead animals are more likely to be found.  
-  • Manhattan shows slightly fewer Injured cases, which may reflect limited wildlife movement in dense urban areas.  
-  • The Bronx has slightly more Healthy reports, suggesting that encounters there may involve animals that are active and visible rather than distressed.  
+- Queens has very few Unknown cases, possibly because calls there provide clearer information or responders have better visibility.  
+
+- Staten Island has more DOA cases but fewer Unhealthy ones, likely because the area is less populated—wildlife is less monitored, so sick animals are less often noticed, whereas dead animals are more likely to be found.  
+
+- Manhattan shows slightly fewer Injured cases, which may reflect limited wildlife movement in dense urban areas.  
+
+- The Bronx has slightly more Healthy reports, suggesting that encounters there may involve animals that are active and visible rather than distressed.  
 These differences highlight how each borough’s environment and reporting behavior shape the types of wildlife cases observed.  
 
 <br><br>
