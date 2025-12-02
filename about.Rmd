@@ -1,0 +1,205 @@
+---
+title: "Data"
+output: html_document
+---
+
+```{r, include = FALSE}
+library(tidyverse)
+library(hms)
+library(lubridate)
+library(viridis)
+library(ggthemes)
+library(scales)
+library(glmnet)
+library(patchwork)
+library(knitr)
+```
+
+# Data Source
+
+Our primary dataset is provided by the Department of Parks and Recreation (DPR) and is made publicly available through the NYC OpenData portal [(Urban Park Ranger Animal Condition Response)](https://data.cityofnewyork.us/Environment/Urban-Park-Ranger-Animal-Condition-Response/fuhs-xmg2/about_data). This dataset contains 6,385 records of animal rescue requests, including detailed information such as the date and time of each call, ranger response time, park name, specific location descriptions, animal species, and the condition of the animals involved.
+
+One essential component of the website visualization is displaying the number of total cases reported to park rangers for each park. The Park Ranger dataset does not contain geographic coordinates, but it provides the park name or the location associated with each case. To map these cases spatially, we used the [Parks Properties](https://data.cityofnewyork.us/Recreation/Parks-Properties/enfh-gkve/about_data) dataset released by the Department of Parks and Recreation (DPR) on NYC OpenData. This dataset contains 2,054 parks and corresponding geographic coordinates in New York City across five boroughs. Coordinates of the 5 boroughs are from the [Borough Boundaries](https://data.cityofnewyork.us/City-Government/Borough-Boundaries/gthc-hcne/about_data) dataset released by the Department of City Planning (DCP) on NYC OpenData.
+
+# Data Cleaning Process
+
+- Split date and time
+
+- Remove incorrect records based on call & response time
+
+- Rename variable `duration_of_response` to `duration_of_action`
+
+- Reclassify animal classes into 7 categories: Birds / Raptors, Small Mammals, Large Mammals, Marine Mammals, Reptiles / Amphibians, Fish, Others
+
+- Factor categorical variables & set reference level
+
+```{r, message = FALSE}
+park_ranger = read_csv("data/Urban_Park_Ranger_Animal_Condition_Response_20251103.csv") %>% 
+  janitor::clean_names() %>% 
+  mutate(
+    date_and_time_of_initial_call = mdy_hm(date_and_time_of_initial_call),
+    date_and_time_of_ranger_response = mdy_hm(date_and_time_of_ranger_response),
+    
+    call_date = as.Date(date_and_time_of_initial_call),
+    call_time = as_hms(date_and_time_of_initial_call),
+    response_date = as.Date(date_and_time_of_ranger_response),
+    response_time = as_hms(date_and_time_of_ranger_response)
+  ) %>% 
+  filter(date_and_time_of_ranger_response >= date_and_time_of_initial_call) %>% 
+  rename(duration_of_action = duration_of_response)
+
+park_ranger_new = park_ranger %>% 
+  mutate(
+    animal_class_new = case_when(
+      animal_class %in% c(
+        "[\"Birds\"]", "[\"Raptors\"]", "Birds", "Raptors", 
+        "Raptors, Small Mammals-RVS"
+      ) ~ "Birds / Raptors",
+            
+      animal_class %in% c(
+        "[\"Small Mammals-non RVS\"]", "[\"Small Mammals-RVS\"]",
+        "Small Mammals-non RVS", "Small Mammals-RVS"
+      ) ~ "Small Mammals",
+      
+      animal_class %in% c(
+        "Coyotes", "Deer", "[\"Coyotes\"]", "[\"Deer\"]"
+      ) ~ "Large Mammals",
+
+      animal_class %in% c(
+        "[\"Marine Mammals-whales, Dolphin\"]", "[\"Marine Mammals-seals only\"]",
+        "Marine Mammals-seals only", "Marine Mammals-whales,  Dolphin", 
+        "Marine Mammals-whales, Dolphin"
+      ) ~ "Marine Mammals",
+            
+      animal_class %in% c(
+        "[\"Fish-numerous quantity\"]", "[\"Non Native Fish-(invasive)\"]", 
+        "Fish-numerous quantity", "Fish-numerous quantity;#Terrestrial Reptile or Amphibian", 
+        "Non Native Fish-(invasive)"
+      ) ~ "Fish",
+      
+      animal_class %in% c(
+        "[\"Marine Reptiles\"]", "[\"Terrestrial Reptile or Amphibian\"]", 
+        "Marine Reptiles", "Terrestrial Reptile or Amphibian", 
+        "Terrestrial Reptile or Amphibian, Fish-numerous quantity"
+      ) ~ "Reptiles / Amphibians",
+
+      animal_class %in% c(
+        "[\"Rare, Endangered, Dangerous\"]", "Rare,  Endangered,  Dangerous",
+        "Rare, Endangered, Dangerous"
+      ) ~ "Others",
+      
+      species_description %in% c(
+        "Atlantic Canary","Bird (Unknown)","Budgerigar","Budgerigar Parakeet",
+        "Chicken","Chukar","Cockatiel","Domestic Dove","Domestic Duck", "Domestic duck",
+        "Domestic Goose","Domestic Goose Hybrid","Domestic Quail","Domestic Turkey",
+        "Domestic Waterfowl","Fancy Dove","Guinea Fowl","Guineafowl","Japanese Quail",
+        "Khaki Campbell","Muscovy Duck","Rock Dove",
+        "Parakeet (Unknown)"
+      ) ~ "Birds / Raptors",
+      
+      species_description %in% c(
+        "Domestic Rabbit","Domestic Ferret","Fancy Rat","Gerbil",
+        "Guinea Pig", "Guniea Pig", "Guinea pig", "Hamster"
+      ) ~ "Small Mammals",
+      
+      species_description %in% c(
+        "Dog","Pitt Bull Mix","Cat","Goat","Cattle","Pig"
+      ) ~ "Large Mammals",
+      
+      species_description %in% c(
+        "Animal (Unknown)","Honey Bee", "Unknown","N/A"
+      ) ~ "Others"),
+    
+    animal_class_new = factor(animal_class_new, 
+                              levels = c("Birds / Raptors", "Small Mammals", "Large Mammals", 
+                                         "Marine Mammals", "Reptiles / Amphibians", "Fish", "Others")),
+    
+    borough = factor(borough, levels = c("Manhattan", "Brooklyn", "Queens", "Bronx", "Staten Island")),
+    
+    call_source = factor(call_source, levels = c("Public", "Central", "Employee", 
+                                                 "Conservancies/\"Friends of\" Groups", 
+                                                 "Observed by Ranger", "WBF", "WINORR", "Other")),
+    
+    species_status = ifelse(species_status == "N/A" | is.na(species_status), 
+                            "Unknown", species_status),
+    species_status = factor(species_status, levels = c("Native", "Invasive", "Domestic", 
+                                                       "Exotic", "Unknown")),
+    
+    animal_condition = ifelse(animal_condition == "N/A" | is.na(animal_condition), 
+                              "Unknown", animal_condition),
+    animal_condition = factor(animal_condition, levels = c("Healthy", "Unhealthy", "Injured", 
+                                                           "DOA", "Unknown")),
+    
+    adult   = if_else(str_detect(age, "Adult"), 1L, 0L, missing = 0L),
+    juvenile = if_else(str_detect(age, "Juvenile"), 1L, 0L, missing = 0L),
+    infant  = if_else(str_detect(age, "Infant"), 1L, 0L, missing = 0L)
+  )
+```
+
+# Matching Process for Park Properties
+
+After comparing the **Park Ranger** and **Parks Properties** datasets, we found that many park names in Park Ranger (*property*) did not match the official park names (*signname*) in Parks Properties Specifically, 208 out of 703 unique *property* values had no exact match in *signname*. To recover as many matches as possible, we applied the Jaro–Winkler algorithm from the fuzzyjoin package to perform inexact matching on all unique park names.
+
+We selected Jaro–Winkler algorithm because it is designed for short strings such as names, and it places higher weight on common prefixes, which is useful for matching park names that share the same beginning but differ due to abbreviations, typos, or partial truncation (e.g., “Prospect Pk” vs. “Prospect Park”). 
+
+All fuzzy-matched pairs with similarity scores less than 1 were then manually reviewed by three members of the group, and each match was checked independently by two reviewers to ensure accuracy and inter-rater reliability. After this process, 35 unique property values remained unmatched, typically because they referred to street names (e.g., “Green Street”), or parks that exist but are not included in the Parks Properties dataset (e.g., “Mannahatta Park”). The final map includes 6,118 reported cases across 546 unique parks. Using Jaro–Winkler with a maximum distance threshold of 0.25 resulted in an overall matching accuracy of 43.75% among the 208 originally unmatched values.
+
+# Cleaned Dataset
+
+The cleaned data includes the following variables:
+
+`date_and_time_of_initial_call`: The date and time of the initial request for animal rescue
+
+`date_and_time_of_ranger_response`: The date and time when the Ranger responded to the request (/arrived at the site)xxxxxxxxxx
+
+`borough`: Borough in which request for assistance was (Manhattan, Brooklyn, Queens, Bronx, Staten Island)
+
+`property`: Name of location of rescue
+
+`location`: Specific cross street of location of rescue
+
+`species_description`: The species being rescued
+
+`call_source`: Location of initial call
+
+`species_status`: The species status (Native, Invasive, Domestic, Exotic, Unknown)
+
+`animal_condition`: The status of the animal reported by initial request
+
+`duration_of_action`: A numerical value representing the amount of time spent responding upon arrival xxxxxxx
+
+`age`: The original age column that contains age of each animal xxxxxxxx
+
+`animal_class`: The original column describing type of species of animal
+
+`x311sr_number`: Service request number generated by the 311 system
+
+`final_ranger_action`: Final action outcome of responding Ranger
+
+`number_of_animals`: Number of animals attended toxxxxxxxx
+
+`pep_response`: An indicator variable representing if Parks Enforcement Patrol was called
+
+`animal_monitored`: An indicator variable representing if the animal was monitored during visit
+
+`rehabilitator`: Name of a rehabilitator if animal was taken to one
+
+`hours_spent_monitoring`: Indicates how many hours were spent monitoring the animal
+
+`police_response`: An indicator variable representing if Police were called
+
+`esu_response`: An indicator variable representing if ESU were called
+
+`acc_intake_number`: Reference number if the animal was sent to ACC
+
+`call_date`: Date of the initial request for animal rescue
+
+`call_time`: Time of the initial request for animal rescue
+
+`response_date`: Date when the Ranger responded to the request (/arrived at the site)xxxxxxxxxx
+
+`response_time`: Time when the Ranger responded to the request (/arrived at the site)xxxxxxxxxx
+
+`animal_class_new`: Reclassification of `animal_class` into 7 categories (Birds / Raptors, Small Mammals, Large Mammals, Marine Mammals, Reptiles / Amphibians, Fish, Others)
+
+`adult`, `juvenile`, `infant`: An indicator variable representing the age of the animal being rescued

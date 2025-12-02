@@ -3,7 +3,7 @@ output_dir: "."
 navbar:
   title: "Home"
   left:
-    - text: "About"
+    - text: "Data"
       href: about.html
     - text: "Temporal Pattern"
       href: Temporal-Pattern.html

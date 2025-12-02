@@ -13,7 +13,7 @@
 
 <title>Final Action</title>
 
-<script src="site_libs/header-attrs-2.30/header-attrs.js"></script>
+<script src="site_libs/header-attrs-2.29/header-attrs.js"></script>
 <script src="site_libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <link href="site_libs/bootstrap-3.3.5/css/flatly.min.css" rel="stylesheet" />
@@ -325,7 +325,7 @@ div.tocify {
     <div id="navbar" class="navbar-collapse collapse">
       <ul class="nav navbar-nav">
         <li>
-  <a href="about.html">About</a>
+  <a href="about.html">Data</a>
 </li>
 <li>
   <a href="Temporal-Pattern.html">Temporal Pattern</a>
@@ -372,7 +372,7 @@ div.tocify {
 </div>
 
 
-<p>We examined response duration and final ranger actions to understand
+<p>We examined action duration and final ranger actions to understand
 how different types of wildlife incidents demand time and effort from
 Urban Park Rangers. By comparing duration across action types, animal
 conditions, and action–condition combinations, we can identify which
@@ -387,9 +387,8 @@ informed planning and resource allocation within the ranger system.</p>
 Source: the documentary XiYe
 </p>
 </div>
-<div id="response-duration-by-final-ranger-action"
-class="section level2">
-<h2>Response Duration by Final Ranger Action</h2>
+<div id="action-duration-by-final-ranger-action" class="section level2">
+<h2>Action Duration by Final Ranger Action</h2>
 <pre class="r"><code>park_model = park_ranger_new |&gt;
   rename(num_animals = matches(&quot;animals&quot;)) |&gt;
   mutate(
@@ -430,7 +429,7 @@ ggplot(park_model_action, aes(x = final_ranger_action, y = duration_hours)) +
     axis.text.y = element_text(size = 8)
   )</code></pre>
 <p><img src="Final-Action_files/figure-html/unnamed-chunk-2-1.png" width="672" style="display: block; margin: auto;" /></p>
-<p>The combined violin–boxplot shows clear differences in response
+<p>The combined violin–boxplot shows clear differences in action
 duration across ranger actions.</p>
 <p>Rehabilitation-related actions take the longest. Categories such as
 “Released back into Park after Rehabilitation” and “Rehabilitator” have
@@ -451,8 +450,8 @@ actions—especially ACC, Unfounded, and Rehabilitator—include outliers
 over 30 hours, likely due to long-term monitoring, repeated site visits,
 or delays in coordinating animal handoffs.</p>
 </div>
-<div id="response-duration-by-animal-condition" class="section level2">
-<h2>Response Duration by Animal Condition</h2>
+<div id="action-duration-by-animal-condition" class="section level2">
+<h2>Action Duration by Animal Condition</h2>
 <pre class="r"><code>park_model_cond &lt;- park_model |&gt;
   mutate(
     animal_condition = fct_reorder(
@@ -479,7 +478,7 @@ ggplot(park_model_cond, aes(x = animal_condition, y = duration_hours)) +
     axis.text.y = element_text(size = 8)
   )</code></pre>
 <p><img src="Final-Action_files/figure-html/unnamed-chunk-3-1.png" width="576" style="display: block; margin: auto;" /></p>
-<p>The violin–boxplot shows how response duration differs across animal
+<p>The violin–boxplot shows how action duration differs across animal
 conditions.</p>
 <p>Unhealthy and Injured animals require longer responses. These
 categories have slightly higher medians and wider spreads, reflecting
@@ -495,9 +494,9 @@ investigation before determining whether intervention is needed.</p>
 minimal handling, but some last longer due to coordination with external
 agencies, species identification, or special disposal procedures.</p>
 </div>
-<div id="distribution-of-response-duration-by-action-group"
+<div id="distribution-of-action-duration-by-action-group"
 class="section level2">
-<h2>Distribution of Response Duration by Action Group</h2>
+<h2>Distribution of Action Duration by Action Group</h2>
 <pre class="r"><code>park_model_group = park_model |&gt;
   mutate(
     action_group = if_else(
@@ -538,8 +537,8 @@ duration_mean |&gt;
 </tr>
 </tbody>
 </table>
-<div id="density-of-raw-response-duration" class="section level3">
-<h3>Density of Raw Response Duration</h3>
+<div id="density-of-raw-action-duration" class="section level3">
+<h3>Density of Raw Action Duration</h3>
 <pre class="r"><code>ggplot(park_model_group, aes(x = duration_hours,
                         fill  = action_group,
                         color = action_group)) +
@@ -561,16 +560,16 @@ duration_mean |&gt;
     plot.title = element_text(hjust = 0.5)
   )</code></pre>
 <p><img src="Final-Action_files/figure-html/unnamed-chunk-5-1.png" width="480" style="display: block; margin: auto;" /></p>
-<p>The first density plot shows that the distribution of raw response
+<p>The first density plot shows that the distribution of raw action
 duration is extremely right-skewed, with most incidents resolved within
 a short time but a small number taking many hours. This heavy skew makes
 it difficult to visually compare “Unfounded” cases with all other ranger
 actions on the original scale because the long tail compresses the main
 density near zero.</p>
 </div>
-<div id="density-of-log-transformed-response-duration"
+<div id="density-of-log-transformed-action-duration"
 class="section level3">
-<h3>Density of Log-Transformed Response Duration</h3>
+<h3>Density of Log-Transformed Action Duration</h3>
 <pre class="r"><code>park_model2_log = park_model_group |&gt;
   mutate(duration_log = log1p(duration_hours))  # log(1 + x)
 
@@ -601,8 +600,8 @@ for assessment, handling, or coordination. Their mean duration is higher
 at 1.52 hours.</p>
 </div>
 </div>
-<div id="anova-models-for-response-duration" class="section level2">
-<h2>ANOVA Models for Response Duration</h2>
+<div id="anova-models-for-action-duration" class="section level2">
+<h2>ANOVA Models for Action Duration</h2>
 <div id="using-raw-duration" class="section level3">
 <h3>Using Raw Duration</h3>
 <pre class="r"><code>anova_fit = aov(
@@ -690,7 +689,7 @@ knitr::kable(
 </tbody>
 </table>
 <p>The original ANOVA model duration_hours ~ final_ranger_action *
-animal_condition + num_animals shows clear differences in response
+animal_condition + num_animals shows clear differences in action
 duration.</p>
 <p>Final ranger action is highly significant (p &lt; 2e-16), indicating
 strong variation across action types.</p>
@@ -793,7 +792,7 @@ plot(anova_fit_log, which = 1)  # Residuals vs Fitted
 plot(anova_fit_log, which = 2)  # Normal Q-Q</code></pre>
 <p><img src="Final-Action_files/figure-html/unnamed-chunk-8-1.png" width="672" /></p>
 <pre class="r"><code>par(mfrow = c(1, 1))</code></pre>
-<p>Because response duration is highly right-skewed with many long
+<p>Because action duration is highly right-skewed with many long
 outliers, the raw ANOVA violated assumptions. A log transformation was
 applied to stabilize variance and improve residual normality.</p>
 <p>Model: log_duration ~ final_ranger_action * animal_condition +

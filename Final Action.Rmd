@@ -10,7 +10,7 @@ source("data_cleaning.R")
 library(flexdashboard)
 ```
 
-We examined response duration and final ranger actions to understand how different types of wildlife incidents demand time and effort from Urban Park Rangers. By comparing duration across action types, animal conditions, and action–condition combinations, we can identify which situations require intensive intervention, which are resolved quickly, and where uncertainty or coordination challenges lead to variability. Assessing distribution patterns and statistical differences also helps clarify operational drivers behind long responses and supports more informed planning and resource allocation within the ranger system.
+We examined action duration and final ranger actions to understand how different types of wildlife incidents demand time and effort from Urban Park Rangers. By comparing duration across action types, animal conditions, and action–condition combinations, we can identify which situations require intensive intervention, which are resolved quickly, and where uncertainty or coordination challenges lead to variability. Assessing distribution patterns and statistical differences also helps clarify operational drivers behind long responses and supports more informed planning and resource allocation within the ranger system.
 
 ```{r, echo=FALSE, results='asis'}
 cat('
@@ -24,7 +24,7 @@ cat('
 ```
 
 
-## Response Duration by Final Ranger Action
+## Action Duration by Final Ranger Action
 
 ```{r, fig.width=7, fig.height=5, fig.align = "center"}
 park_model = park_ranger_new |>
@@ -69,7 +69,7 @@ ggplot(park_model_action, aes(x = final_ranger_action, y = duration_hours)) +
 
 ```
 
-The combined violin–boxplot shows clear differences in response duration across ranger actions.
+The combined violin–boxplot shows clear differences in action duration across ranger actions.
 
 Rehabilitation-related actions take the longest.
 Categories such as “Released back into Park after Rehabilitation” and “Rehabilitator” have the highest medians and widest spreads, reflecting the need for assessment, coordination with rehabilitators, transport, and extended monitoring.
@@ -84,7 +84,7 @@ Unfounded cases are usually brief but occasionally long when searches, misreport
 Outliers represent rare long-duration events.
 Several actions—especially ACC, Unfounded, and Rehabilitator—include outliers over 30 hours, likely due to long-term monitoring, repeated site visits, or delays in coordinating animal handoffs.
 
-## Response Duration by Animal Condition
+## Action Duration by Animal Condition
 
 ```{r, fig.width=6, fig.height=4, fig.align = "center"}
 park_model_cond <- park_model |>
@@ -114,7 +114,7 @@ ggplot(park_model_cond, aes(x = animal_condition, y = duration_hours)) +
   )
 ```
 
-The violin–boxplot shows how response duration differs across animal conditions.
+The violin–boxplot shows how action duration differs across animal conditions.
 
 Unhealthy and Injured animals require longer responses.
 These categories have slightly higher medians and wider spreads, reflecting the need for careful assessment, safe handling, and possible coordination with rehabilitators.
@@ -128,7 +128,7 @@ Durations range widely, including long outliers, likely because unclear reports 
 DOA cases are typically short but sometimes extended.
 Most require minimal handling, but some last longer due to coordination with external agencies, species identification, or special disposal procedures.
 
-## Distribution of Response Duration by Action Group
+## Distribution of Action Duration by Action Group
 ```{r}
 park_model_group = park_model |>
   mutate(
@@ -153,7 +153,7 @@ duration_mean |>
   )
 ```
 
-### Density of Raw Response Duration
+### Density of Raw Action Duration
 ```{r, fig.width=5, fig.height=3, fig.align = "center"}
 ggplot(park_model_group, aes(x = duration_hours,
                         fill  = action_group,
@@ -178,9 +178,9 @@ ggplot(park_model_group, aes(x = duration_hours,
 
 ```
 
-The first density plot shows that the distribution of raw response duration is extremely right-skewed, with most incidents resolved within a short time but a small number taking many hours. This heavy skew makes it difficult to visually compare “Unfounded” cases with all other ranger actions on the original scale because the long tail compresses the main density near zero.
+The first density plot shows that the distribution of raw action duration is extremely right-skewed, with most incidents resolved within a short time but a small number taking many hours. This heavy skew makes it difficult to visually compare “Unfounded” cases with all other ranger actions on the original scale because the long tail compresses the main density near zero.
 
-### Density of Log-Transformed Response Duration
+### Density of Log-Transformed Action Duration
 ```{r, fig.width=5, fig.height=3, fig.align = "center"}
 park_model2_log = park_model_group |>
   mutate(duration_log = log1p(duration_hours))  # log(1 + x)
@@ -212,7 +212,7 @@ These have a broader distribution and greater density at higher log-duration val
 Their mean duration is higher at 1.52 hours.
 
 
-## ANOVA Models for Response Duration
+## ANOVA Models for Action Duration
 
 ### Using Raw Duration
 ```{r}
@@ -241,7 +241,7 @@ knitr::kable(
 
 The original ANOVA model
 duration_hours ~ final_ranger_action * animal_condition + num_animals
-shows clear differences in response duration.
+shows clear differences in action duration.
 
 Final ranger action is highly significant (p < 2e-16), indicating strong variation across action types.
 
@@ -286,7 +286,7 @@ par(mfrow = c(1, 1))
 
 ```
 
-Because response duration is highly right-skewed with many long outliers, the raw ANOVA violated assumptions. A log transformation was applied to stabilize variance and improve residual normality.
+Because action duration is highly right-skewed with many long outliers, the raw ANOVA violated assumptions. A log transformation was applied to stabilize variance and improve residual normality.
 
 Model: log_duration ~ final_ranger_action * animal_condition + num_animals
 

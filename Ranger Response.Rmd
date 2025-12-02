@@ -9,18 +9,15 @@ source("data_cleaning.R")
 
 <br>
 <div align="center">
-![](images/urgent-caref-service.jpg)
+  <img src="images/urgent-caref-service.jpg" width="50%" />
+  <br>
+  <a href="https://pwahpc.com/pet-urgent-care-north-tonawanda-ny/">Source: Pine Woods Animal Hospital</a>
 </div>
-[image source](https://pwahpc.com/pet-urgent-care-north-tonawanda-ny/)
 
-# Response Duration
 
 We would like to explore how response duration, which we define as the duration between the initial request and the time that Rangers arrived at the site (`date_and_time_of_ranger_response - date_and_time_of_initial_call`), is associated with different incident characteristics.
 
-<br>
-
-## EDA
-### Average Response Duration by Time of Initial Request
+# Average Response Duration by Time of Initial Request
 ```{r}
 ranger_response_hr = park_ranger_new %>% 
   mutate(day_diff = as.numeric(difftime(response_date, call_date, units = "days")),
@@ -53,7 +50,7 @@ This line plot visualizes variation in response duration across the 24-hour day.
 
 <br>
 
-### Distribution of Response Duration
+# Distribution of Response Duration
 ```{r, fig.width=14, fig.height=14}
 resp_dur_dist = ranger_response_hr %>% 
   mutate(resp_bin = case_when(
@@ -108,7 +105,7 @@ Overall, the figure indicates that the reported animal condition plays only a mi
 
 <br>
 
-### Density of Ranger Response Duration by Borough
+# Density of Ranger Response Duration by Borough
 ```{r, warning = FALSE}
 ranger_model = ranger_response_hr %>%
   mutate(
@@ -143,9 +140,7 @@ Despite these minor shifts in central tendency, the overall shapes of the distri
 
 <br>
 
-# Model Building
-
-## Multiple Linear Regression
+# Multiple Linear Regression
 When examining animal condition and borough individually in the raw distributions, neither appears to be a strong or consistent determinant of response duration. These unadjusted patterns suggest that other confounding factors (e.g., call timing, call source) may play a larger role. To evaluate these effects while holding other variables constant, we fit a multiple linear regression model that incorporates incident characteristics including borough, call source, species status, animal condition, age category, animal class, number of animals, and call time.
 
 ```{r}
@@ -242,7 +237,7 @@ Taken together, these results suggest that operational factors-such as when, whe
 
 <br>
 
-## Coefficient Plot
+# Coefficient Plot
 ```{r}
 broom::tidy(model, conf.int = TRUE) %>% 
   ggplot(aes(x = reorder(term, estimate), y = estimate)) +
@@ -261,7 +256,7 @@ This coefficient plot highlights the same general patterns seen in the regressio
 
 <br>
 
-## Elastic Net
+# Elastic Net Model
 
 Elastic Net was used as a complementary approach to assess variable stability and identify predictors with more consistent signals beyond the Ordinary Least Squares (OLS) estimates.
 
@@ -296,6 +291,10 @@ The remaining predictors still show only small or negligible effects in the Elas
 
 Because Elastic Net does not provide p-values or standard errors, these coefficients should be interpreted as indicators of relative importance rather than formal statistical significance.
 
+<br>
+<div align="center">
+  <img src="images/cat1.webp" width="50%" />
+</div>
 <br>
 
 Overall, response duration appears to be driven primarily by operational characteristics, most notably call timing and call source, rather than biological or borough-specific features. Adjusted modeling reveals patterns not visible in the raw data, highlighting the importance of accounting for confounding factors when interpreting response-time differences.
