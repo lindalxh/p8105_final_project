@@ -374,12 +374,15 @@ div.tocify {
 </div>
 
 
+<hr />
 <br>
-<div align="center">
-<p><img src="images/urgent-caref-service.jpg" width="50%" /> <br>
-<a href="https://pwahpc.com/pet-urgent-care-north-tonawanda-ny/">Source:
-Pine Woods Animal Hospital</a></p>
+<div style="text-align:center;">
+<p><img src="images/urgent-caref-service.jpg" width="50%" /></p>
 </div>
+<div style="text-align:center; font-size:12px; color:#666;">
+<p>Image Credits: Pine Woods Animal Hospital</p>
+</div>
+<hr />
 <p>We would like to explore how response duration, which we define as
 the duration between the initial request and the time that Rangers
 arrived at the site
@@ -398,7 +401,8 @@ ranger_response_hr %&gt;%
   group_by(call_hour) %&gt;%
   summarise(mean_duration = mean(response_hrs, na.rm = TRUE)) %&gt;% 
   ggplot(aes(x = call_hour, y = mean_duration)) +
-  geom_line(linewidth = 0.8) + 
+  geom_point(color = &quot;skyblue3&quot;) +
+  geom_line(linewidth = 0.8, color = &quot;skyblue3&quot;) + 
   scale_x_continuous(breaks = 0:23) +
   labs(
     title = &quot;Average Response Duration by Time of Initial Request&quot;,
@@ -426,12 +430,13 @@ exceeding 10 hours, consistent with limited overnight staffing or slower
 processing of after-hours calls.</p></li>
 <li><p>One notable irregularity is the sharp drop in average response
 duration around 23:00, followed by a spike at 0:00. This pattern may
-indicate hour misclassification, where some late-night incidents were
-miscoded as 0:00, combined with small sample sizes or boundary effects
-at the end of the day. These potential misclassifications should be
-considered and interpreted with cautions.</p></li>
+indicate hour misclassification, where some late-night incidents might
+be miscoded as 0:00, combined with small sample sizes or boundary
+effects at the end of the day. These potential misclassifications should
+be considered and interpreted with cautions.</p></li>
 </ul>
 <p><br></p>
+<hr />
 </div>
 <div id="distribution-of-response-duration" class="section level1">
 <h1>Distribution of Response Duration</h1>
@@ -484,16 +489,17 @@ split more at the lower end (0–1 and 1–4 hours) where most observations
 occur, while broader segments were used for longer delays (4–24 and
 &gt;24 hours).</p>
 <p>The plots show that response duration does not meaningfully differ
-across animal condition categories. All five groups (Healthy, Injured,
-Unhealthy, DOA, and Unknown) display highly overlapping distributions
-with similar central tendencies. The within-condition variability is
-much larger than any between-condition differences. The long right tails
-are present across all categories, especially in the &gt;24 hour panel,
+across animal condition categories. All five groups (Healthy, Unhealthy,
+Injured, DOA, and Unknown) display highly overlapping distributions with
+similar central tendencies. The within-condition variability is much
+larger than any between-condition differences. The long right tails are
+present across all categories, especially in the &gt;24 hour panel,
 suggesting that extremely slow responses occur regardless of the
 reported condition.</p>
 <p>Overall, the figure indicates that the reported animal condition
 plays only a minimal role.</p>
 <p><br></p>
+<hr />
 </div>
 <div id="density-of-ranger-response-duration-by-borough"
 class="section level1">
@@ -545,6 +551,7 @@ duration.</p></li>
 the distributions are highly similar. Within-borough variation is much
 greater than between-borough variation.</p>
 <p><br></p>
+<hr />
 </div>
 <div id="multiple-linear-regression" class="section level1">
 <h1>Multiple Linear Regression</h1>
@@ -1180,7 +1187,8 @@ and clarity, potentially slowing response duration.</p></li>
 <li><p>Reports categorized as “Other” tend to be slower than public
 calls, indicating greater variability in information quality or
 urgency.</p></li>
-<li><p>Categories with very small sample sizes (such as WINORR or WBF)
+<li><p>Categories with very small sample sizes (such as WINORR [Wildlife
+In Need of Rescue and Rehabilitation] or WBF [Wildlife Ball Field])
 display large estimated effects but also uncertainty, so these results
 should be interpreted cautiously.</p></li>
 </ul>
@@ -1260,6 +1268,7 @@ reported-explain most of the observed differences in response duration.
 Biological characteristics of the animals, with the exception of exotic
 species, play a comparatively smaller role.</p>
 <p><br></p>
+<hr />
 </div>
 <div id="coefficient-plot" class="section level1">
 <h1>Coefficient Plot</h1>
@@ -1282,6 +1291,7 @@ have confidence intervals crossing zero, indicating little or no
 meaningful association.</li>
 </ul>
 <p><br></p>
+<hr />
 </div>
 <div id="elastic-net-model" class="section level1">
 <h1>Elastic Net Model</h1>
@@ -1444,10 +1454,12 @@ duration is minimal once penalization removes unstable signals.</p>
 these coefficients should be interpreted as indicators of relative
 importance rather than formal statistical significance.</p>
 <br>
-<div align="center">
+<div style="text-align:center;">
 <p><img src="images/cat1.webp" width="50%" /></p>
 </div>
-<p><br></p>
+<div style="text-align:center; font-size:12px; color:#666;">
+<p>Image Credits: Getty Images / richgreentea</p>
+</div>
 <p>Overall, response duration appears to be driven primarily by
 operational characteristics, most notably call timing and call source,
 rather than biological or borough-specific features. Adjusted modeling
