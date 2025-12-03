@@ -574,7 +574,7 @@ Overall, the figure indicates that the reported animal condition plays only a mi
 
 #### Density of Ranger Response Duration by Borough
 
-```{r, message = FALSE}
+```{r, warning = FALSE, message = FALSE}
 ranger_model = ranger_response_hr %>%
   mutate(
     call_hour_cat = case_when(call_hour >= 0 & call_hour < 8 ~ "0-8",
