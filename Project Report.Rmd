@@ -173,7 +173,7 @@ The cleaned data includes the following variables:
 
 `date_and_time_of_initial_call`: The date and time of the initial request for animal rescue
 
-`date_and_time_of_ranger_response`: The date and time when the Ranger responded to the request (/arrived at the site)xxxxxxxxxx
+`date_and_time_of_ranger_response`: The date and time when the Ranger arrived at the site
 
 `borough`: Borough in which request for assistance was (Manhattan, Brooklyn, Queens, Bronx, Staten Island)
 
@@ -189,9 +189,9 @@ The cleaned data includes the following variables:
 
 `animal_condition`: The status of the animal reported by initial request
 
-`duration_of_action`: A numerical value representing the amount of time spent responding upon arrival xxxxxxx
+`duration_of_action`: A numerical value representing the amount of time spent responding upon arrival
 
-`age`: The original age column that contains age of each animal xxxxxxxx
+`age`: The original age column that contains age of each animal
 
 `animal_class`: The original column describing type of species of animal
 
@@ -199,7 +199,7 @@ The cleaned data includes the following variables:
 
 `final_ranger_action`: Final action outcome of responding Ranger
 
-`number_of_animals`: Number of animals attended toxxxxxxxx
+`number_of_animals`: A numerical value representing the number of animals attended to
 
 `pep_response`: An indicator variable representing if Parks Enforcement Patrol was called
 
@@ -219,14 +219,13 @@ The cleaned data includes the following variables:
 
 `call_time`: Time of the initial request for animal rescue
 
-`response_date`: Date when the Ranger responded to the request (/arrived at the site)xxxxxxxxxx
+`response_date`: Date when the Ranger arrived at the site
 
-`response_time`: Time when the Ranger responded to the request (/arrived at the site)xxxxxxxxxx
+`response_time`: Time when the Ranger arrived at the site
 
 `animal_class_new`: Reclassification of `animal_class` into 7 categories (Birds / Raptors, Small Mammals, Large Mammals, Marine Mammals, Reptiles / Amphibians, Fish, Others)
 
 `adult`, `juvenile`, `infant`: An indicator variable representing the age of the animal being rescued
-
 
 ## Exploratory Analysis
 
@@ -499,7 +498,8 @@ ranger_response_hr %>%
   group_by(call_hour) %>%
   summarise(mean_duration = mean(response_hrs, na.rm = TRUE)) %>% 
   ggplot(aes(x = call_hour, y = mean_duration)) +
-  geom_line(linewidth = 0.8) + 
+  geom_point(color = "skyblue3") +
+  geom_line(linewidth = 0.8, color = "skyblue3") + 
   scale_x_continuous(breaks = 0:23) +
   labs(
     title = "Average Response Duration by Time of Initial Request",
@@ -516,11 +516,11 @@ This line plot visualizes variation in response duration across the 24-hour day.
 
 - Cases reported late at night and in the early morning (approximately 20:00-5:00) also show longer response durations, often exceeding 10 hours, consistent with limited overnight staffing or slower processing of after-hours calls.
 
-- One notable irregularity is the sharp drop in average response duration around 23:00, followed by a spike at 0:00. This pattern may indicate hour misclassification, where some late-night incidents were miscoded as 0:00, combined with small sample sizes or boundary effects at the end of the day. These potential misclassifications should be considered and interpreted with cautions.
+- One notable irregularity is the sharp drop in average response duration around 23:00, followed by a spike at 0:00. This pattern may indicate hour misclassification, where some late-night incidents might be miscoded as 0:00, combined with small sample sizes or boundary effects at the end of the day. These potential misclassifications should be considered and interpreted with cautions.
 
 #### Distribution of Response Duration
 
-```{r, fig.width=14, fig.height=12}
+```{r, fig.width=14, fig.height=14}
 resp_dur_dist = ranger_response_hr %>% 
   mutate(resp_bin = case_when(
     response_hrs < 1 ~ "0-1 hours", 
@@ -538,8 +538,13 @@ resp_dur_dist_plot = function(df, title_suffix) {
     labs(title = title_suffix,
          x = "Animal Condition", y = "Response Duration (hours)") +
     theme_minimal() +
-    theme(axis.text.x = element_text(angle = 45, hjust = 1))
-}
+    theme(
+      plot.title = element_text(size = 18, face = "bold"),
+      axis.title = element_text(size = 14),
+      axis.text  = element_text(size = 12),
+      axis.text.x = element_text(angle = 45, hjust = 1, size = 12)
+    )
+  }
 
 p1 = resp_dur_dist %>% 
   filter(resp_bin == "0-1 hours") %>% 
@@ -557,18 +562,19 @@ p4 = resp_dur_dist %>%
   filter(resp_bin == ">24 hours") %>% 
   resp_dur_dist_plot(">24 hours")
 
-(p1 | p2) / (p3 | p4) + plot_annotation(title ="Distribution of Response Duration")
+(p1 | p2) / (p3 | p4) + plot_annotation(title ="Distribution of Response Duration") &
+  theme(text = element_text(size = 24))
 ```
 
 Because response durations are highly right-skewed, the data were split more at the lower end (0–1 and 1–4 hours) where most observations occur, while broader segments were used for longer delays (4–24 and >24 hours). 
 
-The plots show that response duration does not meaningfully differ across animal condition categories. All five groups (Healthy, Injured, Unhealthy, DOA, and Unknown) display highly overlapping distributions with similar central tendencies. The within-condition variability is much larger than any between-condition differences. The long right tails are present across all categories, especially in the >24 hour panel, suggesting that extremely slow responses occur regardless of the reported condition. 
+The plots show that response duration does not meaningfully differ across animal condition categories. All five groups (Healthy, Unhealthy, Injured, DOA, and Unknown) display highly overlapping distributions with similar central tendencies. The within-condition variability is much larger than any between-condition differences. The long right tails are present across all categories, especially in the >24 hour panel, suggesting that extremely slow responses occur regardless of the reported condition. 
 
 Overall, the figure indicates that the reported animal condition plays only a minimal role. 
 
 #### Density of Ranger Response Duration by Borough
 
-```{r}
+```{r, message = FALSE}
 ranger_model = ranger_response_hr %>%
   mutate(
     call_hour_cat = case_when(call_hour >= 0 & call_hour < 8 ~ "0-8",
@@ -953,7 +959,7 @@ After adjustment, several predictors show meaningful statistical associations:
 
 - Reports categorized as "Other" tend to be slower than public calls, indicating greater variability in information quality or urgency.
 
-- Categories with very small sample sizes (such as WINORR or WBF) display large estimated effects but also uncertainty, so these results should be interpreted cautiously.
+- Categories with very small sample sizes (such as WINORR [Wildlife In Need of Rescue and Rehabilitation] or WBF [Wildlife Ball Field]) display large estimated effects but also uncertainty, so these results should be interpreted cautiously.
 
 **Species status** (reference = Native)
 
