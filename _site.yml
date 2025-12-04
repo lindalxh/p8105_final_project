@@ -4,7 +4,7 @@ navbar:
   title: "Home"
   left:
     - text: "Data"
-      href: about.html
+      href: Data-Cleaning.html
     - text: "Temporal Pattern"
       href: Temporal-Pattern.html
     - text: "Health Condition"
