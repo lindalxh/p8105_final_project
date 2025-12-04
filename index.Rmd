@@ -100,7 +100,6 @@ The [Parks Properties](https://data.cityofnewyork.us/Recreation/Parks-Properties
 
 ### Screen Cast
 
-add video
 
 ---
 
@@ -145,7 +144,7 @@ add video
 
 <!-- Xinyin -->
 <div style="width:180px; text-align:center;">
-  <img src="images/sam.jpeg" style="width:100%; border-radius:50%; border:2px solid #ddd;">
+  <img src="images/xinyin.jpeg" style="width:100%; border-radius:50%; border:2px solid #ddd;">
   <div style="margin-top:10px; font-size:16px; font-weight:bold;">Xinyin Miao</div>
   <a href="mailto:xm2356@cumc.columbia.edu" style="text-decoration:none; color:#444;">
     <i class="fa fa-envelope" style="font-size:18px;"></i>
@@ -155,7 +154,7 @@ add video
 
 <!-- Fenglin -->
 <div style="width:180px; text-align:center;">
-  <img src="images/sam.jpeg" style="width:100%; border-radius:50%; border:2px solid #ddd;">
+  <img src="images/fenglin.jpeg" style="width:100%; border-radius:50%; border:2px solid #ddd;">
   <div style="margin-top:10px; font-size:16px; font-weight:bold;">Fenglin Xie</div>
   <a href="mailto:fx2212@cumc.columbia.edu" style="text-decoration:none; color:#444;">
     <i class="fa fa-envelope" style="font-size:18px;"></i>

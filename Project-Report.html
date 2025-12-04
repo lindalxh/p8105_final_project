@@ -9,11 +9,9 @@
 <meta http-equiv="X-UA-Compatible" content="IE=EDGE" />
 
 
-<meta name="author" content="Xinwei Han (xh2601), Xinhui Lin (xl3054), Ruohan Lyu (rl3610), Xinyin Miao (xm2356), Fenglin Xie (fx2212)" />
 
-<meta name="date" content="2025-12-06" />
 
-<title>Project Report</title>
+<title>Project-Report</title>
 
 <script src="site_libs/header-attrs-2.29/header-attrs.js"></script>
 <script src="site_libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
@@ -38,16 +36,6 @@
 <script src="site_libs/navigation-1.1/codefolding.js"></script>
 <link href="site_libs/highlightjs-9.12.0/default.css" rel="stylesheet" />
 <script src="site_libs/highlightjs-9.12.0/highlight.js"></script>
-<link href="site_libs/htmltools-fill-0.5.8.1/fill.css" rel="stylesheet" />
-<script src="site_libs/htmlwidgets-1.6.4/htmlwidgets.js"></script>
-<script src="site_libs/plotly-binding-4.11.0/plotly.js"></script>
-<script src="site_libs/typedarray-0.1/typedarray.min.js"></script>
-<link href="site_libs/crosstalk-1.2.2/css/crosstalk.min.css" rel="stylesheet" />
-<script src="site_libs/crosstalk-1.2.2/js/crosstalk.min.js"></script>
-<link href="site_libs/plotly-htmlwidgets-css-2.11.1/plotly-htmlwidgets.css" rel="stylesheet" />
-<script src="site_libs/plotly-main-2.11.1/plotly-latest.min.js"></script>
-<link href="site_libs/font-awesome-6.5.2/css/all.min.css" rel="stylesheet" />
-<link href="site_libs/font-awesome-6.5.2/css/v4-shims.min.css" rel="stylesheet" />
 
 <style type="text/css">
   code{white-space: pre-wrap;}
@@ -377,14 +365,15 @@ div.tocify {
 
 
 
-<h1 class="title toc-ignore">Project Report</h1>
-<h4 class="author">Xinwei Han (xh2601), Xinhui Lin (xl3054), Ruohan Lyu
-(rl3610), Xinyin Miao (xm2356), Fenglin Xie (fx2212)</h4>
-<h4 class="date">2025-12-06</h4>
 
 </div>
 
 
+<div id="project-report" class="section level1">
+<h1>Project Report</h1>
+<p>Xinwei Han (xh2601), Xinhui Lin (xl3054), Ruohan Lyu (rl3610), Xinyin
+Miao (xm2356), Fenglin Xie (fx2212) 2025-12-06</p>
+<p>Load packages:</p>
 <pre class="r"><code>library(tidyverse)
 library(hms)
 library(lubridate)
@@ -392,109 +381,41 @@ library(viridis)
 library(ggthemes)
 library(scales)
 library(glmnet)
-library(patchwork)
-library(knitr)</code></pre>
+library(patchwork)</code></pre>
+</div>
 <div
-id="tiny-paws-big-rescue-a-data-story-of-seasonal-and-spatial-animal-saving"
+id="motivation-provide-an-overview-of-the-project-goals-and-motivation."
 class="section level1">
-<h1>Tiny Paws, Big Rescue: A Data Story of Seasonal and Spatial Animal
-Saving</h1>
-<div id="motivation" class="section level2">
-<h2>Motivation</h2>
-<p>During the 2025 NYC Tree Count, one of our team members observed a
-raccoon hiding inside a tree cavity in Morningside Park. Park rangers
-noted that animals living in urban parks are often stressed or displaced
-by human activity, yet these encounters also give citizens opportunities
-to notice injuries, abnormal behavior, or animals in distress. These
-experiences highlight the importance of citizen science in helping
-residents recognize that cities serve as shared habitats for both humans
-and wildlife, and in encouraging community involvement in reporting and
-supporting animals that may need assistance.</p>
-<p>Animals play an essential role in maintaining ecological balance, yet
-those living in dense urban environments like New York City face unique
-challenges, including traffic, pollution, habitat fragmentation, and
-frequent interactions with humans. By analyzing the Urban Park Ranger
-Animal Response dataset, we aim to identify when and where animals most
-frequently require help, ultimately raising public awareness and
-supporting timely rescue and conservation efforts.</p>
-<p>To achieve this, we are developing an interactive, data-driven
-website that allows visitors to explore animal rescue patterns through a
-variety of visualizations. For instance, the site includes interactive
-maps that display the geographic locations of animal aid incidents,
-enabling users to identify high-risk areas and examine the number of
-reported cases in parks of interest. By showing where different animal
-species are typically found, when incidents occur most frequently, and
-how park rangers respond, our platform aims to connect the public with
-the city’s urban wildlife and promote informed, community-supported
-conservation.</p>
+<h1>Motivation: Provide an overview of the project goals and
+motivation.</h1>
 </div>
-<div id="related-work" class="section level2">
-<h2>Related Work</h2>
-<p>Our project is inspired by a range of citizen science and urban
-ecology initiatives that highlight how collaboration between the public
-and park agencies can improve wildlife protection in cities. For
-example, large-scale volunteer programs such as the NYC Tree Census (led
-by NYC Parks and NYC TreesCount!) demonstrate how citizen science can
-successfully mobilize thousands of residents to monitor environmental
-conditions across the city. Similar community-based wildlife monitoring
-efforts, such as iNaturalist, eBird, and the Urban Wildlife Information
-Network (UWIN), show that public participation can generate high-quality
-ecological data and increase awareness of human–wildlife
-interactions.</p>
+<div
+id="related-work-anything-that-inspired-you-such-as-a-paper-a-web-site-or-something-we-discussed-in-class."
+class="section level1">
+<h1>Related work: Anything that inspired you, such as a paper, a web
+site, or something we discussed in class.</h1>
 </div>
-<div id="initial-questions" class="section level2">
-<h2>Initial Questions</h2>
-<p>We originally planned to analyze the associations between animal
-conditions, locations, and time, both across the year and throughout the
-day. Additional analyses will examine factors that may influence
-response time, such as park location, animal condition or number, and
-temporal variables like time of day or frequency within a week or month.
-Examples of visualizations include a heatmap illustrating the density of
-injured animals by month and time of day, as well as violin plots
-grouped by boroughs to show the distribution of response times across
-regions. We will also conduct statistical tests, such as ANOVA, to
-evaluate relationships among variables, including borough, response
-time, animal condition, and time factors.</p>
+<div
+id="initial-questions-what-questions-are-you-trying-to-answer-how-did-these-questions-evolve-over-the-course-of-the-project-what-new-questions-did-you-consider-in-the-course-of-your-analysis"
+class="section level1">
+<h1>Initial questions: What questions are you trying to answer? How did
+these questions evolve over the course of the project? What new
+questions did you consider in the course of your analysis?</h1>
 </div>
-<div id="data" class="section level2">
-<h2>Data</h2>
-<div id="data-source" class="section level3">
-<h3>Data Source</h3>
-<p>Our primary dataset is provided by the Department of Parks and
-Recreation (DPR) and is made publicly available through the NYC OpenData
-portal <a
-href="https://data.cityofnewyork.us/Environment/Urban-Park-Ranger-Animal-Condition-Response/fuhs-xmg2/about_data">(Urban
-Park Ranger Animal Condition Response)</a>. This dataset contains 6,385
-records of animal rescue requests, including detailed information such
-as the date and time of each call, ranger response time, park name,
-specific location descriptions, animal species, and the condition of the
-animals involved.</p>
-<p>One essential component of the website visualization is displaying
-the number of total cases reported to park rangers for each park. The
-Park Ranger dataset does not contain geographic coordinates, but it
-provides the park name or the location associated with each case. To map
-these cases spatially, we used the <a
-href="https://data.cityofnewyork.us/Recreation/Parks-Properties/enfh-gkve/about_data">Parks
-Properties</a> dataset released by the Department of Parks and
-Recreation (DPR) on NYC OpenData. This dataset contains 2,054 parks and
-corresponding geographic coordinates in New York City across five
-boroughs. Coordinates of the 5 boroughs are from the <a
-href="https://data.cityofnewyork.us/City-Government/Borough-Boundaries/gthc-hcne/about_data">Borough
-Boundaries</a> dataset released by the Department of City Planning (DCP)
-on NYC OpenData.</p>
+<div id="data-source-scraping-method-cleaning-etc."
+class="section level1">
+<h1>Data: Source, scraping method, cleaning, etc.</h1>
+<div id="data-source" class="section level2">
+<h2>Data Source</h2>
 </div>
-<div id="data-cleaning-process" class="section level3">
-<h3>Data Cleaning Process</h3>
+<div id="data-cleaning-process" class="section level2">
+<h2>Data cleaning process</h2>
 <ul>
 <li><p>Split date and time</p></li>
 <li><p>Remove incorrect records based on call &amp; response
 time</p></li>
 <li><p>Rename variable <code>duration_of_response</code> to
 <code>duration_of_action</code></p></li>
-<li><p>Reclassify animal classes into 7 categories: Birds / Raptors,
-Small Mammals, Large Mammals, Marine Mammals, Reptiles / Amphibians,
-Fish, Others</p></li>
-<li><p>Factor categorical variables &amp; set reference level</p></li>
 </ul>
 <pre class="r"><code>park_ranger = read_csv(&quot;data/Urban_Park_Ranger_Animal_Condition_Response_20251103.csv&quot;) %&gt;% 
   janitor::clean_names() %&gt;% 
@@ -508,9 +429,23 @@ Fish, Others</p></li>
     response_time = as_hms(date_and_time_of_ranger_response)
   ) %&gt;% 
   filter(date_and_time_of_ranger_response &gt;= date_and_time_of_initial_call) %&gt;% 
-  rename(duration_of_action = duration_of_response)
-
-park_ranger_new = park_ranger %&gt;% 
+  rename(duration_of_action = duration_of_response)</code></pre>
+<pre><code>## Rows: 6385 Columns: 22
+## ── Column specification ─────────────────────────────────────
+## Delimiter: &quot;,&quot;
+## chr (15): Date and Time of initial call, Date and time of Ranger response, B...
+## dbl  (3): Duration of Response, # of Animals, Hours spent monitoring
+## lgl  (4): PEP Response, Animal Monitored, Police Response, ESU Response
+## 
+## ℹ Use `spec()` to retrieve the full column specification for this data.
+## ℹ Specify the column types or set `show_col_types = FALSE` to quiet this message.</code></pre>
+<ul>
+<li><p>Reclassify animal classes into 7 categories: Birds / Raptors,
+Small Mammals, Large Mammals, Marine Mammals, Reptiles / Amphibians,
+Fish, Others</p></li>
+<li><p>Factor categorical variables &amp; set reference level</p></li>
+</ul>
+<pre class="r"><code>park_ranger_new = park_ranger %&gt;% 
   mutate(
     animal_class_new = case_when(
       animal_class %in% c(
@@ -597,40 +532,13 @@ park_ranger_new = park_ranger %&gt;%
     infant  = if_else(str_detect(age, &quot;Infant&quot;), 1L, 0L, missing = 0L)
   )</code></pre>
 </div>
-<div id="matching-process-for-park-properties" class="section level3">
-<h3>Matching Process for Park Properties</h3>
-<p>After comparing the <strong>Park Ranger</strong> and <strong>Parks
-Properties</strong> datasets, we found that many park names in Park
-Ranger (<em>property</em>) did not match the official park names
-(<em>signname</em>) in Parks Properties Specifically, 208 out of 703
-unique <em>property</em> values had no exact match in <em>signname</em>.
-To recover as many matches as possible, we applied the Jaro–Winkler
-algorithm from the fuzzyjoin package to perform inexact matching on all
-unique park names.</p>
-<p>We selected Jaro–Winkler algorithm because it is designed for short
-strings such as names, and it places higher weight on common prefixes,
-which is useful for matching park names that share the same beginning
-but differ due to abbreviations, typos, or partial truncation (e.g.,
-“Prospect Pk” vs. “Prospect Park”).</p>
-<p>All fuzzy-matched pairs with similarity scores less than 1 were then
-manually reviewed by three members of the group, and each match was
-checked independently by two reviewers to ensure accuracy and
-inter-rater reliability. After this process, 35 unique property values
-remained unmatched, typically because they referred to street names
-(e.g., “Green Street”), or parks that exist but are not included in the
-Parks Properties dataset (e.g., “Mannahatta Park”). The final map
-includes 6,118 reported cases across 546 unique parks. Using
-Jaro–Winkler with a maximum distance threshold of 0.25 resulted in an
-overall matching accuracy of 43.75% among the 208 originally unmatched
-values.</p>
-</div>
-<div id="cleaned-dataset" class="section level3">
-<h3>Cleaned Dataset</h3>
+<div id="cleaned-dataset" class="section level2">
+<h2>Cleaned dataset</h2>
 <p>The cleaned data includes the following variables:</p>
 <p><code>date_and_time_of_initial_call</code>: The date and time of the
 initial request for animal rescue</p>
 <p><code>date_and_time_of_ranger_response</code>: The date and time when
-the Ranger arrived at the site</p>
+the Ranger responded to the request (/arrived at the site)xxxxxxxxxx</p>
 <p><code>borough</code>: Borough in which request for assistance was
 (Manhattan, Brooklyn, Queens, Bronx, Staten Island)</p>
 <p><code>property</code>: Name of location of rescue</p>
@@ -643,17 +551,17 @@ Domestic, Exotic, Unknown)</p>
 <p><code>animal_condition</code>: The status of the animal reported by
 initial request</p>
 <p><code>duration_of_action</code>: A numerical value representing the
-amount of time spent responding upon arrival</p>
+amount of time spent responding upon arrival xxxxxxx</p>
 <p><code>age</code>: The original age column that contains age of each
-animal</p>
+animal xxxxxxxx</p>
 <p><code>animal_class</code>: The original column describing type of
 species of animal</p>
 <p><code>x311sr_number</code>: Service request number generated by the
 311 system</p>
 <p><code>final_ranger_action</code>: Final action outcome of responding
 Ranger</p>
-<p><code>number_of_animals</code>: A numerical value representing the
-number of animals attended to</p>
+<p><code>number_of_animals</code>: Number of animals attended
+toxxxxxxxx</p>
 <p><code>pep_response</code>: An indicator variable representing if
 Parks Enforcement Patrol was called</p>
 <p><code>animal_monitored</code>: An indicator variable representing if
@@ -672,10 +580,10 @@ sent to ACC</p>
 rescue</p>
 <p><code>call_time</code>: Time of the initial request for animal
 rescue</p>
-<p><code>response_date</code>: Date when the Ranger arrived at the
-site</p>
-<p><code>response_time</code>: Time when the Ranger arrived at the
-site</p>
+<p><code>response_date</code>: Date when the Ranger responded to the
+request (/arrived at the site)xxxxxxxxxx</p>
+<p><code>response_time</code>: Time when the Ranger responded to the
+request (/arrived at the site)xxxxxxxxxx</p>
 <p><code>animal_class_new</code>: Reclassification of
 <code>animal_class</code> into 7 categories (Birds / Raptors, Small
 Mammals, Large Mammals, Marine Mammals, Reptiles / Amphibians, Fish,
@@ -684,280 +592,19 @@ Others)</p>
 indicator variable representing the age of the animal being rescued</p>
 </div>
 </div>
-<div id="exploratory-analysis" class="section level2">
-<h2>Exploratory Analysis</h2>
-<div id="temporal-pattern" class="section level3">
-<h3>Temporal Pattern</h3>
-<p>This part presents a comprehensive analysis and visualization of
-temporal patterns in wildlife incident reports, with the goal of
-generating data-driven insights to optimize rescue response strategies
-and operational efficiency within urban park systems. Through an
-in-depth examination of seasonal fluctuations, daily cycles, and
-categorical trends, it seeks to inform proactive planning, improve
-resource allocation, and enhance protection efforts for urban
-wildlife.</p>
-<div id="monthly-trends-analysis" class="section level4">
-<h4>Monthly Trends Analysis</h4>
-<p>This analysis examines seasonal patterns in animal rescue cases to
-identify how different animal categories respond to environmental
-changes throughout the year. Understanding these temporal patterns helps
-predict peak demand periods for wildlife services.</p>
-<div id="monthly-animal-response-trends" class="section level5">
-<h5>Monthly Animal Response Trends</h5>
-<pre class="r"><code>monthly_animal_trends = park_ranger_new |&gt; 
-  mutate(
-    call_month = month(date_and_time_of_initial_call, label = TRUE, abbr = TRUE)
-  ) |&gt; 
-  group_by(call_month, animal_class_new) |&gt; 
-  summarise(case_count = n(), .groups = &quot;drop&quot;) |&gt; 
-  # Ensure all months are represented for each animal class
-  complete(call_month, animal_class_new, fill = list(case_count = 0))
-
-mon_case_plot = monthly_animal_trends |&gt; 
-  ggplot(aes(x = call_month, y = case_count, group = animal_class_new, color = animal_class_new)) +
-  geom_line(linewidth = 1.2) +
-  geom_point(size = 2) +
-  scale_y_continuous(breaks = pretty_breaks()) +
-  labs(
-    title = &quot;Monthly Animal Response Cases by Animal Class (New Classification)&quot;,
-    subtitle = &quot;Urban Park Ranger Animal Condition Response&quot;,
-    x = &quot;Month&quot;,
-    y = &quot;Number of Cases&quot;,
-    color = &quot;Animal Class&quot;
-  ) +
-  theme_minimal() + 
-  theme(
-    axis.text.x = element_text(angle = 45, hjust = 1),
-    legend.position = &quot;bottom&quot;,
-    plot.title = element_text(face = &quot;bold&quot;, size = 14),
-    plot.subtitle = element_text(size = 10),
-    legend.text = element_text(size = 8),
-    panel.background = element_rect(fill = &quot;white&quot;, color = NA), 
-    plot.background = element_rect(fill = &quot;white&quot;, color = NA)
-  )  +
-  scale_color_viridis_d()
-
-print(mon_case_plot)</code></pre>
-<p><img src="Project-Report_files/figure-html/unnamed-chunk-3-1.png" width="864" /></p>
-</div>
-<div id="chart-interpretation" class="section level5">
-<h5>Chart Interpretation</h5>
-<p>This line chart displays the monthly distribution of animal response
-cases across 7 reclassified animal categories throughout the year.</p>
-<p>Key Findings:</p>
-<ol style="list-style-type: decimal">
-<li><p>Birds and raptors demonstrate a notable increase in cases
-beginning in February, reaching a peak in June, and declining to their
-lowest levels by November, possibly reflecting migratory patterns,
-nesting seasons, and reduced activity during colder months.</p></li>
-<li><p>Small mammals exhibit three distinct peaks in case numbers during
-April, August, and October, which may suggest potential associations
-with breeding cycles, seasonal resource availability, or periodic
-human-wildlife interactions in urban environments.</p></li>
-<li><p>Large mammals maintain relatively consistent case numbers between
-70 and 80 throughout the year, indicating potentially stable population
-dynamics or continuous human encounters despite seasonal
-variations.</p></li>
-<li><p>Reptiles and amphibians show generally low and stable case
-numbers with a moderate peak around 100 in June, which might be linked
-to temperature-dependent activity patterns and increased visibility
-during warmer conditions.</p></li>
-<li><p>Marine mammals and other categories remain consistently minimal
-with case counts in the single digits, possibly due to their limited
-presence in urban park ecosystems or lower detection rates.</p></li>
-</ol>
-</div>
-</div>
-<div id="temporal-distribution-analysis" class="section level4">
-<h4>Temporal Distribution Analysis</h4>
-<p>We use heatmap visualization to reveal how animal rescue cases
-distribute across both daily hours and monthly periods, identifying
-optimal response windows and understanding the interplay between human
-activity cycles and wildlife behavior.</p>
-<div id="animal-response-cases-heatmap" class="section level5">
-<h5>Animal Response Cases Heatmap</h5>
-<pre class="r"><code>hourly_monthly_heatmap = park_ranger_new |&gt; 
-  mutate(
-    call_month = month(date_and_time_of_initial_call, label = TRUE, abbr = TRUE),
-    call_hour = hour(date_and_time_of_initial_call)
-  ) |&gt; 
-  filter(!is.na(call_month) &amp; !is.na(call_hour)) |&gt; 
-  group_by(call_month, call_hour) |&gt; 
-  summarise(case_count = n(), .groups = &quot;drop&quot;) |&gt; 
-  complete(call_month, call_hour, fill = list(case_count = 0))
-
-max_cases = max(hourly_monthly_heatmap$case_count)
-color_breaks = c(0, 1, 5, 10, 20, 50, max_cases)
-
-red_palette = colorRampPalette(c(&quot;#FFF5F0&quot;, &quot;#FEE0D2&quot;, &quot;#FCBBA1&quot;, &quot;#FC9272&quot;, &quot;#FB6A4A&quot;, &quot;#EF3B2C&quot;, &quot;#CB181D&quot;, &quot;#99000D&quot;))(length(color_breaks))
-
-case_heatmap = hourly_monthly_heatmap |&gt;
-  ggplot(aes(x = call_hour, y = call_month, fill = case_count)) +
-  geom_tile(color = &quot;white&quot;, linewidth = 0.3) +
-  scale_fill_gradientn(
-    name = &quot;Case Count&quot;,
-    colors = red_palette,
-    values = rescale(color_breaks),
-    breaks = color_breaks,
-    guide = guide_colorbar(
-      barwidth = 30,
-      barheight = 0.8,
-      direction = &quot;horizontal&quot;,
-      title.position = &quot;top&quot;
-    )
-  ) +
-  scale_x_continuous(
-    breaks = seq(0, 23, by = 2),
-    labels = c(&quot;12AM&quot;, &quot;2AM&quot;, &quot;4AM&quot;, &quot;6AM&quot;, &quot;8AM&quot;, &quot;10AM&quot;, 
-               &quot;12PM&quot;, &quot;2PM&quot;, &quot;4PM&quot;, &quot;6PM&quot;, &quot;8PM&quot;, &quot;10PM&quot;)
-  ) +
-  labs(
-    title = &quot;Animal Response Cases: Detailed Hourly and Monthly Distribution&quot;,
-    subtitle = &quot;Enhanced color gradient reveals subtle patterns in case distribution&quot;,
-    x = &quot;Hour of Day&quot;,
-    y = &quot;Month&quot;
-  ) +
-  theme_fivethirtyeight() +
-  theme(
-    axis.text.x = element_text(angle = 45, hjust = 1, size = 8, color = &quot;black&quot;),
-    axis.text.y = element_text(size = 9, color = &quot;black&quot;),
-    axis.title = element_text(color = &quot;black&quot;),
-    plot.title = element_text(face = &quot;bold&quot;, size = 14, color = &quot;black&quot;),
-    plot.subtitle = element_text(size = 10, color = &quot;#333333&quot;),
-    legend.position = &quot;bottom&quot;,
-    legend.title = element_text(size = 9, color = &quot;black&quot;),
-    legend.text = element_text(size = 8, color = &quot;black&quot;), 
-    legend.background = element_rect(fill = &quot;white&quot;, color = NA),
-    panel.background = element_rect(fill = &quot;white&quot;, color = NA),
-    plot.background = element_rect(fill = &quot;white&quot;, color = NA)
-  )
-
-plot(case_heatmap)</code></pre>
-<p><img src="Project-Report_files/figure-html/unnamed-chunk-4-1.png" width="864" /></p>
-</div>
-<div id="time-month-heatmap-analysis" class="section level5">
-<h5>Time-Month Heatmap Analysis</h5>
-<p>Case distribution primarily concentrates between 8:00 and 18:00,
-aligning with peak park visitation and diurnal animal activity. Summer
-exhibits extended evening activity likely due to increased daylight and
-recreational use, while winter shows contracted midday patterns
-corresponding to reduced daylight availability. Minimal overnight
-reporting may reflect limited detection capabilities during
-low-human-activity periods.</p>
-</div>
-</div>
-<div id="recommendations-section" class="section level4">
-<h4>Recommendations Section</h4>
-<p>Enhanced ranger coverage during summer afternoons could address
-elevated case frequencies across multiple species. Early spring public
-education initiatives might mitigate conflicts by raising awareness of
-seasonal animal behaviors. Rescue organizations should anticipate
-increased warm-weather intake while utilizing winter for strategic
-planning. Visitor vigilance during peak seasons and prompt daylight
-reporting could improve response effectiveness, supplemented by
-community monitoring programs and coordinated rehabilitation
-networks.</p>
-</div>
-</div>
-<div id="health-condition" class="section level3">
-<h3>Health condition</h3>
-<pre class="r"><code># --- Plot 1: by animal class ---
-p1 &lt;- plot_ly(
-    data  = health_by_class,
-    x     = ~animal_class_new,
-    y     = ~n,
-    color = ~animal_condition,
-    type  = &quot;bar&quot;,
-    colors = custom_colors,
-    hovertemplate = paste(
-      &quot;Animal Class: &quot;, health_by_class$animal_class_new, &quot;&lt;br&gt;&quot;,
-      &quot;Health Condition: &quot;, health_by_class$animal_condition, &quot;&lt;br&gt;&quot;,
-      &quot;Count: &quot;, health_by_class$n
-    ),
-    showlegend = TRUE
-) |&gt;
-  layout(
-    title  = &quot;By Animal Class&quot;,
-    barmode = &quot;stack&quot;,
-    xaxis = list(title = &quot;Animal Class&quot;),
-    yaxis = list(title = &quot;Number of Cases&quot;)
-  )
-
-# --- Plot 2: by borough ---
-p2 &lt;- plot_ly(
-    data  = health_by_borough,
-    x     = ~borough,
-    y     = ~n,
-    color = ~animal_condition,
-    type  = &quot;bar&quot;,
-    colors = custom_colors,
-    text  = ~hover_text,
-    hoverinfo = &quot;text&quot;,
-    showlegend = FALSE   # &lt;- only one legend kept!
-) |&gt;
-  layout(
-    title  = &quot;By Borough&quot;,
-    barmode = &quot;stack&quot;,
-    xaxis = list(title = &quot;Borough&quot;),
-    yaxis = list(title = &quot;Number of Cases&quot;)
-  )
-
-# --- merge into one figure ---
-fig &lt;- subplot(p1, p2, nrows = 1, shareY = FALSE) |&gt;
-  layout(
-    title = &quot;Health Conditions Overview&quot;,
-    showlegend = TRUE,
-    legend = list(
-      orientation = &quot;h&quot;,
-      x = 0.5,
-      y = -0.25,
-      xanchor = &quot;center&quot;,
-      yanchor = &quot;top&quot;
-    ),
-    height = 550,
-    margin = list(b = 150)  # ensure text does not cut off
-  )</code></pre>
-<pre><code>## Warning: Specifying width/height in layout() is now deprecated.
-## Please specify in ggplotly() or plot_ly()</code></pre>
-<pre class="r"><code>fig</code></pre>
-<div class="plotly html-widget html-fill-item" id="htmlwidget-a45ab9703e53cb12bb17" style="width:672px;height:480px;"></div>
-<script type="application/json" data-for="htmlwidget-a45ab9703e53cb12bb17">{"x":{"data":[{"x":["Birds / Raptors","Small Mammals","Large Mammals","Marine Mammals","Reptiles / Amphibians","Fish","Others"],"y":[826,546,343,23,212,6,12],"hovertemplate":["Animal Class:  Birds / Raptors <br> Health Condition:  Healthy <br> Count:  826","Animal Class:  Small Mammals <br> Health Condition:  Healthy <br> Count:  546","Animal Class:  Large Mammals <br> Health Condition:  Healthy <br> Count:  343","Animal Class:  Marine Mammals <br> Health Condition:  Healthy <br> Count:  23","Animal Class:  Reptiles / Amphibians <br> Health Condition:  Healthy <br> Count:  212","Animal Class:  Fish <br> Health Condition:  Healthy <br> Count:  6","Animal Class:  Others <br> Health Condition:  Healthy <br> Count:  12"],"showlegend":true,"type":"bar","name":"Healthy","marker":{"color":"rgba(8,104,172,1)","line":{"color":"rgba(8,104,172,1)"}},"textfont":{"color":"rgba(8,104,172,1)"},"error_y":{"color":"rgba(8,104,172,1)"},"error_x":{"color":"rgba(8,104,172,1)"},"xaxis":"x","yaxis":"y","frame":null},{"x":["Birds / Raptors","Small Mammals","Large Mammals","Marine Mammals","Reptiles / Amphibians"],"y":[375,875,107,4,18],"hovertemplate":["Animal Class:  Birds / Raptors <br> Health Condition:  Unhealthy <br> Count:  375","Animal Class:  Small Mammals <br> Health Condition:  Unhealthy <br> Count:  875","Animal Class:  Large Mammals <br> Health Condition:  Unhealthy <br> Count:  107","Animal Class:  Marine Mammals <br> Health Condition:  Unhealthy <br> Count:  4","Animal Class:  Reptiles / Amphibians <br> Health Condition:  Unhealthy <br> Count:  18"],"showlegend":true,"type":"bar","name":"Unhealthy","marker":{"color":"rgba(67,162,202,1)","line":{"color":"rgba(67,162,202,1)"}},"textfont":{"color":"rgba(67,162,202,1)"},"error_y":{"color":"rgba(67,162,202,1)"},"error_x":{"color":"rgba(67,162,202,1)"},"xaxis":"x","yaxis":"y","frame":null},{"x":["Birds / Raptors","Small Mammals","Large Mammals","Marine Mammals","Reptiles / Amphibians","Fish"],"y":[1022,303,113,3,53,1],"hovertemplate":["Animal Class:  Birds / Raptors <br> Health Condition:  Injured <br> Count:  1022","Animal Class:  Small Mammals <br> Health Condition:  Injured <br> Count:  303","Animal Class:  Large Mammals <br> Health Condition:  Injured <br> Count:  113","Animal Class:  Marine Mammals <br> Health Condition:  Injured <br> Count:  3","Animal Class:  Reptiles / Amphibians <br> Health Condition:  Injured <br> Count:  53","Animal Class:  Fish <br> Health Condition:  Injured <br> Count:  1"],"showlegend":true,"type":"bar","name":"Injured","marker":{"color":"rgba(123,204,196,1)","line":{"color":"rgba(123,204,196,1)"}},"textfont":{"color":"rgba(123,204,196,1)"},"error_y":{"color":"rgba(123,204,196,1)"},"error_x":{"color":"rgba(123,204,196,1)"},"xaxis":"x","yaxis":"y","frame":null},{"x":["Birds / Raptors","Small Mammals","Large Mammals","Marine Mammals","Reptiles / Amphibians","Fish","Others"],"y":[213,289,87,15,46,12,1],"hovertemplate":["Animal Class:  Birds / Raptors <br> Health Condition:  DOA <br> Count:  213","Animal Class:  Small Mammals <br> Health Condition:  DOA <br> Count:  289","Animal Class:  Large Mammals <br> Health Condition:  DOA <br> Count:  87","Animal Class:  Marine Mammals <br> Health Condition:  DOA <br> Count:  15","Animal Class:  Reptiles / Amphibians <br> Health Condition:  DOA <br> Count:  46","Animal Class:  Fish <br> Health Condition:  DOA <br> Count:  12","Animal Class:  Others <br> Health Condition:  DOA <br> Count:  1"],"showlegend":true,"type":"bar","name":"DOA","marker":{"color":"rgba(186,228,188,1)","line":{"color":"rgba(186,228,188,1)"}},"textfont":{"color":"rgba(186,228,188,1)"},"error_y":{"color":"rgba(186,228,188,1)"},"error_x":{"color":"rgba(186,228,188,1)"},"xaxis":"x","yaxis":"y","frame":null},{"x":["Birds / Raptors","Small Mammals","Large Mammals","Marine Mammals","Reptiles / Amphibians","Fish","Others"],"y":[236,257,120,4,49,1,5],"hovertemplate":["Animal Class:  Birds / Raptors <br> Health Condition:  Unknown <br> Count:  236","Animal Class:  Small Mammals <br> Health Condition:  Unknown <br> Count:  257","Animal Class:  Large Mammals <br> Health Condition:  Unknown <br> Count:  120","Animal Class:  Marine Mammals <br> Health Condition:  Unknown <br> Count:  4","Animal Class:  Reptiles / Amphibians <br> Health Condition:  Unknown <br> Count:  49","Animal Class:  Fish <br> Health Condition:  Unknown <br> Count:  1","Animal Class:  Others <br> Health Condition:  Unknown <br> Count:  5"],"showlegend":true,"type":"bar","name":"Unknown","marker":{"color":"rgba(240,249,232,1)","line":{"color":"rgba(240,249,232,1)"}},"textfont":{"color":"rgba(240,249,232,1)"},"error_y":{"color":"rgba(240,249,232,1)"},"error_x":{"color":"rgba(240,249,232,1)"},"xaxis":"x","yaxis":"y","frame":null},{"x":["Manhattan","Brooklyn","Queens","Bronx","Staten Island"],"y":[492,393,446,337,300],"text":["Borough: Manhattan<br>Health Condition: Healthy<br>Count: 492","Borough: Brooklyn<br>Health Condition: Healthy<br>Count: 393","Borough: Queens<br>Health Condition: Healthy<br>Count: 446","Borough: Bronx<br>Health Condition: Healthy<br>Count: 337","Borough: Staten Island<br>Health Condition: Healthy<br>Count: 300"],"hoverinfo":["text","text","text","text","text"],"showlegend":false,"type":"bar","name":"Healthy","marker":{"color":"rgba(8,104,172,1)","line":{"color":"rgba(8,104,172,1)"}},"textfont":{"color":"rgba(8,104,172,1)"},"error_y":{"color":"rgba(8,104,172,1)"},"error_x":{"color":"rgba(8,104,172,1)"},"xaxis":"x2","yaxis":"y2","frame":null},{"x":["Manhattan","Brooklyn","Queens","Bronx","Staten Island"],"y":[417,319,302,197,144],"text":["Borough: Manhattan<br>Health Condition: Unhealthy<br>Count: 417","Borough: Brooklyn<br>Health Condition: Unhealthy<br>Count: 319","Borough: Queens<br>Health Condition: Unhealthy<br>Count: 302","Borough: Bronx<br>Health Condition: Unhealthy<br>Count: 197","Borough: Staten Island<br>Health Condition: Unhealthy<br>Count: 144"],"hoverinfo":["text","text","text","text","text"],"showlegend":false,"type":"bar","name":"Unhealthy","marker":{"color":"rgba(67,162,202,1)","line":{"color":"rgba(67,162,202,1)"}},"textfont":{"color":"rgba(67,162,202,1)"},"error_y":{"color":"rgba(67,162,202,1)"},"error_x":{"color":"rgba(67,162,202,1)"},"xaxis":"x2","yaxis":"y2","frame":null},{"x":["Manhattan","Brooklyn","Queens","Bronx","Staten Island"],"y":[333,335,365,181,281],"text":["Borough: Manhattan<br>Health Condition: Injured<br>Count: 333","Borough: Brooklyn<br>Health Condition: Injured<br>Count: 335","Borough: Queens<br>Health Condition: Injured<br>Count: 365","Borough: Bronx<br>Health Condition: Injured<br>Count: 181","Borough: Staten Island<br>Health Condition: Injured<br>Count: 281"],"hoverinfo":["text","text","text","text","text"],"showlegend":false,"type":"bar","name":"Injured","marker":{"color":"rgba(123,204,196,1)","line":{"color":"rgba(123,204,196,1)"}},"textfont":{"color":"rgba(123,204,196,1)"},"error_y":{"color":"rgba(123,204,196,1)"},"error_x":{"color":"rgba(123,204,196,1)"},"xaxis":"x2","yaxis":"y2","frame":null},{"x":["Manhattan","Brooklyn","Queens","Bronx","Staten Island"],"y":[177,110,137,107,132],"text":["Borough: Manhattan<br>Health Condition: DOA<br>Count: 177","Borough: Brooklyn<br>Health Condition: DOA<br>Count: 110","Borough: Queens<br>Health Condition: DOA<br>Count: 137","Borough: Bronx<br>Health Condition: DOA<br>Count: 107","Borough: Staten Island<br>Health Condition: DOA<br>Count: 132"],"hoverinfo":["text","text","text","text","text"],"showlegend":false,"type":"bar","name":"DOA","marker":{"color":"rgba(186,228,188,1)","line":{"color":"rgba(186,228,188,1)"}},"textfont":{"color":"rgba(186,228,188,1)"},"error_y":{"color":"rgba(186,228,188,1)"},"error_x":{"color":"rgba(186,228,188,1)"},"xaxis":"x2","yaxis":"y2","frame":null},{"x":["Manhattan","Brooklyn","Queens","Bronx","Staten Island"],"y":[282,132,57,95,106],"text":["Borough: Manhattan<br>Health Condition: Unknown<br>Count: 282","Borough: Brooklyn<br>Health Condition: Unknown<br>Count: 132","Borough: Queens<br>Health Condition: Unknown<br>Count: 57","Borough: Bronx<br>Health Condition: Unknown<br>Count: 95","Borough: Staten Island<br>Health Condition: Unknown<br>Count: 106"],"hoverinfo":["text","text","text","text","text"],"showlegend":false,"type":"bar","name":"Unknown","marker":{"color":"rgba(240,249,232,1)","line":{"color":"rgba(240,249,232,1)"}},"textfont":{"color":"rgba(240,249,232,1)"},"error_y":{"color":"rgba(240,249,232,1)"},"error_x":{"color":"rgba(240,249,232,1)"},"xaxis":"x2","yaxis":"y2","frame":null}],"layout":{"xaxis":{"domain":[0,0.47999999999999998],"automargin":true,"type":"category","categoryorder":"array","categoryarray":["Birds / Raptors","Small Mammals","Large Mammals","Reptiles / Amphibians","Marine Mammals","Fish","Others"],"anchor":"y"},"xaxis2":{"domain":[0.52000000000000002,1],"automargin":true,"type":"category","categoryorder":"array","categoryarray":["Manhattan","Queens","Brooklyn","Staten Island","Bronx"],"anchor":"y2"},"yaxis2":{"domain":[0,1],"automargin":true,"anchor":"x2"},"yaxis":{"domain":[0,1],"automargin":true,"anchor":"x"},"annotations":[],"shapes":[],"images":[],"margin":{"b":150,"l":60,"t":25,"r":10},"title":"Health Conditions Overview","barmode":"stack","hovermode":"closest","showlegend":true,"legend":{"orientation":"h","x":0.5,"y":-0.25,"xanchor":"center","yanchor":"top"},"height":550},"attrs":{"2ef632f56676":{"x":{},"y":{},"hovertemplate":["Animal Class:  Birds / Raptors <br> Health Condition:  Healthy <br> Count:  826","Animal Class:  Birds / Raptors <br> Health Condition:  Unhealthy <br> Count:  375","Animal Class:  Birds / Raptors <br> Health Condition:  Injured <br> Count:  1022","Animal Class:  Birds / Raptors <br> Health Condition:  DOA <br> Count:  213","Animal Class:  Birds / Raptors <br> Health Condition:  Unknown <br> Count:  236","Animal Class:  Small Mammals <br> Health Condition:  Healthy <br> Count:  546","Animal Class:  Small Mammals <br> Health Condition:  Unhealthy <br> Count:  875","Animal Class:  Small Mammals <br> Health Condition:  Injured <br> Count:  303","Animal Class:  Small Mammals <br> Health Condition:  DOA <br> Count:  289","Animal Class:  Small Mammals <br> Health Condition:  Unknown <br> Count:  257","Animal Class:  Large Mammals <br> Health Condition:  Healthy <br> Count:  343","Animal Class:  Large Mammals <br> Health Condition:  Unhealthy <br> Count:  107","Animal Class:  Large Mammals <br> Health Condition:  Injured <br> Count:  113","Animal Class:  Large Mammals <br> Health Condition:  DOA <br> Count:  87","Animal Class:  Large Mammals <br> Health Condition:  Unknown <br> Count:  120","Animal Class:  Marine Mammals <br> Health Condition:  Healthy <br> Count:  23","Animal Class:  Marine Mammals <br> Health Condition:  Unhealthy <br> Count:  4","Animal Class:  Marine Mammals <br> Health Condition:  Injured <br> Count:  3","Animal Class:  Marine Mammals <br> Health Condition:  DOA <br> Count:  15","Animal Class:  Marine Mammals <br> Health Condition:  Unknown <br> Count:  4","Animal Class:  Reptiles / Amphibians <br> Health Condition:  Healthy <br> Count:  212","Animal Class:  Reptiles / Amphibians <br> Health Condition:  Unhealthy <br> Count:  18","Animal Class:  Reptiles / Amphibians <br> Health Condition:  Injured <br> Count:  53","Animal Class:  Reptiles / Amphibians <br> Health Condition:  DOA <br> Count:  46","Animal Class:  Reptiles / Amphibians <br> Health Condition:  Unknown <br> Count:  49","Animal Class:  Fish <br> Health Condition:  Healthy <br> Count:  6","Animal Class:  Fish <br> Health Condition:  Injured <br> Count:  1","Animal Class:  Fish <br> Health Condition:  DOA <br> Count:  12","Animal Class:  Fish <br> Health Condition:  Unknown <br> Count:  1","Animal Class:  Others <br> Health Condition:  Healthy <br> Count:  12","Animal Class:  Others <br> Health Condition:  DOA <br> Count:  1","Animal Class:  Others <br> Health Condition:  Unknown <br> Count:  5"],"showlegend":true,"color":{},"colors":["#0868ac","#43a2ca","#7bccc4","#bae4bc","#f0f9e8"],"alpha_stroke":1,"sizes":[10,100],"spans":[1,20],"type":"bar"},"2ef6d19e71d":{"x":{},"y":{},"text":{},"hoverinfo":"text","showlegend":false,"color":{},"colors":["#0868ac","#43a2ca","#7bccc4","#bae4bc","#f0f9e8"],"alpha_stroke":1,"sizes":[10,100],"spans":[1,20],"type":"bar"}},"source":"A","config":{"modeBarButtonsToAdd":["hoverclosest","hovercompare"],"showSendToCloud":false},"highlight":{"on":"plotly_click","persistent":false,"dynamic":false,"selectize":false,"opacityDim":0.20000000000000001,"selected":{"opacity":1},"debounce":0},"subplot":true,"shinyEvents":["plotly_hover","plotly_click","plotly_selected","plotly_relayout","plotly_brushed","plotly_brushing","plotly_clickannotation","plotly_doubleclick","plotly_deselect","plotly_afterplot","plotly_sunburstclick"],"base_url":"https://plot.ly"},"evals":[],"jsHooks":[]}</script>
-<p>The distribution of animal health conditions shows clear variation
-across both animal classes and boroughs. Birds/Raptors and Small Mammals
-account for most wildlife-related calls, but when health conditions are
-examined separately, Small Mammals display disproportionately higher
-numbers of Unhealthy, DOA, and Unknown cases compared with Birds. This
-suggests that small mammals are often not detected until their condition
-is severe, whereas birds tend to be reported earlier because they are
-more visible in open spaces and their abnormal behavior is easier for
-the public to notice.</p>
-<p>Spatial patterns further highlight differences in how and when
-animals are found. Manhattan has the highest overall case count,
-reflecting dense human activity and frequent wildlife encounters, yet
-its Injured cases are slightly fewer than expected—possibly because
-animals in Manhattan are noticed and assisted before injuries become
-severe. Queens shows unusually few Unknown cases, suggesting clearer
-initial reporting or more consistent condition assessment. Staten Island
-has more DOA but fewer Unhealthy cases, consistent with an area where
-wildlife is abundant but human presence is sparse, causing sick animals
-to go unnoticed until death. In contrast, the Bronx shows somewhat more
-Healthy cases, possibly due to large park areas where routine,
-non-emergency wildlife encounters are common.</p>
-<p>Together, these patterns indicate that reported health conditions
-depend not only on animal behavior and species visibility but also on
-borough-specific environments, human activity, and differences in how
-quickly animals are noticed and reported.</p>
-</div>
-<div id="response-duration" class="section level3">
-<h3>Response Duration</h3>
+<div
+id="exploratory-analysis-visualizations-summaries-and-exploratory-statistical-analyses.-justify-the-steps-you-took-and-show-any-major-changes-to-your-ideas."
+class="section level1">
+<h1>Exploratory analysis: Visualizations, summaries, and exploratory
+statistical analyses. Justify the steps you took, and show any major
+changes to your ideas.</h1>
+<div id="response-duration" class="section level2">
+<h2>Response Duration</h2>
 <p>We would like to explore how response duration, which we define as
 the duration between the initial request and the time that Rangers
 arrived at the site
 (<code>date_and_time_of_ranger_response - date_and_time_of_initial_call</code>),
 is associated with different incident characteristics.</p>
-<div id="average-response-duration-by-time-of-initial-request"
-class="section level4">
-<h4>Average Response Duration by Time of Initial Request</h4>
 <pre class="r"><code>ranger_response_hr = park_ranger_new %&gt;% 
   mutate(day_diff = as.numeric(difftime(response_date, call_date, units = &quot;days&quot;)),
          time_diff_hrs = as.numeric(difftime(response_time, call_time, units = &quot;hours&quot;)),
@@ -968,15 +615,15 @@ ranger_response_hr %&gt;%
   group_by(call_hour) %&gt;%
   summarise(mean_duration = mean(response_hrs, na.rm = TRUE)) %&gt;% 
   ggplot(aes(x = call_hour, y = mean_duration)) +
-  geom_point(color = &quot;skyblue3&quot;) +
-  geom_line(linewidth = 0.8, color = &quot;skyblue3&quot;) + 
+  geom_line(linewidth = 0.8) + 
   scale_x_continuous(breaks = 0:23) +
   labs(
     title = &quot;Average Response Duration by Time of Initial Request&quot;,
     x = &quot;Hour of Day (24-hour)&quot;,
     y = &quot;Average Response Hours&quot;) +
   theme_minimal()</code></pre>
-<p><img src="Project-Report_files/figure-html/unnamed-chunk-7-1.png" width="672" /></p>
+<p><img
+src="Project-Report_files/figure-gfm/unnamed-chunk-4-1.png" /><!-- --></p>
 <p>This line plot visualizes variation in response duration across the
 24-hour day.</p>
 <ul>
@@ -997,14 +644,11 @@ exceeding 10 hours, consistent with limited overnight staffing or slower
 processing of after-hours calls.</p></li>
 <li><p>One notable irregularity is the sharp drop in average response
 duration around 23:00, followed by a spike at 0:00. This pattern may
-indicate hour misclassification, where some late-night incidents might
-be miscoded as 0:00, combined with small sample sizes or boundary
-effects at the end of the day. These potential misclassifications should
-be considered and interpreted with cautions.</p></li>
+indicate hour misclassification, where some late-night incidents were
+miscoded as 0:00, combined with small sample sizes or boundary effects
+at the end of the day. These potential misclassifications should be
+considered and interpreted with cautions.</p></li>
 </ul>
-</div>
-<div id="distribution-of-response-duration" class="section level4">
-<h4>Distribution of Response Duration</h4>
 <pre class="r"><code>resp_dur_dist = ranger_response_hr %&gt;% 
   mutate(resp_bin = case_when(
     response_hrs &lt; 1 ~ &quot;0-1 hours&quot;, 
@@ -1022,13 +666,8 @@ resp_dur_dist_plot = function(df, title_suffix) {
     labs(title = title_suffix,
          x = &quot;Animal Condition&quot;, y = &quot;Response Duration (hours)&quot;) +
     theme_minimal() +
-    theme(
-      plot.title = element_text(size = 18, face = &quot;bold&quot;),
-      axis.title = element_text(size = 14),
-      axis.text  = element_text(size = 12),
-      axis.text.x = element_text(angle = 45, hjust = 1, size = 12)
-    )
-  }
+    theme(axis.text.x = element_text(angle = 45, hjust = 1))
+}
 
 p1 = resp_dur_dist %&gt;% 
   filter(resp_bin == &quot;0-1 hours&quot;) %&gt;% 
@@ -1046,27 +685,23 @@ p4 = resp_dur_dist %&gt;%
   filter(resp_bin == &quot;&gt;24 hours&quot;) %&gt;% 
   resp_dur_dist_plot(&quot;&gt;24 hours&quot;)
 
-(p1 | p2) / (p3 | p4) + plot_annotation(title =&quot;Distribution of Response Duration&quot;) &amp;
-  theme(text = element_text(size = 24))</code></pre>
-<p><img src="Project-Report_files/figure-html/unnamed-chunk-8-1.png" width="1344" /></p>
+(p1 | p2) / (p3 | p4) + plot_annotation(title =&quot;Distribution of Response Duration&quot;)</code></pre>
+<p><img
+src="Project-Report_files/figure-gfm/unnamed-chunk-5-1.png" /><!-- --></p>
 <p>Because response durations are highly right-skewed, the data were
 split more at the lower end (0–1 and 1–4 hours) where most observations
 occur, while broader segments were used for longer delays (4–24 and
 &gt;24 hours).</p>
 <p>The plots show that response duration does not meaningfully differ
-across animal condition categories. All five groups (Healthy, Unhealthy,
-Injured, DOA, and Unknown) display highly overlapping distributions with
-similar central tendencies. The within-condition variability is much
-larger than any between-condition differences. The long right tails are
-present across all categories, especially in the &gt;24 hour panel,
+across animal condition categories. All five groups (Healthy, Injured,
+Unhealthy, DOA, and Unknown) display highly overlapping distributions
+with similar central tendencies. The within-condition variability is
+much larger than any between-condition differences. The long right tails
+are present across all categories, especially in the &gt;24 hour panel,
 suggesting that extremely slow responses occur regardless of the
 reported condition.</p>
 <p>Overall, the figure indicates that the reported animal condition
 plays only a minimal role.</p>
-</div>
-<div id="density-of-ranger-response-duration-by-borough"
-class="section level4">
-<h4>Density of Ranger Response Duration by Borough</h4>
 <pre class="r"><code>ranger_model = ranger_response_hr %&gt;%
   mutate(
     call_hour_cat = case_when(call_hour &gt;= 0 &amp; call_hour &lt; 8 ~ &quot;0-8&quot;,
@@ -1086,7 +721,10 @@ ranger_model %&gt;%
        y = &quot;Density&quot;,
        color = &quot;Borough&quot;) +
   theme_minimal()</code></pre>
-<p><img src="Project-Report_files/figure-html/unnamed-chunk-9-1.png" width="672" /></p>
+<pre><code>## Warning: Removed 1224 rows containing non-finite outside the scale
+## range (`stat_density()`).</code></pre>
+<p><img
+src="Project-Report_files/figure-gfm/unnamed-chunk-6-1.png" /><!-- --></p>
 <p>Because the response-duration distribution is highly right-skewed,
 with a long tail extending to several hundred hours, we applied a
 natural log transformation to stabilize the variance and make
@@ -1115,349 +753,13 @@ the distributions are highly similar. Within-borough variation is much
 greater than between-borough variation.</p>
 </div>
 </div>
-<div id="final-ranger-action" class="section level3">
-<h3>Final Ranger Action</h3>
-<p>We examined action duration and final ranger actions to understand
-how different types of wildlife incidents demand time and effort from
-Urban Park Rangers. By comparing duration across action types, animal
-conditions, and action–condition combinations, we can identify which
-situations require intensive intervention, which are resolved quickly,
-and where uncertainty or coordination challenges lead to variability.
-Assessing distribution patterns and statistical differences also helps
-clarify operational drivers behind long responses and supports more
-informed planning and resource allocation within the ranger system.</p>
-<p><br></p>
-<div id="action-duration-by-final-ranger-action" class="section level4">
-<h4>Action Duration by Final Ranger Action</h4>
-<pre class="r"><code>park_model = park_ranger_new |&gt;
-  rename(num_animals = matches(&quot;animals&quot;)) |&gt;
-  mutate(
-    duration_hours      = as.numeric(duration_of_action),
-    num_animals         = as.numeric(num_animals)
-  ) |&gt;
-  filter(
-    !is.na(duration_hours),
-    duration_hours &gt; 0,
-    !is.na(final_ranger_action),
-    !is.na(animal_condition),
-    !is.na(num_animals),
-    num_animals &gt;= 0
-  )
-
-action_order &lt;- park_model |&gt;
-  group_by(final_ranger_action) |&gt;
-  summarise(med = median(duration_hours, na.rm = TRUE)) |&gt;
-  arrange(med) |&gt;
-  pull(final_ranger_action)
-
-
-park_model_action &lt;- park_model |&gt;
-  mutate(final_ranger_action = factor(final_ranger_action, levels = action_order))
-
-ggplot(park_model_action, aes(x = final_ranger_action, y = duration_hours)) +
-  geom_violin(trim = FALSE, fill = &quot;#BFCDE0&quot;, color = &quot;#5D7CA6&quot;,
-              alpha = 0.5, scale = &quot;width&quot;) +
-  geom_boxplot(width = 0.5, fill = &quot;white&quot;, outlier.alpha = 0.3) +
-  coord_flip() +
-  scale_x_discrete(labels = function(x) str_wrap(x, width = 20)) +
-  ylim(0, 40) +
-  labs(
-    title = &quot;Distribution of Action Duration by Final Ranger Action&quot;,
-    x = &quot;Final Ranger Action (sorted by median duration)&quot;,
-    y = &quot;Action Duration (hours)&quot;
-  ) +
-  theme_bw() +
-  theme(
-    plot.title = element_text(hjust = 0.5),
-    axis.text.y = element_text(size = 8)
-  )</code></pre>
-<p><img src="Project-Report_files/figure-html/unnamed-chunk-10-1.png" width="672" /></p>
-<p>The combined violin–boxplot shows clear differences in action
-duration across ranger actions. The visualization is capped at 40 hours
-to enhance focus on the central data distribution, noting that the
-<code>ACC</code> category (Animal Care Center) contains one extreme
-outlier with a duration exceeding 70 hours that is not displayed.</p>
-<ul>
-<li><p>Rehabilitation-related actions take the longest. Categories such
-as <code>Released back into Park after Rehabilitation</code> and
-<code>Rehabilitator</code> have the highest medians and widest spreads,
-reflecting the need for assessment, coordination with rehabilitators,
-transport, and extended monitoring.</p></li>
-<li><p>Administrative or low-intervention actions are short. Actions
-like <code>Advised/Educated others</code>,
-<code>Submitted for DEC (Department of Environmental Conservation) Testing</code>,
-<code>Relocated/Condition Corrected</code> and
-<code>Monitored Animal</code> have much shorter, tightly clustered
-durations, consistent with quick assessments or minor
-interventions.</p></li>
-<li><p><code>ACC</code> and <code>Unfounded</code> responses show high
-variability. <code>ACC</code> transfers sometimes take much longer due
-to coordination and handling challenges. <code>Unfounded</code> cases
-are usually brief but occasionally long when searches, misreported
-calls, or verification require extra time.</p></li>
-<li><p>Outliers represent rare long-duration events. Several actions,
-especially <code>ACC</code>, <code>Unfounded</code>, and
-<code>Rehabilitator</code>, include outliers over 30 hours, likely due
-to long-term monitoring, repeated site visits, or delays in coordinating
-animal handoffs.</p></li>
-</ul>
-<p><br></p>
-</div>
-<div id="action-duration-by-animal-condition" class="section level4">
-<h4>Action Duration by Animal Condition</h4>
-<pre class="r"><code>park_model_cond &lt;- park_model |&gt;
-  mutate(
-    animal_condition = fct_reorder(
-      animal_condition,
-      duration_hours,
-      .fun = median,
-      na.rm = TRUE
-    )
-  )
-
-ggplot(park_model_cond, aes(x = animal_condition, y = duration_hours)) +
-  geom_violin(trim = FALSE, fill = &quot;#BFCDE0&quot;, color = &quot;#5D7CA6&quot;,
-              alpha = 0.5, scale = &quot;width&quot;) +
-  geom_boxplot(width = 0.5, fill = &quot;white&quot;, outlier.alpha = 0.3) +
-  coord_flip() +
-   ylim(0, 40) +
-  labs(
-    title = &quot;Distribution of Action Duration by Animal Condition&quot;,
-    x = &quot;Animal Condition&quot;,
-    y = &quot;Action Duration (hours)&quot;
-  ) +
-  theme_bw() +
-  theme(
-    plot.title = element_text(hjust = 0.5),
-    axis.text.y = element_text(size = 8)
-  )</code></pre>
-<p><img src="Project-Report_files/figure-html/unnamed-chunk-11-1.png" width="672" /></p>
-<p>The violin–boxplot shows how <code>action duration</code> differs
-across animal conditions. The visualization is capped at 40 hours to
-enhance focus on the central data distribution, noting that the
-<code>Unknown</code> category contains one extreme outlier with a
-duration exceeding 70 hours that is not displayed.</p>
-<ul>
-<li><p><code>Unhealthy</code> and <code>Injured</code> animals show
-substantial variability in <code>duration time</code>, with the highest
-median durations. The wide distribution reflects the need for diverse
-handling, such as <code>rehabilitator</code>, <code>ACC</code> and
-<code>monitored</code>.</p></li>
-<li><p><code>Unknown</code> conditions show moderate dispersion with a
-low median. While most cases are resolved quickly, the variability
-suggests time is occasionally spent on investigation or clarifying the
-initial report.</p></li>
-<li><p><code>Healthy</code> animals exhibit the maximum variability in
-<code>action duration</code>, despite having a low median. This wide
-spread is likely due to the diverse range of possible actions, such as
-<code>relocated</code>, <code>ACC</code> and
-<code>monitored</code>.</p></li>
-<li><p><code>DOA</code> (Dead on Arrival) cases consistently require the
-minimal variability in <code>action duration</code>, with the lowest
-median time. This is expected since most <code>DOA</code> cases are
-<code>relocated/condition corrected</code>.</p></li>
-</ul>
-<p><br></p>
-</div>
-<div id="final-ranger-actions-by-animal-condition"
-class="section level4">
-<h4>Final Ranger Actions by Animal Condition</h4>
-<pre class="r"><code>park_model4 &lt;- park_model |&gt;
-  filter(animal_condition %in% c(&quot;Healthy&quot;, &quot;Unhealthy&quot;, &quot;Injured&quot;, &quot;DOA&quot;))
-
-plot_condition_bar &lt;- function(data, cond, ymax) {
-
-  df &lt;- data |&gt;
-    filter(animal_condition == cond) |&gt;
-    count(final_ranger_action) |&gt;
-    arrange(n)
-
-  df$final_ranger_action &lt;- factor(df$final_ranger_action,
-                                   levels = df$final_ranger_action)
-
-  ggplot(df, aes(x = final_ranger_action, y = n)) +
-    geom_col(fill = &quot;#4F81BD&quot;, alpha = 0.85) +
-    coord_flip() +
-    scale_y_continuous(limits = c(0, ymax),
-                       expand = expansion(mult = c(0, 0.05))) +
-    labs(
-      title = cond,
-      x = &quot;Final Ranger Action&quot;,
-      y = &quot;Number of Cases&quot;) +
-    theme_bw() +
-    theme(
-      plot.title = element_text(hjust = 0.5),
-      axis.text.y = element_text(size = 8))
-}
-max_cases &lt;- park_model4 |&gt;
-  count(animal_condition, final_ranger_action) |&gt;
-  pull(n) |&gt;
-  max()
-
-p1 &lt;- plot_condition_bar(park_model4, &quot;Healthy&quot;,   max_cases)
-p2 &lt;- plot_condition_bar(park_model4, &quot;Unhealthy&quot;, max_cases)
-p3 &lt;- plot_condition_bar(park_model4, &quot;Injured&quot;,   max_cases)
-p4 &lt;- plot_condition_bar(park_model4, &quot;DOA&quot;,       max_cases)
-
-(p1 | p2) /
-(p3 | p4) +
-  plot_annotation(
-    title = &#39;Final Ranger Actions by Animal Condition&#39;, 
-    theme = ggplot2::theme(
-      plot.title = ggplot2::element_text(
-        hjust = 0.5, 
-        size = 14
-      )
-    )
-  )</code></pre>
-<p><img src="Project-Report_files/figure-html/unnamed-chunk-12-1.png" width="672" /></p>
-<p>The four-panel plot compares <code>ranger actions</code> across
-<code>animal conditions</code>.</p>
-<ul>
-<li><p><code>Healthy</code> animals: Most cases involve
-<code>Relocated/Condition Corrected</code> or <code>ACC</code>,
-reflecting simple removal from unsafe areas or routine transfer for
-evaluation. Rehabilitation-related actions are rare because healthy
-animals seldom require intensive care.</p></li>
-<li><p><code>Unhealthy</code> animals: <code>ACC</code> is the dominant
-response, followed by <code>Rehabilitator</code>, consistent with the
-need for medical assessment or long-term care. Actions like
-<code>DEC Testing</code> or relocation are infrequent, as relocation
-alone is usually inadequate for visibly unhealthy animals.</p></li>
-<li><p><code>Injured</code> animals: Common actions include
-<code>Rehabilitator</code>, <code>Unfounded</code>, and
-<code>ACC</code>. Injured animals often need hands-on treatment, while
-higher <code>Unfounded</code> counts suggest that some animals could not
-be located or had recovered by the time rangers arrived.</p></li>
-<li><p><code>DOA</code> animals:
-<code>Relocated/Condition Corrected</code> is the most frequent action,
-as dead animals primarily require removal from public spaces. Occasional
-<code>ACC</code> or <code>DEC Testing</code> cases reflect situations
-requiring identification or documentation before disposal.</p></li>
-</ul>
-<p><br></p>
-</div>
-<div id="distribution-of-action-duration-by-action-group"
-class="section level4">
-<h4>Distribution of Action Duration by Action Group</h4>
-<pre class="r"><code>park_model_group = park_model |&gt;
-  mutate(
-    action_group = if_else(
-      final_ranger_action == &quot;Unfounded&quot;,
-      &quot;Unfounded&quot;,
-      &quot;Other actions&quot;
-    )
-  )
-
-duration_mean = park_model_group |&gt;
-  group_by(action_group) |&gt;
-  summarise(
-    mean_duration = mean(duration_hours, na.rm = TRUE),
-    .groups = &quot;drop&quot;
-  )
-duration_mean |&gt;
-  knitr::kable(
-    digits = 3,
-    caption = &quot;Mean Duration by Action Group&quot;,
-    align = &quot;c&quot;
-  )</code></pre>
-<table>
-<caption>Mean Duration by Action Group</caption>
-<thead>
-<tr class="header">
-<th align="center">action_group</th>
-<th align="center">mean_duration</th>
-</tr>
-</thead>
-<tbody>
-<tr class="odd">
-<td align="center">Other actions</td>
-<td align="center">1.537</td>
-</tr>
-<tr class="even">
-<td align="center">Unfounded</td>
-<td align="center">0.995</td>
-</tr>
-</tbody>
-</table>
-<p><br></p>
-<div id="density-of-raw-action-duration" class="section level5">
-<h5>Density of Raw Action Duration</h5>
-<pre class="r"><code>ggplot(park_model_group, aes(x = duration_hours,
-                        fill  = action_group,
-                        color = action_group)) +
-  geom_density(alpha = 0.3, adjust = 1, linewidth = 1) +
-  
-  geom_vline(data = duration_mean,
-             aes(xintercept = mean_duration, color = action_group),
-             linewidth = 0.5, linetype = &quot;dashed&quot;) +
-  
-  labs(
-    title = &quot;Density of Action Duration by Action Group&quot;,
-    x = &quot;Action Duration (hours)&quot;,
-    y = &quot;Density&quot;,
-    fill  = &quot;Action group&quot;,
-    color = &quot;Action group&quot;
-  ) +
-  theme_bw() +
-  theme(
-    plot.title = element_text(hjust = 0.5),
-    legend.position = &quot;bottom&quot;
-  )</code></pre>
-<p><img src="Project-Report_files/figure-html/unnamed-chunk-14-1.png" width="768" style="display: block; margin: auto;" /></p>
-<p>The first density plot shows that the distribution of raw
-<code>action duration</code> is extremely right-skewed, with most
-incidents resolved within a short time but a small number taking many
-hours. This heavy skew makes it difficult to visually compare cases with
-all other <code>ranger actions</code> on the original scale because the
-long tail compresses the main density near zero.</p>
-<p><br></p>
-</div>
-<div id="density-of-log-transformed-action-duration"
-class="section level5">
-<h5>Density of Log-Transformed Action Duration</h5>
-<pre class="r"><code>park_model2_log = park_model_group |&gt;
-  mutate(duration_log = log1p(duration_hours))  # log(1 + x)
-
-ggplot(park_model2_log,
-       aes(x = duration_log, fill = action_group, color = action_group)) +
-  geom_density(alpha = 0.4, adjust = 1, linewidth = 0.7) +
-  labs(
-    title = &quot;Density of Log-transformed Action Duration&quot;,
-    x = &quot;log(1 + action duration, hours)&quot;,
-    y = &quot;Density&quot;,
-    fill  = &quot;Action group&quot;,
-    color = &quot;Action group&quot;
-  ) +
-  theme_bw() +
-  theme(
-    plot.title = element_text(hjust = 0.5),
-    legend.position = &quot;bottom&quot;
-  )</code></pre>
-<p><img src="Project-Report_files/figure-html/unnamed-chunk-15-1.png" width="768" style="display: block; margin: auto;" /></p>
-<p>To improve interpretability, we applied a
-<code>log (1 + duration)</code> transformation, which compresses long
-outliers and spreads the dense cluster near zero.</p>
-<ul>
-<li><p><code>Unfounded</code> cases: These show higher density at lower
-<code>log-duration</code> values, indicating they are typically resolved
-quickly. Their mean duration is about 1.0 hour, confirming short
-response times.</p></li>
-<li><p><code>Other actions</code>: These have a broader distribution and
-greater density at higher <code>log-duration</code> values, reflecting
-the additional time required for assessment, handling, or coordination.
-Their mean duration is higher at 1.52 hours.</p></li>
-</ul>
-<p><br></p>
-</div>
-</div>
-</div>
-</div>
-<div id="additional-analysis" class="section level2">
-<h2>Additional Analysis</h2>
-<div id="multiple-linear-regression-for-response-duration"
-class="section level3">
-<h3>Multiple Linear Regression for Response Duration</h3>
+<div
+id="additional-analysis-if-you-undertake-formal-statistical-analyses-describe-these-in-detail"
+class="section level1">
+<h1>Additional analysis: If you undertake formal statistical analyses,
+describe these in detail</h1>
+<div id="response-duration-1" class="section level2">
+<h2>Response Duration</h2>
 <p>When examining animal condition and borough individually in the raw
 distributions, neither appears to be a strong or consistent determinant
 of response duration. These unadjusted patterns suggest that other
@@ -1487,13 +789,12 @@ summary(model)$coefficients %&gt;%
                caption = &quot;Regression Coefficient Table&quot;, 
                align = c(&quot;l&quot;, &quot;r&quot;, &quot;r&quot;, &quot;r&quot;, &quot;r&quot;)) </code></pre>
 <table>
-<caption>Regression Coefficient Table</caption>
 <colgroup>
-<col width="56%" />
-<col width="11%" />
-<col width="12%" />
-<col width="10%" />
-<col width="10%" />
+<col width="20%" />
+<col width="20%" />
+<col width="20%" />
+<col width="20%" />
+<col width="20%" />
 </colgroup>
 <thead>
 <tr class="header">
@@ -1731,6 +1032,7 @@ summary(model)$coefficients %&gt;%
 </tr>
 </tbody>
 </table>
+<p>Regression Coefficient Table</p>
 <p>We use a multiple linear regression model to estimate the independent
 contribution of each predictor to response duration, allowing us to
 isolate the effect of each variable while holding other factors
@@ -1763,8 +1065,7 @@ and clarity, potentially slowing response duration.</p></li>
 <li><p>Reports categorized as “Other” tend to be slower than public
 calls, indicating greater variability in information quality or
 urgency.</p></li>
-<li><p>Categories with very small sample sizes (such as WINORR [Wildlife
-In Need of Rescue and Rehabilitation] or WBF [Wildlife Ball Field])
+<li><p>Categories with very small sample sizes (such as WINORR or WBF)
 display large estimated effects but also uncertainty, so these results
 should be interpreted cautiously.</p></li>
 </ul>
@@ -1852,7 +1153,8 @@ species, play a comparatively smaller role.</p>
        x = &quot;Predictor Variables&quot;,
        y = &quot;Estimated Coefficient (hours)&quot;) +
   theme_minimal()</code></pre>
-<p><img src="Project-Report_files/figure-html/unnamed-chunk-17-1.png" width="672" /></p>
+<p><img
+src="Project-Report_files/figure-gfm/unnamed-chunk-8-1.png" /><!-- --></p>
 <p>This coefficient plot highlights the same general patterns seen in
 the regression table:</p>
 <ul>
@@ -1861,9 +1163,6 @@ stand out with clearer effects, whereas most predictors lie near zero or
 have confidence intervals crossing zero, indicating little or no
 meaningful association.</li>
 </ul>
-</div>
-<div id="elastic-net" class="section level3">
-<h3>Elastic Net</h3>
 <p>Elastic Net was used as a complementary approach to assess variable
 stability and identify predictors with more consistent signals beyond
 the Ordinary Least Squares (OLS) estimates.</p>
@@ -1886,7 +1185,6 @@ coef(fit_cv, s = &quot;lambda.min&quot;) %&gt;%
     digits = 4,
     align = &quot;l&quot;)</code></pre>
 <table>
-<caption>Elastic Net Coefficients at lambda_min (0.1811)</caption>
 <thead>
 <tr class="header">
 <th align="left">variable</th>
@@ -1988,6 +1286,7 @@ coef(fit_cv, s = &quot;lambda.min&quot;) %&gt;%
 </tr>
 </tbody>
 </table>
+<p>Elastic Net Coefficients at lambda_min (0.1811)</p>
 <p>Compared with the original linear model, the Elastic Net model
 resulted in a more simplified set of predictors. Several variables that
 had non-zero coefficients under OLS were reduced to zero, such as
@@ -2029,437 +1328,12 @@ reveals patterns not visible in the raw data, highlighting the
 importance of accounting for confounding factors when interpreting
 response-time differences.</p>
 </div>
-<div id="anova-models-for-action-duration" class="section level3">
-<h3>ANOVA Models for Action Duration</h3>
-<div id="using-raw-duration" class="section level4">
-<h4>Using Raw Duration</h4>
-<pre class="r"><code>anova_fit = aov(
-  duration_hours ~ final_ranger_action * animal_condition + num_animals,
-  data = park_model
-)
-
-anova_raw_tbl &lt;- broom::tidy(anova_fit) |&gt;
-  select(
-    term,
-    Df      = df,
-    `Sum Sq`  = sumsq,
-    `Mean Sq` = meansq,
-    `F value` = statistic,
-    `Pr(&gt;F)`  = p.value
-  )
-
-knitr::kable(
-  anova_raw_tbl,
-  digits  = 3,
-  caption = &quot;ANOVA table for raw action duration&quot;,
-  align   = &quot;c&quot;
-)</code></pre>
-<table>
-<caption>ANOVA table for raw action duration</caption>
-<colgroup>
-<col width="46%" />
-<col width="7%" />
-<col width="13%" />
-<col width="11%" />
-<col width="11%" />
-<col width="9%" />
-</colgroup>
-<thead>
-<tr class="header">
-<th align="center">term</th>
-<th align="center">Df</th>
-<th align="center">Sum Sq</th>
-<th align="center">Mean Sq</th>
-<th align="center">F value</th>
-<th align="center">Pr(&gt;F)</th>
-</tr>
-</thead>
-<tbody>
-<tr class="odd">
-<td align="center">final_ranger_action</td>
-<td align="center">7</td>
-<td align="center">1518.595</td>
-<td align="center">216.942</td>
-<td align="center">97.825</td>
-<td align="center">0.000</td>
-</tr>
-<tr class="even">
-<td align="center">animal_condition</td>
-<td align="center">4</td>
-<td align="center">6.266</td>
-<td align="center">1.566</td>
-<td align="center">0.706</td>
-<td align="center">0.588</td>
-</tr>
-<tr class="odd">
-<td align="center">num_animals</td>
-<td align="center">1</td>
-<td align="center">4.267</td>
-<td align="center">4.267</td>
-<td align="center">1.924</td>
-<td align="center">0.165</td>
-</tr>
-<tr class="even">
-<td align="center">final_ranger_action:animal_condition</td>
-<td align="center">24</td>
-<td align="center">492.264</td>
-<td align="center">20.511</td>
-<td align="center">9.249</td>
-<td align="center">0.000</td>
-</tr>
-<tr class="odd">
-<td align="center">Residuals</td>
-<td align="center">6127</td>
-<td align="center">13587.609</td>
-<td align="center">2.218</td>
-<td align="center">NA</td>
-<td align="center">NA</td>
-</tr>
-</tbody>
-</table>
-<pre class="r"><code>par(mfrow = c(1, 2))             
-plot(anova_fit, which = 1)    
-plot(anova_fit, which = 2)   </code></pre>
-<p><img src="Project-Report_files/figure-html/unnamed-chunk-19-1.png" width="672" /></p>
-<pre class="r"><code>par(mfrow = c(1, 1))</code></pre>
-<p>The original model: <span
-class="math inline">\(\texttt{duration_hours} \sim
-\texttt{final_ranger_action} * \texttt{animal_condition} +
-\texttt{num_animals}\)</span></p>
-<ul>
-<li><p><code>Final ranger action</code> is highly significant (p &lt;
-2e-16), indicating strong variation across action types.</p></li>
-<li><p><code>Animal condition</code> is not significant (p = 0.46) in
-the raw model.</p></li>
-<li><p><code>Number of animals</code> has no effect (p = 0.80).</p></li>
-<li><p>The interaction is significant (p = 0.000165), meaning the impact
-of <code>action type</code> depends on the
-<code>animal’s condition</code>.</p></li>
-<li><p>These diagnostic plots indicate that the ANOVA model assumptions
-are severely violated, exhibiting both non-normally distributed
-residuals (as points deviate strongly from the line in the Q-Q plot) and
-non-constant variance (as residuals show a noticeable pattern rather
-than random scatter in the Residuals vs Fitted plot).</p></li>
-</ul>
-<p><br></p>
 </div>
-<div id="using-log-transformed-duration" class="section level4">
-<h4>Using Log-Transformed Duration</h4>
-<pre class="r"><code>park_model2 = park_model |&gt;
-  mutate(log_duration = log(duration_hours))
-
-anova_fit_log = aov(
-  log_duration ~ final_ranger_action * animal_condition + num_animals,
-  data = park_model2
-)
-
-anova_log_tbl &lt;- broom::tidy(anova_fit_log) |&gt;
-  select(
-    term,
-    Df      = df,
-    `Sum Sq`  = sumsq,
-    `Mean Sq` = meansq,
-    `F value` = statistic,
-    `Pr(&gt;F)`  = p.value
-  )
-
-knitr::kable(
-  anova_log_tbl,
-  digits  = 3,
-  caption = &quot;ANOVA Table for Log-transformed Action Duration&quot;,
-  align   = &quot;c&quot;
-)</code></pre>
-<table>
-<caption>ANOVA Table for Log-transformed Action Duration</caption>
-<colgroup>
-<col width="47%" />
-<col width="7%" />
-<col width="12%" />
-<col width="11%" />
-<col width="11%" />
-<col width="10%" />
-</colgroup>
-<thead>
-<tr class="header">
-<th align="center">term</th>
-<th align="center">Df</th>
-<th align="center">Sum Sq</th>
-<th align="center">Mean Sq</th>
-<th align="center">F value</th>
-<th align="center">Pr(&gt;F)</th>
-</tr>
-</thead>
-<tbody>
-<tr class="odd">
-<td align="center">final_ranger_action</td>
-<td align="center">7</td>
-<td align="center">1037.528</td>
-<td align="center">148.218</td>
-<td align="center">357.609</td>
-<td align="center">0.000</td>
-</tr>
-<tr class="even">
-<td align="center">animal_condition</td>
-<td align="center">4</td>
-<td align="center">7.851</td>
-<td align="center">1.963</td>
-<td align="center">4.736</td>
-<td align="center">0.001</td>
-</tr>
-<tr class="odd">
-<td align="center">num_animals</td>
-<td align="center">1</td>
-<td align="center">0.648</td>
-<td align="center">0.648</td>
-<td align="center">1.564</td>
-<td align="center">0.211</td>
-</tr>
-<tr class="even">
-<td align="center">final_ranger_action:animal_condition</td>
-<td align="center">24</td>
-<td align="center">29.083</td>
-<td align="center">1.212</td>
-<td align="center">2.924</td>
-<td align="center">0.000</td>
-</tr>
-<tr class="odd">
-<td align="center">Residuals</td>
-<td align="center">6127</td>
-<td align="center">2539.457</td>
-<td align="center">0.414</td>
-<td align="center">NA</td>
-<td align="center">NA</td>
-</tr>
-</tbody>
-</table>
-<pre class="r"><code>par(mfrow = c(1, 2))
-plot(anova_fit_log, which = 1)  # Residuals vs Fitted
-plot(anova_fit_log, which = 2)  # Normal Q-Q</code></pre>
-<p><img src="Project-Report_files/figure-html/unnamed-chunk-20-1.png" width="672" /></p>
-<pre class="r"><code>par(mfrow = c(1, 1))</code></pre>
-<p>Because <code>action duration</code> is highly right-skewed with many
-long outliers, the raw ANOVA violated assumptions. A log transformation
-was applied to stabilize variance and improve residual normality.</p>
-<p>Model: <span class="math inline">\(\texttt{log(duration_hours)} \sim
-\texttt{final_ranger_action} * \texttt{animal_condition} +
-\texttt{num_animals}\)</span></p>
-<p>Key results:</p>
-<ul>
-<li><p><code>Final ranger action</code> remains highly significant (p
-&lt; 2e-16), indicating persistent differences in duration across action
-types.</p></li>
-<li><p><code>Animal condition</code> becomes significant (p = 0.000416),
-meaning condition effects become clearer after reducing
-skewness.</p></li>
-<li><p><code>Number of animals</code> is still non-significant (p =
-0.27).</p></li>
-<li><p>The interaction remains significant (p = 7.3e-07), showing that
-the effect of action type varies by condition.</p></li>
-<li><p>The log transformation reduces extreme values and spreads out
-lower durations, yielding more homogeneous variance and more normally
-distributed residuals. Diagnostic plots show steadier variance and a Q–Q
-plot much closer to the reference line, with minor tail deviations
-expected in field data.</p></li>
-</ul>
-<p><br></p>
-</div>
-</div>
-<div id="chi-square-test-between-species-status-and-animal-condition"
-class="section level3">
-<h3>Chi-Square Test Between Species Status and Animal Condition</h3>
-<p>chi-square test between species status and animal condition</p>
-<pre class="r"><code># conduct a chi-square test on species_status and animal_condition
-spec_health_tbl = table(park_ranger_new$species_status, park_ranger_new$animal_condition)
-
-spec_health_result = chisq.test(spec_health_tbl)
-
-# show contingency table of the chi-square test
-kable(
-  as.data.frame.matrix(spec_health_result$observed),
-  caption = &quot;Observed Counts for Species Status and Animal Condition&quot;,
-  digits = 2
-)</code></pre>
-<table>
-<caption>Observed Counts for Species Status and Animal
-Condition</caption>
-<thead>
-<tr class="header">
-<th align="left"></th>
-<th align="right">Healthy</th>
-<th align="right">Unhealthy</th>
-<th align="right">Injured</th>
-<th align="right">DOA</th>
-<th align="right">Unknown</th>
-</tr>
-</thead>
-<tbody>
-<tr class="odd">
-<td align="left">Native</td>
-<td align="right">1129</td>
-<td align="right">1204</td>
-<td align="right">1272</td>
-<td align="right">556</td>
-<td align="right">462</td>
-</tr>
-<tr class="even">
-<td align="left">Invasive</td>
-<td align="right">163</td>
-<td align="right">29</td>
-<td align="right">92</td>
-<td align="right">31</td>
-<td align="right">17</td>
-</tr>
-<tr class="odd">
-<td align="left">Domestic</td>
-<td align="right">614</td>
-<td align="right">135</td>
-<td align="right">111</td>
-<td align="right">66</td>
-<td align="right">139</td>
-</tr>
-<tr class="even">
-<td align="left">Exotic</td>
-<td align="right">53</td>
-<td align="right">10</td>
-<td align="right">6</td>
-<td align="right">8</td>
-<td align="right">21</td>
-</tr>
-<tr class="odd">
-<td align="left">Unknown</td>
-<td align="right">9</td>
-<td align="right">1</td>
-<td align="right">14</td>
-<td align="right">2</td>
-<td align="right">33</td>
-</tr>
-</tbody>
-</table>
-<pre class="r"><code># show result tables of the chi-square test
-kable(
-  as.data.frame.matrix(spec_health_result$expected),
-  caption = &quot;Expected Counts for Species Status and Animal Condition&quot;,
-  digits = 2
-)</code></pre>
-<table>
-<caption>Expected Counts for Species Status and Animal
-Condition</caption>
-<thead>
-<tr class="header">
-<th align="left"></th>
-<th align="right">Healthy</th>
-<th align="right">Unhealthy</th>
-<th align="right">Injured</th>
-<th align="right">DOA</th>
-<th align="right">Unknown</th>
-</tr>
-</thead>
-<tbody>
-<tr class="odd">
-<td align="left">Native</td>
-<td align="right">1472.89</td>
-<td align="right">1032.07</td>
-<td align="right">1118.89</td>
-<td align="right">496.20</td>
-<td align="right">502.94</td>
-</tr>
-<tr class="even">
-<td align="left">Invasive</td>
-<td align="right">105.78</td>
-<td align="right">74.12</td>
-<td align="right">80.35</td>
-<td align="right">35.63</td>
-<td align="right">36.12</td>
-</tr>
-<tr class="odd">
-<td align="left">Domestic</td>
-<td align="right">339.31</td>
-<td align="right">237.76</td>
-<td align="right">257.76</td>
-<td align="right">114.31</td>
-<td align="right">115.86</td>
-</tr>
-<tr class="even">
-<td align="left">Exotic</td>
-<td align="right">31.22</td>
-<td align="right">21.88</td>
-<td align="right">23.72</td>
-<td align="right">10.52</td>
-<td align="right">10.66</td>
-</tr>
-<tr class="odd">
-<td align="left">Unknown</td>
-<td align="right">18.80</td>
-<td align="right">13.17</td>
-<td align="right">14.28</td>
-<td align="right">6.33</td>
-<td align="right">6.42</td>
-</tr>
-</tbody>
-</table>
-<p>A chi-square test of independence was conducted to evaluate the
-association between species status and animal condition. The test
-produced a highly significant result, <span
-class="math display">\[\chi^2(16) = 757.19,\quad p &lt; 2.2 \times
-10^{-16}\]</span>, indicating that the distribution of animal conditions
-differs substantially across species status categories.</p>
-<p>The tables of observed and expected counts are shown above, along
-with the plot of standardized residuals for the two variables. Based on
-both the contingency table and the residual plot, domestic species are
-noticeably overrepresented in the Healthy category, while native
-(non-domestic) species are underrepresented. Domestic species are also
-underrepresented in the Injured category, whereas native species show
-the opposite pattern, with more Injured or Unhealthy cases than
-expected.</p>
-</div>
-</div>
-<div id="discussion" class="section level2">
-<h2>Discussion</h2>
-<div id="species-status-and-animal-condition" class="section level3">
-<h3>Species Status and Animal Condition</h3>
-<p>One possible explanation of the over-represented healthy cases for
-domestic species is reporting behavior. Domestic animals may be reported
-for a wider range of reasons, such as being lost, found unattended, or
-involved in non-medical encounters, which increases the number of
-Healthy reports. In contrast, native wildlife is more likely to be
-reported only when something is wrong, such as being injured, sick, or
-otherwise in distress, leading to higher counts in those categories.</p>
-</div>
-<div id="borough-and-animal-class" class="section level3">
-<h3>Borough and Animal Class</h3>
-<p>Manhattan has the highest total number of cases, driven largely by
-small mammals. Manhattan, Queens, and Brooklyn all report particularly
-high counts for birds/raptors, whereas Staten Island shows the highest
-numbers for marine mammals, fish, and reptiles/amphibians, and the Bronx
-reports the highest number of cases involving large mammals.</p>
-<p>These patterns may be influenced by differences in human population
-density and land use. Manhattan, Queens, and Brooklyn have denser human
-activity, which may increase both encounter rates and incident
-reporting, especially for small mammals. Human activities in Staten
-Island often take place near coastal or aquatic environments, making
-marine animals and other water-dependent species more visible to the
-public. The Bronx includes the Bronx Zoo and several large parks, which
-may contribute to a greater presence of large mammals.</p>
-<p>Based on these observations, the Parks and Recreation Department
-could consider allocating more aquatic-animal expertise to Staten Island
-and strengthening monitoring capacity for its land areas. Additional
-resources could also be directed toward managing large mammals in the
-Bronx and reducing human–wildlife disturbances involving small mammals
-in Manhattan.</p>
-</div>
-<div id="response-duration-1" class="section level3">
-<h3>Response Duration</h3>
-<p>Our analyses show that response duration is driven mainly by
-operational factors, especially call timing and call source, rather than
-animal-related characteristics. These findings highlight that delays are
-largely shaped by staffing patterns, dispatch workflows, and after-hours
-procedures.</p>
-<p>At the same time, data limitations such as small sample sizes in some
-categories, potential timestamp inconsistencies, and unmeasured factors
-(e.g., traffic, weather, case urgency) suggest that some effects should
-be interpreted with caution.</p>
-</div>
-</div>
+<div
+id="discussion-what-were-your-findings-are-they-what-you-expect-what-insights-into-the-data-can-you-make"
+class="section level1">
+<h1>Discussion: What were your findings? Are they what you expect? What
+insights into the data can you make?</h1>
 </div>
 
 
