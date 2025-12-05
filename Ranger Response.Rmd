@@ -99,7 +99,7 @@ p4 = resp_dur_dist %>%
   resp_dur_dist_plot(">24 hours")
 
 (p1 | p2) / (p3 | p4) + plot_annotation(title ="Distribution of Response Duration") &
-  theme(text = element_text(size = 24))
+  theme(text = element_text(size = 18))
 ```
 
 Because response durations are highly right-skewed, the data were divided more finely at the lower end (0–1 and 1–4 hours), where most observations occur, and grouped into broader segments for longer delays (4–24 and >24 hours).
