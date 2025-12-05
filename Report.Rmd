@@ -1,6 +1,6 @@
 ---
 title: "Report"
-author: Samantha Xinwei Han, Xinhui (Linda) Lin, Ruohan Lyu, Xinyin Miao, Fenglin Xie
+author: Samantha Xinwei Han (xh2601), Xinhui Lin (xl3054), Ruohan Lyu (rl3610), Xinyin Miao (xm2356), Fenglin Xie (fx2212)
 date: "2025-12-06"
 output: html_document
 ---
@@ -1565,9 +1565,6 @@ Key results:
 
 ## Discussion
 
-### Species Status and Animal Condition
-One possible explanation of the over-represented healthy cases for domestic species is reporting behavior. Domestic animals may be reported for a wider range of reasons, such as being lost, found unattended, or involved in non-medical encounters, which increases the number of Healthy reports. In contrast, native wildlife is more likely to be reported only when something is wrong, such as being injured, sick, or otherwise in distress, leading to higher counts in those categories.
-
 ### Borough and Animal Class
 The reporting patterns based on borough may be influenced by differences in human population density and land use. Given Manhattan's exceptionally high population density, it is reasonable that it generates the greatest number of rescue calls. Manhattan, Queens, and Brooklyn have denser human activity, which may increase both encounter rates and incident reporting, leading to high counts for birds/raptors and small mammals. Human activities in Staten Island often take place near coastal or aquatic environments, making marine animals and other water-dependent species more visible to the public, and shows the highest number of calls for marine mammals, fish, and reptiles/amphibians. The Bronx includes the Bronx Zoo and several large parks, which may contribute to the highest number of cases involving large mammals.
 
@@ -1577,6 +1574,8 @@ Based on these observations, the Parks and Recreation Department could consider 
 Differences in health conditions across species groups and boroughs suggest that many cases are shaped by how easily animals can be seen and how quickly people notice something is wrong. Small mammals often appear in poorer condition because they tend to stay hidden, so problems are discovered later. Birds, on the other hand, are more visible in open areas, making unusual behavior easier for the public to recognize and report. Borough-level patterns reinforce this idea: busy areas like Manhattan may allow animals to be spotted sooner, while lower-density areas such as Staten Island may lead to cases being reported only when animals are already deceased.
 
 These patterns show that reported health conditions reflect both animal behaviors and the environments in which people encounter them. The Parks and Recreation Department may consider encouraging earlier reporting, especially in areas where distressed animals are harder to notice, and offering simple guidance to help residents recognize signs of illness or injury. Increasing public awareness in  boroughs with lower density could improve early detection and reduce the number of cases that are only discovered at severe stages.
+
+One possible explanation of the over-represented healthy cases for domestic species is reporting behavior. Domestic animals may be reported for a wider range of reasons, such as being lost, found unattended, or involved in non-medical encounters, which increases the number of Healthy reports. In contrast, native wildlife is more likely to be reported only when something is wrong, such as being injured, sick, or otherwise in distress, leading to higher counts in those categories.
 
 ### Response Duration
 Our analyses show that response duration is driven mainly by operational factors, especially call timing and call source, rather than animal-related characteristics. These findings highlight that delays are largely shaped by staffing patterns, dispatch workflows, and after-hours procedures.
