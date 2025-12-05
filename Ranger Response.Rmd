@@ -17,11 +17,11 @@ source("data_cleaning.R")
   Image Credits: Pine Woods Animal Hospital
 </div>
 
-We would like to explore how response duration, which we define as the duration between the initial request and the time that Rangers arrived at the site (`date_and_time_of_ranger_response - date_and_time_of_initial_call`), is associated with different incident characteristics.
+We would like to explore how response duration, which we define as the duration between the initial report and the time that Rangers arrived at the site (`date_and_time_of_ranger_response - date_and_time_of_initial_call`), is associated with different incident characteristics.
 
 --- 
 
-## Average Response Duration by Time of Initial Request
+## Average Response Duration by Time of Initial Report
 ```{r}
 ranger_response_hr = park_ranger_new %>% 
   mutate(day_diff = as.numeric(difftime(response_date, call_date, units = "days")),
@@ -37,7 +37,7 @@ ranger_response_hr %>%
   geom_line(linewidth = 0.8, color = "skyblue3") + 
   scale_x_continuous(breaks = 0:23) +
   labs(
-    title = "Average Response Duration by Time of Initial Request",
+    title = "Average Response Duration by Time of Initial Report",
     x = "Hour of Day (24-hour)",
     y = "Average Response Hours") +
   theme_minimal()
@@ -45,7 +45,7 @@ ranger_response_hr %>%
 
 This line plot visualizes variation in response duration across the 24-hour day. 
 
-- Cases reported during regular daytime hours (approximately 8:00 - 16:00) have the shortest response duration, typically around 2-4 hours from the time of initial request to the arrival of a Ranger. This pattern suggests that Ranger availability and operational capacity are highest during standard working hours.
+- Cases reported during regular daytime hours (approximately 8:00 - 16:00) have the shortest response duration, typically around 2-4 hours from the time of initial report to the arrival of a Ranger. This pattern suggests that Ranger availability and operational capacity are highest during standard working hours.
 
 - Response duration keeps increasing in the late afternoon and early evening (17:00-22:00), reaching an extended period of long delays in responses, with average response duration approaching 15 hours. This rise likely reflects reduced staffing after 5 PM, and the possibility that non-urgent incidents are deferred until the working hours the next day. 
 
@@ -99,7 +99,7 @@ p4 = resp_dur_dist %>%
   resp_dur_dist_plot(">24 hours")
 
 (p1 | p2) / (p3 | p4) + plot_annotation(title ="Distribution of Response Duration") &
-  theme(text = element_text(size = 24))
+  theme(text = element_text(size = 18))
 ```
 
 Because response durations are highly right-skewed, the data were divided more finely at the lower end (0–1 and 1–4 hours), where most observations occur, and grouped into broader segments for longer delays (4–24 and >24 hours).
@@ -147,7 +147,7 @@ Across boroughs, the density curves show only small differences in response dura
 
 - Manhattan and Brooklyn have slightly right-shifted peaks on the log scale, indicating somewhat slower responses on average compared to others. This might be because these boroughs tend to have higher call volume and more complex environment, which can slow down dispatch and travel time. Manhattan’s dense urban setting and Brooklyn’s large geographic area may also contribute to longer navigation times and resource constraints relative to the other boroughs.
 
-- Queens, the Bronx, and Staten Island have slightly left-shifted peaks on the log scale, indicating somewhat faster responses on average. Operationally, these boroughs may experience less congestion and fewer competing requests, contributing to slightly shorter response duration.
+- Queens, the Bronx, and Staten Island have slightly left-shifted peaks on the log scale, indicating somewhat faster responses on average. Operationally, these boroughs may experience less congestion and fewer competing reports, contributing to slightly shorter response duration.
 
 Despite these minor shifts in central tendency, the overall shapes of the distributions are highly similar. Within-borough variation is much greater than between-borough variation.
 
