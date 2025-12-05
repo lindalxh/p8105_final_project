@@ -390,9 +390,9 @@ library(fuzzyjoin)
 library(knitr)
 library(base64enc)
 library(leaflet)
-library(sf)
-
-source(&quot;data_cleaning.R&quot;) </code></pre>
+library(sf)</code></pre>
+<pre><code>## Warning: package &#39;sf&#39; was built under R version 4.5.2</code></pre>
+<pre class="r"><code>source(&quot;data_cleaning.R&quot;) </code></pre>
 <div id="tiny-paws-big-rescue" class="section level1">
 <h1>Tiny Paws, Big Rescue:</h1>
 </div>
@@ -1315,14 +1315,14 @@ quickly animals are noticed and reported.</p>
 <div id="response-duration" class="section level3">
 <h3>Response Duration</h3>
 <p>We would like to explore how response duration, which we define as
-the duration between the initial request and the time that Rangers
+the duration between the initial report and the time that Rangers
 arrived at the site (<code>date_and_time_of_ranger_response</code> -
 <code>date_and_time_of_initial_call</code>), is associated with
 different incident characteristics.</p>
 <p><br></p>
-<div id="average-response-duration-by-time-of-initial-request"
+<div id="average-response-duration-by-time-of-initial-report"
 class="section level4">
-<h4>Average Response Duration by Time of Initial Request</h4>
+<h4>Average Response Duration by Time of Initial report</h4>
 <pre class="r"><code>ranger_response_hr = park_ranger_new %&gt;% 
   mutate(day_diff = as.numeric(difftime(response_date, call_date, units = &quot;days&quot;)),
          time_diff_hrs = as.numeric(difftime(response_time, call_time, units = &quot;hours&quot;)),
@@ -1337,7 +1337,7 @@ ranger_response_hr %&gt;%
   geom_line(linewidth = 0.8, color = &quot;skyblue3&quot;) + 
   scale_x_continuous(breaks = 0:23) +
   labs(
-    title = &quot;Average Response Duration by Time of Initial Request&quot;,
+    title = &quot;Average Response Duration by Time of Initial Report&quot;,
     x = &quot;Hour of Day (24-hour)&quot;,
     y = &quot;Average Response Hours&quot;)</code></pre>
 <p><img src="Report_files/figure-html/unnamed-chunk-11-1.png" width="90%" /></p>
@@ -1346,9 +1346,9 @@ ranger_response_hr %&gt;%
 <ul>
 <li><p>Cases reported during regular daytime hours (approximately 8:00 -
 16:00) have the shortest response duration, typically around 2-4 hours
-from the time of initial request to the arrival of a Ranger. This
-pattern suggests that Ranger availability and operational capacity are
-highest during standard working hours.</p></li>
+from the time of initial report to the arrival of a Ranger. This pattern
+suggests that Ranger availability and operational capacity are highest
+during standard working hours.</p></li>
 <li><p>Response duration keeps increasing in the late afternoon and
 early evening (17:00-22:00), reaching an extended period of long delays
 in responses, with average response duration approaching 15 hours. This
@@ -1486,7 +1486,7 @@ resource constraints relative to the other boroughs.</p></li>
 <li><p>Queens, the Bronx, and Staten Island have slightly left-shifted
 peaks on the log scale, indicating somewhat faster responses on average.
 Operationally, these boroughs may experience less congestion and fewer
-competing requests, contributing to slightly shorter response
+competing reports, contributing to slightly shorter response
 duration.</p></li>
 </ul>
 <p>Despite these minor shifts in central tendency, the overall shapes of
