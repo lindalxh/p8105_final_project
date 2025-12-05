@@ -20,7 +20,7 @@ knitr::opts_chunk$set(
 ---
 
 <div style="text-align:center;">
-  <img src="images/hamster_cast.jpeg" style="width:60%; margin:auto; display:block;">
+  <img src="images/hamster_cast.jpeg" style="width:80%; margin:auto; display:block;">
 </div>
 
 <div style="text-align:center; font-size:12px; color:#666;">
@@ -37,7 +37,7 @@ This dataset, provided by the Department of Parks and Recreation (DPR), contains
 
 ### Where Do Animal Rescue Calls Occur?
 
-```{r, collapse=TRUE}
+```{r}
 # for each row, create the popup content including borough and number of cases (>0) for each animal class
 # convert WKT multipolygon strings into sf multipolygon geometry for mapping
 map_park_sf = map_park |>
@@ -117,10 +117,9 @@ The [Parks Properties](https://data.cityofnewyork.us/Recreation/Parks-Properties
   </a>
 </div>
 
-
 <!-- Linda -->
 <div style="width:180px; text-align:center;">
-  <img src="images/linda.JPG" style="width:100%; border-radius:50%; border:2px solid #ddd;">
+  <img src="images/linda.jpeg" style="width:100%; border-radius:50%; border:2px solid #ddd;">
   <div style="margin-top:10px; font-size:16px; font-weight:bold;">Xinhui (Linda) Lin</div>
   <a href="mailto:xl3054@cumc.columbia.edu" style="text-decoration:none; color:#444;">
     <i class="fa fa-envelope" style="font-size:18px;"></i>
@@ -130,7 +129,7 @@ The [Parks Properties](https://data.cityofnewyork.us/Recreation/Parks-Properties
 
 <!-- Ruohan -->
 <div style="width:180px; text-align:center;">
-  <img src="images/sam.jpeg" style="width:100%; border-radius:50%; border:2px solid #ddd;">
+  <img src="images/ruohan.jpeg" style="width:100%; border-radius:50%; border:2px solid #ddd;">
   <div style="margin-top:10px; font-size:16px; font-weight:bold;">Ruohan Lyu</div>
   <a href="mailto:rl3610@cumc.columbia.edu" style="text-decoration:none; color:#444;">
     <i class="fa fa-envelope" style="font-size:18px;"></i>

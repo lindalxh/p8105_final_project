@@ -1,6 +1,6 @@
 ---
-title: "Project Report"
-author: Xinwei Han (xh2601), Xinhui Lin (xl3054), Ruohan Lyu (rl3610), Xinyin Miao (xm2356), Fenglin Xie (fx2212)
+title: "Report"
+author: Samantha Xinwei Han, Xinhui (Linda) Lin, Ruohan Lyu, Xinyin Miao, Fenglin Xie
 date: "2025-12-06"
 output: html_document
 ---
@@ -15,9 +15,19 @@ library(scales)
 library(glmnet)
 library(patchwork)
 library(knitr)
+library(fuzzyjoin)
+library(knitr)
+library(base64enc)
+library(leaflet)
+library(sf)
+
+source("data_cleaning.R") 
 ```
 
-# Tiny Paws, Big Rescue: A Data Story of Seasonal and Spatial Animal Saving
+# Tiny Paws, Big Rescue: 
+# A Data Story of Seasonal and Spatial Animal Saving
+
+---
 
 ## Motivation
 
@@ -27,20 +37,25 @@ Animals play an essential role in maintaining ecological balance, yet those livi
 
 To achieve this, we are developing an interactive, data-driven website that allows visitors to explore animal rescue patterns through a variety of visualizations. For instance, the site includes interactive maps that display the geographic locations of animal aid incidents, enabling users to identify high-risk areas and examine the number of reported cases in parks of interest. By showing where different animal species are typically found, when incidents occur most frequently, and how park rangers respond, our platform aims to connect the public with the city’s urban wildlife and promote informed, community-supported conservation.
 
+---
 
 ## Related Work
 
 Our project is inspired by a range of citizen science and urban ecology initiatives that highlight how collaboration between the public and park agencies can improve wildlife protection in cities. For example, large-scale volunteer programs such as the NYC Tree Census (led by NYC Parks and NYC TreesCount!) demonstrate how citizen science can successfully mobilize thousands of residents to monitor environmental conditions across the city. Similar community-based wildlife monitoring efforts, such as iNaturalist, eBird, and the Urban Wildlife Information Network (UWIN), show that public participation can generate high-quality ecological data and increase awareness of human–wildlife interactions.
 
+---
+
 ## Initial Questions
 
 We originally planned to analyze the associations between animal conditions, locations, and time, both across the year and throughout the day. Additional analyses will examine factors that may influence response time, such as park location, animal condition or number, and temporal variables like time of day or frequency within a week or month. Examples of visualizations include a heatmap illustrating the density of injured animals by month and time of day, as well as violin plots grouped by boroughs to show the distribution of response times across regions. We will also conduct statistical tests, such as ANOVA, to evaluate relationships among variables, including borough, response time, animal condition, and time factors.
+
+---
 
 ## Data
 
 ### Data Source
 
-Our primary dataset is provided by the Department of Parks and Recreation (DPR) and is made publicly available through the NYC OpenData portal [(Urban Park Ranger Animal Condition Response)](https://data.cityofnewyork.us/Environment/Urban-Park-Ranger-Animal-Condition-Response/fuhs-xmg2/about_data). This dataset contains 6,385 records of animal rescue requests, including detailed information such as the date and time of each call, ranger response time, park name, specific location descriptions, animal species, and the condition of the animals involved.
+Our primary dataset is provided by the Department of Parks and Recreation (DPR) and is made publicly available through the NYC OpenData portal [(Urban Park Ranger Animal Condition Response)](https://data.cityofnewyork.us/Environment/Urban-Park-Ranger-Animal-Condition-Response/fuhs-xmg2/about_data). This dataset contains 6,385 records of animal rescue requests from May 2018 to June 2024, including detailed information such as the date and time of each call, ranger response time, park name, specific location descriptions, animal species, and the condition of the animals involved.
 
 One essential component of the website visualization is displaying the number of total cases reported to park rangers for each park. The Park Ranger dataset does not contain geographic coordinates, but it provides the park name or the location associated with each case. To map these cases spatially, we used the [Parks Properties](https://data.cityofnewyork.us/Recreation/Parks-Properties/enfh-gkve/about_data) dataset released by the Department of Parks and Recreation (DPR) on NYC OpenData. This dataset contains 2,054 parks and corresponding geographic coordinates in New York City across five boroughs. Coordinates of the 5 boroughs are from the [Borough Boundaries](https://data.cityofnewyork.us/City-Government/Borough-Boundaries/gthc-hcne/about_data) dataset released by the Department of City Planning (DCP) on NYC OpenData.
 
@@ -167,6 +182,112 @@ We selected Jaro–Winkler algorithm because it is designed for short strings su
 
 All fuzzy-matched pairs with similarity scores less than 1 were then manually reviewed by three members of the group, and each match was checked independently by two reviewers to ensure accuracy and inter-rater reliability. After this process, 35 unique property values remained unmatched, typically because they referred to street names (e.g., “Green Street”), or parks that exist but are not included in the Parks Properties dataset (e.g., “Mannahatta Park”). The final map includes 6,118 reported cases across 546 unique parks. Using Jaro–Winkler with a maximum distance threshold of 0.25 resulted in an overall matching accuracy of 43.75% among the 208 originally unmatched values.
 
+```{r, message = FALSE}
+# Match park names with Park Properties names
+# 1. Import parks properties dataset
+park_prop_df = read_csv("data/Parks_Properties_20251107.csv") |> 
+  janitor::clean_names()
+
+# 2. Get park names from both datasets
+park_name_park_ranger = park_ranger_new |>
+  transmute(name_park_ranger = str_to_lower(str_trim(property))) |>
+  distinct() |>
+  arrange(name_park_ranger)
+
+park_name_park_prop = park_prop_df |>
+  transmute(name_park_prop = str_to_lower(str_trim(signname))) |>
+  distinct() |>
+  arrange(name_park_prop)
+
+# 3. Join datasets on inexact matching, left join on ranger data
+# 4. Use Jaro-Winkler algorithm, save pairs with lowest distance (highest similarity)
+fuzzy_matches = 
+  stringdist_join(
+    park_name_park_ranger, park_name_park_prop,
+    by = c("name_park_ranger" = "name_park_prop"),
+    mode = "left",
+    method = "jw", max_dist = 0.25,
+    distance_col = "distance") |> 
+  group_by(name_park_ranger) |>
+  slice_min(distance, n = 1, with_ties = FALSE) |>
+  ungroup() |>
+  mutate(
+    similarity = 1 - distance,
+    original_park = name_park_ranger,
+    matched_park = name_park_prop) |> 
+  select(original_park, matched_park, similarity) |> 
+  arrange(original_park)
+
+# 5. Output as a .csv file for manual matching 
+write.csv(fuzzy_matches, "data/fuzzy_park_match.csv", row.names = FALSE)
+
+# Create a new dataframe for mapping
+# 1. Import dataset with final matched park names, get all animal classes
+park_match_df = read_csv("data/park_match_final.csv") |> 
+  janitor::clean_names() |> 
+  transmute(
+    original_park = str_to_lower(str_trim(original_park)),
+    final_match = str_to_lower(str_trim(final_match)))
+
+animal_classes = c(
+  "Birds / Raptors", 
+  "Small Mammals", 
+  "Large Mammals",
+  "Marine Mammals", 
+  "Reptiles / Amphibians",
+  "Fish", 
+  "Others")
+
+# 2. Join the matched name to park_ranger_new, remove those don't have a matched park
+map_park = park_ranger_new |> 
+  select(property, animal_class_new) |> 
+  mutate(property = str_to_lower(str_trim(property))) |> 
+  left_join(park_match_df,
+            by = c("property" = "original_park")) |> 
+  select(final_match, animal_class_new) |> 
+  filter(!final_match %in% c("na"))
+
+# 3. Maintain the order of parks for efficient map rendering 
+# 4. Keep those with largest acres if there are more than one parks have the same name
+# 5. Join map_park to park property with row expansions, remove parks with no cases
+map_park = park_prop_df |> 
+  select(borough, signname, multipolygon, acres) |> 
+  mutate(
+    order = row_number(),
+    name_park_prop = str_to_lower(str_trim(signname)),
+    acres = as.numeric(acres)) |> 
+  group_by(name_park_prop) |> 
+  slice_max(order_by = acres, n = 1) |> 
+  ungroup() |> 
+  select(!acres) |> 
+  left_join(map_park,
+            by = c("name_park_prop" = "final_match")) |> 
+  filter(!is.na(animal_class_new)) 
+
+# 6. Get the number of cases for each animal class in each park
+# 7. Keep one row for each park and arrange the df based on original mapping order
+# 8. Change borough name to its full name
+# 9. Get total number of cases for each park
+map_park = map_park |> 
+  group_by(name_park_prop, animal_class_new) |> 
+  summarize(n = n(), .groups = "drop") |> 
+  pivot_wider(
+    names_from = animal_class_new,
+    values_from = n) |> 
+  left_join(map_park |> select(!animal_class_new),
+            by = c("name_park_prop" = "name_park_prop")) |> 
+  distinct(name_park_prop, .keep_all = TRUE) |> 
+  arrange(order) |> 
+  mutate(
+    borough = case_match(borough,
+                         "M" ~ "Manhattan",
+                         "B" ~ "Brooklyn",
+                         "R" ~ "Staten Island",
+                         "Q" ~ "Queens",
+                         "X" ~ "Bronx"),
+    total_n = rowSums(across(all_of(animal_classes)), na.rm = TRUE))
+```
+
 ### Cleaned Dataset
 
 The cleaned data includes the following variables:
@@ -227,7 +348,95 @@ The cleaned data includes the following variables:
 
 `adult`, `juvenile`, `infant`: An indicator variable representing the age of the animal being rescued
 
+---
+
 ## Exploratory Analysis
+
+### Spatial Pattern
+
+```{r}
+# for each row, create the popup content including borough and number of cases (>0) for each animal class
+# convert WKT multipolygon strings into sf multipolygon geometry for mapping
+map_park_sf = map_park |>
+  rowwise() |>
+  mutate(
+    animal_text = {
+      case_num = c_across(all_of(animal_classes))
+      case_num_index = !is.na(case_num)
+      case_num_order = order(case_num[case_num_index], decreasing = TRUE)
+      paste0(
+        animal_classes[case_num_index][case_num_order], ": ",
+        case_num[case_num_index][case_num_order],
+        collapse = "<br>")},
+    popup_content = paste0(
+      "<b>", signname, ", </b>",
+      borough, "<br>",
+      animal_text)) |>
+  ungroup() |> 
+  st_as_sf(wkt = "multipolygon", crs = 4326)
+
+# create a function to create color based on the total number of case reported
+density_color = colorBin(
+  palette = c("#c9e0e5", "#bed2c6", "#ffd19d", "#feb29b", "#ed8687"),
+  bins = c(0, 5, 20, 100, 300, max(map_park$total_n)),
+  domain = map_park$total_n
+)
+
+border_color = colorBin(
+  palette = c("#7db7c8", "#6ab883", "#f2a84a", "#f0735b", "#d44c4e"),
+  bins = c(0, 5, 20, 100, 300, max(map_park$total_n)),
+  domain = map_park$total_n
+)
+
+# map with leaflet
+# use CartoDB.Voyager tile layer
+# fill in color using density_color based on total_n
+# add a minimap
+interactive_map_park = leaflet(map_park_sf, height = 500) |> 
+  addProviderTiles("CartoDB.Voyager") |>
+  addPolygons(
+    color = ~border_color(total_n),
+    weight = 1,
+    opacity = 2,
+    fillColor = ~density_color(total_n),
+    fillOpacity = 0.9,
+    popup = ~popup_content
+  ) |> 
+  addMiniMap(toggleDisplay = TRUE) |> 
+  addLegend(
+    pal = density_color,
+    values = ~total_n,
+    title = "Total Cases",
+    position = "topright",
+    opacity = 1)
+```
+
+<div style="text-align:center;">
+  <img src="images/map_park.jpg" style="width:90%; margin:auto; display:block;">
+</div>
+
+<div style="text-align:center; font-size:12px; color:#666;">
+  Screenshot of the interactive map on Home page
+</div>
+
+The map above displays the parks in which animal rescue calls occurred, with darker shading indicating a higher total number of reported cases. Each park is clickable, and the corresponding popup provides a breakdown of case counts by animal class. Overall, parks with darker shading tend to be larger in geographic area and are often located in high-density regions, such as major tourist destinations or busy residential neighborhoods. These patterns suggest that both park size and human activity may contribute to the frequency of reported animal incidents.
+
+**borough 代码**
+
+<div style="text-align:center;">
+  <img src="images/map_park.jpg" 
+       style="width:90%; margin:30px auto 0 auto; display:block;">
+</div>
+
+<div style="text-align:center; font-size:12px; color:#666;">
+  Screenshot of the interactive map on Health Condition page
+</div>
+
+The map above displays the total number of animal rescue calls from each borough, with darker shading indicating a higher total number of reported cases. Each borough is clickable, and the corresponding popup presents the bar graph of case counts by animal class. Based on the visualization, Manhattan has the highest number of reported cases overall.
+
+**bar plot**
+
+The accompanying bar plot provides a clearer comparison across boroughs. Manhattan has the highest total number of cases, driven largely by small mammals. Manhattan, Queens, and Brooklyn all report particularly high counts for birds/raptors, whereas Staten Island shows the highest numbers for marine mammals, fish, and reptiles/amphibians, and the Bronx reports the highest number of cases involving large mammals.
 
 ### Temporal Pattern
 
@@ -872,6 +1081,8 @@ Their mean duration is higher at 1.52 hours.
 
 <br>
 
+---
+
 ## Additional Analysis
 
 ### Multiple Linear Regression for Response Duration
@@ -1121,7 +1332,6 @@ Key results:
 
 
 ### Chi-Square Test Between Species Status and Animal Condition
-chi-square test between species status and animal condition
 
 ```{r}
 # conduct a chi-square test on species_status and animal_condition
@@ -1144,9 +1354,59 @@ kable(
 )
 ```
 
-A chi-square test of independence was conducted to evaluate the association between species status and animal condition. The test produced a highly significant result, $$\chi^2(16) = 757.19,\quad p < 2.2 \times 10^{-16}$$, indicating that the distribution of animal conditions differs substantially across species status categories.
+A chi-square test of independence was conducted to evaluate the association between species status and animal condition. The test produced a highly significant result, $$\chi^2(16) = 757.19,\quad p < 2.2 \times 10^{-16}$$ indicating that the distribution of animal conditions differs substantially across species status categories.
+
+```{r fig.width=7.5}
+# create custom color gradient with more detailed breaks
+chi_squre_color_breaks = c(-Inf, -20, -10, -5, 0, 5, 10, 20)
+chi_squre_palette = c("#08306B", "#2171B5", "#6BAED6", "#DEEBF7", "#FEE5D9", "#FB6A4A","#A50F15")
+
+# plot the standardized residual from the chi-square test between species_status and animal_condition
+res_heatmap = as.data.frame(spec_health_result$stdres) |>
+  rename(
+    species_status = Var1,
+    animal_condition = Var2,
+    stdres = Freq
+  ) |> 
+  ggplot(aes(x = animal_condition, y = species_status, fill = stdres)) +
+  scale_y_discrete(limits = rev) +
+  geom_tile(color = "white", linewidth = 0.3) +
+  coord_fixed() +
+  scale_fill_gradientn(
+    colors = chi_squre_palette,
+    values = rescale(chi_squre_color_breaks),
+    breaks = chi_squre_color_breaks,
+    limits = c(-22, 22),
+    guide = guide_colorbar(
+      barwidth = 30,
+      barheight = 0.8,
+      direction = "horizontal",
+      title.position = "top"
+    ), 
+    name = paste0("Std. Residual\nBlue = Obs < Exp", strrep(" ", 116), "Red = Obs > Exp")) +
+  geom_text(aes(label = round(stdres, 2)), size = 3, color = "black") +
+  labs(
+    title = "Standardized Residuals for Species Status and Animal Condition",
+    x = "Animal Condition",
+    y = "Species Status"
+  ) +
+  theme_minimal() + 
+  theme(
+    axis.text.x = element_text(size = 9, vjust = 4, margin = margin(t = 10)),
+    axis.text.y = element_text(size = 9),
+    plot.title = element_text(face = "bold", size = 14, hjust = 0.5, margin = margin(b = 10)),
+    plot.subtitle = element_text(size = 10),
+    legend.position = "bottom",
+    legend.title = element_text(size = 9),
+    legend.text = element_text(size = 8)
+  )
+
+plot(res_heatmap)
+```
 
 The tables of observed and expected counts are shown above, along with the plot of standardized residuals for the two variables. Based on both the contingency table and the residual plot, domestic species are noticeably overrepresented in the Healthy category, while native (non-domestic) species are underrepresented. Domestic species are also underrepresented in the Injured category, whereas native species show the opposite pattern, with more Injured or Unhealthy cases than expected.
+
+---
 
 ## Discussion
 
@@ -1154,9 +1414,7 @@ The tables of observed and expected counts are shown above, along with the plot 
 One possible explanation of the over-represented healthy cases for domestic species is reporting behavior. Domestic animals may be reported for a wider range of reasons, such as being lost, found unattended, or involved in non-medical encounters, which increases the number of Healthy reports. In contrast, native wildlife is more likely to be reported only when something is wrong, such as being injured, sick, or otherwise in distress, leading to higher counts in those categories.
 
 ### Borough and Animal Class
-Manhattan has the highest total number of cases, driven largely by small mammals. Manhattan, Queens, and Brooklyn all report particularly high counts for birds/raptors, whereas Staten Island shows the highest numbers for marine mammals, fish, and reptiles/amphibians, and the Bronx reports the highest number of cases involving large mammals.
-
-These patterns may be influenced by differences in human population density and land use. Manhattan, Queens, and Brooklyn have denser human activity, which may increase both encounter rates and incident reporting, especially for small mammals. Human activities in Staten Island often take place near coastal or aquatic environments, making marine animals and other water-dependent species more visible to the public. The Bronx includes the Bronx Zoo and several large parks, which may contribute to a greater presence of large mammals.
+The reporting patterns based on borough may be influenced by differences in human population density and land use. Given Manhattan's exceptionally high population density, it is reasonable that it generates the greatest number of rescue calls. Manhattan, Queens, and Brooklyn have denser human activity, which may increase both encounter rates and incident reporting, leading to high counts for birds/raptors and small mammals. Human activities in Staten Island often take place near coastal or aquatic environments, making marine animals and other water-dependent species more visible to the public, and shows the highest number of calls for marine mammals, fish, and reptiles/amphibians. The Bronx includes the Bronx Zoo and several large parks, which may contribute to the highest number of cases involving large mammals.
 
 Based on these observations, the Parks and Recreation Department could consider allocating more aquatic-animal expertise to Staten Island and strengthening monitoring capacity for its land areas. Additional resources could also be directed toward managing large mammals in the Bronx and reducing human–wildlife disturbances involving small mammals in Manhattan.
 
