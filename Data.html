@@ -372,8 +372,9 @@ div.tocify {
 </div>
 
 
-<div id="data-source" class="section level1">
-<h1>Data Source</h1>
+<hr />
+<div id="data-source" class="section level2">
+<h2>Data Source</h2>
 <p>Our primary dataset is provided by the Department of Parks and
 Recreation (DPR) and is made publicly available through the NYC OpenData
 portal <a
@@ -427,9 +428,10 @@ map_boro = park_ranger_new |&gt;
     total_n = rowSums(across(all_of(animal_classes)), na.rm = TRUE)) |&gt; 
   left_join(boro_bound_df |&gt; select(boro_name, the_geom),
             by = c(&quot;borough&quot; = &quot;boro_name&quot;))</code></pre>
+<hr />
 </div>
-<div id="data-cleaning-process" class="section level1">
-<h1>Data Cleaning Process</h1>
+<div id="data-cleaning-process" class="section level2">
+<h2>Data Cleaning Process</h2>
 <ul>
 <li><p>Split date and time</p></li>
 <li><p>Remove incorrect records based on call &amp; response
@@ -541,9 +543,10 @@ park_ranger_new = park_ranger %&gt;%
     juvenile = if_else(str_detect(age, &quot;Juvenile&quot;), 1L, 0L, missing = 0L),
     infant  = if_else(str_detect(age, &quot;Infant&quot;), 1L, 0L, missing = 0L)
   )</code></pre>
+<hr />
 </div>
-<div id="matching-process-for-park-properties" class="section level1">
-<h1>Matching Process for Park Properties</h1>
+<div id="matching-process-for-park-properties" class="section level2">
+<h2>Matching Process for Park Properties</h2>
 <p>After comparing the <strong>Park Ranger</strong> and <strong>Parks
 Properties</strong> datasets, we found that many park names in Park
 Ranger (<code>property</code>) did not match the official park names
@@ -662,9 +665,10 @@ map_park = map_park |&gt;
                          &quot;Q&quot; ~ &quot;Queens&quot;,
                          &quot;X&quot; ~ &quot;Bronx&quot;),
     total_n = rowSums(across(all_of(animal_classes)), na.rm = TRUE))</code></pre>
+<hr />
 </div>
-<div id="cleaned-dataset" class="section level1">
-<h1>Cleaned Dataset</h1>
+<div id="cleaned-dataset" class="section level2">
+<h2>Cleaned Dataset</h2>
 <p>The cleaned data includes the following variables:</p>
 <p><code>date_and_time_of_initial_call</code>: The date and time of the
 initial request for animal rescue</p>
