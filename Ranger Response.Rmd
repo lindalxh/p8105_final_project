@@ -7,6 +7,8 @@ output: html_document
 source("data_cleaning.R")
 ```
 
+--- 
+
 <div style="text-align:center;">
   <img src="images/urgent-caref-service.jpg" width="50%" />
 </div>
