@@ -25,8 +25,6 @@ library(ggplot2)
 library(plotly)
 library(reshape2)
 library(knitr)
-library(corrplot)
-library(readxl)
 library(base64enc)
 
 source("data_cleaning.R") 
@@ -216,43 +214,6 @@ These differences highlight how each borough’s environment and reporting behav
 
 # Spatial Analysis of Animal Health Conditions Across Boroughs
 
-```{r, include=FALSE}
-# import borough dataset
-boro_bound_df = read_csv("data/Borough_Boundaries_20251107.csv") |> 
-  janitor::clean_names()
-```
-
-
-```{r}
-#create a dataframe for plotting
-# get all animal classes
-animal_classes = c(
-  "Birds / Raptors", 
-  "Small Mammals", 
-  "Large Mammals",
-  "Marine Mammals", 
-  "Reptiles / Amphibians",
-  "Fish", 
-  "Others")
-
-# select a subset of park ranger data, and only keep Unhealthy and Injured cases
-# group by borough and animal class
-# get the number of cases for each animal class in each borough
-# get total number of cases for each borough
-# join the multipolygon geometry into this dataset
-map_boro = park_ranger_new |> 
-  select(borough, animal_class_new, animal_condition) |> 
-  group_by(borough, animal_class_new) |> 
-  summarize(n = n(), .groups = "drop") |> 
-  pivot_wider(
-    names_from = animal_class_new,
-    values_from = n) |> 
-  mutate(
-    total_n = rowSums(across(all_of(animal_classes)), na.rm = TRUE)) |> 
-  left_join(boro_bound_df |> select(boro_name, the_geom),
-            by = c("borough" = "boro_name"))
-```
-
 ### Map out the total number of cases in borough
 
 ```{r}
@@ -301,7 +262,7 @@ map_boro_sf = map_boro |>
 # use CartoDB.Voyager tile layer
 # fill in color using density_color based on total_n
 # add a minimap
-leaflet(map_boro_sf) |> 
+leaflet(map_boro_sf, height = 500) |> 
   addProviderTiles("CartoDB.Voyager") |>
   addPolygons(
     color = "#238b45",
@@ -385,15 +346,13 @@ kable(
 )
 ```
 
+A chi-square test of independence was conducted to evaluate the association between species status and animal condition. The test produced a highly significant result, $$\chi^2(16) = 757.19,\quad p < 2.2 \times 10^{-16}$$ indicating that the distribution of animal conditions differs substantially across species status categories.
 
-```{r}
+```{r fig.width=7.5}
 # create custom color gradient with more detailed breaks
 chi_squre_color_breaks = c(-Inf, -20, -10, -5, 0, 5, 10, 20)
 chi_squre_palette = c("#08306B", "#2171B5", "#6BAED6", "#DEEBF7", "#FEE5D9", "#FB6A4A","#A50F15")
-```
 
-
-```{r}
 # plot the standardized residual from the chi-square test between species_status and animal_condition
 res_heatmap = as.data.frame(spec_health_result$stdres) |>
   rename(
@@ -423,22 +382,17 @@ res_heatmap = as.data.frame(spec_health_result$stdres) |>
     x = "Animal Condition",
     y = "Species Status"
   ) +
-  theme_minimal() + 
   theme(
     axis.text.x = element_text(size = 9, vjust = 4, margin = margin(t = 10)),
     axis.text.y = element_text(size = 9),
     plot.title = element_text(face = "bold", size = 14, hjust = 0.5, margin = margin(b = 10)),
     plot.subtitle = element_text(size = 10),
-    legend.position = "bottom",
     legend.title = element_text(size = 9),
     legend.text = element_text(size = 8)
   )
 
 plot(res_heatmap)
-
 ```
-
-A chi-square test of independence was conducted to evaluate the association between species status and animal condition. The test produced a highly significant result, $$\chi^2(16) = 757.19,\quad p < 2.2 \times 10^{-16}$$ indicating that the distribution of animal conditions differs substantially across species status categories.
 
 The tables of observed and expected counts are shown above, along with the plot of standardized residuals for the two variables. Based on both the contingency table and the residual plot, domestic species are noticeably overrepresented in the Healthy category, while native (non-domestic) species are underrepresented. Domestic species are also underrepresented in the Injured category, whereas native species show the opposite pattern, with more Injured or Unhealthy cases than expected.
 

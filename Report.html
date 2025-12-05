@@ -605,12 +605,12 @@ park_ranger_new = park_ranger %&gt;%
 <h3>Matching Process for Park Properties</h3>
 <p>After comparing the <strong>Park Ranger</strong> and <strong>Parks
 Properties</strong> datasets, we found that many park names in Park
-Ranger (<em>property</em>) did not match the official park names
-(<em>signname</em>) in Parks Properties Specifically, 208 out of 703
-unique <em>property</em> values had no exact match in <em>signname</em>.
-To recover as many matches as possible, we applied the Jaro–Winkler
-algorithm from the fuzzyjoin package to perform inexact matching on all
-unique park names.</p>
+Ranger (<code>property</code>) did not match the official park names
+(<code>signname</code>) in Parks Properties Specifically, 208 out of 703
+unique <code>property</code> values had no exact match in
+<code>signname</code>. To recover as many matches as possible, we
+applied the Jaro–Winkler algorithm from the fuzzyjoin package to perform
+inexact matching on all unique park names.</p>
 <p>We selected Jaro–Winkler algorithm because it is designed for short
 strings such as names, and it places higher weight on common prefixes,
 which is useful for matching park names that share the same beginning
@@ -938,7 +938,7 @@ mon_case_plot = monthly_animal_trends |&gt;
   scale_color_viridis_d()
 
 print(mon_case_plot)</code></pre>
-<p><img src="Report_files/figure-html/unnamed-chunk-5-1.png" width="864" /></p>
+<p><img src="Report_files/figure-html/unnamed-chunk-5-1.png" width="90%" /></p>
 <p>This line chart displays the monthly distribution of animal response
 cases across 7 reclassified animal categories throughout the year.</p>
 <p>Key Findings:</p>
@@ -1027,7 +1027,7 @@ case_heatmap = hourly_monthly_heatmap |&gt;
   )
 
 plot(case_heatmap)</code></pre>
-<p><img src="Report_files/figure-html/unnamed-chunk-6-1.png" width="864" /></p>
+<p><img src="Report_files/figure-html/unnamed-chunk-6-1.png" width="90%" /></p>
 <p>Case distribution primarily concentrates between 8:00 and 18:00,
 aligning with peak park visitation and diurnal animal activity. Summer
 exhibits extended evening activity likely due to increased daylight and
@@ -1137,7 +1137,7 @@ combined_plot +
     title = &quot;Health Conditions by Animal Class and Borough&quot;,
     theme = theme(plot.title = element_text(hjust = 0.5, size = 13, face = &quot;bold&quot;))
   )</code></pre>
-<p><img src="Report_files/figure-html/unnamed-chunk-7-1.png" width="672" /></p>
+<p><img src="Report_files/figure-html/unnamed-chunk-7-1.png" width="90%" /></p>
 <p>The distribution of animal health conditions shows clear variation
 across both animal classes and boroughs. Birds/Raptors and Small Mammals
 account for most wildlife-related calls, but when health conditions are
@@ -1192,7 +1192,7 @@ ranger_response_hr %&gt;%
     x = &quot;Hour of Day (24-hour)&quot;,
     y = &quot;Average Response Hours&quot;) +
   theme_minimal()</code></pre>
-<p><img src="Report_files/figure-html/unnamed-chunk-8-1.png" width="672" /></p>
+<p><img src="Report_files/figure-html/unnamed-chunk-8-1.png" width="90%" /></p>
 <p>This line plot visualizes variation in response duration across the
 24-hour day.</p>
 <ul>
@@ -1264,7 +1264,7 @@ p4 = resp_dur_dist %&gt;%
 
 (p1 | p2) / (p3 | p4) + plot_annotation(title =&quot;Distribution of Response Duration&quot;) &amp;
   theme(text = element_text(size = 24))</code></pre>
-<p><img src="Report_files/figure-html/unnamed-chunk-9-1.png" width="1344" /></p>
+<p><img src="Report_files/figure-html/unnamed-chunk-9-1.png" width="90%" /></p>
 <p>Because response durations are highly right-skewed, the data were
 split more at the lower end (0–1 and 1–4 hours) where most observations
 occur, while broader segments were used for longer delays (4–24 and
@@ -1300,9 +1300,8 @@ ranger_model %&gt;%
   labs(title = &quot;Density of Ranger Response Duration by Borough&quot;,
        x = &quot;Response Duration (hours)&quot;,
        y = &quot;Density&quot;,
-       color = &quot;Borough&quot;) +
-  theme_minimal()</code></pre>
-<p><img src="Report_files/figure-html/unnamed-chunk-10-1.png" width="672" /></p>
+       color = &quot;Borough&quot;)</code></pre>
+<p><img src="Report_files/figure-html/unnamed-chunk-10-1.png" width="90%" /></p>
 <p>Because the response-duration distribution is highly right-skewed,
 with a long tail extending to several hundred hours, we applied a
 natural log transformation to stabilize the variance and make
@@ -1387,7 +1386,7 @@ ggplot(park_model_action, aes(x = final_ranger_action, y = duration_hours)) +
     plot.title = element_text(hjust = 0.5),
     axis.text.y = element_text(size = 8)
   )</code></pre>
-<p><img src="Report_files/figure-html/unnamed-chunk-11-1.png" width="672" /></p>
+<p><img src="Report_files/figure-html/unnamed-chunk-11-1.png" width="90%" /></p>
 <p>The combined violin–boxplot shows clear differences in action
 duration across ranger actions. The visualization is capped at 40 hours
 to enhance focus on the central data distribution, noting that the
@@ -1447,7 +1446,7 @@ ggplot(park_model_cond, aes(x = animal_condition, y = duration_hours)) +
     plot.title = element_text(hjust = 0.5),
     axis.text.y = element_text(size = 8)
   )</code></pre>
-<p><img src="Report_files/figure-html/unnamed-chunk-12-1.png" width="672" /></p>
+<p><img src="Report_files/figure-html/unnamed-chunk-12-1.png" width="90%" /></p>
 <p>The violin–boxplot shows how <code>action duration</code> differs
 across animal conditions. The visualization is capped at 40 hours to
 enhance focus on the central data distribution, noting that the
@@ -1526,7 +1525,7 @@ p4 &lt;- plot_condition_bar(park_model4, &quot;DOA&quot;,       max_cases)
       )
     )
   )</code></pre>
-<p><img src="Report_files/figure-html/unnamed-chunk-13-1.png" width="672" /></p>
+<p><img src="Report_files/figure-html/unnamed-chunk-13-1.png" width="90%" /></p>
 <p>The four-panel plot compares <code>ranger actions</code> across
 <code>animal conditions</code>.</p>
 <ul>
@@ -1620,7 +1619,7 @@ duration_mean |&gt;
     plot.title = element_text(hjust = 0.5),
     legend.position = &quot;bottom&quot;
   )</code></pre>
-<p><img src="Report_files/figure-html/unnamed-chunk-15-1.png" width="768" style="display: block; margin: auto;" /></p>
+<p><img src="Report_files/figure-html/unnamed-chunk-15-1.png" width="90%" style="display: block; margin: auto;" /></p>
 <p>The first density plot shows that the distribution of raw
 <code>action duration</code> is extremely right-skewed, with most
 incidents resolved within a short time but a small number taking many
@@ -1650,7 +1649,7 @@ ggplot(park_model2_log,
     plot.title = element_text(hjust = 0.5),
     legend.position = &quot;bottom&quot;
   )</code></pre>
-<p><img src="Report_files/figure-html/unnamed-chunk-16-1.png" width="768" style="display: block; margin: auto;" /></p>
+<p><img src="Report_files/figure-html/unnamed-chunk-16-1.png" width="90%" style="display: block; margin: auto;" /></p>
 <p>To improve interpretability, we applied a
 <code>log (1 + duration)</code> transformation, which compresses long
 outliers and spreads the dense cluster near zero.</p>
@@ -2069,7 +2068,7 @@ species, play a comparatively smaller role.</p>
        x = &quot;Predictor Variables&quot;,
        y = &quot;Estimated Coefficient (hours)&quot;) +
   theme_minimal()</code></pre>
-<p><img src="Report_files/figure-html/unnamed-chunk-18-1.png" width="672" /></p>
+<p><img src="Report_files/figure-html/unnamed-chunk-18-1.png" width="90%" /></p>
 <p>This coefficient plot highlights the same general patterns seen in
 the regression table:</p>
 <ul>
@@ -2337,7 +2336,7 @@ knitr::kable(
 <pre class="r"><code>par(mfrow = c(1, 2))             
 plot(anova_fit, which = 1)    
 plot(anova_fit, which = 2)   </code></pre>
-<p><img src="Report_files/figure-html/unnamed-chunk-20-1.png" width="672" /></p>
+<p><img src="Report_files/figure-html/unnamed-chunk-20-1.png" width="90%" /></p>
 <pre class="r"><code>par(mfrow = c(1, 1))</code></pre>
 <p>The original model: <span
 class="math inline">\(\texttt{duration_hours} \sim
@@ -2452,7 +2451,7 @@ knitr::kable(
 <pre class="r"><code>par(mfrow = c(1, 2))
 plot(anova_fit_log, which = 1)  # Residuals vs Fitted
 plot(anova_fit_log, which = 2)  # Normal Q-Q</code></pre>
-<p><img src="Report_files/figure-html/unnamed-chunk-21-1.png" width="672" /></p>
+<p><img src="Report_files/figure-html/unnamed-chunk-21-1.png" width="90%" /></p>
 <pre class="r"><code>par(mfrow = c(1, 1))</code></pre>
 <p>Because <code>action duration</code> is highly right-skewed with many
 long outliers, the raw ANOVA violated assumptions. A log transformation
@@ -2652,19 +2651,17 @@ res_heatmap = as.data.frame(spec_health_result$stdres) |&gt;
     x = &quot;Animal Condition&quot;,
     y = &quot;Species Status&quot;
   ) +
-  theme_minimal() + 
   theme(
     axis.text.x = element_text(size = 9, vjust = 4, margin = margin(t = 10)),
     axis.text.y = element_text(size = 9),
     plot.title = element_text(face = &quot;bold&quot;, size = 14, hjust = 0.5, margin = margin(b = 10)),
     plot.subtitle = element_text(size = 10),
-    legend.position = &quot;bottom&quot;,
     legend.title = element_text(size = 9),
     legend.text = element_text(size = 8)
   )
 
 plot(res_heatmap)</code></pre>
-<p><img src="Report_files/figure-html/unnamed-chunk-23-1.png" width="720" /></p>
+<p><img src="Report_files/figure-html/unnamed-chunk-23-1.png" width="90%" /></p>
 <p>The tables of observed and expected counts are shown above, along
 with the plot of standardized residuals for the two variables. Based on
 both the contingency table and the residual plot, domestic species are

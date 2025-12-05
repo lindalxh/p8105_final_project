@@ -396,6 +396,37 @@ boroughs. Coordinates of the 5 boroughs are from the <a
 href="https://data.cityofnewyork.us/City-Government/Borough-Boundaries/gthc-hcne/about_data">Borough
 Boundaries</a> dataset released by the Department of City Planning (DCP)
 on NYC OpenData.</p>
+<pre class="r"><code># import borough dataset
+boro_bound_df = read_csv(&quot;data/Borough_Boundaries_20251107.csv&quot;) |&gt; 
+  janitor::clean_names()
+
+#create a dataframe for plotting
+# get all animal classes
+animal_classes = c(
+  &quot;Birds / Raptors&quot;, 
+  &quot;Small Mammals&quot;, 
+  &quot;Large Mammals&quot;,
+  &quot;Marine Mammals&quot;, 
+  &quot;Reptiles / Amphibians&quot;,
+  &quot;Fish&quot;, 
+  &quot;Others&quot;)
+
+# select a subset of park ranger data, and only keep Unhealthy and Injured cases
+# group by borough and animal class
+# get the number of cases for each animal class in each borough
+# get total number of cases for each borough
+# join the multipolygon geometry into this dataset
+map_boro = park_ranger_new |&gt; 
+  select(borough, animal_class_new, animal_condition) |&gt; 
+  group_by(borough, animal_class_new) |&gt; 
+  summarize(n = n(), .groups = &quot;drop&quot;) |&gt; 
+  pivot_wider(
+    names_from = animal_class_new,
+    values_from = n) |&gt; 
+  mutate(
+    total_n = rowSums(across(all_of(animal_classes)), na.rm = TRUE)) |&gt; 
+  left_join(boro_bound_df |&gt; select(boro_name, the_geom),
+            by = c(&quot;borough&quot; = &quot;boro_name&quot;))</code></pre>
 </div>
 <div id="data-cleaning-process" class="section level1">
 <h1>Data Cleaning Process</h1>
@@ -576,21 +607,12 @@ fuzzy_matches =
 write.csv(fuzzy_matches, &quot;data/fuzzy_park_match.csv&quot;, row.names = FALSE)
 
 # Create a new dataframe for mapping
-# 1. Import dataset with final matched park names, get all animal classes
+# 1. Import dataset with final matched park names
 park_match_df = read_csv(&quot;data/park_match_final.csv&quot;) |&gt; 
   janitor::clean_names() |&gt; 
   transmute(
     original_park = str_to_lower(str_trim(original_park)),
     final_match = str_to_lower(str_trim(final_match)))
-
-animal_classes = c(
-  &quot;Birds / Raptors&quot;, 
-  &quot;Small Mammals&quot;, 
-  &quot;Large Mammals&quot;,
-  &quot;Marine Mammals&quot;, 
-  &quot;Reptiles / Amphibians&quot;,
-  &quot;Fish&quot;, 
-  &quot;Others&quot;)
 
 # 2. Join the matched name to park_ranger_new, remove those don&#39;t have a matched park
 map_park = park_ranger_new |&gt; 

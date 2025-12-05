@@ -24,6 +24,20 @@ library(sf)
 source("data_cleaning.R") 
 ```
 
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(
+  out.width = "90%",
+  dpi = 200
+)
+
+theme_set(
+  theme_minimal() + 
+    theme(legend.position = "bottom",
+          plot.title = element_text(hjust = 0.5))
+)
+```
+
+
 # Tiny Paws, Big Rescue: 
 # A Data Story of Seasonal and Spatial Animal Saving
 
@@ -58,6 +72,40 @@ We originally planned to analyze the associations between animal conditions, loc
 Our primary dataset is provided by the Department of Parks and Recreation (DPR) and is made publicly available through the NYC OpenData portal [(Urban Park Ranger Animal Condition Response)](https://data.cityofnewyork.us/Environment/Urban-Park-Ranger-Animal-Condition-Response/fuhs-xmg2/about_data). This dataset contains 6,385 records of animal rescue requests from May 2018 to June 2024, including detailed information such as the date and time of each call, ranger response time, park name, specific location descriptions, animal species, and the condition of the animals involved.
 
 One essential component of the website visualization is displaying the number of total cases reported to park rangers for each park. The Park Ranger dataset does not contain geographic coordinates, but it provides the park name or the location associated with each case. To map these cases spatially, we used the [Parks Properties](https://data.cityofnewyork.us/Recreation/Parks-Properties/enfh-gkve/about_data) dataset released by the Department of Parks and Recreation (DPR) on NYC OpenData. This dataset contains 2,054 parks and corresponding geographic coordinates in New York City across five boroughs. Coordinates of the 5 boroughs are from the [Borough Boundaries](https://data.cityofnewyork.us/City-Government/Borough-Boundaries/gthc-hcne/about_data) dataset released by the Department of City Planning (DCP) on NYC OpenData.
+
+```{r, message=FALSE}
+# import borough dataset
+boro_bound_df = read_csv("data/Borough_Boundaries_20251107.csv") |> 
+  janitor::clean_names()
+
+#create a dataframe for plotting
+# get all animal classes
+animal_classes = c(
+  "Birds / Raptors", 
+  "Small Mammals", 
+  "Large Mammals",
+  "Marine Mammals", 
+  "Reptiles / Amphibians",
+  "Fish", 
+  "Others")
+
+# select a subset of park ranger data, and only keep Unhealthy and Injured cases
+# group by borough and animal class
+# get the number of cases for each animal class in each borough
+# get total number of cases for each borough
+# join the multipolygon geometry into this dataset
+map_boro = park_ranger_new |> 
+  select(borough, animal_class_new, animal_condition) |> 
+  group_by(borough, animal_class_new) |> 
+  summarize(n = n(), .groups = "drop") |> 
+  pivot_wider(
+    names_from = animal_class_new,
+    values_from = n) |> 
+  mutate(
+    total_n = rowSums(across(all_of(animal_classes)), na.rm = TRUE)) |> 
+  left_join(boro_bound_df |> select(boro_name, the_geom),
+            by = c("borough" = "boro_name"))
+```
 
 ### Data Cleaning Process
 
@@ -176,7 +224,7 @@ park_ranger_new = park_ranger %>%
 
 ### Matching Process for Park Properties
 
-After comparing the **Park Ranger** and **Parks Properties** datasets, we found that many park names in Park Ranger (*property*) did not match the official park names (*signname*) in Parks Properties Specifically, 208 out of 703 unique *property* values had no exact match in *signname*. To recover as many matches as possible, we applied the Jaro–Winkler algorithm from the fuzzyjoin package to perform inexact matching on all unique park names.
+After comparing the **Park Ranger** and **Parks Properties** datasets, we found that many park names in Park Ranger (`property`) did not match the official park names (`signname`) in Parks Properties Specifically, 208 out of 703 unique `property` values had no exact match in `signname`. To recover as many matches as possible, we applied the Jaro–Winkler algorithm from the fuzzyjoin package to perform inexact matching on all unique park names.
 
 We selected Jaro–Winkler algorithm because it is designed for short strings such as names, and it places higher weight on common prefixes, which is useful for matching park names that share the same beginning but differ due to abbreviations, typos, or partial truncation (e.g., “Prospect Pk” vs. “Prospect Park”). 
 
@@ -778,8 +826,7 @@ ranger_model %>%
   labs(title = "Density of Ranger Response Duration by Borough",
        x = "Response Duration (hours)",
        y = "Density",
-       color = "Borough") +
-  theme_minimal()
+       color = "Borough")
 ```
 
 Because the response-duration distribution is highly right-skewed, with a long tail extending to several hundred hours, we applied a natural log transformation to stabilize the variance and make differences across boroughs more interpretable.
@@ -1375,13 +1422,11 @@ res_heatmap = as.data.frame(spec_health_result$stdres) |>
     x = "Animal Condition",
     y = "Species Status"
   ) +
-  theme_minimal() + 
   theme(
     axis.text.x = element_text(size = 9, vjust = 4, margin = margin(t = 10)),
     axis.text.y = element_text(size = 9),
     plot.title = element_text(face = "bold", size = 14, hjust = 0.5, margin = margin(b = 10)),
     plot.subtitle = element_text(size = 10),
-    legend.position = "bottom",
     legend.title = element_text(size = 9),
     legend.text = element_text(size = 8)
   )
