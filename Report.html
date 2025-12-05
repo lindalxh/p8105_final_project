@@ -483,10 +483,10 @@ in animal behavior.</p>
 to encounter animals, temporal patterns primarily represent reporting
 frequency, not animals themselves. Given these insights, we shifted our
 analytical focus to a question the dataset can meaningfully answer: How
-do human response behaviors (<code>ranger response time</code>) vary
-with animal condition, number of animals, time of day, or borough? This
-reframing allowed us to analyze variables that truly reflect actionable
-patterns in the dataset.</p>
+do human response behaviors (ranger response time) vary with animal
+condition, number of animals, time of day, or borough? This reframing
+allowed us to analyze variables that truly reflect actionable patterns
+in the dataset.</p>
 <p>During exploratory analysis, we identified that animal conditions and
 the number of animals involved may influence both reporting behavior and
 ranger decisions. Therefore, we expanded our investigation to examine
@@ -2860,8 +2860,8 @@ timed to raise awareness of seasonal animal behaviors, reducing
 potential conflicts. Ultimately, this data-driven approach enhances
 operational efficiency and wildlife protection in urban ecosystems.</p>
 </div>
-<div id="health-condition-patterns" class="section level3">
-<h3>Health Condition Patterns</h3>
+<div id="health-condition-pattern" class="section level3">
+<h3>Health Condition Pattern</h3>
 <p>Differences in health conditions across species groups and boroughs
 suggest that many cases are shaped by how easily animals can be seen and
 how quickly people notice something is wrong. Small mammals often appear
@@ -2956,18 +2956,39 @@ or misrecorded response times. This ambiguity introduces uncertainty in
 the interpretation of very short response durations and may influence
 our exploratory analysis and the estimates produced by the linear
 regression model.</p>
-<p><strong>Overall</strong>, this analysis reveals that wildlife rescue
-operations in urban parks are shaped by a consistent interplay of
-spatial, temporal, and biological factors. Reporting frequency varies
-distinctly by borough and dominant animal class; case volume peaks
-during daylight hours and seasonal windows of high animal activity;
-reported health conditions reflect both species visibility and public
-detection patterns; response times are largely driven by initial report
-time and call source, instead of animal characteristics; and final
-ranger action varies significantly by animal conditions. To summarize,
-these patterns provide a data-informed foundation for understanding the
-dynamics of human-wildlife interactions in New York City and highlight
-several determinants of incident occurrence and system performance.</p>
+</div>
+<div id="conclusion" class="section level3">
+<h3>Conclusion</h3>
+<p>Overall, this analysis reveals that wildlife rescue operations in
+urban parks are shaped by a consistent interplay of spatial, temporal,
+and biological factors. Reporting frequency varies distinctly by borough
+and dominant animal class; case volume peaks during daylight hours and
+seasonal windows of high animal activity; reported health conditions
+reflect both species visibility and public detection patterns; response
+times are largely driven by initial report time and call source, instead
+of animal characteristics; and final ranger action varies significantly
+by animal conditions.</p>
+<p>The findings align with ecological expectations, though they also
+reveal some unexpected outcomes. Spatially, case distributions reflect
+borough characteristics, such as higher aquatic incidents in coastal
+Staten Island. Temporally, cases peak in summer and during daytime
+hours, matching wildlife and public activity patterns. Health reports
+correspond to species visibility - birds are more often reported with
+visible injuries, while concealed small mammals are found in poorer
+condition. However, we identified some unexpected patterns: response
+times depend more on call source and time of day than on animal traits,
+and the interaction between final action and animal condition
+significantly affects action duration.</p>
+<p>We initially expected to identify clearer patterns and predictors of
+animal injury, but our analyses ultimately revealed more about human
+reporting behaviors and ranger responses. This reflects the nature of
+the dataset, which captures only incidents reported by people rather
+than all events affecting wildlife, showing the central role of human
+awareness in shaping the data.</p>
+<p>To summarize, these patterns provide a data-informed foundation for
+understanding the dynamics of human-wildlife interactions in New York
+City and highlight several determinants of incident occurrence and
+system performance.</p>
 </div>
 </div>
 </div>
