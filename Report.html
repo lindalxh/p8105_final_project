@@ -500,6 +500,7 @@ characteristics shape response behaviors.</p>
 </div>
 <div id="data" class="section level2">
 <h2>Data</h2>
+<p><br></p>
 <div id="data-source" class="section level3">
 <h3>Data Source</h3>
 <p>Our primary dataset is provided by the Department of Parks and
@@ -863,6 +864,7 @@ indicator variable representing the age of the animal being rescued</p>
 </div>
 <div id="exploratory-analysis" class="section level2">
 <h2>Exploratory Analysis</h2>
+<p><br></p>
 <div id="spatial-pattern" class="section level3">
 <h3>Spatial Pattern</h3>
 <pre class="r"><code># for each row, create the popup content including borough and number of cases (&gt;0) for each animal class
@@ -1056,6 +1058,7 @@ particularly high counts for birds/raptors, whereas Staten Island shows
 the highest numbers for marine mammals, fish, and reptiles/amphibians,
 and the Bronx reports the highest number of cases involving large
 mammals.</p>
+<p><br></p>
 </div>
 <div id="temporal-pattern" class="section level3">
 <h3>Temporal Pattern</h3>
@@ -1067,6 +1070,7 @@ in-depth examination of seasonal fluctuations, daily cycles, and
 categorical trends, it seeks to inform proactive planning, improve
 resource allocation, and enhance protection efforts for urban
 wildlife.</p>
+<p><br></p>
 <div id="monthly-trends-analysis" class="section level4">
 <h4>Monthly Trends Analysis</h4>
 <p>This analysis examines seasonal patterns in animal rescue cases to
@@ -1089,20 +1093,12 @@ mon_case_plot = monthly_animal_trends |&gt;
   scale_y_continuous(breaks = pretty_breaks()) +
   labs(
     title = &quot;Monthly Animal Response Cases by Animal Class (New Classification)&quot;,
-    subtitle = &quot;Urban Park Ranger Animal Condition Response&quot;,
     x = &quot;Month&quot;,
     y = &quot;Number of Cases&quot;,
     color = &quot;Animal Class&quot;
   ) +
-  theme_minimal() + 
   theme(
-    axis.text.x = element_text(angle = 45, hjust = 1),
-    legend.position = &quot;bottom&quot;,
-    plot.title = element_text(face = &quot;bold&quot;, size = 14),
-    plot.subtitle = element_text(size = 10),
-    legend.text = element_text(size = 8),
-    panel.background = element_rect(fill = &quot;white&quot;, color = NA), 
-    plot.background = element_rect(fill = &quot;white&quot;, color = NA)
+    axis.text.x = element_text(angle = 45, hjust = 1)
   )  +
   scale_color_viridis_d()
 
@@ -1132,6 +1128,7 @@ during warmer conditions.</p></li>
 with case counts in the single digits, possibly due to their limited
 presence in urban park ecosystems or lower detection rates.</p></li>
 </ul>
+<p><br></p>
 </div>
 <div id="temporal-distribution-analysis" class="section level4">
 <h4>Temporal Distribution Analysis</h4>
@@ -1176,7 +1173,6 @@ case_heatmap = hourly_monthly_heatmap |&gt;
   ) +
   labs(
     title = &quot;Animal Response Cases: Detailed Hourly and Monthly Distribution&quot;,
-    subtitle = &quot;Enhanced color gradient reveals subtle patterns in case distribution&quot;,
     x = &quot;Hour of Day&quot;,
     y = &quot;Month&quot;
   ) +
@@ -1185,16 +1181,11 @@ case_heatmap = hourly_monthly_heatmap |&gt;
     axis.text.x = element_text(angle = 45, hjust = 1, size = 8, color = &quot;black&quot;),
     axis.text.y = element_text(size = 9, color = &quot;black&quot;),
     axis.title = element_text(color = &quot;black&quot;),
-    plot.title = element_text(face = &quot;bold&quot;, size = 14, color = &quot;black&quot;),
-    plot.subtitle = element_text(size = 10, color = &quot;#333333&quot;),
-    legend.position = &quot;bottom&quot;,
     legend.title = element_text(size = 9, color = &quot;black&quot;),
-    legend.text = element_text(size = 8, color = &quot;black&quot;), 
     legend.background = element_rect(fill = &quot;white&quot;, color = NA),
     panel.background = element_rect(fill = &quot;white&quot;, color = NA),
     plot.background = element_rect(fill = &quot;white&quot;, color = NA)
   )
-
 plot(case_heatmap)</code></pre>
 <p><img src="Report_files/figure-html/unnamed-chunk-9-1.png" width="90%" /></p>
 <p>Case distribution primarily concentrates between 8:00 and 18:00,
@@ -1204,6 +1195,7 @@ recreational use, while winter shows contracted midday patterns
 corresponding to reduced daylight availability. Minimal overnight
 reporting may reflect limited detection capabilities during
 low-human-activity periods.</p>
+<p><br></p>
 </div>
 </div>
 <div id="health-condition" class="section level3">
@@ -1291,9 +1283,7 @@ combined_plot &lt;- p1 + p2 +
 
 combined_plot + 
   plot_annotation(
-    title = &quot;Health Conditions by Animal Class and Borough&quot;,
-    theme = theme(plot.title = element_text(hjust = 0.5, size = 13, face = &quot;bold&quot;))
-  )</code></pre>
+    title = &quot;Health Conditions by Animal Class and Borough&quot;)</code></pre>
 <p><img src="Report_files/figure-html/unnamed-chunk-10-1.png" width="90%" /></p>
 <p>The distribution of animal health conditions shows clear variation
 across both animal classes and boroughs. Birds/Raptors and Small Mammals
@@ -1320,6 +1310,7 @@ non-emergency wildlife encounters are common.</p>
 depend not only on animal behavior and species visibility but also on
 borough-specific environments, human activity, and differences in how
 quickly animals are noticed and reported.</p>
+<p><br></p>
 </div>
 <div id="response-duration" class="section level3">
 <h3>Response Duration</h3>
@@ -1328,6 +1319,7 @@ the duration between the initial request and the time that Rangers
 arrived at the site
 (<code>date_and_time_of_ranger_response - date_and_time_of_initial_call</code>),
 is associated with different incident characteristics.</p>
+<p><br></p>
 <div id="average-response-duration-by-time-of-initial-request"
 class="section level4">
 <h4>Average Response Duration by Time of Initial Request</h4>
@@ -1347,8 +1339,7 @@ ranger_response_hr %&gt;%
   labs(
     title = &quot;Average Response Duration by Time of Initial Request&quot;,
     x = &quot;Hour of Day (24-hour)&quot;,
-    y = &quot;Average Response Hours&quot;) +
-  theme_minimal()</code></pre>
+    y = &quot;Average Response Hours&quot;)</code></pre>
 <p><img src="Report_files/figure-html/unnamed-chunk-11-1.png" width="90%" /></p>
 <p>This line plot visualizes variation in response duration across the
 24-hour day.</p>
@@ -1375,6 +1366,7 @@ be miscoded as 0:00, combined with small sample sizes or boundary
 effects at the end of the day. These potential misclassifications should
 be considered and interpreted with cautions.</p></li>
 </ul>
+<p><br></p>
 </div>
 <div id="distribution-of-response-duration" class="section level4">
 <h4>Distribution of Response Duration</h4>
@@ -1394,7 +1386,6 @@ resp_dur_dist_plot = function(df, title_suffix) {
     geom_boxplot(width = 0.3, alpha = 0.8) +
     labs(title = title_suffix,
          x = &quot;Animal Condition&quot;, y = &quot;Response Duration (hours)&quot;) +
-    theme_minimal() +
     theme(
       plot.title = element_text(size = 18, face = &quot;bold&quot;),
       axis.title = element_text(size = 14),
@@ -1451,6 +1442,7 @@ especially in the &gt;24-hour range, indicating that extremely slow
 responses occur regardless of the reported condition.</p>
 <p>Overall, the figure indicates that the reported animal condition
 plays only a minimal role.</p>
+<p><br></p>
 </div>
 <div id="density-of-ranger-response-duration-by-borough"
 class="section level4">
@@ -1500,6 +1492,7 @@ duration.</p></li>
 <p>Despite these minor shifts in central tendency, the overall shapes of
 the distributions are highly similar. Within-borough variation is much
 greater than between-borough variation.</p>
+<p><br></p>
 </div>
 </div>
 <div id="final-ranger-action" class="section level3">
@@ -1553,9 +1546,7 @@ ggplot(park_model_action, aes(x = final_ranger_action, y = duration_hours)) +
     x = &quot;Final Ranger Action (sorted by median duration)&quot;,
     y = &quot;Action Duration (hours)&quot;
   ) +
-  theme_bw() +
   theme(
-    plot.title = element_text(hjust = 0.5),
     axis.text.y = element_text(size = 8)
   )</code></pre>
 <p><img src="Report_files/figure-html/unnamed-chunk-14-1.png" width="90%" /></p>
@@ -1613,9 +1604,7 @@ ggplot(park_model_cond, aes(x = animal_condition, y = duration_hours)) +
     x = &quot;Animal Condition&quot;,
     y = &quot;Action Duration (hours)&quot;
   ) +
-  theme_bw() +
   theme(
-    plot.title = element_text(hjust = 0.5),
     axis.text.y = element_text(size = 8)
   )</code></pre>
 <p><img src="Report_files/figure-html/unnamed-chunk-15-1.png" width="90%" /></p>
@@ -1673,7 +1662,6 @@ plot_condition_bar &lt;- function(data, cond, ymax) {
       y = &quot;Number of Cases&quot;) +
     theme_bw() +
     theme(
-      plot.title = element_text(hjust = 0.5),
       axis.text.y = element_text(size = 8))
 }
 max_cases &lt;- park_model4 |&gt;
@@ -1785,11 +1773,6 @@ duration_mean |&gt;
     y = &quot;Density&quot;,
     fill  = &quot;Action group&quot;,
     color = &quot;Action group&quot;
-  ) +
-  theme_bw() +
-  theme(
-    plot.title = element_text(hjust = 0.5),
-    legend.position = &quot;bottom&quot;
   )</code></pre>
 <p><img src="Report_files/figure-html/unnamed-chunk-18-1.png" width="90%" style="display: block; margin: auto;" /></p>
 <p>The first density plot shows that the distribution of raw
@@ -1815,11 +1798,6 @@ ggplot(park_model2_log,
     y = &quot;Density&quot;,
     fill  = &quot;Action group&quot;,
     color = &quot;Action group&quot;
-  ) +
-  theme_bw() +
-  theme(
-    plot.title = element_text(hjust = 0.5),
-    legend.position = &quot;bottom&quot;
   )</code></pre>
 <p><img src="Report_files/figure-html/unnamed-chunk-19-1.png" width="90%" style="display: block; margin: auto;" /></p>
 <p>To improve interpretability, we applied a
@@ -1835,7 +1813,6 @@ greater density at higher <code>log-duration</code> values, reflecting
 the additional time required for assessment, handling, or coordination.
 Their mean duration is higher at 1.52 hours.</p></li>
 </ul>
-<p><br></p>
 <hr />
 </div>
 </div>
@@ -1843,6 +1820,7 @@ Their mean duration is higher at 1.52 hours.</p></li>
 </div>
 <div id="additional-analysis" class="section level2">
 <h2>Additional Analysis</h2>
+<p><br></p>
 <div id="chi-square-test-between-species-status-and-animal-condition"
 class="section level3">
 <h3>Chi-Square Test Between Species Status and Animal Condition</h3>
@@ -2023,7 +2001,6 @@ res_heatmap = as.data.frame(spec_health_result$stdres) |&gt;
   theme(
     axis.text.x = element_text(size = 9, vjust = 4, margin = margin(t = 10)),
     axis.text.y = element_text(size = 9),
-    plot.title = element_text(face = &quot;bold&quot;, size = 14, hjust = 0.5, margin = margin(b = 10)),
     plot.subtitle = element_text(size = 10),
     legend.title = element_text(size = 9),
     legend.text = element_text(size = 8)
@@ -2039,6 +2016,7 @@ noticeably overrepresented in the Healthy category, while native
 underrepresented in the Injured category, whereas native species show
 the opposite pattern, with more Injured or Unhealthy cases than
 expected.</p>
+<p><br></p>
 </div>
 <div id="multiple-linear-regression-for-response-duration"
 class="section level3">
@@ -2435,8 +2413,7 @@ species, play a comparatively smaller role.</p>
   coord_flip() +
   labs(title = &quot;Predictor Effects on Response Duration&quot;,
        x = &quot;Predictor Variables&quot;,
-       y = &quot;Estimated Coefficient (hours)&quot;) +
-  theme_minimal()</code></pre>
+       y = &quot;Estimated Coefficient (hours)&quot;)</code></pre>
 <p><img src="Report_files/figure-html/unnamed-chunk-23-1.png" width="90%" /></p>
 <p>This coefficient plot highlights the same general patterns seen in
 the regression table:</p>
@@ -2446,6 +2423,7 @@ stand out with clearer effects, whereas most predictors lie near zero or
 have confidence intervals crossing zero, indicating little or no
 meaningful association.</li>
 </ul>
+<p><br></p>
 </div>
 <div id="elastic-net" class="section level3">
 <h3>Elastic Net</h3>
@@ -2613,9 +2591,11 @@ rather than biological or borough-specific features. Adjusted modeling
 reveals patterns not visible in the raw data, highlighting the
 importance of accounting for confounding factors when interpreting
 response-time differences.</p>
+<p><br></p>
 </div>
 <div id="anova-models-for-action-duration" class="section level3">
 <h3>ANOVA Models for Action Duration</h3>
+<p><br></p>
 <div id="using-raw-duration" class="section level4">
 <h4>Using Raw Duration</h4>
 <pre class="r"><code>anova_fit = aov(
@@ -2852,8 +2832,8 @@ expected in field data.</p></li>
 </div>
 <div id="discussion" class="section level2">
 <h2>Discussion</h2>
-<div id="borough-and-animal-class" class="section level3">
-<h3>Borough and Animal Class</h3>
+<div id="borough-and-animal-class" class="section level4">
+<h4>Borough and Animal Class</h4>
 <p>The reporting patterns based on borough may be influenced by
 differences in human population density and land use. Given Manhattan’s
 exceptionally high population density, it is reasonable that it
@@ -2874,8 +2854,8 @@ resources could also be directed toward managing large mammals in the
 Bronx and reducing human–wildlife disturbances involving small mammals
 in Manhattan.</p>
 </div>
-<div id="temporal-pattern-1" class="section level3">
-<h3>Temporal Pattern</h3>
+<div id="temporal-pattern-1" class="section level4">
+<h4>Temporal Pattern</h4>
 <p>The observed temporal patterns marked seasonal peaks and a
 concentration of cases during daylight hours strongly correlate with
 animal activity cycles and human visitation in urban parks. This
@@ -2890,8 +2870,8 @@ awareness of seasonal animal behaviors. Ultimately, this data-driven
 approach enhances operational efficiency and wildlife protection in
 urban ecosystems.</p>
 </div>
-<div id="health-condition-patterns" class="section level3">
-<h3>Health Condition Patterns</h3>
+<div id="health-condition-patterns" class="section level4">
+<h4>Health Condition Patterns</h4>
 <p>Differences in health conditions across species groups and boroughs
 suggest that many cases are shaped by how easily animals can be seen and
 how quickly people notice something is wrong. Small mammals often appear
@@ -2918,8 +2898,8 @@ Healthy reports. In contrast, native wildlife is more likely to be
 reported only when something is wrong, such as being injured, sick, or
 otherwise in distress, leading to higher counts in those categories.</p>
 </div>
-<div id="response-duration-1" class="section level3">
-<h3>Response Duration</h3>
+<div id="response-duration-1" class="section level4">
+<h4>Response Duration</h4>
 <p>Our exploratory analysis and regression results consistently show
 that response duration is strongly influenced by operational factors
 rather than animal-related characteristics.</p>
@@ -2942,8 +2922,8 @@ reporting incidents could help reduce ambiguity and improve
 prioritization, potentially enabling rangers to respond more
 quickly.</p>
 </div>
-<div id="action-duration" class="section level3">
-<h3>Action Duration</h3>
+<div id="action-duration" class="section level4">
+<h4>Action Duration</h4>
 <p>Patterns in action duration highlight clear differences in
 operational demands across incident types. Rehabilitation-related
 actions take the longest, while advisory, monitoring, and relocation
@@ -2965,10 +2945,9 @@ frequently end as unfounded may reduce unnecessary deployments. Areas
 with many unhealthy or injured animals may benefit from additional
 trained staff, while routine DOA removals could be streamlined to
 improve system-wide efficiency.</p>
-<hr />
 </div>
-<div id="limitations" class="section level3">
-<h3>Limitations</h3>
+<div id="limitations" class="section level4">
+<h4>Limitations</h4>
 <p>Several data limitations may influence how the results should be
 interpreted. Some animal condition or animal class categories contain
 relatively few observations, which can make group comparisons and
