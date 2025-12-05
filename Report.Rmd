@@ -1243,6 +1243,8 @@ Their mean duration is higher at 1.52 hours.
 
 ### Chi-Square Test Between Species Status and Animal Condition
 
+We were interested in examining the relationship between two categorical variables: species status and health condition. We anticipated that exotic animals may experience living environments that differ substantially from those of native species. Therefore, we conducted a chi-square test of independence to evaluate whether species status is associated with differences in reported health conditions.
+
 ```{r}
 # conduct a chi-square test on species_status and animal_condition
 spec_health_tbl = table(park_ranger_new$species_status, park_ranger_new$animal_condition)
