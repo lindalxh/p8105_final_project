@@ -728,10 +728,6 @@ plot(case_heatmap)
 
 Case distribution primarily concentrates between 8:00 and 18:00, aligning with peak park visitation and diurnal animal activity. Summer exhibits extended evening activity likely due to increased daylight and recreational use, while winter shows contracted midday patterns corresponding to reduced daylight availability. Minimal overnight reporting may reflect limited detection capabilities during low-human-activity periods.
 
-#### Recommendations
-
-Enhanced ranger coverage during summer afternoons could address elevated case frequencies across multiple species. Early spring public education initiatives might mitigate conflicts by raising awareness of seasonal animal behaviors. Rescue organizations should anticipate increased warm-weather intake while utilizing winter for strategic planning. Visitor vigilance during peak seasons and prompt daylight reporting could improve response effectiveness, supplemented by community monitoring programs and coordinated rehabilitation networks.
-
 ### Health condition
 
 ```{r}
@@ -1573,9 +1569,9 @@ Based on these observations, the Parks and Recreation Department could consider 
 
 ### Temporal Pattern
 
-The observed temporal patterns marked seasonal peaks and a concentration of cases during daylight hours—strongly correlate with animal activity cycles and human visitation in urban parks. This alignment suggests rescue demand is driven by predictable environmental and behavioral factors.
+The observed temporal patterns marked seasonal peaks and a concentration of cases during daylight hours strongly correlate with animal activity cycles and human visitation in urban parks. This alignment suggests rescue demand is driven by predictable environmental and behavioral factors.
 
-These insights enable proactive management: ranger shifts and resource allocation can be optimized around peak periods, while targeted public education can be timed to mitigate seasonal conflicts. Ultimately, this data-driven approach enhances operational efficiency and wildlife protection in urban ecosystems.
+These insights enable proactive management: ranger shifts and resource allocation can be optimized around peak periods,for example, enhancing ranger coverage during summer afternoons could address elevated case frequencies across multiple species. while targeted public education can be timed to mitigate seasonal conflicts by raising awareness of seasonal animal behaviors. Ultimately, this data-driven approach enhances operational efficiency and wildlife protection in urban ecosystems.
 
 ### Health Condition Patterns
 
