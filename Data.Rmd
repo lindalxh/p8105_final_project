@@ -146,7 +146,7 @@ We selected Jaro–Winkler algorithm because it is designed for short strings su
 
 All fuzzy-matched pairs with similarity scores less than 1 were then manually reviewed by three members of the group, and each match was checked independently by two reviewers to ensure accuracy and inter-rater reliability. After this process, 35 unique property values remained unmatched, typically because they referred to street names (e.g., “Green Street”), or parks that exist but are not included in the Parks Properties dataset (e.g., “Mannahatta Park”). The final map includes 6,118 reported cases across 546 unique parks. Using Jaro–Winkler with a maximum distance threshold of 0.25 resulted in an overall matching accuracy of 43.75% among the 208 originally unmatched values.
 
-```{r}
+```{r, message = FALSE}
 # Match park names with Park Properties names
 # 1. Import parks properties dataset
 park_prop_df = read_csv("data/Parks_Properties_20251107.csv") |> 

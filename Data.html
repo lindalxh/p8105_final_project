@@ -1,0 +1,786 @@
+<!DOCTYPE html>
+
+<html>
+
+<head>
+
+<meta charset="utf-8" />
+<meta name="generator" content="pandoc" />
+<meta http-equiv="X-UA-Compatible" content="IE=EDGE" />
+
+
+
+
+<title>Data</title>
+
+<script src="site_libs/header-attrs-2.29/header-attrs.js"></script>
+<script src="site_libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<link href="site_libs/bootstrap-3.3.5/css/flatly.min.css" rel="stylesheet" />
+<script src="site_libs/bootstrap-3.3.5/js/bootstrap.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/html5shiv.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/respond.min.js"></script>
+<style>h1 {font-size: 34px;}
+       h1.title {font-size: 38px;}
+       h2 {font-size: 30px;}
+       h3 {font-size: 24px;}
+       h4 {font-size: 18px;}
+       h5 {font-size: 16px;}
+       h6 {font-size: 12px;}
+       code {color: inherit; background-color: rgba(0, 0, 0, 0.04);}
+       pre:not([class]) { background-color: white }</style>
+<script src="site_libs/jqueryui-1.13.2/jquery-ui.min.js"></script>
+<link href="site_libs/tocify-1.9.1/jquery.tocify.css" rel="stylesheet" />
+<script src="site_libs/tocify-1.9.1/jquery.tocify.js"></script>
+<script src="site_libs/navigation-1.1/tabsets.js"></script>
+<script src="site_libs/navigation-1.1/codefolding.js"></script>
+<link href="site_libs/highlightjs-9.12.0/default.css" rel="stylesheet" />
+<script src="site_libs/highlightjs-9.12.0/highlight.js"></script>
+<link href="site_libs/font-awesome-6.5.2/css/all.min.css" rel="stylesheet" />
+<link href="site_libs/font-awesome-6.5.2/css/v4-shims.min.css" rel="stylesheet" />
+
+<style type="text/css">
+  code{white-space: pre-wrap;}
+  span.smallcaps{font-variant: small-caps;}
+  span.underline{text-decoration: underline;}
+  div.column{display: inline-block; vertical-align: top; width: 50%;}
+  div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+  ul.task-list{list-style: none;}
+    </style>
+
+<style type="text/css">code{white-space: pre;}</style>
+<script type="text/javascript">
+if (window.hljs) {
+  hljs.configure({languages: []});
+  hljs.initHighlightingOnLoad();
+  if (document.readyState && document.readyState === "complete") {
+    window.setTimeout(function() { hljs.initHighlighting(); }, 0);
+  }
+}
+</script>
+
+
+
+
+
+
+
+
+
+<style type = "text/css">
+.main-container {
+  max-width: 940px;
+  margin-left: auto;
+  margin-right: auto;
+}
+img {
+  max-width:100%;
+}
+.tabbed-pane {
+  padding-top: 12px;
+}
+.html-widget {
+  margin-bottom: 20px;
+}
+button.code-folding-btn:focus {
+  outline: none;
+}
+summary {
+  display: list-item;
+}
+details > summary > p:only-child {
+  display: inline;
+}
+pre code {
+  padding: 0;
+}
+</style>
+
+
+<style type="text/css">
+.dropdown-submenu {
+  position: relative;
+}
+.dropdown-submenu>.dropdown-menu {
+  top: 0;
+  left: 100%;
+  margin-top: -6px;
+  margin-left: -1px;
+  border-radius: 0 6px 6px 6px;
+}
+.dropdown-submenu:hover>.dropdown-menu {
+  display: block;
+}
+.dropdown-submenu>a:after {
+  display: block;
+  content: " ";
+  float: right;
+  width: 0;
+  height: 0;
+  border-color: transparent;
+  border-style: solid;
+  border-width: 5px 0 5px 5px;
+  border-left-color: #cccccc;
+  margin-top: 5px;
+  margin-right: -10px;
+}
+.dropdown-submenu:hover>a:after {
+  border-left-color: #adb5bd;
+}
+.dropdown-submenu.pull-left {
+  float: none;
+}
+.dropdown-submenu.pull-left>.dropdown-menu {
+  left: -100%;
+  margin-left: 10px;
+  border-radius: 6px 0 6px 6px;
+}
+</style>
+
+<script type="text/javascript">
+// manage active state of menu based on current page
+$(document).ready(function () {
+  // active menu anchor
+  href = window.location.pathname
+  href = href.substr(href.lastIndexOf('/') + 1)
+  if (href === "")
+    href = "index.html";
+  var menuAnchor = $('a[href="' + href + '"]');
+
+  // mark the anchor link active (and if it's in a dropdown, also mark that active)
+  var dropdown = menuAnchor.closest('li.dropdown');
+  if (window.bootstrap) { // Bootstrap 4+
+    menuAnchor.addClass('active');
+    dropdown.find('> .dropdown-toggle').addClass('active');
+  } else { // Bootstrap 3
+    menuAnchor.parent().addClass('active');
+    dropdown.addClass('active');
+  }
+
+  // Navbar adjustments
+  var navHeight = $(".navbar").first().height() + 15;
+  var style = document.createElement('style');
+  var pt = "padding-top: " + navHeight + "px; ";
+  var mt = "margin-top: -" + navHeight + "px; ";
+  var css = "";
+  // offset scroll position for anchor links (for fixed navbar)
+  for (var i = 1; i <= 6; i++) {
+    css += ".section h" + i + "{ " + pt + mt + "}\n";
+  }
+  style.innerHTML = "body {" + pt + "padding-bottom: 40px; }\n" + css;
+  document.head.appendChild(style);
+});
+</script>
+
+<!-- tabsets -->
+
+<style type="text/css">
+.tabset-dropdown > .nav-tabs {
+  display: inline-table;
+  max-height: 500px;
+  min-height: 44px;
+  overflow-y: auto;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+}
+
+.tabset-dropdown > .nav-tabs > li.active:before, .tabset-dropdown > .nav-tabs.nav-tabs-open:before {
+  content: "\e259";
+  font-family: 'Glyphicons Halflings';
+  display: inline-block;
+  padding: 10px;
+  border-right: 1px solid #ddd;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open > li.active:before {
+  content: "\e258";
+  font-family: 'Glyphicons Halflings';
+  border: none;
+}
+
+.tabset-dropdown > .nav-tabs > li.active {
+  display: block;
+}
+
+.tabset-dropdown > .nav-tabs > li > a,
+.tabset-dropdown > .nav-tabs > li > a:focus,
+.tabset-dropdown > .nav-tabs > li > a:hover {
+  border: none;
+  display: inline-block;
+  border-radius: 4px;
+  background-color: transparent;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open > li {
+  display: block;
+  float: none;
+}
+
+.tabset-dropdown > .nav-tabs > li {
+  display: none;
+}
+</style>
+
+<!-- code folding -->
+<style type="text/css">
+.code-folding-btn { margin-bottom: 4px; }
+</style>
+
+
+
+<style type="text/css">
+
+#TOC {
+  margin: 25px 0px 20px 0px;
+}
+@media (max-width: 768px) {
+#TOC {
+  position: relative;
+  width: 100%;
+}
+}
+
+@media print {
+.toc-content {
+  /* see https://github.com/w3c/csswg-drafts/issues/4434 */
+  float: right;
+}
+}
+
+.toc-content {
+  padding-left: 30px;
+  padding-right: 40px;
+}
+
+div.main-container {
+  max-width: 1200px;
+}
+
+div.tocify {
+  width: 20%;
+  max-width: 260px;
+  max-height: 85%;
+}
+
+@media (min-width: 768px) and (max-width: 991px) {
+  div.tocify {
+    width: 25%;
+  }
+}
+
+@media (max-width: 767px) {
+  div.tocify {
+    width: 100%;
+    max-width: none;
+  }
+}
+
+.tocify ul, .tocify li {
+  line-height: 20px;
+}
+
+.tocify-subheader .tocify-item {
+  font-size: 0.90em;
+}
+
+.tocify .list-group-item {
+  border-radius: 0px;
+}
+
+
+</style>
+
+
+
+</head>
+
+<body>
+
+
+<div class="container-fluid main-container">
+
+
+<!-- setup 3col/9col grid for toc_float and main content  -->
+<div class="row">
+<div class="col-xs-12 col-sm-4 col-md-3">
+<div id="TOC" class="tocify">
+</div>
+</div>
+
+<div class="toc-content col-xs-12 col-sm-8 col-md-9">
+
+
+
+
+<div class="navbar navbar-default  navbar-fixed-top" role="navigation">
+  <div class="container">
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-bs-toggle="collapse" data-target="#navbar" data-bs-target="#navbar">
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <a class="navbar-brand" href="index.html">Home</a>
+    </div>
+    <div id="navbar" class="navbar-collapse collapse">
+      <ul class="nav navbar-nav">
+        <li>
+  <a href="Data.html">Data</a>
+</li>
+<li>
+  <a href="Temporal-Pattern.html">Temporal Pattern</a>
+</li>
+<li>
+  <a href="Health-Condition.html">Health Condition</a>
+</li>
+<li>
+  <a href="Ranger-Response.html">Ranger Response</a>
+</li>
+<li>
+  <a href="Final-Action.html">Final Action</a>
+</li>
+      </ul>
+      <ul class="nav navbar-nav navbar-right">
+        <li>
+  <a href="Report.html">Report</a>
+</li>
+<li>
+  <a href="https://github.com/lindalxh/p8105_final_project">
+    <span class="fa fa-github fa-lg"></span>
+     
+  </a>
+</li>
+      </ul>
+    </div><!--/.nav-collapse -->
+  </div><!--/.container -->
+</div><!--/.navbar -->
+
+<div id="header">
+
+<div class="btn-group pull-right float-right">
+<button type="button" class="btn btn-default btn-xs btn-secondary btn-sm dropdown-toggle" data-toggle="dropdown" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><span>Code</span> <span class="caret"></span></button>
+<ul class="dropdown-menu dropdown-menu-right" style="min-width: 50px;">
+<li><a id="rmd-show-all-code" href="#">Show All Code</a></li>
+<li><a id="rmd-hide-all-code" href="#">Hide All Code</a></li>
+</ul>
+</div>
+
+
+
+<h1 class="title toc-ignore">Data</h1>
+
+</div>
+
+
+<div id="data-source" class="section level1">
+<h1>Data Source</h1>
+<p>Our primary dataset is provided by the Department of Parks and
+Recreation (DPR) and is made publicly available through the NYC OpenData
+portal <a
+href="https://data.cityofnewyork.us/Environment/Urban-Park-Ranger-Animal-Condition-Response/fuhs-xmg2/about_data">(Urban
+Park Ranger Animal Condition Response)</a>. This dataset contains 6,385
+records of animal rescue requests from May 2018 to June 2024, including
+detailed information such as the date and time of each call, ranger
+response time, park name, specific location descriptions, animal
+species, and the condition of the animals involved.</p>
+<p>One essential component of the website visualization is displaying
+the number of total cases reported to park rangers for each park. The
+Park Ranger dataset does not contain geographic coordinates, but it
+provides the park name or the location associated with each case. To map
+these cases spatially, we used the <a
+href="https://data.cityofnewyork.us/Recreation/Parks-Properties/enfh-gkve/about_data">Parks
+Properties</a> dataset released by the Department of Parks and
+Recreation (DPR) on NYC OpenData. This dataset contains 2,054 parks and
+corresponding geographic coordinates in New York City across five
+boroughs. Coordinates of the 5 boroughs are from the <a
+href="https://data.cityofnewyork.us/City-Government/Borough-Boundaries/gthc-hcne/about_data">Borough
+Boundaries</a> dataset released by the Department of City Planning (DCP)
+on NYC OpenData.</p>
+</div>
+<div id="data-cleaning-process" class="section level1">
+<h1>Data Cleaning Process</h1>
+<ul>
+<li><p>Split date and time</p></li>
+<li><p>Remove incorrect records based on call &amp; response
+time</p></li>
+<li><p>Rename variable <code>duration_of_response</code> to
+<code>duration_of_action</code></p></li>
+<li><p>Reclassify animal classes into 7 categories: Birds / Raptors,
+Small Mammals, Large Mammals, Marine Mammals, Reptiles / Amphibians,
+Fish, Others</p></li>
+<li><p>Factor categorical variables &amp; set reference level</p></li>
+</ul>
+<pre class="r"><code>park_ranger = read_csv(&quot;data/Urban_Park_Ranger_Animal_Condition_Response_20251103.csv&quot;) %&gt;% 
+  janitor::clean_names() %&gt;% 
+  mutate(
+    date_and_time_of_initial_call = mdy_hm(date_and_time_of_initial_call),
+    date_and_time_of_ranger_response = mdy_hm(date_and_time_of_ranger_response),
+    
+    call_date = as.Date(date_and_time_of_initial_call),
+    call_time = as_hms(date_and_time_of_initial_call),
+    response_date = as.Date(date_and_time_of_ranger_response),
+    response_time = as_hms(date_and_time_of_ranger_response)
+  ) %&gt;% 
+  filter(date_and_time_of_ranger_response &gt;= date_and_time_of_initial_call) %&gt;% 
+  rename(duration_of_action = duration_of_response)
+
+park_ranger_new = park_ranger %&gt;% 
+  mutate(
+    animal_class_new = case_when(
+      animal_class %in% c(
+        &quot;[\&quot;Birds\&quot;]&quot;, &quot;[\&quot;Raptors\&quot;]&quot;, &quot;Birds&quot;, &quot;Raptors&quot;, 
+        &quot;Raptors, Small Mammals-RVS&quot;
+      ) ~ &quot;Birds / Raptors&quot;,
+            
+      animal_class %in% c(
+        &quot;[\&quot;Small Mammals-non RVS\&quot;]&quot;, &quot;[\&quot;Small Mammals-RVS\&quot;]&quot;,
+        &quot;Small Mammals-non RVS&quot;, &quot;Small Mammals-RVS&quot;
+      ) ~ &quot;Small Mammals&quot;,
+      
+      animal_class %in% c(
+        &quot;Coyotes&quot;, &quot;Deer&quot;, &quot;[\&quot;Coyotes\&quot;]&quot;, &quot;[\&quot;Deer\&quot;]&quot;
+      ) ~ &quot;Large Mammals&quot;,
+
+      animal_class %in% c(
+        &quot;[\&quot;Marine Mammals-whales, Dolphin\&quot;]&quot;, &quot;[\&quot;Marine Mammals-seals only\&quot;]&quot;,
+        &quot;Marine Mammals-seals only&quot;, &quot;Marine Mammals-whales,  Dolphin&quot;, 
+        &quot;Marine Mammals-whales, Dolphin&quot;
+      ) ~ &quot;Marine Mammals&quot;,
+            
+      animal_class %in% c(
+        &quot;[\&quot;Fish-numerous quantity\&quot;]&quot;, &quot;[\&quot;Non Native Fish-(invasive)\&quot;]&quot;, 
+        &quot;Fish-numerous quantity&quot;, &quot;Fish-numerous quantity;#Terrestrial Reptile or Amphibian&quot;, 
+        &quot;Non Native Fish-(invasive)&quot;
+      ) ~ &quot;Fish&quot;,
+      
+      animal_class %in% c(
+        &quot;[\&quot;Marine Reptiles\&quot;]&quot;, &quot;[\&quot;Terrestrial Reptile or Amphibian\&quot;]&quot;, 
+        &quot;Marine Reptiles&quot;, &quot;Terrestrial Reptile or Amphibian&quot;, 
+        &quot;Terrestrial Reptile or Amphibian, Fish-numerous quantity&quot;
+      ) ~ &quot;Reptiles / Amphibians&quot;,
+
+      animal_class %in% c(
+        &quot;[\&quot;Rare, Endangered, Dangerous\&quot;]&quot;, &quot;Rare,  Endangered,  Dangerous&quot;,
+        &quot;Rare, Endangered, Dangerous&quot;
+      ) ~ &quot;Others&quot;,
+      
+      species_description %in% c(
+        &quot;Atlantic Canary&quot;,&quot;Bird (Unknown)&quot;,&quot;Budgerigar&quot;,&quot;Budgerigar Parakeet&quot;,
+        &quot;Chicken&quot;,&quot;Chukar&quot;,&quot;Cockatiel&quot;,&quot;Domestic Dove&quot;,&quot;Domestic Duck&quot;, &quot;Domestic duck&quot;,
+        &quot;Domestic Goose&quot;,&quot;Domestic Goose Hybrid&quot;,&quot;Domestic Quail&quot;,&quot;Domestic Turkey&quot;,
+        &quot;Domestic Waterfowl&quot;,&quot;Fancy Dove&quot;,&quot;Guinea Fowl&quot;,&quot;Guineafowl&quot;,&quot;Japanese Quail&quot;,
+        &quot;Khaki Campbell&quot;,&quot;Muscovy Duck&quot;,&quot;Rock Dove&quot;,
+        &quot;Parakeet (Unknown)&quot;
+      ) ~ &quot;Birds / Raptors&quot;,
+      
+      species_description %in% c(
+        &quot;Domestic Rabbit&quot;,&quot;Domestic Ferret&quot;,&quot;Fancy Rat&quot;,&quot;Gerbil&quot;,
+        &quot;Guinea Pig&quot;, &quot;Guniea Pig&quot;, &quot;Guinea pig&quot;, &quot;Hamster&quot;
+      ) ~ &quot;Small Mammals&quot;,
+      
+      species_description %in% c(
+        &quot;Dog&quot;,&quot;Pitt Bull Mix&quot;,&quot;Cat&quot;,&quot;Goat&quot;,&quot;Cattle&quot;,&quot;Pig&quot;
+      ) ~ &quot;Large Mammals&quot;,
+      
+      species_description %in% c(
+        &quot;Animal (Unknown)&quot;,&quot;Honey Bee&quot;, &quot;Unknown&quot;,&quot;N/A&quot;
+      ) ~ &quot;Others&quot;),
+    
+    animal_class_new = factor(animal_class_new, 
+                              levels = c(&quot;Birds / Raptors&quot;, &quot;Small Mammals&quot;, &quot;Large Mammals&quot;, 
+                                         &quot;Marine Mammals&quot;, &quot;Reptiles / Amphibians&quot;, &quot;Fish&quot;, &quot;Others&quot;)),
+    
+    borough = factor(borough, levels = c(&quot;Manhattan&quot;, &quot;Brooklyn&quot;, &quot;Queens&quot;, &quot;Bronx&quot;, &quot;Staten Island&quot;)),
+    
+    call_source = factor(call_source, levels = c(&quot;Public&quot;, &quot;Central&quot;, &quot;Employee&quot;, 
+                                                 &quot;Conservancies/\&quot;Friends of\&quot; Groups&quot;, 
+                                                 &quot;Observed by Ranger&quot;, &quot;WBF&quot;, &quot;WINORR&quot;, &quot;Other&quot;)),
+    
+    species_status = ifelse(species_status == &quot;N/A&quot; | is.na(species_status), 
+                            &quot;Unknown&quot;, species_status),
+    species_status = factor(species_status, levels = c(&quot;Native&quot;, &quot;Invasive&quot;, &quot;Domestic&quot;, 
+                                                       &quot;Exotic&quot;, &quot;Unknown&quot;)),
+    
+    animal_condition = ifelse(animal_condition == &quot;N/A&quot; | is.na(animal_condition), 
+                              &quot;Unknown&quot;, animal_condition),
+    animal_condition = factor(animal_condition, levels = c(&quot;Healthy&quot;, &quot;Unhealthy&quot;, &quot;Injured&quot;, 
+                                                           &quot;DOA&quot;, &quot;Unknown&quot;)),
+    
+    adult   = if_else(str_detect(age, &quot;Adult&quot;), 1L, 0L, missing = 0L),
+    juvenile = if_else(str_detect(age, &quot;Juvenile&quot;), 1L, 0L, missing = 0L),
+    infant  = if_else(str_detect(age, &quot;Infant&quot;), 1L, 0L, missing = 0L)
+  )</code></pre>
+</div>
+<div id="matching-process-for-park-properties" class="section level1">
+<h1>Matching Process for Park Properties</h1>
+<p>After comparing the <strong>Park Ranger</strong> and <strong>Parks
+Properties</strong> datasets, we found that many park names in Park
+Ranger (<code>property</code>) did not match the official park names
+(<code>signname</code>) in Parks Properties Specifically, 208 out of 703
+unique <code>property</code> values had no exact match in
+<code>signname</code>. To recover as many matches as possible, we
+applied the Jaro–Winkler algorithm from the fuzzyjoin package to perform
+inexact matching on all unique park names.</p>
+<p>We selected Jaro–Winkler algorithm because it is designed for short
+strings such as names, and it places higher weight on common prefixes,
+which is useful for matching park names that share the same beginning
+but differ due to abbreviations, typos, or partial truncation (e.g.,
+“Prospect Pk” vs. “Prospect Park”).</p>
+<p>All fuzzy-matched pairs with similarity scores less than 1 were then
+manually reviewed by three members of the group, and each match was
+checked independently by two reviewers to ensure accuracy and
+inter-rater reliability. After this process, 35 unique property values
+remained unmatched, typically because they referred to street names
+(e.g., “Green Street”), or parks that exist but are not included in the
+Parks Properties dataset (e.g., “Mannahatta Park”). The final map
+includes 6,118 reported cases across 546 unique parks. Using
+Jaro–Winkler with a maximum distance threshold of 0.25 resulted in an
+overall matching accuracy of 43.75% among the 208 originally unmatched
+values.</p>
+<pre class="r"><code># Match park names with Park Properties names
+# 1. Import parks properties dataset
+park_prop_df = read_csv(&quot;data/Parks_Properties_20251107.csv&quot;) |&gt; 
+  janitor::clean_names()
+
+# 2. Get park names from both datasets
+park_name_park_ranger = park_ranger_new |&gt;
+  transmute(name_park_ranger = str_to_lower(str_trim(property))) |&gt;
+  distinct() |&gt;
+  arrange(name_park_ranger)
+
+park_name_park_prop = park_prop_df |&gt;
+  transmute(name_park_prop = str_to_lower(str_trim(signname))) |&gt;
+  distinct() |&gt;
+  arrange(name_park_prop)
+
+# 3. Join datasets on inexact matching, left join on ranger data
+# 4. Use Jaro-Winkler algorithm, save pairs with lowest distance (highest similarity)
+fuzzy_matches = 
+  stringdist_join(
+    park_name_park_ranger, park_name_park_prop,
+    by = c(&quot;name_park_ranger&quot; = &quot;name_park_prop&quot;),
+    mode = &quot;left&quot;,
+    method = &quot;jw&quot;, max_dist = 0.25,
+    distance_col = &quot;distance&quot;) |&gt; 
+  group_by(name_park_ranger) |&gt;
+  slice_min(distance, n = 1, with_ties = FALSE) |&gt;
+  ungroup() |&gt;
+  mutate(
+    similarity = 1 - distance,
+    original_park = name_park_ranger,
+    matched_park = name_park_prop) |&gt; 
+  select(original_park, matched_park, similarity) |&gt; 
+  arrange(original_park)
+
+# 5. Output as a .csv file for manual matching 
+write.csv(fuzzy_matches, &quot;data/fuzzy_park_match.csv&quot;, row.names = FALSE)
+
+# Create a new dataframe for mapping
+# 1. Import dataset with final matched park names, get all animal classes
+park_match_df = read_csv(&quot;data/park_match_final.csv&quot;) |&gt; 
+  janitor::clean_names() |&gt; 
+  transmute(
+    original_park = str_to_lower(str_trim(original_park)),
+    final_match = str_to_lower(str_trim(final_match)))
+
+animal_classes = c(
+  &quot;Birds / Raptors&quot;, 
+  &quot;Small Mammals&quot;, 
+  &quot;Large Mammals&quot;,
+  &quot;Marine Mammals&quot;, 
+  &quot;Reptiles / Amphibians&quot;,
+  &quot;Fish&quot;, 
+  &quot;Others&quot;)
+
+# 2. Join the matched name to park_ranger_new, remove those don&#39;t have a matched park
+map_park = park_ranger_new |&gt; 
+  select(property, animal_class_new) |&gt; 
+  mutate(property = str_to_lower(str_trim(property))) |&gt; 
+  left_join(park_match_df,
+            by = c(&quot;property&quot; = &quot;original_park&quot;)) |&gt; 
+  select(final_match, animal_class_new) |&gt; 
+  filter(!final_match %in% c(&quot;na&quot;))
+
+# 3. Maintain the order of parks for efficient map rendering 
+# 4. Keep those with largest acres if there are more than one parks have the same name
+# 5. Join map_park to park property with row expansions, remove parks with no cases
+map_park = park_prop_df |&gt; 
+  select(borough, signname, multipolygon, acres) |&gt; 
+  mutate(
+    order = row_number(),
+    name_park_prop = str_to_lower(str_trim(signname)),
+    acres = as.numeric(acres)) |&gt; 
+  group_by(name_park_prop) |&gt; 
+  slice_max(order_by = acres, n = 1) |&gt; 
+  ungroup() |&gt; 
+  select(!acres) |&gt; 
+  left_join(map_park,
+            by = c(&quot;name_park_prop&quot; = &quot;final_match&quot;)) |&gt; 
+  filter(!is.na(animal_class_new)) 
+
+# 6. Get the number of cases for each animal class in each park
+# 7. Keep one row for each park and arrange the df based on original mapping order
+# 8. Change borough name to its full name
+# 9. Get total number of cases for each park
+map_park = map_park |&gt; 
+  group_by(name_park_prop, animal_class_new) |&gt; 
+  summarize(n = n(), .groups = &quot;drop&quot;) |&gt; 
+  pivot_wider(
+    names_from = animal_class_new,
+    values_from = n) |&gt; 
+  left_join(map_park |&gt; select(!animal_class_new),
+            by = c(&quot;name_park_prop&quot; = &quot;name_park_prop&quot;)) |&gt; 
+  distinct(name_park_prop, .keep_all = TRUE) |&gt; 
+  arrange(order) |&gt; 
+  mutate(
+    borough = case_match(borough,
+                         &quot;M&quot; ~ &quot;Manhattan&quot;,
+                         &quot;B&quot; ~ &quot;Brooklyn&quot;,
+                         &quot;R&quot; ~ &quot;Staten Island&quot;,
+                         &quot;Q&quot; ~ &quot;Queens&quot;,
+                         &quot;X&quot; ~ &quot;Bronx&quot;),
+    total_n = rowSums(across(all_of(animal_classes)), na.rm = TRUE))</code></pre>
+</div>
+<div id="cleaned-dataset" class="section level1">
+<h1>Cleaned Dataset</h1>
+<p>The cleaned data includes the following variables:</p>
+<p><code>date_and_time_of_initial_call</code>: The date and time of the
+initial request for animal rescue</p>
+<p><code>date_and_time_of_ranger_response</code>: The date and time when
+the Ranger arrived at the site</p>
+<p><code>borough</code>: Borough in which request for assistance was
+(Manhattan, Brooklyn, Queens, Bronx, Staten Island)</p>
+<p><code>property</code>: Name of location of rescue</p>
+<p><code>location</code>: Specific cross street of location of
+rescue</p>
+<p><code>species_description</code>: The species being rescued</p>
+<p><code>call_source</code>: Location of initial call</p>
+<p><code>species_status</code>: The species status (Native, Invasive,
+Domestic, Exotic, Unknown)</p>
+<p><code>animal_condition</code>: The status of the animal reported by
+initial request</p>
+<p><code>duration_of_action</code>: A numerical value representing the
+amount of time spent responding upon arrival</p>
+<p><code>age</code>: The original age column that contains age of each
+animal</p>
+<p><code>animal_class</code>: The original column describing type of
+species of animal</p>
+<p><code>x311sr_number</code>: Service request number generated by the
+311 system</p>
+<p><code>final_ranger_action</code>: Final action outcome of responding
+Ranger</p>
+<p><code>number_of_animals</code>: A numerical value representing the
+number of animals attended to</p>
+<p><code>pep_response</code>: An indicator variable representing if
+Parks Enforcement Patrol was called</p>
+<p><code>animal_monitored</code>: An indicator variable representing if
+the animal was monitored during visit</p>
+<p><code>rehabilitator</code>: Name of a rehabilitator if animal was
+taken to one</p>
+<p><code>hours_spent_monitoring</code>: Indicates how many hours were
+spent monitoring the animal</p>
+<p><code>police_response</code>: An indicator variable representing if
+Police were called</p>
+<p><code>esu_response</code>: An indicator variable representing if ESU
+were called</p>
+<p><code>acc_intake_number</code>: Reference number if the animal was
+sent to ACC</p>
+<p><code>call_date</code>: Date of the initial request for animal
+rescue</p>
+<p><code>call_time</code>: Time of the initial request for animal
+rescue</p>
+<p><code>response_date</code>: Date when the Ranger arrived at the
+site</p>
+<p><code>response_time</code>: Time when the Ranger arrived at the
+site</p>
+<p><code>animal_class_new</code>: Reclassification of
+<code>animal_class</code> into 7 categories (Birds / Raptors, Small
+Mammals, Large Mammals, Marine Mammals, Reptiles / Amphibians, Fish,
+Others)</p>
+<p><code>adult</code>, <code>juvenile</code>, <code>infant</code>: An
+indicator variable representing the age of the animal being rescued</p>
+</div>
+
+
+
+</div>
+</div>
+
+</div>
+
+<script>
+
+// add bootstrap table styles to pandoc tables
+function bootstrapStylePandocTables() {
+  $('tr.odd').parent('tbody').parent('table').addClass('table table-condensed');
+}
+$(document).ready(function () {
+  bootstrapStylePandocTables();
+});
+
+
+</script>
+
+<!-- tabsets -->
+
+<script>
+$(document).ready(function () {
+  window.buildTabsets("TOC");
+});
+
+$(document).ready(function () {
+  $('.tabset-dropdown > .nav-tabs > li').click(function () {
+    $(this).parent().toggleClass('nav-tabs-open');
+  });
+});
+</script>
+
+<!-- code folding -->
+<script>
+$(document).ready(function () {
+  window.initializeCodeFolding("hide" === "show");
+});
+</script>
+
+<script>
+$(document).ready(function ()  {
+
+    // temporarily add toc-ignore selector to headers for the consistency with Pandoc
+    $('.unlisted.unnumbered').addClass('toc-ignore')
+
+    // move toc-ignore selectors from section div to header
+    $('div.section.toc-ignore')
+        .removeClass('toc-ignore')
+        .children('h1,h2,h3,h4,h5').addClass('toc-ignore');
+
+    // establish options
+    var options = {
+      selectors: "h1,h2,h3",
+      theme: "bootstrap3",
+      context: '.toc-content',
+      hashGenerator: function (text) {
+        return text.replace(/[.\\/?&!#<>]/g, '').replace(/\s/g, '_');
+      },
+      ignoreSelector: ".toc-ignore",
+      scrollTo: 0
+    };
+    options.showAndHide = true;
+    options.smoothScroll = true;
+
+    // tocify
+    var toc = $("#TOC").tocify(options).data("toc-tocify");
+});
+</script>
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    script.src  = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML";
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+
+</body>
+</html>
