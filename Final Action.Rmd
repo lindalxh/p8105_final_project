@@ -74,20 +74,20 @@ ggplot(park_model_action, aes(x = final_ranger_action, y = duration_hours)) +
 
 ```
 
-The combined violin–boxplot shows clear differences in action duration across ranger actions. The visualization is capped at 40 hours to enhance focus on the central data distribution, noting that the `ACC` category (Animal Care Center) contains one extreme outlier with a duration exceeding 70 hours that is not displayed.
+The combined violin–boxplot shows clear differences in `action duration` across ranger actions. The visualization is capped at 40 hours to enhance focus on the central data distribution, noting that the ACC category (Animal Care Center) contains one extreme outlier with a duration exceeding 70 hours that is not displayed.
 
 - Rehabilitation-related actions take the longest.
-Categories such as `Released back into Park after Rehabilitation` and `Rehabilitator` have the highest medians and widest spreads, reflecting the need for assessment, coordination with rehabilitators, transport, and extended monitoring.
+Categories such as Released back into Park after Rehabilitation and Rehabilitator have the highest medians and widest spreads, reflecting the need for assessment, coordination with rehabilitators, transport, and extended monitoring.
 
 - Administrative or low-intervention actions are short.
-Actions like `Advised/Educated others`, `Submitted for DEC (Department of Environmental Conservation) Testing`, `Relocated/Condition Corrected` and `Monitored Animal` have much shorter, tightly clustered durations, consistent with quick assessments or minor interventions.
+Actions like Advised/Educated others, Submitted for DEC (Department of Environmental Conservation) Testing, Relocated/Condition Corrected and Monitored Animal have much shorter, tightly clustered durations, consistent with quick assessments or minor interventions.
 
-- `ACC` and `Unfounded` responses show high variability.
-`ACC` transfers sometimes take much longer due to coordination and handling challenges.
-`Unfounded` cases are usually brief but occasionally long when searches, misreported calls, or verification require extra time.
+- ACC and Unfounded responses show high variability.
+ACC transfers sometimes take much longer due to coordination and handling challenges.
+Unfounded cases are usually brief but occasionally long when searches, misreported calls, or verification require extra time.
 
 - Outliers represent rare long-duration events.
-Several actions, especially `ACC`, `Unfounded`, and `Rehabilitator`, include outliers over 30 hours, likely due to long-term monitoring, repeated site visits, or delays in coordinating animal handoffs.
+Several actions, especially ACC, Unfounded, and Rehabilitator, include outliers over 30 hours, likely due to long-term monitoring, repeated site visits, or delays in coordinating animal handoffs.
 
 ---
 
@@ -122,15 +122,15 @@ ggplot(park_model_cond, aes(x = animal_condition, y = duration_hours)) +
   )
 ```
 
-The violin–boxplot shows how `action duration` differs across animal conditions. The visualization is capped at 40 hours to enhance focus on the central data distribution, noting that the `Unknown` category contains one extreme outlier with a duration exceeding 70 hours that is not displayed.
+The violin–boxplot shows how `action duration` differs across animal conditions. The visualization is capped at 40 hours to enhance focus on the central data distribution, noting that the Unknown category contains one extreme outlier with a duration exceeding 70 hours that is not displayed.
 
-- `Unhealthy` and `Injured` animals show substantial variability in `duration time`, with the highest median durations. The wide distribution reflects the need for diverse handling, such as `rehabilitator`, `ACC` and `monitored`.
+- Unhealthy and Injured animals show substantial variability in `action duration`, with the highest median durations. The wide distribution reflects the need for diverse handling, such as rehabilitator, ACC and monitored.
 
-- `Unknown` conditions show moderate dispersion with a low median. While most cases are resolved quickly, the variability suggests time is occasionally spent on investigation or clarifying the initial report.
+- Unknown conditions show moderate dispersion with a low median. While most cases are resolved quickly, the variability suggests time is occasionally spent on investigation or clarifying the initial report.
 
-- `Healthy` animals exhibit the maximum variability in `action duration`, despite having a low median. This wide spread is likely due to the diverse range of possible actions, such as `relocated`, `ACC` and `monitored`.
+- Healthy animals exhibit the maximum variability in `action duration`, despite having a low median. This wide spread is likely due to the diverse range of possible actions, such as relocated, ACC and monitored.
 
-- `DOA` (Dead on Arrival) cases consistently require the minimal variability in `action duration`, with the lowest median time. This is expected since most `DOA` cases are `relocated/condition corrected`.
+- DOA (Dead on Arrival) cases consistently require the minimal variability in `action duration`, with the lowest median time. This is expected since most DOA cases are relocated/condition corrected.
 
 ---
 
@@ -189,17 +189,17 @@ p4 <- plot_condition_bar(park_model4, "DOA",       max_cases)
 
 The four-panel plot compares `ranger actions` across `animal conditions`.
 
-- `Healthy` animals:
-Most cases involve `Relocated/Condition Corrected` or `ACC`, reflecting simple removal from unsafe areas or routine transfer for evaluation. Rehabilitation-related actions are rare because healthy animals seldom require intensive care.
+- Healthy animals:
+Most cases involve Relocated/Condition Corrected or ACC, reflecting simple removal from unsafe areas or routine transfer for evaluation. Rehabilitation-related actions are rare because healthy animals seldom require intensive care.
 
-- `Unhealthy` animals:
-`ACC` is the dominant response, followed by `Rehabilitator`, consistent with the need for medical assessment or long-term care. Actions like `DEC Testing` or relocation are infrequent, as relocation alone is usually inadequate for visibly unhealthy animals.
+- Unhealthy animals:
+ACC is the dominant response, followed by Rehabilitator, consistent with the need for medical assessment or long-term care. Actions like DEC Testing or relocation are infrequent, as relocation alone is usually inadequate for visibly unhealthy animals.
 
-- `Injured` animals:
-Common actions include `Rehabilitator`, `Unfounded`, and `ACC`. Injured animals often need hands-on treatment, while higher `Unfounded` counts suggest that some animals could not be located or had recovered by the time rangers arrived.
+- Injured animals:
+Common actions include Rehabilitator, Unfounded, and ACC. Injured animals often need hands-on treatment, while higher Unfounded counts suggest that some animals could not be located or had recovered by the time rangers arrived.
 
-- `DOA` animals:
-`Relocated/Condition Corrected` is the most frequent action, as dead animals primarily require removal from public spaces. Occasional `ACC` or `DEC Testing` cases reflect situations requiring identification or documentation before disposal.
+- DOA animals:
+Relocated/Condition Corrected is the most frequent action, as dead animals primarily require removal from public spaces. Occasional ACC or DEC Testing cases reflect situations requiring identification or documentation before disposal.
 
 ---
 
@@ -256,7 +256,7 @@ ggplot(park_model_group, aes(x = duration_hours,
 
 ```
 
-The first density plot shows that the distribution of raw `action duration` is extremely right-skewed, with most incidents resolved within a short time but a small number taking many hours. This heavy skew makes it difficult to visually compare  cases with all other `ranger actions` on the original scale because the long tail compresses the main density near zero.
+The first density plot shows that the distribution of raw `action duration` is extremely right-skewed, with most incidents resolved within a short time but a small number taking many hours. This heavy skew makes it difficult to visually compare cases with all other `ranger actions` on the original scale because the long tail compresses the main density near zero.
 
 <br>
 
@@ -284,11 +284,11 @@ ggplot(park_model2_log,
 
 To improve interpretability, we applied a `log (1 + duration)` transformation, which compresses long outliers and spreads the dense cluster near zero.
 
-- `Unfounded`:
+- Unfounded:
 These show higher density at lower `log-duration` values, indicating they are typically resolved quickly.
 Their mean duration is about 1.0 hour, confirming short response times.
 
-- `Founded`:
+- Founded:
 These have a broader distribution and greater density at higher `log-duration` values, reflecting the additional time required for assessment, handling, or coordination.
 Their mean duration is higher at 1.52 hours.
 
@@ -334,7 +334,7 @@ The original model: $\texttt{duration_hours} \sim \texttt{final_ranger_action} *
 
 - `Number of animals` has no effect (p = 0.80).
 
-- The interaction is significant (p = 0.000165), meaning the impact of `action type` depends on the `animal’s condition`.
+- The interaction is significant (p = 0.000165), meaning the impact of `action type` depends on the `animal condition`.
 
 - These diagnostic plots indicate that the ANOVA model assumptions are severely violated, exhibiting both non-normally distributed residuals (as points deviate strongly from the line in the Q-Q plot) and non-constant variance (as residuals show a noticeable pattern rather than random scatter in the Residuals vs Fitted plot).
 
