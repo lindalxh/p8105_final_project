@@ -34,7 +34,7 @@ theme_set(
   theme_minimal() + 
     theme(legend.position = "bottom",
           legend.text = element_text(size = 8),
-          plot.title = element_text(hjust = 0.5, size = 14))
+          plot.title = element_text(hjust = 0.5))
 )
 ```
 
