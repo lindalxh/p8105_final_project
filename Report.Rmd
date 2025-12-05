@@ -826,7 +826,7 @@ Together, these patterns indicate that reported health conditions depend not onl
 
 ### Response Duration
 
-We would like to explore how response duration, which we define as the duration between the initial request and the time that Rangers arrived at the site (`date_and_time_of_ranger_response - date_and_time_of_initial_call`), is associated with different incident characteristics.
+We would like to explore how response duration, which we define as the duration between the initial request and the time that Rangers arrived at the site (`date_and_time_of_ranger_response` - `date_and_time_of_initial_call`), is associated with different incident characteristics.
 
 <br>
 
@@ -1553,19 +1553,19 @@ Key results:
 
 ## Discussion
 
-#### Borough and Animal Class
+### Borough and Animal Class
 
 The reporting patterns based on borough may be influenced by differences in human population density and land use. Given Manhattan's exceptionally high population density, it is reasonable that it generates the greatest number of rescue calls. Manhattan, Queens, and Brooklyn have denser human activity, which may increase both encounter rates and incident reporting, leading to high counts for birds/raptors and small mammals. Human activities in Staten Island often take place near coastal or aquatic environments, making marine animals and other water-dependent species more visible to the public, and shows the highest number of calls for marine mammals, fish, and reptiles/amphibians. The Bronx includes the Bronx Zoo and several large parks, which may contribute to the highest number of cases involving large mammals.
 
 Based on these observations, the Parks and Recreation Department could consider allocating more aquatic-animal expertise to Staten Island and strengthening monitoring capacity for its land areas. Additional resources could also be directed toward managing large mammals in the Bronx and reducing human–wildlife disturbances involving small mammals in Manhattan.
 
-#### Temporal Pattern
+### Temporal Pattern
 
 The observed temporal patterns marked seasonal peaks and a concentration of cases during daylight hours strongly correlate with animal activity cycles and human visitation in urban parks. This alignment suggests rescue demand is driven by predictable environmental and behavioral factors.
 
-These insights enable proactive management: ranger shifts and resource allocation can be optimized around peak periods,for example, enhancing ranger coverage during summer afternoons could address elevated case frequencies across multiple species. while targeted public education can be timed to mitigate seasonal conflicts by raising awareness of seasonal animal behaviors. Ultimately, this data-driven approach enhances operational efficiency and wildlife protection in urban ecosystems.
+These insights enable proactive management: ranger shifts and resource allocation can be optimized around peak periods. For example, enhancing ranger coverage during summer afternoons could address elevated case frequencies across multiple species, while targeted public education can be timed to mitigate seasonal conflicts by raising awareness of seasonal animal behaviors. Ultimately, this data-driven approach enhances operational efficiency and wildlife protection in urban ecosystems.
 
-#### Health Condition Patterns
+### Health Condition Patterns
 
 Differences in health conditions across species groups and boroughs suggest that many cases are shaped by how easily animals can be seen and how quickly people notice something is wrong. Small mammals often appear in poorer condition because they tend to stay hidden, so problems are discovered later. Birds, on the other hand, are more visible in open areas, making unusual behavior easier for the public to recognize and report. Borough-level patterns reinforce this idea: busy areas like Manhattan may allow animals to be spotted sooner, while lower-density areas such as Staten Island may lead to cases being reported only when animals are already deceased.
 
@@ -1573,7 +1573,7 @@ These patterns show that reported health conditions reflect both animal behavior
 
 One possible explanation of the over-represented healthy cases for domestic species is reporting behavior. Domestic animals may be reported for a wider range of reasons, such as being lost, found unattended, or involved in non-medical encounters, which increases the number of Healthy reports. In contrast, native wildlife is more likely to be reported only when something is wrong, such as being injured, sick, or otherwise in distress, leading to higher counts in those categories.
 
-#### Response Duration
+### Response Duration
 
 Our exploratory analysis and regression results consistently show that response duration is strongly influenced by operational factors rather than animal-related characteristics. 
 
@@ -1581,13 +1581,13 @@ Calls made during daytime hours have significantly shorter response times compar
 
 Based on these findings, several practical improvements may help reduce delays. Increasing ranger coverage during evening and overnight hours may help address staffing-related delays. In addition, educating the public on how to provide clearer and more direct information when reporting incidents could help reduce ambiguity and improve prioritization, potentially enabling rangers to respond more quickly.
 
-#### Action Duration
+### Action Duration
 
 Patterns in action duration highlight clear differences in operational demands across incident types. Rehabilitation-related actions take the longest, while advisory, monitoring, and relocation tasks are resolved quickly. In final actions, `Unfounded` means either that the animals were not found or that no further action will be taken. Duration also varies by animal condition: unhealthy and injured animals often require ACC transfer or rehabilitation, whereas DOA cases are consistently brief. Healthy animals show short median durations but unusually wide spread, indicating that simple calls sometimes escalate into complex responses. The ANOVA results reinforce these patterns—final ranger action is the strongest predictor of duration, and after log transformation, animal condition also becomes significant, with a meaningful interaction showing that the effect of action type depends on the animal’s condition.
 
 Based on these findings, the Parks Department could strengthen support for rehabilitation and ACC-related responses, which drive the longest and most variable durations. Improving triage for calls that frequently end as unfounded may reduce unnecessary deployments. Areas with many unhealthy or injured animals may benefit from additional trained staff, while routine DOA removals could be streamlined to improve system-wide efficiency.
 
-#### Limitations
+### Limitations
 
 Several data limitations may influence how the results should be interpreted. Some animal condition or animal class categories contain relatively few observations, which can make group comparisons and regression estimates less stable. There are also inconsistencies in the recorded timestamps. For example, there are incidents where the `date_and_time_of_ranger_response` occurs before the `date_and_time_of_initial_call`, which is not feasible and suggests recording errors. These issues introduce additional uncertainty and may contribute to unexplained variability in the findings.
 
