@@ -1551,6 +1551,9 @@ Our analyses show that response duration is driven mainly by operational factors
 
 At the same time, data limitations such as small sample sizes in some categories, potential timestamp inconsistencies, and unmeasured factors (e.g., traffic, weather, case urgency) suggest that some effects should be interpreted with caution.
 
+### Action Duration
+The patterns in action duration suggest that different wildlife incidents place distinct operational demands on Urban Park Rangers. Rehabilitation-related actions require the longest time, likely due to medical assessment, transport logistics, and coordination with external rehabilitators. In contrast, low-intervention outcomes tend to be resolved quickly. Duration also varies by animal condition: unhealthy and injured animals frequently lead to time-intensive actions, while DOA cases are consistently brief. Healthy animals show short median durations but unusually wide variability, indicating that simple encounters occasionally escalate to complex interventions. The interaction between action type and condition further emphasizes that the time required for any given action depends strongly on the animal’s state.
 
+These patterns highlight opportunities for targeted resource allocation. The Parks Department may consider enhancing capacity for rehabilitation and ACC-related responses, as these disproportionately drive long-duration events. Improving triage for calls that often result in unfounded outcomes could reduce unnecessary deployment. Finally, areas with high frequencies of injured or unhealthy animals may benefit from additional staff trained in animal handling and medical assessment, while routine DOA removals could be streamlined to increase overall response efficiency.
 
 
