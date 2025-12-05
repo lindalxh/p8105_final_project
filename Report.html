@@ -2954,25 +2954,24 @@ quickly.</p>
 </div>
 <div id="limitations" class="section level3">
 <h3>Limitations</h3>
-<p>Several observations in the dataset show a response time of zero,
-which may indicate that the ranger was already present at the site or
-that the incident occurred near a ranger station. However, the dataset
-does not provide explicit documentation of these circumstances, making
-it unclear whether these values reflect true immediate responses or
-misrecorded response times. This ambiguity introduces uncertainty in the
-interpretation of very short response durations and may influence our
-exploratory analysis and the estimates produced by the linear regression
-model.</p>
-<p>In addition, several broader data limitations may influence how the
-results should be interpreted. Some animal condition or animal class
-categories contain relatively few observations, which can make group
-comparisons and regression estimates less stable. There are also
-inconsistencies in the recorded timestamps. For example, there are
-incidents where the <code>date_and_time_of_ranger_response</code> occurs
-before the <code>date_and_time_of_initial_call</code>, which is not
-feasible and suggests recording errors. These issues introduce
-additional uncertainty and may contribute to unexplained variability in
-the findings.</p>
+<p>Several broader data limitations may influence how the results should
+be interpreted. Some animal condition or animal class categories contain
+relatively few observations, which can make group comparisons and
+regression estimates less stable. There are also inconsistencies in the
+recorded timestamps. For example, there are incidents where the
+<code>date_and_time_of_ranger_response</code> occurs before the
+<code>date_and_time_of_initial_call</code>, which is not feasible and
+suggests recording errors. These issues introduce additional uncertainty
+and may contribute to unexplained variability in the findings.</p>
+<p>In addition, several observations in the dataset show a response time
+of zero, which may indicate that the ranger was already present at the
+site or that the incident occurred near a ranger station. However, the
+dataset does not provide explicit documentation of these circumstances,
+making it unclear whether these values reflect true immediate responses
+or misrecorded response times. This ambiguity introduces uncertainty in
+the interpretation of very short response durations and may influence
+our exploratory analysis and the estimates produced by the linear
+regression model.</p>
 </div>
 </div>
 </div>
