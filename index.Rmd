@@ -25,7 +25,7 @@ knitr::opts_chunk$set(
 
 <div style="text-align:center; font-size:12px; color:#666;">
   Little hamster with its little cast.<br>
-  Image Credit: Reddit / GeorgeOnee
+  Image Credits: Reddit / GeorgeOnee
 </div>
 
 

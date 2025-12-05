@@ -189,7 +189,7 @@ Based on these observations, the Parks and Recreation Department could consider 
 
 ### Health Conditions by Animal Class
 
-```{r, fig.retina=2, fig.width=8, fig.height=5}
+```{r, fig.retina=2, fig.width=7, fig.height=4}
 # Count number of cases by animal class and health condition
 health_by_class =
   park_ranger_new |>
@@ -251,7 +251,7 @@ These differences suggest that how often animals are reported, and the reasons t
 
 ### Health Conditions by Borough
 
-```{r, fig.retina=2, fig.width=8, fig.height=5}
+```{r, fig.retina=2, fig.width=7, fig.height=4}
 # Count number of cases by borough and health condition
 health_by_borough =
   park_ranger_new |>
@@ -378,15 +378,16 @@ res_heatmap = as.data.frame(spec_health_result$stdres) |>
     x = "Animal Condition",
     y = "Species Status"
   ) +
+  theme_minimal() +
   theme(
     axis.text.x = element_text(size = 9, vjust = 4, margin = margin(t = 10)),
     axis.text.y = element_text(size = 9),
-    plot.title = element_text(face = "bold", hjust = 0.5),
+    plot.title = element_text(face = "bold", size = 14, hjust = 0.5, margin = margin(b = 10)),
     plot.subtitle = element_text(size = 10),
     legend.title = element_text(size = 9),
-    legend.text = element_text(size = 8)
-  ) +
-  theme_minimal()
+    legend.text = element_text(size = 8),
+    legend.position = "bottom"
+  )
 
 plot(res_heatmap)
 ```

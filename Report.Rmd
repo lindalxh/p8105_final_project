@@ -60,8 +60,21 @@ Our project is inspired by a range of citizen science and urban ecology initiati
 ---
 
 ## Initial Questions
+Our initial plan focused on examining how animal conditions vary across space and time, and how these patterns may relate to ranger responses. How do the number of rescue cases and animal health conditions vary across different parks? How do animal conditions vary across seasons and across hours of the day? Specifically, we aimed to:
 
-We originally planned to analyze the associations between animal conditions, locations, and time, both across the year and throughout the day. Additional analyses will examine factors that may influence response time, such as park location, animal condition or number, and temporal variables like time of day or frequency within a week or month. Examples of visualizations include a heatmap illustrating the density of injured animals by month and time of day, as well as violin plots grouped by boroughs to show the distribution of response times across regions. We will also conduct statistical tests, such as ANOVA, to evaluate relationships among variables, including borough, response time, animal condition, and time factors.
+- Assess associations between animal conditions, geographic locations, and temporal factors (seasonal patterns across the year, and diurnal patterns across the day).
+
+- Identify factors that influence ranger response time, such as park location, animal condition, number of animals, and temporal variables (e.g., time of day or frequency within a week or month).
+
+- Produce visualizations such as a heatmap of injured-animal density by month and hour of day, and violin plots comparing response time distributions across boroughs.
+
+- Conduct statistical tests such as ANOVA to evaluate relationships among borough, response time, animal condition, and relevant time-related predictors.
+
+As we explored the data, we discovered that many of the spatial and temporal patterns reflected human behavior rather than true differences in animal conditions. For instance, parks with the highest numbers of cases tended to be large, highly populated, or located in areas with more tourist or resident activity. This suggests case counts reflect human presence, not necessarily ecological patterns. Therefore, instead of conducting deeper geographic modeling, we chose to emphasize these results in the interactive map without overinterpreting ecological meaning. Similarly, temporal trends (e.g., higher reports during daytime) appeared to reflect human activity cycles rather than changes in animal behavior.
+
+Because reports depend on when humans are awake, outdoors, and likely to encounter animals, temporal patterns primarily represent reporting frequency, not animals themselves. Given these insights, we shifted our analytical focus to a question the dataset can meaningfully answer: How do human response behaviors (`ranger response time`) vary with animal condition, number of animals, time of day, or borough? This reframing allowed us to analyze variables that truly reflect actionable patterns in the dataset.
+
+During exploratory analysis, we identified that animal conditions and the number of animals involved may influence both reporting behavior and ranger decisions. Therefore, we expanded our investigation to examine how these characteristics relate to rangers’ final actions, including whether more severe conditions or larger groups of animals lead to different types of interventions. This led us to include an important exploratory component analyzing the relationship between animal condition and ranger final action, providing insight into how case characteristics shape response behaviors.
 
 ---
 
@@ -549,6 +562,16 @@ interactive_map_boro = leaflet(map_boro_sf, height = 500) |>
 The map above displays the total number of animal rescue calls from each borough, with darker shading indicating a higher total number of reported cases. Each borough is clickable, and the corresponding popup presents the bar graph of case counts by animal class. Based on the visualization, Manhattan has the highest number of reported cases overall.
 
 ```{r}
+color_palette_2 = c(
+  "#f0f9e8",
+  "#bae4bc",
+  "#7bccc4",
+  "#43a2ca",
+  "#0868ac",
+  "#084081",
+  "#082A45" 
+)
+
 # pivot to long format for plotting
 # factor relevel borough and animal class
 map_boro |> 
@@ -1210,6 +1233,79 @@ Their mean duration is higher at 1.52 hours.
 
 ## Additional Analysis
 
+### Chi-Square Test Between Species Status and Animal Condition
+
+```{r}
+# conduct a chi-square test on species_status and animal_condition
+spec_health_tbl = table(park_ranger_new$species_status, park_ranger_new$animal_condition)
+
+spec_health_result = chisq.test(spec_health_tbl)
+
+# show contingency table of the chi-square test
+kable(
+  as.data.frame.matrix(spec_health_result$observed),
+  caption = "Observed Counts for Species Status and Animal Condition",
+  digits = 2
+)
+
+# show result tables of the chi-square test
+kable(
+  as.data.frame.matrix(spec_health_result$expected),
+  caption = "Expected Counts for Species Status and Animal Condition",
+  digits = 2
+)
+```
+
+A chi-square test of independence was conducted to evaluate the association between species status and animal condition. The test produced a highly significant result, $$\chi^2(16) = 757.19,\quad p < 2.2 \times 10^{-16}$$ indicating that the distribution of animal conditions differs substantially across species status categories.
+
+```{r fig.width=7.5}
+# create custom color gradient with more detailed breaks
+chi_squre_color_breaks = c(-Inf, -20, -10, -5, 0, 5, 10, 20)
+chi_squre_palette = c("#08306B", "#2171B5", "#6BAED6", "#DEEBF7", "#FEE5D9", "#FB6A4A","#A50F15")
+
+# plot the standardized residual from the chi-square test between species_status and animal_condition
+res_heatmap = as.data.frame(spec_health_result$stdres) |>
+  rename(
+    species_status = Var1,
+    animal_condition = Var2,
+    stdres = Freq
+  ) |> 
+  ggplot(aes(x = animal_condition, y = species_status, fill = stdres)) +
+  scale_y_discrete(limits = rev) +
+  geom_tile(color = "white", linewidth = 0.3) +
+  coord_fixed() +
+  scale_fill_gradientn(
+    colors = chi_squre_palette,
+    values = rescale(chi_squre_color_breaks),
+    breaks = chi_squre_color_breaks,
+    limits = c(-22, 22),
+    guide = guide_colorbar(
+      barwidth = 30,
+      barheight = 0.8,
+      direction = "horizontal",
+      title.position = "top"
+    ), 
+    name = paste0("Std. Residual\nBlue = Obs < Exp", strrep(" ", 116), "Red = Obs > Exp")) +
+  geom_text(aes(label = round(stdres, 2)), size = 3, color = "black") +
+  labs(
+    title = "Standardized Residuals for Species Status and Animal Condition",
+    x = "Animal Condition",
+    y = "Species Status"
+  ) +
+  theme(
+    axis.text.x = element_text(size = 9, vjust = 4, margin = margin(t = 10)),
+    axis.text.y = element_text(size = 9),
+    plot.title = element_text(face = "bold", size = 14, hjust = 0.5, margin = margin(b = 10)),
+    plot.subtitle = element_text(size = 10),
+    legend.title = element_text(size = 9),
+    legend.text = element_text(size = 8)
+  )
+
+plot(res_heatmap)
+```
+
+The tables of observed and expected counts are shown above, along with the plot of standardized residuals for the two variables. Based on both the contingency table and the residual plot, domestic species are noticeably overrepresented in the Healthy category, while native (non-domestic) species are underrepresented. Domestic species are also underrepresented in the Injured category, whereas native species show the opposite pattern, with more Injured or Unhealthy cases than expected.
+
 ### Multiple Linear Regression for Response Duration
 
 When examining animal condition and borough individually in the raw distributions, neither appears to be a strong or consistent determinant of response duration. These unadjusted patterns suggest that other confounding factors (e.g., call timing, call source) may play a larger role. To evaluate these effects while holding other variables constant, we fit a multiple linear regression model that incorporates incident characteristics including borough, call source, species status, animal condition, age category, animal class, number of animals, and call time.
@@ -1454,80 +1550,6 @@ Key results:
 - The log transformation reduces extreme values and spreads out lower durations, yielding more homogeneous variance and more normally distributed residuals. Diagnostic plots show steadier variance and a Q–Q plot much closer to the reference line, with minor tail deviations expected in field data.
 
 <br>
-
-
-### Chi-Square Test Between Species Status and Animal Condition
-
-```{r}
-# conduct a chi-square test on species_status and animal_condition
-spec_health_tbl = table(park_ranger_new$species_status, park_ranger_new$animal_condition)
-
-spec_health_result = chisq.test(spec_health_tbl)
-
-# show contingency table of the chi-square test
-kable(
-  as.data.frame.matrix(spec_health_result$observed),
-  caption = "Observed Counts for Species Status and Animal Condition",
-  digits = 2
-)
-
-# show result tables of the chi-square test
-kable(
-  as.data.frame.matrix(spec_health_result$expected),
-  caption = "Expected Counts for Species Status and Animal Condition",
-  digits = 2
-)
-```
-
-A chi-square test of independence was conducted to evaluate the association between species status and animal condition. The test produced a highly significant result, $$\chi^2(16) = 757.19,\quad p < 2.2 \times 10^{-16}$$ indicating that the distribution of animal conditions differs substantially across species status categories.
-
-```{r fig.width=7.5}
-# create custom color gradient with more detailed breaks
-chi_squre_color_breaks = c(-Inf, -20, -10, -5, 0, 5, 10, 20)
-chi_squre_palette = c("#08306B", "#2171B5", "#6BAED6", "#DEEBF7", "#FEE5D9", "#FB6A4A","#A50F15")
-
-# plot the standardized residual from the chi-square test between species_status and animal_condition
-res_heatmap = as.data.frame(spec_health_result$stdres) |>
-  rename(
-    species_status = Var1,
-    animal_condition = Var2,
-    stdres = Freq
-  ) |> 
-  ggplot(aes(x = animal_condition, y = species_status, fill = stdres)) +
-  scale_y_discrete(limits = rev) +
-  geom_tile(color = "white", linewidth = 0.3) +
-  coord_fixed() +
-  scale_fill_gradientn(
-    colors = chi_squre_palette,
-    values = rescale(chi_squre_color_breaks),
-    breaks = chi_squre_color_breaks,
-    limits = c(-22, 22),
-    guide = guide_colorbar(
-      barwidth = 30,
-      barheight = 0.8,
-      direction = "horizontal",
-      title.position = "top"
-    ), 
-    name = paste0("Std. Residual\nBlue = Obs < Exp", strrep(" ", 116), "Red = Obs > Exp")) +
-  geom_text(aes(label = round(stdres, 2)), size = 3, color = "black") +
-  labs(
-    title = "Standardized Residuals for Species Status and Animal Condition",
-    x = "Animal Condition",
-    y = "Species Status"
-  ) +
-  theme(
-    axis.text.x = element_text(size = 9, vjust = 4, margin = margin(t = 10)),
-    axis.text.y = element_text(size = 9),
-    plot.title = element_text(face = "bold", size = 14, hjust = 0.5, margin = margin(b = 10)),
-    plot.subtitle = element_text(size = 10),
-    legend.title = element_text(size = 9),
-    legend.text = element_text(size = 8)
-  )
-
-plot(res_heatmap)
-```
-
-The tables of observed and expected counts are shown above, along with the plot of standardized residuals for the two variables. Based on both the contingency table and the residual plot, domestic species are noticeably overrepresented in the Healthy category, while native (non-domestic) species are underrepresented. Domestic species are also underrepresented in the Injured category, whereas native species show the opposite pattern, with more Injured or Unhealthy cases than expected.
 
 ---
 
