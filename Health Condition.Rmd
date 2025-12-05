@@ -9,8 +9,6 @@ output:
 
 ```{r setup, include=FALSE}
 knitr::opts_chunk$set(
-  fig.width = 6,
-  fig.asp = .8,
   out.width = "90%",
   dpi = 200
 )
@@ -25,8 +23,6 @@ library(ggplot2)
 library(plotly)
 library(reshape2)
 library(knitr)
-library(corrplot)
-library(readxl)
 library(base64enc)
 
 source("data_cleaning.R") 
@@ -48,7 +44,6 @@ cat('
 This page provides an overview of animal health conditions reported across New York City. It begins by describing how case numbers and health outcomes vary by species group and by borough, then maps the spatial distribution of these reports to highlight geographic patterns. Finally, a chi-square analysis explores how species status relates to reported health conditions. Together, these analyses offer insight into where different types of animal health incidents occur and how reporting patterns may reflect both ecological factors and human observation.  
 
 <br>
-
 
 ```{r, include=FALSE}
 # Create color palette
@@ -80,11 +75,121 @@ color_palette_2 = c(
 ```
 
 
+# Cases Across Boroughs
+
+### Number of Cases by Borough
+
+```{r}
+# for each borough, create a dataframe for number of cases (>0) for each animal class
+# plot the case number for each borough, and saved in tmpfile to present in the map popup window
+# convert WKT multipolygon strings into sf multipolygon geometry for mapping
+map_boro_sf = map_boro |>
+  rowwise() |>
+  mutate(
+    case_num = list(c_across(all_of(animal_classes))),
+    map_boro_plot_df = list(tibble(
+      class = animal_classes,
+      number = unlist(case_num)) |> 
+        filter(!is.na(number))),
+    map_boro_plot = {
+      boro_plot = ggplot(map_boro_plot_df, aes(x = reorder(class, -number), y = number)) +
+        geom_col(fill = "#74c476") +
+        geom_text(aes(label = number), 
+            vjust = -0.3, 
+            size = 3) +
+        scale_y_continuous(expand = expansion(mult = c(0, 0.15))) +
+        theme_minimal(base_size = 12) +
+        theme(
+          axis.text.x = element_text(angle = 45, hjust = 1),
+          plot.margin = margin(5,5,5,5)) +
+        labs(x = NULL, y = "Case Number")
+      tmpfile = tempfile(fileext = ".png")
+      ggsave(tmpfile, boro_plot, width = 4, height = 3, dpi = 150)
+      dataURI(file = tmpfile)
+    },
+    popup_content = paste0(
+      "<b>", borough, "</b><br>",
+      "<img src='", map_boro_plot, "' style='width:300px; max-width:none;'>")) |>
+  ungroup() |> 
+  arrange(total_n) |>
+  mutate(color_hex = color_palette_1[row_number()]) |> 
+  st_as_sf(wkt = "the_geom", crs = 4326)
+
+# create map of borough with leaflet
+# use CartoDB.Voyager tile layer
+# fill in color using density_color based on total_n
+# add a minimap
+leaflet(map_boro_sf, height = 500) |> 
+  addProviderTiles("CartoDB.Voyager") |>
+  addPolygons(
+    color = "#238b45",
+    weight = 0.8,
+    opacity = 0.8,
+    fillColor = ~color_hex,
+    fillOpacity = 0.5,
+    popup = ~popup_content,
+    popupOptions = popupOptions(maxWidth = 380, minWidth = 300)
+  ) %>%
+  addMiniMap(toggleDisplay = TRUE) |> 
+  addLegend(
+    position = "topright",
+    colors = map_boro_sf$color_hex,
+    labels = paste0(map_boro_sf$borough, " (", map_boro_sf$total_n, ")"),
+    title = "Borough",
+    opacity = 1)
+```
+  
+<br><br>
+
+### Number of Reported Cases by Borough
+
+```{r, fig.height=6}
+# pivot to long format for plotting
+# factor relevel borough and animal class
+map_boro |> 
+  pivot_longer(
+    cols = all_of(animal_classes),
+    names_to = "animal_class",
+    values_to = "cases") |> 
+  filter(!is.na(cases) & cases > 0) |> 
+  mutate(
+    borough = factor(borough,
+      levels = map_boro |> arrange(desc(total_n)) |> pull(borough)),
+    animal_class = factor(animal_class, levels = animal_classes)) |> 
+  ggplot(aes(x = borough, y = cases, fill = animal_class)) +
+  geom_col() +
+  scale_fill_manual(
+    values = color_palette_2,
+    name   = "Animal Class"
+  ) +
+  labs(
+    x = "Borough",
+    y = "Number of Cases",
+    title = "Number of Reported Cases by Borough"
+  ) +
+  theme_minimal(base_size = 10) +
+  theme(
+    axis.text.x = element_text(angle = 30, hjust = 1),
+    plot.title = element_text(hjust = 0.5)
+  )
+```
+
+The map displays the number of reported cases for each animal class within the selected borough. To map these cases spatially, we used the [Borough Boundaries](https://data.cityofnewyork.us/City-Government/Borough-Boundaries/gthc-hcne/about_data) dataset released by the Department of City Planning (DCP) on NYC OpenData. Darker shading represents boroughs with a higher total number of reported cases. Based on the visualization, Manhattan shows the highest number of reported cases overall. 
+
+The accompanying bar plot provides a clearer comparison across boroughs. Manhattan has the highest total number of cases, driven largely by small mammals. Manhattan, Queens, and Brooklyn all report particularly high counts for birds/raptors, whereas Staten Island shows the highest numbers for marine mammals, fish, and reptiles/amphibians, and the Bronx reports the highest number of cases involving large mammals.
+
+These patterns may be influenced by differences in human population density and land use. Manhattan, Queens, and Brooklyn have denser human activity, which may increase both encounter rates and incident reporting, especially for small mammals. Human activities in Staten Island often take place near coastal or aquatic environments, making marine animals and other water-dependent species more visible to the public. The Bronx includes the Bronx Zoo and several large parks, which may contribute to a greater presence of large mammals.
+
+Based on these observations, the Parks and Recreation Department could consider allocating more aquatic-animal expertise to Staten Island and strengthening monitoring capacity for its land areas. Additional resources could also be directed toward managing large mammals in the Bronx and reducing human–wildlife disturbances involving small mammals in Manhattan.
+
+
+<br><br>
+
 # Descriptive Analysis of Animal Health Conditions
 
 ### Health Conditions by Animal Class
 
-```{r, fig.retina=2, fig.width=8, fig.height=5}
+```{r, fig.retina=2, fig.width=7, fig.height=4}
 # Count number of cases by animal class and health condition
 health_by_class =
   park_ranger_new |>
@@ -146,7 +251,7 @@ These differences suggest that how often animals are reported, and the reasons t
 
 ### Health Conditions by Borough
 
-```{r, fig.retina=2, fig.width=8, fig.height=5}
+```{r, fig.retina=2, fig.width=7, fig.height=4}
 # Count number of cases by borough and health condition
 health_by_borough =
   park_ranger_new |>
@@ -212,154 +317,6 @@ These differences highlight how each borough’s environment and reporting behav
 
 <br><br>
 
-
-
-# Spatial Analysis of Animal Health Conditions Across Boroughs
-
-```{r, include=FALSE}
-# import borough dataset
-boro_bound_df = read_csv("data/Borough_Boundaries_20251107.csv") |> 
-  janitor::clean_names()
-```
-
-
-```{r}
-#create a dataframe for plotting
-# get all animal classes
-animal_classes = c(
-  "Birds / Raptors", 
-  "Small Mammals", 
-  "Large Mammals",
-  "Marine Mammals", 
-  "Reptiles / Amphibians",
-  "Fish", 
-  "Others")
-
-# select a subset of park ranger data, and only keep Unhealthy and Injured cases
-# group by borough and animal class
-# get the number of cases for each animal class in each borough
-# get total number of cases for each borough
-# join the multipolygon geometry into this dataset
-map_boro = park_ranger_new |> 
-  select(borough, animal_class_new, animal_condition) |> 
-  group_by(borough, animal_class_new) |> 
-  summarize(n = n(), .groups = "drop") |> 
-  pivot_wider(
-    names_from = animal_class_new,
-    values_from = n) |> 
-  mutate(
-    total_n = rowSums(across(all_of(animal_classes)), na.rm = TRUE)) |> 
-  left_join(boro_bound_df |> select(boro_name, the_geom),
-            by = c("borough" = "boro_name"))
-```
-
-### Map out the total number of cases in borough
-
-```{r}
-# for each borough, create a dataframe for number of cases (>0) for each animal class
-
-# plot the case number for each borough, and saved in tmpfile to present in the map popup window
-# convert WKT multipolygon strings into sf multipolygon geometry for mapping
-map_boro_sf = map_boro |>
-  rowwise() |>
-  mutate(
-    case_num = list(c_across(all_of(animal_classes))),
-    map_boro_plot_df = list(tibble(
-      class = animal_classes,
-      number = unlist(case_num)) |> 
-        filter(!is.na(number))),
-    map_boro_plot = {
-      boro_plot = ggplot(map_boro_plot_df, aes(x = reorder(class, -number), y = number)) +
-        geom_col(fill = "#74c476") +
-        geom_text(aes(label = number), 
-            vjust = -0.3, 
-            size = 3) +
-        scale_y_continuous(expand = expansion(mult = c(0, 0.15))) +
-        theme_minimal(base_size = 12) +
-        theme(
-          axis.text.x = element_text(angle = 45, hjust = 1),
-          plot.margin = margin(5,5,5,5)) +
-        labs(x = NULL, y = "Case Number")
-      tmpfile = tempfile(fileext = ".png")
-      ggsave(tmpfile, boro_plot, width = 4, height = 3, dpi = 150)
-      dataURI(file = tmpfile)
-    },
-    popup_content = paste0(
-      "<b>", borough, "</b><br>",
-      "<img src='", map_boro_plot, "' width='260px'>")) |>
-  ungroup() |> 
-  arrange(total_n) |>
-  mutate(color_hex = color_palette_1[row_number()]) |> 
-  st_as_sf(wkt = "the_geom", crs = 4326)
-```
-
-
-
-```{r}
-# create map of borough with leaflet
-
-# use CartoDB.Voyager tile layer
-# fill in color using density_color based on total_n
-# add a minimap
-leaflet(map_boro_sf) |> 
-  addProviderTiles("CartoDB.Voyager") |>
-  addPolygons(
-    color = "#238b45",
-    weight = 0.8,
-    opacity = 0.8,
-    fillColor = ~color_hex,
-    fillOpacity = 0.5,
-    popup = ~popup_content
-  ) %>%
-  addMiniMap(toggleDisplay = TRUE)
-```
-  
-<br><br>
-
-### Bar plot for borough
-
-```{r, fig.height=6}
-# pivot to long format for plotting
-# factor relevel borough and animal class
-map_boro |> 
-  pivot_longer(
-    cols = all_of(animal_classes),
-    names_to = "animal_class",
-    values_to = "cases") |> 
-  filter(!is.na(cases) & cases > 0) |> 
-  mutate(
-    borough = factor(borough,
-      levels = map_boro |> arrange(desc(total_n)) |> pull(borough)),
-    animal_class = factor(animal_class, levels = animal_classes)) |> 
-  ggplot(aes(x = borough, y = cases, fill = animal_class)) +
-  geom_col() +
-  scale_fill_manual(
-    values = color_palette_2,
-    name   = "Animal Class"
-  ) +
-  labs(
-    x = "Borough",
-    y = "Number of Cases",
-    title = "Number of Reported Cases by Borough"
-  ) +
-  theme_minimal(base_size = 10) +
-  theme(
-    axis.text.x = element_text(angle = 30, hjust = 1)
-  )
-```
-
-The map displays the number of reported cases for each animal class within the selected borough. To map these cases spatially, we used the **Borough Boundaries** dataset released by the Department of City Planning (DCP) on NYC OpenData[https://data.cityofnewyork.us/City-Government/Borough-Boundaries/gthc-hcne/about_data]. Darker shading represents boroughs with a higher total number of reported cases. Based on the visualization, Manhattan shows the highest number of reported cases overall. 
-
-The accompanying bar plot provides a clearer comparison across boroughs. Manhattan has the highest total number of cases, driven largely by small mammals. Manhattan, Queens, and Brooklyn all report particularly high counts for birds/raptors, whereas Staten Island shows the highest numbers for marine mammals, fish, and reptiles/amphibians, and the Bronx reports the highest number of cases involving large mammals.
-
-These patterns may be influenced by differences in human population density and land use. Manhattan, Queens, and Brooklyn have denser human activity, which may increase both encounter rates and incident reporting, especially for small mammals. Human activities in Staten Island often take place near coastal or aquatic environments, making marine animals and other water-dependent species more visible to the public. The Bronx includes the Bronx Zoo and several large parks, which may contribute to a greater presence of large mammals.
-
-Based on these observations, the Parks and Recreation Department could consider allocating more aquatic-animal expertise to Staten Island and strengthening monitoring capacity for its land areas. Additional resources could also be directed toward managing large mammals in the Bronx and reducing human–wildlife disturbances involving small mammals in Manhattan.
-
-
-<br><br>
-
-
 # Inferential and Associational Analysis
 
 ### Chi-Square Test: relation between species status and animal condition
@@ -385,15 +342,13 @@ kable(
 )
 ```
 
+A chi-square test of independence was conducted to evaluate the association between species status and animal condition. The test produced a highly significant result, $$\chi^2(16) = 757.19,\quad p < 2.2 \times 10^{-16}$$ indicating that the distribution of animal conditions differs substantially across species status categories.
 
-```{r}
+```{r fig.width=7.5}
 # create custom color gradient with more detailed breaks
 chi_squre_color_breaks = c(-Inf, -20, -10, -5, 0, 5, 10, 20)
 chi_squre_palette = c("#08306B", "#2171B5", "#6BAED6", "#DEEBF7", "#FEE5D9", "#FB6A4A","#A50F15")
-```
 
-
-```{r}
 # plot the standardized residual from the chi-square test between species_status and animal_condition
 res_heatmap = as.data.frame(spec_health_result$stdres) |>
   rename(
@@ -423,22 +378,19 @@ res_heatmap = as.data.frame(spec_health_result$stdres) |>
     x = "Animal Condition",
     y = "Species Status"
   ) +
-  theme_minimal() + 
+  theme_minimal() +
   theme(
     axis.text.x = element_text(size = 9, vjust = 4, margin = margin(t = 10)),
     axis.text.y = element_text(size = 9),
     plot.title = element_text(face = "bold", size = 14, hjust = 0.5, margin = margin(b = 10)),
     plot.subtitle = element_text(size = 10),
-    legend.position = "bottom",
     legend.title = element_text(size = 9),
-    legend.text = element_text(size = 8)
+    legend.text = element_text(size = 8),
+    legend.position = "bottom"
   )
 
 plot(res_heatmap)
-
 ```
-
-A chi-square test of independence was conducted to evaluate the association between species status and animal condition. The test produced a highly significant result, $$\chi^2(16) = 757.19,\quad p < 2.2 \times 10^{-16}$$ indicating that the distribution of animal conditions differs substantially across species status categories.
 
 The tables of observed and expected counts are shown above, along with the plot of standardized residuals for the two variables. Based on both the contingency table and the residual plot, domestic species are noticeably overrepresented in the Healthy category, while native (non-domestic) species are underrepresented. Domestic species are also underrepresented in the Injured category, whereas native species show the opposite pattern, with more Injured or Unhealthy cases than expected.
 

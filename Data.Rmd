@@ -15,6 +15,8 @@ library(patchwork)
 library(knitr)
 library(fuzzyjoin)
 library(base64enc)
+
+source("data_cleaning.R") 
 ```
 
 # Data Source
@@ -22,6 +24,42 @@ library(base64enc)
 Our primary dataset is provided by the Department of Parks and Recreation (DPR) and is made publicly available through the NYC OpenData portal [(Urban Park Ranger Animal Condition Response)](https://data.cityofnewyork.us/Environment/Urban-Park-Ranger-Animal-Condition-Response/fuhs-xmg2/about_data). This dataset contains 6,385 records of animal rescue requests from May 2018 to June 2024, including detailed information such as the date and time of each call, ranger response time, park name, specific location descriptions, animal species, and the condition of the animals involved.
 
 One essential component of the website visualization is displaying the number of total cases reported to park rangers for each park. The Park Ranger dataset does not contain geographic coordinates, but it provides the park name or the location associated with each case. To map these cases spatially, we used the [Parks Properties](https://data.cityofnewyork.us/Recreation/Parks-Properties/enfh-gkve/about_data) dataset released by the Department of Parks and Recreation (DPR) on NYC OpenData. This dataset contains 2,054 parks and corresponding geographic coordinates in New York City across five boroughs. Coordinates of the 5 boroughs are from the [Borough Boundaries](https://data.cityofnewyork.us/City-Government/Borough-Boundaries/gthc-hcne/about_data) dataset released by the Department of City Planning (DCP) on NYC OpenData.
+
+```{r, message=FALSE}
+# import borough dataset
+boro_bound_df = read_csv("data/Borough_Boundaries_20251107.csv") |> 
+  janitor::clean_names()
+
+#create a dataframe for plotting
+# get all animal classes
+animal_classes = c(
+  "Birds / Raptors", 
+  "Small Mammals", 
+  "Large Mammals",
+  "Marine Mammals", 
+  "Reptiles / Amphibians",
+  "Fish", 
+  "Others")
+
+# select a subset of park ranger data, and only keep Unhealthy and Injured cases
+# group by borough and animal class
+# get the number of cases for each animal class in each borough
+# get total number of cases for each borough
+# join the multipolygon geometry into this dataset
+map_boro = park_ranger_new |> 
+  select(borough, animal_class_new, animal_condition) |> 
+  group_by(borough, animal_class_new) |> 
+  summarize(n = n(), .groups = "drop") |> 
+  pivot_wider(
+    names_from = animal_class_new,
+    values_from = n) |> 
+  mutate(
+    total_n = rowSums(across(all_of(animal_classes)), na.rm = TRUE)) |> 
+  left_join(boro_bound_df |> select(boro_name, the_geom),
+            by = c("borough" = "boro_name"))
+```
+
+
 
 # Data Cleaning Process
 
@@ -146,7 +184,7 @@ We selected Jaro–Winkler algorithm because it is designed for short strings su
 
 All fuzzy-matched pairs with similarity scores less than 1 were then manually reviewed by three members of the group, and each match was checked independently by two reviewers to ensure accuracy and inter-rater reliability. After this process, 35 unique property values remained unmatched, typically because they referred to street names (e.g., “Green Street”), or parks that exist but are not included in the Parks Properties dataset (e.g., “Mannahatta Park”). The final map includes 6,118 reported cases across 546 unique parks. Using Jaro–Winkler with a maximum distance threshold of 0.25 resulted in an overall matching accuracy of 43.75% among the 208 originally unmatched values.
 
-```{r}
+```{r, message = FALSE}
 # Match park names with Park Properties names
 # 1. Import parks properties dataset
 park_prop_df = read_csv("data/Parks_Properties_20251107.csv") |> 
@@ -186,21 +224,12 @@ fuzzy_matches =
 write.csv(fuzzy_matches, "data/fuzzy_park_match.csv", row.names = FALSE)
 
 # Create a new dataframe for mapping
-# 1. Import dataset with final matched park names, get all animal classes
+# 1. Import dataset with final matched park names
 park_match_df = read_csv("data/park_match_final.csv") |> 
   janitor::clean_names() |> 
   transmute(
     original_park = str_to_lower(str_trim(original_park)),
     final_match = str_to_lower(str_trim(final_match)))
-
-animal_classes = c(
-  "Birds / Raptors", 
-  "Small Mammals", 
-  "Large Mammals",
-  "Marine Mammals", 
-  "Reptiles / Amphibians",
-  "Fish", 
-  "Others")
 
 # 2. Join the matched name to park_ranger_new, remove those don't have a matched park
 map_park = park_ranger_new |> 

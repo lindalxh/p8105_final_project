@@ -9,7 +9,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=EDGE" />
 
 
-<meta name="author" content="Samantha Xinwei Han, Xinhui (Linda) Lin, Ruohan Lyu, Xinyin Miao, Fenglin Xie" />
+<meta name="author" content="Samantha Xinwei Han (xh2601), Xinhui Lin (xl3054), Ruohan Lyu (rl3610), Xinyin Miao (xm2356), Fenglin Xie (fx2212)" />
 
 <meta name="date" content="2025-12-06" />
 
@@ -38,14 +38,6 @@
 <script src="site_libs/navigation-1.1/codefolding.js"></script>
 <link href="site_libs/highlightjs-9.12.0/default.css" rel="stylesheet" />
 <script src="site_libs/highlightjs-9.12.0/highlight.js"></script>
-<link href="site_libs/htmltools-fill-0.5.8.1/fill.css" rel="stylesheet" />
-<script src="site_libs/htmlwidgets-1.6.4/htmlwidgets.js"></script>
-<script src="site_libs/plotly-binding-4.11.0/plotly.js"></script>
-<script src="site_libs/typedarray-0.1/typedarray.min.js"></script>
-<link href="site_libs/crosstalk-1.2.2/css/crosstalk.min.css" rel="stylesheet" />
-<script src="site_libs/crosstalk-1.2.2/js/crosstalk.min.js"></script>
-<link href="site_libs/plotly-htmlwidgets-css-2.11.1/plotly-htmlwidgets.css" rel="stylesheet" />
-<script src="site_libs/plotly-main-2.11.1/plotly-latest.min.js"></script>
 <link href="site_libs/font-awesome-6.5.2/css/all.min.css" rel="stylesheet" />
 <link href="site_libs/font-awesome-6.5.2/css/v4-shims.min.css" rel="stylesheet" />
 
@@ -378,8 +370,8 @@ div.tocify {
 
 
 <h1 class="title toc-ignore">Report</h1>
-<h4 class="author">Samantha Xinwei Han, Xinhui (Linda) Lin, Ruohan Lyu,
-Xinyin Miao, Fenglin Xie</h4>
+<h4 class="author">Samantha Xinwei Han (xh2601), Xinhui Lin (xl3054),
+Ruohan Lyu (rl3610), Xinyin Miao (xm2356), Fenglin Xie (fx2212)</h4>
 <h4 class="date">2025-12-06</h4>
 
 </div>
@@ -455,17 +447,55 @@ interactions.</p>
 </div>
 <div id="initial-questions" class="section level2">
 <h2>Initial Questions</h2>
-<p>We originally planned to analyze the associations between animal
-conditions, locations, and time, both across the year and throughout the
-day. Additional analyses will examine factors that may influence
-response time, such as park location, animal condition or number, and
-temporal variables like time of day or frequency within a week or month.
-Examples of visualizations include a heatmap illustrating the density of
-injured animals by month and time of day, as well as violin plots
-grouped by boroughs to show the distribution of response times across
-regions. We will also conduct statistical tests, such as ANOVA, to
-evaluate relationships among variables, including borough, response
-time, animal condition, and time factors.</p>
+<p>Our initial plan focused on examining how animal conditions vary
+across space and time, and how these patterns may relate to ranger
+responses. How do the number of rescue cases and animal health
+conditions vary across different parks? How do animal conditions vary
+across seasons and across hours of the day? Specifically, we aimed
+to:</p>
+<ul>
+<li><p>Assess associations between animal conditions, geographic
+locations, and temporal factors (seasonal patterns across the year, and
+diurnal patterns across the day).</p></li>
+<li><p>Identify factors that influence ranger response time, such as
+park location, animal condition, number of animals, and temporal
+variables (e.g., time of day or frequency within a week or
+month).</p></li>
+<li><p>Produce visualizations such as a heatmap of injured-animal
+density by month and hour of day, and violin plots comparing response
+time distributions across boroughs.</p></li>
+<li><p>Conduct statistical tests such as ANOVA to evaluate relationships
+among borough, response time, animal condition, and relevant
+time-related predictors.</p></li>
+</ul>
+<p>As we explored the data, we discovered that many of the spatial and
+temporal patterns reflected human behavior rather than true differences
+in animal conditions. For instance, parks with the highest numbers of
+cases tended to be large, highly populated, or located in areas with
+more tourist or resident activity. This suggests case counts reflect
+human presence, not necessarily ecological patterns. Therefore, instead
+of conducting deeper geographic modeling, we chose to emphasize these
+results in the interactive map without overinterpreting ecological
+meaning. Similarly, temporal trends (e.g., higher reports during
+daytime) appeared to reflect human activity cycles rather than changes
+in animal behavior.</p>
+<p>Because reports depend on when humans are awake, outdoors, and likely
+to encounter animals, temporal patterns primarily represent reporting
+frequency, not animals themselves. Given these insights, we shifted our
+analytical focus to a question the dataset can meaningfully answer: How
+do human response behaviors (<code>ranger response time</code>) vary
+with animal condition, number of animals, time of day, or borough? This
+reframing allowed us to analyze variables that truly reflect actionable
+patterns in the dataset.</p>
+<p>During exploratory analysis, we identified that animal conditions and
+the number of animals involved may influence both reporting behavior and
+ranger decisions. Therefore, we expanded our investigation to examine
+how these characteristics relate to rangers’ final actions, including
+whether more severe conditions or larger groups of animals lead to
+different types of interventions. This led us to include an important
+exploratory component analyzing the relationship between animal
+condition and ranger final action, providing insight into how case
+characteristics shape response behaviors.</p>
 <hr />
 </div>
 <div id="data" class="section level2">
@@ -494,6 +524,37 @@ boroughs. Coordinates of the 5 boroughs are from the <a
 href="https://data.cityofnewyork.us/City-Government/Borough-Boundaries/gthc-hcne/about_data">Borough
 Boundaries</a> dataset released by the Department of City Planning (DCP)
 on NYC OpenData.</p>
+<pre class="r"><code># import borough dataset
+boro_bound_df = read_csv(&quot;data/Borough_Boundaries_20251107.csv&quot;) |&gt; 
+  janitor::clean_names()
+
+#create a dataframe for plotting
+# get all animal classes
+animal_classes = c(
+  &quot;Birds / Raptors&quot;, 
+  &quot;Small Mammals&quot;, 
+  &quot;Large Mammals&quot;,
+  &quot;Marine Mammals&quot;, 
+  &quot;Reptiles / Amphibians&quot;,
+  &quot;Fish&quot;, 
+  &quot;Others&quot;)
+
+# select a subset of park ranger data, and only keep Unhealthy and Injured cases
+# group by borough and animal class
+# get the number of cases for each animal class in each borough
+# get total number of cases for each borough
+# join the multipolygon geometry into this dataset
+map_boro = park_ranger_new |&gt; 
+  select(borough, animal_class_new, animal_condition) |&gt; 
+  group_by(borough, animal_class_new) |&gt; 
+  summarize(n = n(), .groups = &quot;drop&quot;) |&gt; 
+  pivot_wider(
+    names_from = animal_class_new,
+    values_from = n) |&gt; 
+  mutate(
+    total_n = rowSums(across(all_of(animal_classes)), na.rm = TRUE)) |&gt; 
+  left_join(boro_bound_df |&gt; select(boro_name, the_geom),
+            by = c(&quot;borough&quot; = &quot;boro_name&quot;))</code></pre>
 </div>
 <div id="data-cleaning-process" class="section level3">
 <h3>Data Cleaning Process</h3>
@@ -613,12 +674,12 @@ park_ranger_new = park_ranger %&gt;%
 <h3>Matching Process for Park Properties</h3>
 <p>After comparing the <strong>Park Ranger</strong> and <strong>Parks
 Properties</strong> datasets, we found that many park names in Park
-Ranger (<em>property</em>) did not match the official park names
-(<em>signname</em>) in Parks Properties Specifically, 208 out of 703
-unique <em>property</em> values had no exact match in <em>signname</em>.
-To recover as many matches as possible, we applied the Jaro–Winkler
-algorithm from the fuzzyjoin package to perform inexact matching on all
-unique park names.</p>
+Ranger (<code>property</code>) did not match the official park names
+(<code>signname</code>) in Parks Properties Specifically, 208 out of 703
+unique <code>property</code> values had no exact match in
+<code>signname</code>. To recover as many matches as possible, we
+applied the Jaro–Winkler algorithm from the fuzzyjoin package to perform
+inexact matching on all unique park names.</p>
 <p>We selected Jaro–Winkler algorithm because it is designed for short
 strings such as names, and it places higher weight on common prefixes,
 which is useful for matching park names that share the same beginning
@@ -873,10 +934,74 @@ located in high-density regions, such as major tourist destinations or
 busy residential neighborhoods. These patterns suggest that both park
 size and human activity may contribute to the frequency of reported
 animal incidents.</p>
-<p><strong>borough 代码</strong></p>
+<pre class="r"><code>color_palette_1 = c(
+  &quot;#f0f9e8&quot;,
+  &quot;#bae4bc&quot;,
+  &quot;#7bccc4&quot;,
+  &quot;#43a2ca&quot;,
+  &quot;#0868ac&quot;
+)
+
+# for each borough, create a dataframe for number of cases (&gt;0) for each animal class
+# plot the case number for each borough, and saved in tmpfile to present in the map popup window
+# convert WKT multipolygon strings into sf multipolygon geometry for mapping
+map_boro_sf = map_boro |&gt;
+  rowwise() |&gt;
+  mutate(
+    case_num = list(c_across(all_of(animal_classes))),
+    map_boro_plot_df = list(tibble(
+      class = animal_classes,
+      number = unlist(case_num)) |&gt; 
+        filter(!is.na(number))),
+    map_boro_plot = {
+      boro_plot = ggplot(map_boro_plot_df, aes(x = reorder(class, -number), y = number)) +
+        geom_col(fill = &quot;#74c476&quot;) +
+        geom_text(aes(label = number), 
+            vjust = -0.3, 
+            size = 3) +
+        scale_y_continuous(expand = expansion(mult = c(0, 0.15))) +
+        theme_minimal(base_size = 12) +
+        theme(
+          axis.text.x = element_text(angle = 45, hjust = 1),
+          plot.margin = margin(5,5,5,5)) +
+        labs(x = NULL, y = &quot;Case Number&quot;)
+      tmpfile = tempfile(fileext = &quot;.png&quot;)
+      ggsave(tmpfile, boro_plot, width = 4, height = 3, dpi = 150)
+      dataURI(file = tmpfile)
+    },
+    popup_content = paste0(
+      &quot;&lt;b&gt;&quot;, borough, &quot;&lt;/b&gt;&lt;br&gt;&quot;,
+      &quot;&lt;img src=&#39;&quot;, map_boro_plot, &quot;&#39; style=&#39;width:300px; max-width:none;&#39;&gt;&quot;)) |&gt;
+  ungroup() |&gt; 
+  arrange(total_n) |&gt;
+  mutate(color_hex = color_palette_1[row_number()]) |&gt; 
+  st_as_sf(wkt = &quot;the_geom&quot;, crs = 4326)
+
+# create map of borough with leaflet
+# use CartoDB.Voyager tile layer
+# fill in color using density_color based on total_n
+# add a minimap
+interactive_map_boro = leaflet(map_boro_sf, height = 500) |&gt; 
+  addProviderTiles(&quot;CartoDB.Voyager&quot;) |&gt;
+  addPolygons(
+    color = &quot;#238b45&quot;,
+    weight = 0.8,
+    opacity = 0.8,
+    fillColor = ~color_hex,
+    fillOpacity = 0.5,
+    popup = ~popup_content,
+    popupOptions = popupOptions(maxWidth = 380, minWidth = 300)
+  ) %&gt;%
+  addMiniMap(toggleDisplay = TRUE) |&gt; 
+  addLegend(
+    position = &quot;topright&quot;,
+    colors = map_boro_sf$color_hex,
+    labels = paste0(map_boro_sf$borough, &quot; (&quot;, map_boro_sf$total_n, &quot;)&quot;),
+    title = &quot;Borough&quot;,
+    opacity = 1)</code></pre>
 <div style="text-align:center;">
-<p><img src="images/map_park.jpg" 
-       style="width:90%; margin:30px auto 0 auto; display:block;"></p>
+<p><img src="images/map_boro.jpg" 
+       style="width:90%; margin:10px auto 0 auto; display:block;"></p>
 </div>
 <div style="text-align:center; font-size:12px; color:#666;">
 <p>Screenshot of the interactive map on Health Condition page</p>
@@ -887,7 +1012,43 @@ reported cases. Each borough is clickable, and the corresponding popup
 presents the bar graph of case counts by animal class. Based on the
 visualization, Manhattan has the highest number of reported cases
 overall.</p>
-<p><strong>bar plot</strong></p>
+<pre class="r"><code>color_palette_2 = c(
+  &quot;#f0f9e8&quot;,
+  &quot;#bae4bc&quot;,
+  &quot;#7bccc4&quot;,
+  &quot;#43a2ca&quot;,
+  &quot;#0868ac&quot;,
+  &quot;#084081&quot;,
+  &quot;#082A45&quot; 
+)
+
+# pivot to long format for plotting
+# factor relevel borough and animal class
+map_boro |&gt; 
+  pivot_longer(
+    cols = all_of(animal_classes),
+    names_to = &quot;animal_class&quot;,
+    values_to = &quot;cases&quot;) |&gt; 
+  filter(!is.na(cases) &amp; cases &gt; 0) |&gt; 
+  mutate(
+    borough = factor(borough,
+      levels = map_boro |&gt; arrange(desc(total_n)) |&gt; pull(borough)),
+    animal_class = factor(animal_class, levels = animal_classes)) |&gt; 
+  ggplot(aes(x = borough, y = cases, fill = animal_class)) +
+  geom_col() +
+  scale_fill_manual(
+    values = color_palette_2,
+    name   = &quot;Animal Class&quot;
+  ) +
+  labs(
+    x = &quot;Borough&quot;,
+    y = &quot;Number of Cases&quot;,
+    title = &quot;Number of Reported Cases by Borough&quot;
+  ) +
+  theme(
+    axis.text.x = element_text(angle = 30, hjust = 1)
+  )</code></pre>
+<p><img src="Report_files/figure-html/unnamed-chunk-7-1.png" width="90%" /></p>
 <p>The accompanying bar plot provides a clearer comparison across
 boroughs. Manhattan has the highest total number of cases, driven
 largely by small mammals. Manhattan, Queens, and Brooklyn all report
@@ -946,11 +1107,11 @@ mon_case_plot = monthly_animal_trends |&gt;
   scale_color_viridis_d()
 
 print(mon_case_plot)</code></pre>
-<p><img src="Report_files/figure-html/unnamed-chunk-5-1.png" width="864" /></p>
+<p><img src="Report_files/figure-html/unnamed-chunk-8-1.png" width="90%" /></p>
 <p>This line chart displays the monthly distribution of animal response
 cases across 7 reclassified animal categories throughout the year.</p>
 <p>Key Findings:</p>
-<ol style="list-style-type: decimal">
+<ul>
 <li><p>Birds and raptors demonstrate a notable increase in cases
 beginning in February, reaching a peak in June, and declining to their
 lowest levels by November, possibly reflecting migratory patterns,
@@ -970,7 +1131,7 @@ during warmer conditions.</p></li>
 <li><p>Marine mammals and other categories remain consistently minimal
 with case counts in the single digits, possibly due to their limited
 presence in urban park ecosystems or lower detection rates.</p></li>
-</ol>
+</ul>
 </div>
 <div id="temporal-distribution-analysis" class="section level4">
 <h4>Temporal Distribution Analysis</h4>
@@ -1035,7 +1196,7 @@ case_heatmap = hourly_monthly_heatmap |&gt;
   )
 
 plot(case_heatmap)</code></pre>
-<p><img src="Report_files/figure-html/unnamed-chunk-6-1.png" width="864" /></p>
+<p><img src="Report_files/figure-html/unnamed-chunk-9-1.png" width="90%" /></p>
 <p>Case distribution primarily concentrates between 8:00 and 18:00,
 aligning with peak park visitation and diurnal animal activity. Summer
 exhibits extended evening activity likely due to increased daylight and
@@ -1059,67 +1220,93 @@ networks.</p>
 </div>
 <div id="health-condition" class="section level3">
 <h3>Health condition</h3>
-<pre class="r"><code># --- Plot 1: by animal class ---
-p1 &lt;- plot_ly(
-    data  = health_by_class,
-    x     = ~animal_class_new,
-    y     = ~n,
-    color = ~animal_condition,
-    type  = &quot;bar&quot;,
-    colors = custom_colors,
-    hovertemplate = paste(
-      &quot;Animal Class: &quot;, health_by_class$animal_class_new, &quot;&lt;br&gt;&quot;,
-      &quot;Health Condition: &quot;, health_by_class$animal_condition, &quot;&lt;br&gt;&quot;,
-      &quot;Count: &quot;, health_by_class$n
-    ),
-    showlegend = TRUE
-) |&gt;
-  layout(
-    title  = &quot;By Animal Class&quot;,
-    barmode = &quot;stack&quot;,
-    xaxis = list(title = &quot;Animal Class&quot;),
-    yaxis = list(title = &quot;Number of Cases&quot;)
+<pre class="r"><code>## Data Processing
+# health by class
+health_by_class =
+  park_ranger_new |&gt;
+    count(animal_class_new, animal_condition, name = &quot;n&quot;)
+
+class_order =
+  health_by_class |&gt;
+    group_by(animal_class_new) |&gt;
+    summarise(total = sum(n), .groups = &quot;drop&quot;) |&gt;
+    arrange(desc(total)) |&gt;
+    pull(animal_class_new)
+
+health_by_class$animal_class_new =
+  factor(health_by_class$animal_class_new, levels = class_order)
+
+# health by borough
+health_by_borough =
+  park_ranger_new |&gt;
+    count(borough, animal_condition, name = &quot;n&quot;)
+
+borough_order =
+  health_by_borough |&gt;
+    group_by(borough) |&gt;
+    summarise(total = sum(n), .groups = &quot;drop&quot;) |&gt;
+    arrange(desc(total)) |&gt;
+    pull(borough)
+
+health_by_borough$borough =
+  factor(health_by_borough$borough, levels = borough_order)
+
+health_by_borough$hover_text =
+  paste0(
+    &quot;Borough: &quot;, health_by_borough$borough, &quot;&lt;br&gt;&quot;,
+    &quot;Health Condition: &quot;, health_by_borough$animal_condition, &quot;&lt;br&gt;&quot;,
+    &quot;Count: &quot;, health_by_borough$n
   )
 
-# --- Plot 2: by borough ---
-p2 &lt;- plot_ly(
-    data  = health_by_borough,
-    x     = ~borough,
-    y     = ~n,
-    color = ~animal_condition,
-    type  = &quot;bar&quot;,
-    colors = custom_colors,
-    text  = ~hover_text,
-    hoverinfo = &quot;text&quot;,
-    showlegend = FALSE   # &lt;- only one legend kept!
-) |&gt;
-  layout(
-    title  = &quot;By Borough&quot;,
-    barmode = &quot;stack&quot;,
-    xaxis = list(title = &quot;Borough&quot;),
-    yaxis = list(title = &quot;Number of Cases&quot;)
+## Plot
+color_palette_1 = c(
+  &quot;#f0f9e8&quot;,
+  &quot;#bae4bc&quot;,
+  &quot;#7bccc4&quot;,
+  &quot;#43a2ca&quot;,
+  &quot;#0868ac&quot;
+)
+
+# Plot1: health by class
+p1 &lt;- health_by_class |&gt;
+  ggplot(aes(x = animal_class_new, y = n, fill = animal_condition)) +
+  geom_col() +
+  scale_fill_manual(values = color_palette_1, name = &quot;Health Condition&quot;) +
+  labs(
+    x = &quot;Animal Class&quot;,
+    y = &quot;Number of Cases&quot;
+  ) +
+  theme_minimal(base_size = 12) +
+  theme(
+    axis.text.x = element_text(angle = 30, hjust = 1)
   )
 
-# --- merge into one figure ---
-fig &lt;- subplot(p1, p2, nrows = 1, shareY = FALSE) |&gt;
-  layout(
-    title = &quot;Health Conditions Overview&quot;,
-    showlegend = TRUE,
-    legend = list(
-      orientation = &quot;h&quot;,
-      x = 0.5,
-      y = -0.25,
-      xanchor = &quot;center&quot;,
-      yanchor = &quot;top&quot;
-    ),
-    height = 550,
-    margin = list(b = 150)  # ensure text does not cut off
+# Plot2: health by borough
+p2 &lt;- health_by_borough |&gt;
+  ggplot(aes(x = borough, y = n, fill = animal_condition)) +
+  geom_col() +
+  scale_fill_manual(values = color_palette_1, name = &quot;Health Condition&quot;) +
+  labs(
+    x = &quot;Borough&quot;,
+    y = &quot;Number of Cases&quot;
+  ) +
+  theme_minimal(base_size = 12) +
+  theme(
+    axis.text.x = element_text(angle = 30, hjust = 1),
+    legend.position = &quot;none&quot;
+  )
+
+# Combine
+combined_plot &lt;- p1 + p2 +
+  plot_layout(ncol = 2, guides = &quot;collect&quot;) &amp;
+  theme(legend.position = &quot;bottom&quot;)
+
+combined_plot + 
+  plot_annotation(
+    title = &quot;Health Conditions by Animal Class and Borough&quot;,
+    theme = theme(plot.title = element_text(hjust = 0.5, size = 13, face = &quot;bold&quot;))
   )</code></pre>
-<pre><code>## Warning: Specifying width/height in layout() is now deprecated.
-## Please specify in ggplotly() or plot_ly()</code></pre>
-<pre class="r"><code>fig</code></pre>
-<div class="plotly html-widget html-fill-item" id="htmlwidget-7efae1e261348266391c" style="width:672px;height:480px;"></div>
-<script type="application/json" data-for="htmlwidget-7efae1e261348266391c">{"x":{"data":[{"x":["Birds / Raptors","Small Mammals","Large Mammals","Marine Mammals","Reptiles / Amphibians","Fish","Others"],"y":[826,546,343,23,212,6,12],"hovertemplate":["Animal Class:  Birds / Raptors <br> Health Condition:  Healthy <br> Count:  826","Animal Class:  Small Mammals <br> Health Condition:  Healthy <br> Count:  546","Animal Class:  Large Mammals <br> Health Condition:  Healthy <br> Count:  343","Animal Class:  Marine Mammals <br> Health Condition:  Healthy <br> Count:  23","Animal Class:  Reptiles / Amphibians <br> Health Condition:  Healthy <br> Count:  212","Animal Class:  Fish <br> Health Condition:  Healthy <br> Count:  6","Animal Class:  Others <br> Health Condition:  Healthy <br> Count:  12"],"showlegend":true,"type":"bar","name":"Healthy","marker":{"color":"rgba(8,104,172,1)","line":{"color":"rgba(8,104,172,1)"}},"textfont":{"color":"rgba(8,104,172,1)"},"error_y":{"color":"rgba(8,104,172,1)"},"error_x":{"color":"rgba(8,104,172,1)"},"xaxis":"x","yaxis":"y","frame":null},{"x":["Birds / Raptors","Small Mammals","Large Mammals","Marine Mammals","Reptiles / Amphibians"],"y":[375,875,107,4,18],"hovertemplate":["Animal Class:  Birds / Raptors <br> Health Condition:  Unhealthy <br> Count:  375","Animal Class:  Small Mammals <br> Health Condition:  Unhealthy <br> Count:  875","Animal Class:  Large Mammals <br> Health Condition:  Unhealthy <br> Count:  107","Animal Class:  Marine Mammals <br> Health Condition:  Unhealthy <br> Count:  4","Animal Class:  Reptiles / Amphibians <br> Health Condition:  Unhealthy <br> Count:  18"],"showlegend":true,"type":"bar","name":"Unhealthy","marker":{"color":"rgba(67,162,202,1)","line":{"color":"rgba(67,162,202,1)"}},"textfont":{"color":"rgba(67,162,202,1)"},"error_y":{"color":"rgba(67,162,202,1)"},"error_x":{"color":"rgba(67,162,202,1)"},"xaxis":"x","yaxis":"y","frame":null},{"x":["Birds / Raptors","Small Mammals","Large Mammals","Marine Mammals","Reptiles / Amphibians","Fish"],"y":[1022,303,113,3,53,1],"hovertemplate":["Animal Class:  Birds / Raptors <br> Health Condition:  Injured <br> Count:  1022","Animal Class:  Small Mammals <br> Health Condition:  Injured <br> Count:  303","Animal Class:  Large Mammals <br> Health Condition:  Injured <br> Count:  113","Animal Class:  Marine Mammals <br> Health Condition:  Injured <br> Count:  3","Animal Class:  Reptiles / Amphibians <br> Health Condition:  Injured <br> Count:  53","Animal Class:  Fish <br> Health Condition:  Injured <br> Count:  1"],"showlegend":true,"type":"bar","name":"Injured","marker":{"color":"rgba(123,204,196,1)","line":{"color":"rgba(123,204,196,1)"}},"textfont":{"color":"rgba(123,204,196,1)"},"error_y":{"color":"rgba(123,204,196,1)"},"error_x":{"color":"rgba(123,204,196,1)"},"xaxis":"x","yaxis":"y","frame":null},{"x":["Birds / Raptors","Small Mammals","Large Mammals","Marine Mammals","Reptiles / Amphibians","Fish","Others"],"y":[213,289,87,15,46,12,1],"hovertemplate":["Animal Class:  Birds / Raptors <br> Health Condition:  DOA <br> Count:  213","Animal Class:  Small Mammals <br> Health Condition:  DOA <br> Count:  289","Animal Class:  Large Mammals <br> Health Condition:  DOA <br> Count:  87","Animal Class:  Marine Mammals <br> Health Condition:  DOA <br> Count:  15","Animal Class:  Reptiles / Amphibians <br> Health Condition:  DOA <br> Count:  46","Animal Class:  Fish <br> Health Condition:  DOA <br> Count:  12","Animal Class:  Others <br> Health Condition:  DOA <br> Count:  1"],"showlegend":true,"type":"bar","name":"DOA","marker":{"color":"rgba(186,228,188,1)","line":{"color":"rgba(186,228,188,1)"}},"textfont":{"color":"rgba(186,228,188,1)"},"error_y":{"color":"rgba(186,228,188,1)"},"error_x":{"color":"rgba(186,228,188,1)"},"xaxis":"x","yaxis":"y","frame":null},{"x":["Birds / Raptors","Small Mammals","Large Mammals","Marine Mammals","Reptiles / Amphibians","Fish","Others"],"y":[236,257,120,4,49,1,5],"hovertemplate":["Animal Class:  Birds / Raptors <br> Health Condition:  Unknown <br> Count:  236","Animal Class:  Small Mammals <br> Health Condition:  Unknown <br> Count:  257","Animal Class:  Large Mammals <br> Health Condition:  Unknown <br> Count:  120","Animal Class:  Marine Mammals <br> Health Condition:  Unknown <br> Count:  4","Animal Class:  Reptiles / Amphibians <br> Health Condition:  Unknown <br> Count:  49","Animal Class:  Fish <br> Health Condition:  Unknown <br> Count:  1","Animal Class:  Others <br> Health Condition:  Unknown <br> Count:  5"],"showlegend":true,"type":"bar","name":"Unknown","marker":{"color":"rgba(240,249,232,1)","line":{"color":"rgba(240,249,232,1)"}},"textfont":{"color":"rgba(240,249,232,1)"},"error_y":{"color":"rgba(240,249,232,1)"},"error_x":{"color":"rgba(240,249,232,1)"},"xaxis":"x","yaxis":"y","frame":null},{"x":["Manhattan","Brooklyn","Queens","Bronx","Staten Island"],"y":[492,393,446,337,300],"text":["Borough: Manhattan<br>Health Condition: Healthy<br>Count: 492","Borough: Brooklyn<br>Health Condition: Healthy<br>Count: 393","Borough: Queens<br>Health Condition: Healthy<br>Count: 446","Borough: Bronx<br>Health Condition: Healthy<br>Count: 337","Borough: Staten Island<br>Health Condition: Healthy<br>Count: 300"],"hoverinfo":["text","text","text","text","text"],"showlegend":false,"type":"bar","name":"Healthy","marker":{"color":"rgba(8,104,172,1)","line":{"color":"rgba(8,104,172,1)"}},"textfont":{"color":"rgba(8,104,172,1)"},"error_y":{"color":"rgba(8,104,172,1)"},"error_x":{"color":"rgba(8,104,172,1)"},"xaxis":"x2","yaxis":"y2","frame":null},{"x":["Manhattan","Brooklyn","Queens","Bronx","Staten Island"],"y":[417,319,302,197,144],"text":["Borough: Manhattan<br>Health Condition: Unhealthy<br>Count: 417","Borough: Brooklyn<br>Health Condition: Unhealthy<br>Count: 319","Borough: Queens<br>Health Condition: Unhealthy<br>Count: 302","Borough: Bronx<br>Health Condition: Unhealthy<br>Count: 197","Borough: Staten Island<br>Health Condition: Unhealthy<br>Count: 144"],"hoverinfo":["text","text","text","text","text"],"showlegend":false,"type":"bar","name":"Unhealthy","marker":{"color":"rgba(67,162,202,1)","line":{"color":"rgba(67,162,202,1)"}},"textfont":{"color":"rgba(67,162,202,1)"},"error_y":{"color":"rgba(67,162,202,1)"},"error_x":{"color":"rgba(67,162,202,1)"},"xaxis":"x2","yaxis":"y2","frame":null},{"x":["Manhattan","Brooklyn","Queens","Bronx","Staten Island"],"y":[333,335,365,181,281],"text":["Borough: Manhattan<br>Health Condition: Injured<br>Count: 333","Borough: Brooklyn<br>Health Condition: Injured<br>Count: 335","Borough: Queens<br>Health Condition: Injured<br>Count: 365","Borough: Bronx<br>Health Condition: Injured<br>Count: 181","Borough: Staten Island<br>Health Condition: Injured<br>Count: 281"],"hoverinfo":["text","text","text","text","text"],"showlegend":false,"type":"bar","name":"Injured","marker":{"color":"rgba(123,204,196,1)","line":{"color":"rgba(123,204,196,1)"}},"textfont":{"color":"rgba(123,204,196,1)"},"error_y":{"color":"rgba(123,204,196,1)"},"error_x":{"color":"rgba(123,204,196,1)"},"xaxis":"x2","yaxis":"y2","frame":null},{"x":["Manhattan","Brooklyn","Queens","Bronx","Staten Island"],"y":[177,110,137,107,132],"text":["Borough: Manhattan<br>Health Condition: DOA<br>Count: 177","Borough: Brooklyn<br>Health Condition: DOA<br>Count: 110","Borough: Queens<br>Health Condition: DOA<br>Count: 137","Borough: Bronx<br>Health Condition: DOA<br>Count: 107","Borough: Staten Island<br>Health Condition: DOA<br>Count: 132"],"hoverinfo":["text","text","text","text","text"],"showlegend":false,"type":"bar","name":"DOA","marker":{"color":"rgba(186,228,188,1)","line":{"color":"rgba(186,228,188,1)"}},"textfont":{"color":"rgba(186,228,188,1)"},"error_y":{"color":"rgba(186,228,188,1)"},"error_x":{"color":"rgba(186,228,188,1)"},"xaxis":"x2","yaxis":"y2","frame":null},{"x":["Manhattan","Brooklyn","Queens","Bronx","Staten Island"],"y":[282,132,57,95,106],"text":["Borough: Manhattan<br>Health Condition: Unknown<br>Count: 282","Borough: Brooklyn<br>Health Condition: Unknown<br>Count: 132","Borough: Queens<br>Health Condition: Unknown<br>Count: 57","Borough: Bronx<br>Health Condition: Unknown<br>Count: 95","Borough: Staten Island<br>Health Condition: Unknown<br>Count: 106"],"hoverinfo":["text","text","text","text","text"],"showlegend":false,"type":"bar","name":"Unknown","marker":{"color":"rgba(240,249,232,1)","line":{"color":"rgba(240,249,232,1)"}},"textfont":{"color":"rgba(240,249,232,1)"},"error_y":{"color":"rgba(240,249,232,1)"},"error_x":{"color":"rgba(240,249,232,1)"},"xaxis":"x2","yaxis":"y2","frame":null}],"layout":{"xaxis":{"domain":[0,0.47999999999999998],"automargin":true,"type":"category","categoryorder":"array","categoryarray":["Birds / Raptors","Small Mammals","Large Mammals","Reptiles / Amphibians","Marine Mammals","Fish","Others"],"anchor":"y"},"xaxis2":{"domain":[0.52000000000000002,1],"automargin":true,"type":"category","categoryorder":"array","categoryarray":["Manhattan","Queens","Brooklyn","Staten Island","Bronx"],"anchor":"y2"},"yaxis2":{"domain":[0,1],"automargin":true,"anchor":"x2"},"yaxis":{"domain":[0,1],"automargin":true,"anchor":"x"},"annotations":[],"shapes":[],"images":[],"margin":{"b":150,"l":60,"t":25,"r":10},"title":"Health Conditions Overview","barmode":"stack","hovermode":"closest","showlegend":true,"legend":{"orientation":"h","x":0.5,"y":-0.25,"xanchor":"center","yanchor":"top"},"height":550},"attrs":{"412416f6025e":{"x":{},"y":{},"hovertemplate":["Animal Class:  Birds / Raptors <br> Health Condition:  Healthy <br> Count:  826","Animal Class:  Birds / Raptors <br> Health Condition:  Unhealthy <br> Count:  375","Animal Class:  Birds / Raptors <br> Health Condition:  Injured <br> Count:  1022","Animal Class:  Birds / Raptors <br> Health Condition:  DOA <br> Count:  213","Animal Class:  Birds / Raptors <br> Health Condition:  Unknown <br> Count:  236","Animal Class:  Small Mammals <br> Health Condition:  Healthy <br> Count:  546","Animal Class:  Small Mammals <br> Health Condition:  Unhealthy <br> Count:  875","Animal Class:  Small Mammals <br> Health Condition:  Injured <br> Count:  303","Animal Class:  Small Mammals <br> Health Condition:  DOA <br> Count:  289","Animal Class:  Small Mammals <br> Health Condition:  Unknown <br> Count:  257","Animal Class:  Large Mammals <br> Health Condition:  Healthy <br> Count:  343","Animal Class:  Large Mammals <br> Health Condition:  Unhealthy <br> Count:  107","Animal Class:  Large Mammals <br> Health Condition:  Injured <br> Count:  113","Animal Class:  Large Mammals <br> Health Condition:  DOA <br> Count:  87","Animal Class:  Large Mammals <br> Health Condition:  Unknown <br> Count:  120","Animal Class:  Marine Mammals <br> Health Condition:  Healthy <br> Count:  23","Animal Class:  Marine Mammals <br> Health Condition:  Unhealthy <br> Count:  4","Animal Class:  Marine Mammals <br> Health Condition:  Injured <br> Count:  3","Animal Class:  Marine Mammals <br> Health Condition:  DOA <br> Count:  15","Animal Class:  Marine Mammals <br> Health Condition:  Unknown <br> Count:  4","Animal Class:  Reptiles / Amphibians <br> Health Condition:  Healthy <br> Count:  212","Animal Class:  Reptiles / Amphibians <br> Health Condition:  Unhealthy <br> Count:  18","Animal Class:  Reptiles / Amphibians <br> Health Condition:  Injured <br> Count:  53","Animal Class:  Reptiles / Amphibians <br> Health Condition:  DOA <br> Count:  46","Animal Class:  Reptiles / Amphibians <br> Health Condition:  Unknown <br> Count:  49","Animal Class:  Fish <br> Health Condition:  Healthy <br> Count:  6","Animal Class:  Fish <br> Health Condition:  Injured <br> Count:  1","Animal Class:  Fish <br> Health Condition:  DOA <br> Count:  12","Animal Class:  Fish <br> Health Condition:  Unknown <br> Count:  1","Animal Class:  Others <br> Health Condition:  Healthy <br> Count:  12","Animal Class:  Others <br> Health Condition:  DOA <br> Count:  1","Animal Class:  Others <br> Health Condition:  Unknown <br> Count:  5"],"showlegend":true,"color":{},"colors":["#0868ac","#43a2ca","#7bccc4","#bae4bc","#f0f9e8"],"alpha_stroke":1,"sizes":[10,100],"spans":[1,20],"type":"bar"},"412471157518":{"x":{},"y":{},"text":{},"hoverinfo":"text","showlegend":false,"color":{},"colors":["#0868ac","#43a2ca","#7bccc4","#bae4bc","#f0f9e8"],"alpha_stroke":1,"sizes":[10,100],"spans":[1,20],"type":"bar"}},"source":"A","config":{"modeBarButtonsToAdd":["hoverclosest","hovercompare"],"showSendToCloud":false},"highlight":{"on":"plotly_click","persistent":false,"dynamic":false,"selectize":false,"opacityDim":0.20000000000000001,"selected":{"opacity":1},"debounce":0},"subplot":true,"shinyEvents":["plotly_hover","plotly_click","plotly_selected","plotly_relayout","plotly_brushed","plotly_brushing","plotly_clickannotation","plotly_doubleclick","plotly_deselect","plotly_afterplot","plotly_sunburstclick"],"base_url":"https://plot.ly"},"evals":[],"jsHooks":[]}</script>
+<p><img src="Report_files/figure-html/unnamed-chunk-10-1.png" width="90%" /></p>
 <p>The distribution of animal health conditions shows clear variation
 across both animal classes and boroughs. Birds/Raptors and Small Mammals
 account for most wildlife-related calls, but when health conditions are
@@ -1174,7 +1361,7 @@ ranger_response_hr %&gt;%
     x = &quot;Hour of Day (24-hour)&quot;,
     y = &quot;Average Response Hours&quot;) +
   theme_minimal()</code></pre>
-<p><img src="Report_files/figure-html/unnamed-chunk-9-1.png" width="672" /></p>
+<p><img src="Report_files/figure-html/unnamed-chunk-11-1.png" width="90%" /></p>
 <p>This line plot visualizes variation in response duration across the
 24-hour day.</p>
 <ul>
@@ -1246,19 +1433,34 @@ p4 = resp_dur_dist %&gt;%
 
 (p1 | p2) / (p3 | p4) + plot_annotation(title =&quot;Distribution of Response Duration&quot;) &amp;
   theme(text = element_text(size = 24))</code></pre>
-<p><img src="Report_files/figure-html/unnamed-chunk-10-1.png" width="1344" /></p>
+<p><img src="Report_files/figure-html/unnamed-chunk-12-1.png" width="90%" /></p>
 <p>Because response durations are highly right-skewed, the data were
-split more at the lower end (0–1 and 1–4 hours) where most observations
-occur, while broader segments were used for longer delays (4–24 and
-&gt;24 hours).</p>
-<p>The plots show that response duration does not meaningfully differ
-across animal condition categories. All five groups (Healthy, Unhealthy,
-Injured, DOA, and Unknown) display highly overlapping distributions with
-similar central tendencies. The within-condition variability is much
-larger than any between-condition differences. The long right tails are
-present across all categories, especially in the &gt;24 hour panel,
-suggesting that extremely slow responses occur regardless of the
-reported condition.</p>
+divided more finely at the lower end (0–1 and 1–4 hours), where most
+observations occur, and grouped into broader segments for longer delays
+(4–24 and &gt;24 hours).</p>
+<p>Across the four panels, response duration does not differ
+substantially by animal condition. All five groups (Healthy, Unhealthy,
+Injured, DOA, and Unknown) show largely overlapping distributions with
+similar central tendencies.</p>
+<ul>
+<li><p>DOA cases tend to have longer response times than other groups in
+all segments except the 0-1 hour range. This suggests that once delays
+extend beyond the first hour, DOA calls, despite their apparent urgency,
+are often handled later than other conditions.</p></li>
+<li><p>In contrast, healthy animals generally show shorter response
+times than the other groups within the 0-1, 1-4, and 4-24 hour ranges,
+indicating relatively quicker handling; only in the &gt;24-hour range do
+healthy cases show substantial delays.</p></li>
+<li><p>Unhealthy, injured, and unknown animals show broader variability,
+and none of these categories show a consistent pattern of being
+responded to earlier or later.</p></li>
+</ul>
+<p>These patterns suggest that while condition categories provide some
+descriptive context, they do not strongly influence response priority.
+The variability within each condition is greater than any differences
+between conditions. Long right-tail delays appear across all groups,
+especially in the &gt;24-hour range, indicating that extremely slow
+responses occur regardless of the reported condition.</p>
 <p>Overall, the figure indicates that the reported animal condition
 plays only a minimal role.</p>
 </div>
@@ -1282,9 +1484,8 @@ ranger_model %&gt;%
   labs(title = &quot;Density of Ranger Response Duration by Borough&quot;,
        x = &quot;Response Duration (hours)&quot;,
        y = &quot;Density&quot;,
-       color = &quot;Borough&quot;) +
-  theme_minimal()</code></pre>
-<p><img src="Report_files/figure-html/unnamed-chunk-11-1.png" width="672" /></p>
+       color = &quot;Borough&quot;)</code></pre>
+<p><img src="Report_files/figure-html/unnamed-chunk-13-1.png" width="90%" /></p>
 <p>Because the response-duration distribution is highly right-skewed,
 with a long tail extending to several hundred hours, we applied a
 natural log transformation to stabilize the variance and make
@@ -1369,7 +1570,7 @@ ggplot(park_model_action, aes(x = final_ranger_action, y = duration_hours)) +
     plot.title = element_text(hjust = 0.5),
     axis.text.y = element_text(size = 8)
   )</code></pre>
-<p><img src="Report_files/figure-html/unnamed-chunk-12-1.png" width="672" /></p>
+<p><img src="Report_files/figure-html/unnamed-chunk-14-1.png" width="90%" /></p>
 <p>The combined violin–boxplot shows clear differences in action
 duration across ranger actions. The visualization is capped at 40 hours
 to enhance focus on the central data distribution, noting that the
@@ -1429,7 +1630,7 @@ ggplot(park_model_cond, aes(x = animal_condition, y = duration_hours)) +
     plot.title = element_text(hjust = 0.5),
     axis.text.y = element_text(size = 8)
   )</code></pre>
-<p><img src="Report_files/figure-html/unnamed-chunk-13-1.png" width="672" /></p>
+<p><img src="Report_files/figure-html/unnamed-chunk-15-1.png" width="90%" /></p>
 <p>The violin–boxplot shows how <code>action duration</code> differs
 across animal conditions. The visualization is capped at 40 hours to
 enhance focus on the central data distribution, noting that the
@@ -1508,7 +1709,7 @@ p4 &lt;- plot_condition_bar(park_model4, &quot;DOA&quot;,       max_cases)
       )
     )
   )</code></pre>
-<p><img src="Report_files/figure-html/unnamed-chunk-14-1.png" width="672" /></p>
+<p><img src="Report_files/figure-html/unnamed-chunk-16-1.png" width="90%" /></p>
 <p>The four-panel plot compares <code>ranger actions</code> across
 <code>animal conditions</code>.</p>
 <ul>
@@ -1602,7 +1803,7 @@ duration_mean |&gt;
     plot.title = element_text(hjust = 0.5),
     legend.position = &quot;bottom&quot;
   )</code></pre>
-<p><img src="Report_files/figure-html/unnamed-chunk-16-1.png" width="768" style="display: block; margin: auto;" /></p>
+<p><img src="Report_files/figure-html/unnamed-chunk-18-1.png" width="90%" style="display: block; margin: auto;" /></p>
 <p>The first density plot shows that the distribution of raw
 <code>action duration</code> is extremely right-skewed, with most
 incidents resolved within a short time but a small number taking many
@@ -1632,7 +1833,7 @@ ggplot(park_model2_log,
     plot.title = element_text(hjust = 0.5),
     legend.position = &quot;bottom&quot;
   )</code></pre>
-<p><img src="Report_files/figure-html/unnamed-chunk-17-1.png" width="768" style="display: block; margin: auto;" /></p>
+<p><img src="Report_files/figure-html/unnamed-chunk-19-1.png" width="90%" style="display: block; margin: auto;" /></p>
 <p>To improve interpretability, we applied a
 <code>log (1 + duration)</code> transformation, which compresses long
 outliers and spreads the dense cluster near zero.</p>
@@ -1654,6 +1855,203 @@ Their mean duration is higher at 1.52 hours.</p></li>
 </div>
 <div id="additional-analysis" class="section level2">
 <h2>Additional Analysis</h2>
+<div id="chi-square-test-between-species-status-and-animal-condition"
+class="section level3">
+<h3>Chi-Square Test Between Species Status and Animal Condition</h3>
+<p>We were interested in examining the relationship between two
+categorical variables: species status and health condition. We
+anticipated that exotic animals may experience living environments that
+differ substantially from those of native species. Therefore, we
+conducted a chi-square test of independence to evaluate whether species
+status is associated with differences in reported health conditions.</p>
+<pre class="r"><code># conduct a chi-square test on species_status and animal_condition
+spec_health_tbl = table(park_ranger_new$species_status, park_ranger_new$animal_condition)
+
+spec_health_result = chisq.test(spec_health_tbl)
+
+# show contingency table of the chi-square test
+kable(
+  as.data.frame.matrix(spec_health_result$observed),
+  caption = &quot;Observed Counts for Species Status and Animal Condition&quot;,
+  digits = 2
+)</code></pre>
+<table>
+<caption>Observed Counts for Species Status and Animal
+Condition</caption>
+<thead>
+<tr class="header">
+<th align="left"></th>
+<th align="right">Healthy</th>
+<th align="right">Unhealthy</th>
+<th align="right">Injured</th>
+<th align="right">DOA</th>
+<th align="right">Unknown</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="left">Native</td>
+<td align="right">1129</td>
+<td align="right">1204</td>
+<td align="right">1272</td>
+<td align="right">556</td>
+<td align="right">462</td>
+</tr>
+<tr class="even">
+<td align="left">Invasive</td>
+<td align="right">163</td>
+<td align="right">29</td>
+<td align="right">92</td>
+<td align="right">31</td>
+<td align="right">17</td>
+</tr>
+<tr class="odd">
+<td align="left">Domestic</td>
+<td align="right">614</td>
+<td align="right">135</td>
+<td align="right">111</td>
+<td align="right">66</td>
+<td align="right">139</td>
+</tr>
+<tr class="even">
+<td align="left">Exotic</td>
+<td align="right">53</td>
+<td align="right">10</td>
+<td align="right">6</td>
+<td align="right">8</td>
+<td align="right">21</td>
+</tr>
+<tr class="odd">
+<td align="left">Unknown</td>
+<td align="right">9</td>
+<td align="right">1</td>
+<td align="right">14</td>
+<td align="right">2</td>
+<td align="right">33</td>
+</tr>
+</tbody>
+</table>
+<pre class="r"><code># show result tables of the chi-square test
+kable(
+  as.data.frame.matrix(spec_health_result$expected),
+  caption = &quot;Expected Counts for Species Status and Animal Condition&quot;,
+  digits = 2
+)</code></pre>
+<table>
+<caption>Expected Counts for Species Status and Animal
+Condition</caption>
+<thead>
+<tr class="header">
+<th align="left"></th>
+<th align="right">Healthy</th>
+<th align="right">Unhealthy</th>
+<th align="right">Injured</th>
+<th align="right">DOA</th>
+<th align="right">Unknown</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="left">Native</td>
+<td align="right">1472.89</td>
+<td align="right">1032.07</td>
+<td align="right">1118.89</td>
+<td align="right">496.20</td>
+<td align="right">502.94</td>
+</tr>
+<tr class="even">
+<td align="left">Invasive</td>
+<td align="right">105.78</td>
+<td align="right">74.12</td>
+<td align="right">80.35</td>
+<td align="right">35.63</td>
+<td align="right">36.12</td>
+</tr>
+<tr class="odd">
+<td align="left">Domestic</td>
+<td align="right">339.31</td>
+<td align="right">237.76</td>
+<td align="right">257.76</td>
+<td align="right">114.31</td>
+<td align="right">115.86</td>
+</tr>
+<tr class="even">
+<td align="left">Exotic</td>
+<td align="right">31.22</td>
+<td align="right">21.88</td>
+<td align="right">23.72</td>
+<td align="right">10.52</td>
+<td align="right">10.66</td>
+</tr>
+<tr class="odd">
+<td align="left">Unknown</td>
+<td align="right">18.80</td>
+<td align="right">13.17</td>
+<td align="right">14.28</td>
+<td align="right">6.33</td>
+<td align="right">6.42</td>
+</tr>
+</tbody>
+</table>
+<p>A chi-square test of independence was conducted to evaluate the
+association between species status and animal condition. The test
+produced a highly significant result, <span
+class="math display">\[\chi^2(16) = 757.19,\quad p &lt; 2.2 \times
+10^{-16}\]</span> indicating that the distribution of animal conditions
+differs substantially across species status categories.</p>
+<pre class="r"><code># create custom color gradient with more detailed breaks
+chi_squre_color_breaks = c(-Inf, -20, -10, -5, 0, 5, 10, 20)
+chi_squre_palette = c(&quot;#08306B&quot;, &quot;#2171B5&quot;, &quot;#6BAED6&quot;, &quot;#DEEBF7&quot;, &quot;#FEE5D9&quot;, &quot;#FB6A4A&quot;,&quot;#A50F15&quot;)
+
+# plot the standardized residual from the chi-square test between species_status and animal_condition
+res_heatmap = as.data.frame(spec_health_result$stdres) |&gt;
+  rename(
+    species_status = Var1,
+    animal_condition = Var2,
+    stdres = Freq
+  ) |&gt; 
+  ggplot(aes(x = animal_condition, y = species_status, fill = stdres)) +
+  scale_y_discrete(limits = rev) +
+  geom_tile(color = &quot;white&quot;, linewidth = 0.3) +
+  coord_fixed() +
+  scale_fill_gradientn(
+    colors = chi_squre_palette,
+    values = rescale(chi_squre_color_breaks),
+    breaks = chi_squre_color_breaks,
+    limits = c(-22, 22),
+    guide = guide_colorbar(
+      barwidth = 30,
+      barheight = 0.8,
+      direction = &quot;horizontal&quot;,
+      title.position = &quot;top&quot;
+    ), 
+    name = paste0(&quot;Std. Residual\nBlue = Obs &lt; Exp&quot;, strrep(&quot; &quot;, 116), &quot;Red = Obs &gt; Exp&quot;)) +
+  geom_text(aes(label = round(stdres, 2)), size = 3, color = &quot;black&quot;) +
+  labs(
+    title = &quot;Standardized Residuals for Species Status and Animal Condition&quot;,
+    x = &quot;Animal Condition&quot;,
+    y = &quot;Species Status&quot;
+  ) +
+  theme(
+    axis.text.x = element_text(size = 9, vjust = 4, margin = margin(t = 10)),
+    axis.text.y = element_text(size = 9),
+    plot.title = element_text(face = &quot;bold&quot;, size = 14, hjust = 0.5, margin = margin(b = 10)),
+    plot.subtitle = element_text(size = 10),
+    legend.title = element_text(size = 9),
+    legend.text = element_text(size = 8)
+  )
+
+plot(res_heatmap)</code></pre>
+<p><img src="Report_files/figure-html/unnamed-chunk-21-1.png" width="90%" /></p>
+<p>The tables of observed and expected counts are shown above, along
+with the plot of standardized residuals for the two variables. Based on
+both the contingency table and the residual plot, domestic species are
+noticeably overrepresented in the Healthy category, while native
+(non-domestic) species are underrepresented. Domestic species are also
+underrepresented in the Injured category, whereas native species show
+the opposite pattern, with more Injured or Unhealthy cases than
+expected.</p>
+</div>
 <div id="multiple-linear-regression-for-response-duration"
 class="section level3">
 <h3>Multiple Linear Regression for Response Duration</h3>
@@ -2051,7 +2449,7 @@ species, play a comparatively smaller role.</p>
        x = &quot;Predictor Variables&quot;,
        y = &quot;Estimated Coefficient (hours)&quot;) +
   theme_minimal()</code></pre>
-<p><img src="Report_files/figure-html/unnamed-chunk-19-1.png" width="672" /></p>
+<p><img src="Report_files/figure-html/unnamed-chunk-23-1.png" width="90%" /></p>
 <p>This coefficient plot highlights the same general patterns seen in
 the regression table:</p>
 <ul>
@@ -2319,7 +2717,7 @@ knitr::kable(
 <pre class="r"><code>par(mfrow = c(1, 2))             
 plot(anova_fit, which = 1)    
 plot(anova_fit, which = 2)   </code></pre>
-<p><img src="Report_files/figure-html/unnamed-chunk-21-1.png" width="672" /></p>
+<p><img src="Report_files/figure-html/unnamed-chunk-25-1.png" width="90%" /></p>
 <pre class="r"><code>par(mfrow = c(1, 1))</code></pre>
 <p>The original model: <span
 class="math inline">\(\texttt{duration_hours} \sim
@@ -2434,7 +2832,7 @@ knitr::kable(
 <pre class="r"><code>par(mfrow = c(1, 2))
 plot(anova_fit_log, which = 1)  # Residuals vs Fitted
 plot(anova_fit_log, which = 2)  # Normal Q-Q</code></pre>
-<p><img src="Report_files/figure-html/unnamed-chunk-22-1.png" width="672" /></p>
+<p><img src="Report_files/figure-html/unnamed-chunk-26-1.png" width="90%" /></p>
 <pre class="r"><code>par(mfrow = c(1, 1))</code></pre>
 <p>Because <code>action duration</code> is highly right-skewed with many
 long outliers, the raw ANOVA violated assumptions. A log transformation
@@ -2461,215 +2859,12 @@ plot much closer to the reference line, with minor tail deviations
 expected in field data.</p></li>
 </ul>
 <p><br></p>
-</div>
-</div>
-<div id="chi-square-test-between-species-status-and-animal-condition"
-class="section level3">
-<h3>Chi-Square Test Between Species Status and Animal Condition</h3>
-<pre class="r"><code># conduct a chi-square test on species_status and animal_condition
-spec_health_tbl = table(park_ranger_new$species_status, park_ranger_new$animal_condition)
-
-spec_health_result = chisq.test(spec_health_tbl)
-
-# show contingency table of the chi-square test
-kable(
-  as.data.frame.matrix(spec_health_result$observed),
-  caption = &quot;Observed Counts for Species Status and Animal Condition&quot;,
-  digits = 2
-)</code></pre>
-<table>
-<caption>Observed Counts for Species Status and Animal
-Condition</caption>
-<thead>
-<tr class="header">
-<th align="left"></th>
-<th align="right">Healthy</th>
-<th align="right">Unhealthy</th>
-<th align="right">Injured</th>
-<th align="right">DOA</th>
-<th align="right">Unknown</th>
-</tr>
-</thead>
-<tbody>
-<tr class="odd">
-<td align="left">Native</td>
-<td align="right">1129</td>
-<td align="right">1204</td>
-<td align="right">1272</td>
-<td align="right">556</td>
-<td align="right">462</td>
-</tr>
-<tr class="even">
-<td align="left">Invasive</td>
-<td align="right">163</td>
-<td align="right">29</td>
-<td align="right">92</td>
-<td align="right">31</td>
-<td align="right">17</td>
-</tr>
-<tr class="odd">
-<td align="left">Domestic</td>
-<td align="right">614</td>
-<td align="right">135</td>
-<td align="right">111</td>
-<td align="right">66</td>
-<td align="right">139</td>
-</tr>
-<tr class="even">
-<td align="left">Exotic</td>
-<td align="right">53</td>
-<td align="right">10</td>
-<td align="right">6</td>
-<td align="right">8</td>
-<td align="right">21</td>
-</tr>
-<tr class="odd">
-<td align="left">Unknown</td>
-<td align="right">9</td>
-<td align="right">1</td>
-<td align="right">14</td>
-<td align="right">2</td>
-<td align="right">33</td>
-</tr>
-</tbody>
-</table>
-<pre class="r"><code># show result tables of the chi-square test
-kable(
-  as.data.frame.matrix(spec_health_result$expected),
-  caption = &quot;Expected Counts for Species Status and Animal Condition&quot;,
-  digits = 2
-)</code></pre>
-<table>
-<caption>Expected Counts for Species Status and Animal
-Condition</caption>
-<thead>
-<tr class="header">
-<th align="left"></th>
-<th align="right">Healthy</th>
-<th align="right">Unhealthy</th>
-<th align="right">Injured</th>
-<th align="right">DOA</th>
-<th align="right">Unknown</th>
-</tr>
-</thead>
-<tbody>
-<tr class="odd">
-<td align="left">Native</td>
-<td align="right">1472.89</td>
-<td align="right">1032.07</td>
-<td align="right">1118.89</td>
-<td align="right">496.20</td>
-<td align="right">502.94</td>
-</tr>
-<tr class="even">
-<td align="left">Invasive</td>
-<td align="right">105.78</td>
-<td align="right">74.12</td>
-<td align="right">80.35</td>
-<td align="right">35.63</td>
-<td align="right">36.12</td>
-</tr>
-<tr class="odd">
-<td align="left">Domestic</td>
-<td align="right">339.31</td>
-<td align="right">237.76</td>
-<td align="right">257.76</td>
-<td align="right">114.31</td>
-<td align="right">115.86</td>
-</tr>
-<tr class="even">
-<td align="left">Exotic</td>
-<td align="right">31.22</td>
-<td align="right">21.88</td>
-<td align="right">23.72</td>
-<td align="right">10.52</td>
-<td align="right">10.66</td>
-</tr>
-<tr class="odd">
-<td align="left">Unknown</td>
-<td align="right">18.80</td>
-<td align="right">13.17</td>
-<td align="right">14.28</td>
-<td align="right">6.33</td>
-<td align="right">6.42</td>
-</tr>
-</tbody>
-</table>
-<p>A chi-square test of independence was conducted to evaluate the
-association between species status and animal condition. The test
-produced a highly significant result, <span
-class="math display">\[\chi^2(16) = 757.19,\quad p &lt; 2.2 \times
-10^{-16}\]</span> indicating that the distribution of animal conditions
-differs substantially across species status categories.</p>
-<pre class="r"><code># create custom color gradient with more detailed breaks
-chi_squre_color_breaks = c(-Inf, -20, -10, -5, 0, 5, 10, 20)
-chi_squre_palette = c(&quot;#08306B&quot;, &quot;#2171B5&quot;, &quot;#6BAED6&quot;, &quot;#DEEBF7&quot;, &quot;#FEE5D9&quot;, &quot;#FB6A4A&quot;,&quot;#A50F15&quot;)
-
-# plot the standardized residual from the chi-square test between species_status and animal_condition
-res_heatmap = as.data.frame(spec_health_result$stdres) |&gt;
-  rename(
-    species_status = Var1,
-    animal_condition = Var2,
-    stdres = Freq
-  ) |&gt; 
-  ggplot(aes(x = animal_condition, y = species_status, fill = stdres)) +
-  scale_y_discrete(limits = rev) +
-  geom_tile(color = &quot;white&quot;, linewidth = 0.3) +
-  coord_fixed() +
-  scale_fill_gradientn(
-    colors = chi_squre_palette,
-    values = rescale(chi_squre_color_breaks),
-    breaks = chi_squre_color_breaks,
-    limits = c(-22, 22),
-    guide = guide_colorbar(
-      barwidth = 30,
-      barheight = 0.8,
-      direction = &quot;horizontal&quot;,
-      title.position = &quot;top&quot;
-    ), 
-    name = paste0(&quot;Std. Residual\nBlue = Obs &lt; Exp&quot;, strrep(&quot; &quot;, 116), &quot;Red = Obs &gt; Exp&quot;)) +
-  geom_text(aes(label = round(stdres, 2)), size = 3, color = &quot;black&quot;) +
-  labs(
-    title = &quot;Standardized Residuals for Species Status and Animal Condition&quot;,
-    x = &quot;Animal Condition&quot;,
-    y = &quot;Species Status&quot;
-  ) +
-  theme_minimal() + 
-  theme(
-    axis.text.x = element_text(size = 9, vjust = 4, margin = margin(t = 10)),
-    axis.text.y = element_text(size = 9),
-    plot.title = element_text(face = &quot;bold&quot;, size = 14, hjust = 0.5, margin = margin(b = 10)),
-    plot.subtitle = element_text(size = 10),
-    legend.position = &quot;bottom&quot;,
-    legend.title = element_text(size = 9),
-    legend.text = element_text(size = 8)
-  )
-
-plot(res_heatmap)</code></pre>
-<p><img src="Report_files/figure-html/unnamed-chunk-24-1.png" width="720" /></p>
-<p>The tables of observed and expected counts are shown above, along
-with the plot of standardized residuals for the two variables. Based on
-both the contingency table and the residual plot, domestic species are
-noticeably overrepresented in the Healthy category, while native
-(non-domestic) species are underrepresented. Domestic species are also
-underrepresented in the Injured category, whereas native species show
-the opposite pattern, with more Injured or Unhealthy cases than
-expected.</p>
 <hr />
+</div>
 </div>
 </div>
 <div id="discussion" class="section level2">
 <h2>Discussion</h2>
-<div id="species-status-and-animal-condition" class="section level3">
-<h3>Species Status and Animal Condition</h3>
-<p>One possible explanation of the over-represented healthy cases for
-domestic species is reporting behavior. Domestic animals may be reported
-for a wider range of reasons, such as being lost, found unattended, or
-involved in non-medical encounters, which increases the number of
-Healthy reports. In contrast, native wildlife is more likely to be
-reported only when something is wrong, such as being injured, sick, or
-otherwise in distress, leading to higher counts in those categories.</p>
-</div>
 <div id="borough-and-animal-class" class="section level3">
 <h3>Borough and Animal Class</h3>
 <p>The reporting patterns based on borough may be influenced by
@@ -2692,6 +2887,34 @@ resources could also be directed toward managing large mammals in the
 Bronx and reducing human–wildlife disturbances involving small mammals
 in Manhattan.</p>
 </div>
+<div id="health-condition-patterns" class="section level3">
+<h3>Health Condition Patterns</h3>
+<p>Differences in health conditions across species groups and boroughs
+suggest that many cases are shaped by how easily animals can be seen and
+how quickly people notice something is wrong. Small mammals often appear
+in poorer condition because they tend to stay hidden, so problems are
+discovered later. Birds, on the other hand, are more visible in open
+areas, making unusual behavior easier for the public to recognize and
+report. Borough-level patterns reinforce this idea: busy areas like
+Manhattan may allow animals to be spotted sooner, while lower-density
+areas such as Staten Island may lead to cases being reported only when
+animals are already deceased.</p>
+<p>These patterns show that reported health conditions reflect both
+animal behaviors and the environments in which people encounter them.
+The Parks and Recreation Department may consider encouraging earlier
+reporting, especially in areas where distressed animals are harder to
+notice, and offering simple guidance to help residents recognize signs
+of illness or injury. Increasing public awareness in boroughs with lower
+density could improve early detection and reduce the number of cases
+that are only discovered at severe stages.</p>
+<p>One possible explanation of the over-represented healthy cases for
+domestic species is reporting behavior. Domestic animals may be reported
+for a wider range of reasons, such as being lost, found unattended, or
+involved in non-medical encounters, which increases the number of
+Healthy reports. In contrast, native wildlife is more likely to be
+reported only when something is wrong, such as being injured, sick, or
+otherwise in distress, leading to higher counts in those categories.</p>
+</div>
 <div id="response-duration-1" class="section level3">
 <h3>Response Duration</h3>
 <p>Our analyses show that response duration is driven mainly by
@@ -2699,10 +2922,28 @@ operational factors, especially call timing and call source, rather than
 animal-related characteristics. These findings highlight that delays are
 largely shaped by staffing patterns, dispatch workflows, and after-hours
 procedures.</p>
-<p>At the same time, data limitations such as small sample sizes in some
-categories, potential timestamp inconsistencies, and unmeasured factors
-(e.g., traffic, weather, case urgency) suggest that some effects should
-be interpreted with caution.</p>
+</div>
+<div id="limitations" class="section level3">
+<h3>Limitations</h3>
+<p>Several observations in the dataset show a response time of zero,
+which may indicate that the ranger was already present at the site or
+that the incident occurred near a ranger station. However, the dataset
+does not provide explicit documentation of these circumstances, making
+it unclear whether these values reflect true immediate responses or
+misrecorded response times. This ambiguity introduces uncertainty in the
+interpretation of very short response durations and may influence our
+exploratory analysis and the estimates produced by the linear regression
+model.</p>
+<p>In addition, several broader data limitations may influence how the
+results should be interpreted. Some animal condition or animal class
+categories contain relatively few observations, which can make group
+comparisons and regression estimates less stable. There are also
+inconsistencies in the recorded timestamps. For example, there are
+incidents where the <code>date_and_time_of_ranger_response</code> occurs
+before the <code>date_and_time_of_initial_call</code>, which is not
+feasible and suggests recording errors. These issues introduce
+additional uncertainty and may contribute to unexplained variability in
+the findings.</p>
 </div>
 </div>
 </div>

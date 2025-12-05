@@ -126,6 +126,40 @@ park_ranger_new = park_ranger %>%
     infant  = if_else(str_detect(age, "Infant"), 1L, 0L, missing = 0L)
   )
 
+############################## map_boro ##############################
+
+# import borough dataset
+boro_bound_df = read_csv("data/Borough_Boundaries_20251107.csv") |> 
+  janitor::clean_names()
+
+#create a dataframe for plotting
+# get all animal classes
+animal_classes = c(
+  "Birds / Raptors", 
+  "Small Mammals", 
+  "Large Mammals",
+  "Marine Mammals", 
+  "Reptiles / Amphibians",
+  "Fish", 
+  "Others")
+
+# select a subset of park ranger data, and only keep Unhealthy and Injured cases
+# group by borough and animal class
+# get the number of cases for each animal class in each borough
+# get total number of cases for each borough
+# join the multipolygon geometry into this dataset
+map_boro = park_ranger_new |> 
+  select(borough, animal_class_new, animal_condition) |> 
+  group_by(borough, animal_class_new) |> 
+  summarize(n = n(), .groups = "drop") |> 
+  pivot_wider(
+    names_from = animal_class_new,
+    values_from = n) |> 
+  mutate(
+    total_n = rowSums(across(all_of(animal_classes)), na.rm = TRUE)) |> 
+  left_join(boro_bound_df |> select(boro_name, the_geom),
+            by = c("borough" = "boro_name"))
+
 ############################## map_park ##############################
 
 # Match park names with Park Properties names
@@ -167,21 +201,12 @@ fuzzy_matches =
 write.csv(fuzzy_matches, "data/fuzzy_park_match.csv", row.names = FALSE)
 
 # Create a new dataframe for mapping
-# 1. Import dataset with final matched park names, get all animal classes
+# 1. Import dataset with final matched park names
 park_match_df = read_csv("data/park_match_final.csv") |> 
   janitor::clean_names() |> 
   transmute(
     original_park = str_to_lower(str_trim(original_park)),
     final_match = str_to_lower(str_trim(final_match)))
-
-animal_classes = c(
-  "Birds / Raptors", 
-  "Small Mammals", 
-  "Large Mammals",
-  "Marine Mammals", 
-  "Reptiles / Amphibians",
-  "Fish", 
-  "Others")
 
 # 2. Join the matched name to park_ranger_new, remove those don't have a matched park
 map_park = park_ranger_new |> 
