@@ -374,23 +374,21 @@ div.tocify {
 </div>
 
 
-<hr />
-<br>
 <div style="text-align:center;">
 <p><img src="images/urgent-caref-service.jpg" width="50%" /></p>
 </div>
 <div style="text-align:center; font-size:12px; color:#666;">
 <p>Image Credits: Pine Woods Animal Hospital</p>
 </div>
-<hr />
 <p>We would like to explore how response duration, which we define as
 the duration between the initial request and the time that Rangers
 arrived at the site
 (<code>date_and_time_of_ranger_response - date_and_time_of_initial_call</code>),
 is associated with different incident characteristics.</p>
+<hr />
 <div id="average-response-duration-by-time-of-initial-request"
-class="section level1">
-<h1>Average Response Duration by Time of Initial Request</h1>
+class="section level2">
+<h2>Average Response Duration by Time of Initial Request</h2>
 <pre class="r"><code>ranger_response_hr = park_ranger_new %&gt;% 
   mutate(day_diff = as.numeric(difftime(response_date, call_date, units = &quot;days&quot;)),
          time_diff_hrs = as.numeric(difftime(response_time, call_time, units = &quot;hours&quot;)),
@@ -435,11 +433,10 @@ be miscoded as 0:00, combined with small sample sizes or boundary
 effects at the end of the day. These potential misclassifications should
 be considered and interpreted with cautions.</p></li>
 </ul>
-<p><br></p>
 <hr />
 </div>
-<div id="distribution-of-response-duration" class="section level1">
-<h1>Distribution of Response Duration</h1>
+<div id="distribution-of-response-duration" class="section level2">
+<h2>Distribution of Response Duration</h2>
 <pre class="r"><code>resp_dur_dist = ranger_response_hr %&gt;% 
   mutate(resp_bin = case_when(
     response_hrs &lt; 1 ~ &quot;0-1 hours&quot;, 
@@ -513,12 +510,11 @@ especially in the &gt;24-hour range, indicating that extremely slow
 responses occur regardless of the reported condition.</p>
 <p>Overall, the figure indicates that the reported animal condition
 plays only a minimal role.</p>
-<p><br></p>
 <hr />
 </div>
 <div id="density-of-ranger-response-duration-by-borough"
-class="section level1">
-<h1>Density of Ranger Response Duration by Borough</h1>
+class="section level2">
+<h2>Density of Ranger Response Duration by Borough</h2>
 <pre class="r"><code>ranger_model = ranger_response_hr %&gt;%
   mutate(
     call_hour_cat = case_when(call_hour &gt;= 0 &amp; call_hour &lt; 8 ~ &quot;0-8&quot;,
@@ -565,11 +561,10 @@ duration.</p></li>
 <p>Despite these minor shifts in central tendency, the overall shapes of
 the distributions are highly similar. Within-borough variation is much
 greater than between-borough variation.</p>
-<p><br></p>
 <hr />
 </div>
-<div id="multiple-linear-regression" class="section level1">
-<h1>Multiple Linear Regression</h1>
+<div id="multiple-linear-regression" class="section level2">
+<h2>Multiple Linear Regression</h2>
 <p>When examining animal condition and borough individually in the raw
 distributions, neither appears to be a strong or consistent determinant
 of response duration. These unadjusted patterns suggest that other
@@ -1282,11 +1277,10 @@ as when, where, and through which channel an incident is
 reported-explain most of the observed differences in response duration.
 Biological characteristics of the animals, with the exception of exotic
 species, play a comparatively smaller role.</p>
-<p><br></p>
 <hr />
 </div>
-<div id="coefficient-plot" class="section level1">
-<h1>Coefficient Plot</h1>
+<div id="coefficient-plot" class="section level2">
+<h2>Coefficient Plot</h2>
 <pre class="r"><code>broom::tidy(model, conf.int = TRUE) %&gt;% 
   ggplot(aes(x = reorder(term, estimate), y = estimate)) +
   geom_pointrange(aes(ymin = conf.low, ymax = conf.high)) +
@@ -1305,11 +1299,10 @@ stand out with clearer effects, whereas most predictors lie near zero or
 have confidence intervals crossing zero, indicating little or no
 meaningful association.</li>
 </ul>
-<p><br></p>
 <hr />
 </div>
-<div id="elastic-net-model" class="section level1">
-<h1>Elastic Net Model</h1>
+<div id="elastic-net-model" class="section level2">
+<h2>Elastic Net Model</h2>
 <p>Elastic Net was used as a complementary approach to assess variable
 stability and identify predictors with more consistent signals beyond
 the Ordinary Least Squares (OLS) estimates.</p>

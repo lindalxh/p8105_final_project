@@ -19,7 +19,9 @@ library(base64enc)
 source("data_cleaning.R") 
 ```
 
-# Data Source
+---
+
+## Data Source
 
 Our primary dataset is provided by the Department of Parks and Recreation (DPR) and is made publicly available through the NYC OpenData portal [(Urban Park Ranger Animal Condition Response)](https://data.cityofnewyork.us/Environment/Urban-Park-Ranger-Animal-Condition-Response/fuhs-xmg2/about_data). This dataset contains 6,385 records of animal rescue requests from May 2018 to June 2024, including detailed information such as the date and time of each call, ranger response time, park name, specific location descriptions, animal species, and the condition of the animals involved.
 
@@ -59,9 +61,9 @@ map_boro = park_ranger_new |>
             by = c("borough" = "boro_name"))
 ```
 
+---
 
-
-# Data Cleaning Process
+## Data Cleaning Process
 
 - Split date and time
 
@@ -176,7 +178,9 @@ park_ranger_new = park_ranger %>%
   )
 ```
 
-# Matching Process for Park Properties
+---
+
+## Matching Process for Park Properties
 
 After comparing the **Park Ranger** and **Parks Properties** datasets, we found that many park names in Park Ranger (`property`) did not match the official park names (`signname`) in Parks Properties Specifically, 208 out of 703 unique `property` values had no exact match in `signname`. To recover as many matches as possible, we applied the Jaro–Winkler algorithm from the fuzzyjoin package to perform inexact matching on all unique park names.
 
@@ -281,7 +285,9 @@ map_park = map_park |>
     total_n = rowSums(across(all_of(animal_classes)), na.rm = TRUE))
 ```
 
-# Cleaned Dataset
+---
+
+## Cleaned Dataset
 
 The cleaned data includes the following variables:
 
