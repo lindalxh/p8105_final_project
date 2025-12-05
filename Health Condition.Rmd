@@ -45,13 +45,13 @@ cat('
 ')
 ```
 
-This page analyzes animal health conditions across different species groups and New York City boroughs. Through descriptive statistics, visualizations, and statistical tests, it highlights patterns in reports of healthy, injured, and deceased animals. These insights help us better understand wildlife incidents in the city and support decisions related to ecological management and rescue resource allocation.  
+This page provides an overview of animal health conditions reported across New York City. It begins by describing how case numbers and health outcomes vary by species group and by borough, then maps the spatial distribution of these reports to highlight geographic patterns. Finally, a chi-square analysis explores how species status relates to reported health conditions. Together, these analyses offer insight into where different types of animal health incidents occur and how reporting patterns may reflect both ecological factors and human observation.  
 
 <br>
 
 
 ```{r, include=FALSE}
-# Create color palette for bar plots
+# Create color palette
 color_palette_0 = c(
   "#0868ac",
   "#43a2ca",

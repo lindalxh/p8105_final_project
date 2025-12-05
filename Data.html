@@ -542,7 +542,7 @@ values.</p>
 park_prop_df = read_csv(&quot;data/Parks_Properties_20251107.csv&quot;) |&gt; 
   janitor::clean_names()</code></pre>
 <pre><code>## Rows: 2054 Columns: 34
-## ── Column specification ───────────────────────────────────────────────────
+## ── Column specification ───────────────────────────
 ## Delimiter: &quot;,&quot;
 ## chr (22): ACQUISITIONDATE, ADDRESS, BOROUGH, CLASS, COUNCILDISTRICT, DEPARTM...
 ## dbl  (1): PRECINCT
@@ -592,7 +592,7 @@ park_match_df = read_csv(&quot;data/park_match_final.csv&quot;) |&gt;
     original_park = str_to_lower(str_trim(original_park)),
     final_match = str_to_lower(str_trim(final_match)))</code></pre>
 <pre><code>## Rows: 703 Columns: 4
-## ── Column specification ───────────────────────────────────────────────────
+## ── Column specification ───────────────────────────
 ## Delimiter: &quot;,&quot;
 ## chr (3): original_park, matched_park, final_match
 ## dbl (1): similarity
