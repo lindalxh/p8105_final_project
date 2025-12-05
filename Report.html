@@ -447,17 +447,55 @@ interactions.</p>
 </div>
 <div id="initial-questions" class="section level2">
 <h2>Initial Questions</h2>
-<p>We originally planned to analyze the associations between animal
-conditions, locations, and time, both across the year and throughout the
-day. Additional analyses will examine factors that may influence
-response time, such as park location, animal condition or number, and
-temporal variables like time of day or frequency within a week or month.
-Examples of visualizations include a heatmap illustrating the density of
-injured animals by month and time of day, as well as violin plots
-grouped by boroughs to show the distribution of response times across
-regions. We will also conduct statistical tests, such as ANOVA, to
-evaluate relationships among variables, including borough, response
-time, animal condition, and time factors.</p>
+<p>Our initial plan focused on examining how animal conditions vary
+across space and time, and how these patterns may relate to ranger
+responses. How do the number of rescue cases and animal health
+conditions vary across different parks? How do animal conditions vary
+across seasons and across hours of the day? Specifically, we aimed
+to:</p>
+<ul>
+<li><p>Assess associations between animal conditions, geographic
+locations, and temporal factors (seasonal patterns across the year, and
+diurnal patterns across the day).</p></li>
+<li><p>Identify factors that influence ranger response time, such as
+park location, animal condition, number of animals, and temporal
+variables (e.g., time of day or frequency within a week or
+month).</p></li>
+<li><p>Produce visualizations such as a heatmap of injured-animal
+density by month and hour of day, and violin plots comparing response
+time distributions across boroughs.</p></li>
+<li><p>Conduct statistical tests such as ANOVA to evaluate relationships
+among borough, response time, animal condition, and relevant
+time-related predictors.</p></li>
+</ul>
+<p>As we explored the data, we discovered that many of the spatial and
+temporal patterns reflected human behavior rather than true differences
+in animal conditions. For instance, parks with the highest numbers of
+cases tended to be large, highly populated, or located in areas with
+more tourist or resident activity. This suggests case counts reflect
+human presence, not necessarily ecological patterns. Therefore, instead
+of conducting deeper geographic modeling, we chose to emphasize these
+results in the interactive map without overinterpreting ecological
+meaning. Similarly, temporal trends (e.g., higher reports during
+daytime) appeared to reflect human activity cycles rather than changes
+in animal behavior.</p>
+<p>Because reports depend on when humans are awake, outdoors, and likely
+to encounter animals, temporal patterns primarily represent reporting
+frequency, not animals themselves. Given these insights, we shifted our
+analytical focus to a question the dataset can meaningfully answer: How
+do human response behaviors (<code>ranger response time</code>) vary
+with animal condition, number of animals, time of day, or borough? This
+reframing allowed us to analyze variables that truly reflect actionable
+patterns in the dataset.</p>
+<p>During exploratory analysis, we identified that animal conditions and
+the number of animals involved may influence both reporting behavior and
+ranger decisions. Therefore, we expanded our investigation to examine
+how these characteristics relate to rangers’ final actions, including
+whether more severe conditions or larger groups of animals lead to
+different types of interventions. This led us to include an important
+exploratory component analyzing the relationship between animal
+condition and ranger final action, providing insight into how case
+characteristics shape response behaviors.</p>
 <hr />
 </div>
 <div id="data" class="section level2">
@@ -974,7 +1012,17 @@ reported cases. Each borough is clickable, and the corresponding popup
 presents the bar graph of case counts by animal class. Based on the
 visualization, Manhattan has the highest number of reported cases
 overall.</p>
-<pre class="r"><code># pivot to long format for plotting
+<pre class="r"><code>color_palette_2 = c(
+  &quot;#f0f9e8&quot;,
+  &quot;#bae4bc&quot;,
+  &quot;#7bccc4&quot;,
+  &quot;#43a2ca&quot;,
+  &quot;#0868ac&quot;,
+  &quot;#084081&quot;,
+  &quot;#082A45&quot; 
+)
+
+# pivot to long format for plotting
 # factor relevel borough and animal class
 map_boro |&gt; 
   pivot_longer(
@@ -1792,6 +1840,197 @@ Their mean duration is higher at 1.52 hours.</p></li>
 </div>
 <div id="additional-analysis" class="section level2">
 <h2>Additional Analysis</h2>
+<div id="chi-square-test-between-species-status-and-animal-condition"
+class="section level3">
+<h3>Chi-Square Test Between Species Status and Animal Condition</h3>
+<pre class="r"><code># conduct a chi-square test on species_status and animal_condition
+spec_health_tbl = table(park_ranger_new$species_status, park_ranger_new$animal_condition)
+
+spec_health_result = chisq.test(spec_health_tbl)
+
+# show contingency table of the chi-square test
+kable(
+  as.data.frame.matrix(spec_health_result$observed),
+  caption = &quot;Observed Counts for Species Status and Animal Condition&quot;,
+  digits = 2
+)</code></pre>
+<table>
+<caption>Observed Counts for Species Status and Animal
+Condition</caption>
+<thead>
+<tr class="header">
+<th align="left"></th>
+<th align="right">Healthy</th>
+<th align="right">Unhealthy</th>
+<th align="right">Injured</th>
+<th align="right">DOA</th>
+<th align="right">Unknown</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="left">Native</td>
+<td align="right">1129</td>
+<td align="right">1204</td>
+<td align="right">1272</td>
+<td align="right">556</td>
+<td align="right">462</td>
+</tr>
+<tr class="even">
+<td align="left">Invasive</td>
+<td align="right">163</td>
+<td align="right">29</td>
+<td align="right">92</td>
+<td align="right">31</td>
+<td align="right">17</td>
+</tr>
+<tr class="odd">
+<td align="left">Domestic</td>
+<td align="right">614</td>
+<td align="right">135</td>
+<td align="right">111</td>
+<td align="right">66</td>
+<td align="right">139</td>
+</tr>
+<tr class="even">
+<td align="left">Exotic</td>
+<td align="right">53</td>
+<td align="right">10</td>
+<td align="right">6</td>
+<td align="right">8</td>
+<td align="right">21</td>
+</tr>
+<tr class="odd">
+<td align="left">Unknown</td>
+<td align="right">9</td>
+<td align="right">1</td>
+<td align="right">14</td>
+<td align="right">2</td>
+<td align="right">33</td>
+</tr>
+</tbody>
+</table>
+<pre class="r"><code># show result tables of the chi-square test
+kable(
+  as.data.frame.matrix(spec_health_result$expected),
+  caption = &quot;Expected Counts for Species Status and Animal Condition&quot;,
+  digits = 2
+)</code></pre>
+<table>
+<caption>Expected Counts for Species Status and Animal
+Condition</caption>
+<thead>
+<tr class="header">
+<th align="left"></th>
+<th align="right">Healthy</th>
+<th align="right">Unhealthy</th>
+<th align="right">Injured</th>
+<th align="right">DOA</th>
+<th align="right">Unknown</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="left">Native</td>
+<td align="right">1472.89</td>
+<td align="right">1032.07</td>
+<td align="right">1118.89</td>
+<td align="right">496.20</td>
+<td align="right">502.94</td>
+</tr>
+<tr class="even">
+<td align="left">Invasive</td>
+<td align="right">105.78</td>
+<td align="right">74.12</td>
+<td align="right">80.35</td>
+<td align="right">35.63</td>
+<td align="right">36.12</td>
+</tr>
+<tr class="odd">
+<td align="left">Domestic</td>
+<td align="right">339.31</td>
+<td align="right">237.76</td>
+<td align="right">257.76</td>
+<td align="right">114.31</td>
+<td align="right">115.86</td>
+</tr>
+<tr class="even">
+<td align="left">Exotic</td>
+<td align="right">31.22</td>
+<td align="right">21.88</td>
+<td align="right">23.72</td>
+<td align="right">10.52</td>
+<td align="right">10.66</td>
+</tr>
+<tr class="odd">
+<td align="left">Unknown</td>
+<td align="right">18.80</td>
+<td align="right">13.17</td>
+<td align="right">14.28</td>
+<td align="right">6.33</td>
+<td align="right">6.42</td>
+</tr>
+</tbody>
+</table>
+<p>A chi-square test of independence was conducted to evaluate the
+association between species status and animal condition. The test
+produced a highly significant result, <span
+class="math display">\[\chi^2(16) = 757.19,\quad p &lt; 2.2 \times
+10^{-16}\]</span> indicating that the distribution of animal conditions
+differs substantially across species status categories.</p>
+<pre class="r"><code># create custom color gradient with more detailed breaks
+chi_squre_color_breaks = c(-Inf, -20, -10, -5, 0, 5, 10, 20)
+chi_squre_palette = c(&quot;#08306B&quot;, &quot;#2171B5&quot;, &quot;#6BAED6&quot;, &quot;#DEEBF7&quot;, &quot;#FEE5D9&quot;, &quot;#FB6A4A&quot;,&quot;#A50F15&quot;)
+
+# plot the standardized residual from the chi-square test between species_status and animal_condition
+res_heatmap = as.data.frame(spec_health_result$stdres) |&gt;
+  rename(
+    species_status = Var1,
+    animal_condition = Var2,
+    stdres = Freq
+  ) |&gt; 
+  ggplot(aes(x = animal_condition, y = species_status, fill = stdres)) +
+  scale_y_discrete(limits = rev) +
+  geom_tile(color = &quot;white&quot;, linewidth = 0.3) +
+  coord_fixed() +
+  scale_fill_gradientn(
+    colors = chi_squre_palette,
+    values = rescale(chi_squre_color_breaks),
+    breaks = chi_squre_color_breaks,
+    limits = c(-22, 22),
+    guide = guide_colorbar(
+      barwidth = 30,
+      barheight = 0.8,
+      direction = &quot;horizontal&quot;,
+      title.position = &quot;top&quot;
+    ), 
+    name = paste0(&quot;Std. Residual\nBlue = Obs &lt; Exp&quot;, strrep(&quot; &quot;, 116), &quot;Red = Obs &gt; Exp&quot;)) +
+  geom_text(aes(label = round(stdres, 2)), size = 3, color = &quot;black&quot;) +
+  labs(
+    title = &quot;Standardized Residuals for Species Status and Animal Condition&quot;,
+    x = &quot;Animal Condition&quot;,
+    y = &quot;Species Status&quot;
+  ) +
+  theme(
+    axis.text.x = element_text(size = 9, vjust = 4, margin = margin(t = 10)),
+    axis.text.y = element_text(size = 9),
+    plot.title = element_text(face = &quot;bold&quot;, size = 14, hjust = 0.5, margin = margin(b = 10)),
+    plot.subtitle = element_text(size = 10),
+    legend.title = element_text(size = 9),
+    legend.text = element_text(size = 8)
+  )
+
+plot(res_heatmap)</code></pre>
+<p><img src="Report_files/figure-html/unnamed-chunk-21-1.png" width="90%" /></p>
+<p>The tables of observed and expected counts are shown above, along
+with the plot of standardized residuals for the two variables. Based on
+both the contingency table and the residual plot, domestic species are
+noticeably overrepresented in the Healthy category, while native
+(non-domestic) species are underrepresented. Domestic species are also
+underrepresented in the Injured category, whereas native species show
+the opposite pattern, with more Injured or Unhealthy cases than
+expected.</p>
+</div>
 <div id="multiple-linear-regression-for-response-duration"
 class="section level3">
 <h3>Multiple Linear Regression for Response Duration</h3>
@@ -2189,7 +2428,7 @@ species, play a comparatively smaller role.</p>
        x = &quot;Predictor Variables&quot;,
        y = &quot;Estimated Coefficient (hours)&quot;) +
   theme_minimal()</code></pre>
-<p><img src="Report_files/figure-html/unnamed-chunk-21-1.png" width="90%" /></p>
+<p><img src="Report_files/figure-html/unnamed-chunk-23-1.png" width="90%" /></p>
 <p>This coefficient plot highlights the same general patterns seen in
 the regression table:</p>
 <ul>
@@ -2457,7 +2696,7 @@ knitr::kable(
 <pre class="r"><code>par(mfrow = c(1, 2))             
 plot(anova_fit, which = 1)    
 plot(anova_fit, which = 2)   </code></pre>
-<p><img src="Report_files/figure-html/unnamed-chunk-23-1.png" width="90%" /></p>
+<p><img src="Report_files/figure-html/unnamed-chunk-25-1.png" width="90%" /></p>
 <pre class="r"><code>par(mfrow = c(1, 1))</code></pre>
 <p>The original model: <span
 class="math inline">\(\texttt{duration_hours} \sim
@@ -2572,7 +2811,7 @@ knitr::kable(
 <pre class="r"><code>par(mfrow = c(1, 2))
 plot(anova_fit_log, which = 1)  # Residuals vs Fitted
 plot(anova_fit_log, which = 2)  # Normal Q-Q</code></pre>
-<p><img src="Report_files/figure-html/unnamed-chunk-24-1.png" width="90%" /></p>
+<p><img src="Report_files/figure-html/unnamed-chunk-26-1.png" width="90%" /></p>
 <pre class="r"><code>par(mfrow = c(1, 1))</code></pre>
 <p>Because <code>action duration</code> is highly right-skewed with many
 long outliers, the raw ANOVA violated assumptions. A log transformation
@@ -2599,199 +2838,8 @@ plot much closer to the reference line, with minor tail deviations
 expected in field data.</p></li>
 </ul>
 <p><br></p>
-</div>
-</div>
-<div id="chi-square-test-between-species-status-and-animal-condition"
-class="section level3">
-<h3>Chi-Square Test Between Species Status and Animal Condition</h3>
-<pre class="r"><code># conduct a chi-square test on species_status and animal_condition
-spec_health_tbl = table(park_ranger_new$species_status, park_ranger_new$animal_condition)
-
-spec_health_result = chisq.test(spec_health_tbl)
-
-# show contingency table of the chi-square test
-kable(
-  as.data.frame.matrix(spec_health_result$observed),
-  caption = &quot;Observed Counts for Species Status and Animal Condition&quot;,
-  digits = 2
-)</code></pre>
-<table>
-<caption>Observed Counts for Species Status and Animal
-Condition</caption>
-<thead>
-<tr class="header">
-<th align="left"></th>
-<th align="right">Healthy</th>
-<th align="right">Unhealthy</th>
-<th align="right">Injured</th>
-<th align="right">DOA</th>
-<th align="right">Unknown</th>
-</tr>
-</thead>
-<tbody>
-<tr class="odd">
-<td align="left">Native</td>
-<td align="right">1129</td>
-<td align="right">1204</td>
-<td align="right">1272</td>
-<td align="right">556</td>
-<td align="right">462</td>
-</tr>
-<tr class="even">
-<td align="left">Invasive</td>
-<td align="right">163</td>
-<td align="right">29</td>
-<td align="right">92</td>
-<td align="right">31</td>
-<td align="right">17</td>
-</tr>
-<tr class="odd">
-<td align="left">Domestic</td>
-<td align="right">614</td>
-<td align="right">135</td>
-<td align="right">111</td>
-<td align="right">66</td>
-<td align="right">139</td>
-</tr>
-<tr class="even">
-<td align="left">Exotic</td>
-<td align="right">53</td>
-<td align="right">10</td>
-<td align="right">6</td>
-<td align="right">8</td>
-<td align="right">21</td>
-</tr>
-<tr class="odd">
-<td align="left">Unknown</td>
-<td align="right">9</td>
-<td align="right">1</td>
-<td align="right">14</td>
-<td align="right">2</td>
-<td align="right">33</td>
-</tr>
-</tbody>
-</table>
-<pre class="r"><code># show result tables of the chi-square test
-kable(
-  as.data.frame.matrix(spec_health_result$expected),
-  caption = &quot;Expected Counts for Species Status and Animal Condition&quot;,
-  digits = 2
-)</code></pre>
-<table>
-<caption>Expected Counts for Species Status and Animal
-Condition</caption>
-<thead>
-<tr class="header">
-<th align="left"></th>
-<th align="right">Healthy</th>
-<th align="right">Unhealthy</th>
-<th align="right">Injured</th>
-<th align="right">DOA</th>
-<th align="right">Unknown</th>
-</tr>
-</thead>
-<tbody>
-<tr class="odd">
-<td align="left">Native</td>
-<td align="right">1472.89</td>
-<td align="right">1032.07</td>
-<td align="right">1118.89</td>
-<td align="right">496.20</td>
-<td align="right">502.94</td>
-</tr>
-<tr class="even">
-<td align="left">Invasive</td>
-<td align="right">105.78</td>
-<td align="right">74.12</td>
-<td align="right">80.35</td>
-<td align="right">35.63</td>
-<td align="right">36.12</td>
-</tr>
-<tr class="odd">
-<td align="left">Domestic</td>
-<td align="right">339.31</td>
-<td align="right">237.76</td>
-<td align="right">257.76</td>
-<td align="right">114.31</td>
-<td align="right">115.86</td>
-</tr>
-<tr class="even">
-<td align="left">Exotic</td>
-<td align="right">31.22</td>
-<td align="right">21.88</td>
-<td align="right">23.72</td>
-<td align="right">10.52</td>
-<td align="right">10.66</td>
-</tr>
-<tr class="odd">
-<td align="left">Unknown</td>
-<td align="right">18.80</td>
-<td align="right">13.17</td>
-<td align="right">14.28</td>
-<td align="right">6.33</td>
-<td align="right">6.42</td>
-</tr>
-</tbody>
-</table>
-<p>A chi-square test of independence was conducted to evaluate the
-association between species status and animal condition. The test
-produced a highly significant result, <span
-class="math display">\[\chi^2(16) = 757.19,\quad p &lt; 2.2 \times
-10^{-16}\]</span> indicating that the distribution of animal conditions
-differs substantially across species status categories.</p>
-<pre class="r"><code># create custom color gradient with more detailed breaks
-chi_squre_color_breaks = c(-Inf, -20, -10, -5, 0, 5, 10, 20)
-chi_squre_palette = c(&quot;#08306B&quot;, &quot;#2171B5&quot;, &quot;#6BAED6&quot;, &quot;#DEEBF7&quot;, &quot;#FEE5D9&quot;, &quot;#FB6A4A&quot;,&quot;#A50F15&quot;)
-
-# plot the standardized residual from the chi-square test between species_status and animal_condition
-res_heatmap = as.data.frame(spec_health_result$stdres) |&gt;
-  rename(
-    species_status = Var1,
-    animal_condition = Var2,
-    stdres = Freq
-  ) |&gt; 
-  ggplot(aes(x = animal_condition, y = species_status, fill = stdres)) +
-  scale_y_discrete(limits = rev) +
-  geom_tile(color = &quot;white&quot;, linewidth = 0.3) +
-  coord_fixed() +
-  scale_fill_gradientn(
-    colors = chi_squre_palette,
-    values = rescale(chi_squre_color_breaks),
-    breaks = chi_squre_color_breaks,
-    limits = c(-22, 22),
-    guide = guide_colorbar(
-      barwidth = 30,
-      barheight = 0.8,
-      direction = &quot;horizontal&quot;,
-      title.position = &quot;top&quot;
-    ), 
-    name = paste0(&quot;Std. Residual\nBlue = Obs &lt; Exp&quot;, strrep(&quot; &quot;, 116), &quot;Red = Obs &gt; Exp&quot;)) +
-  geom_text(aes(label = round(stdres, 2)), size = 3, color = &quot;black&quot;) +
-  labs(
-    title = &quot;Standardized Residuals for Species Status and Animal Condition&quot;,
-    x = &quot;Animal Condition&quot;,
-    y = &quot;Species Status&quot;
-  ) +
-  theme(
-    axis.text.x = element_text(size = 9, vjust = 4, margin = margin(t = 10)),
-    axis.text.y = element_text(size = 9),
-    plot.title = element_text(face = &quot;bold&quot;, size = 14, hjust = 0.5, margin = margin(b = 10)),
-    plot.subtitle = element_text(size = 10),
-    legend.title = element_text(size = 9),
-    legend.text = element_text(size = 8)
-  )
-
-plot(res_heatmap)</code></pre>
-<p><img src="Report_files/figure-html/unnamed-chunk-26-1.png" width="90%" /></p>
-<p>The tables of observed and expected counts are shown above, along
-with the plot of standardized residuals for the two variables. Based on
-both the contingency table and the residual plot, domestic species are
-noticeably overrepresented in the Healthy category, while native
-(non-domestic) species are underrepresented. Domestic species are also
-underrepresented in the Injured category, whereas native species show
-the opposite pattern, with more Injured or Unhealthy cases than
-expected.</p>
 <hr />
+</div>
 </div>
 </div>
 <div id="discussion" class="section level2">
