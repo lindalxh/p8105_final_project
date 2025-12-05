@@ -26,26 +26,7 @@ library(knitr)
 library(base64enc)
 
 source("data_cleaning.R") 
-```
 
-<br>
-
-```{r, echo=FALSE, results='asis'}
-cat('
-<div style="text-align: center;">
-  <img src="images/turtle.jpg" width="50%" />
-  <p style="font-size:12px; color:gray; margin-top:4px;">
-    Image Credits: Unsplash
-  </p>
-</div>
-')
-```
-
-This page provides an overview of animal health conditions reported across New York City. It begins by describing how case numbers and health outcomes vary by species group and by borough, then maps the spatial distribution of these reports to highlight geographic patterns. Finally, a chi-square analysis explores how species status relates to reported health conditions. Together, these analyses offer insight into where different types of animal health incidents occur and how reporting patterns may reflect both ecological factors and human observation.  
-
-<br>
-
-```{r, include=FALSE}
 # Create color palette
 color_palette_0 = c(
   "#0868ac",
@@ -74,8 +55,26 @@ color_palette_2 = c(
 )
 ```
 
+--- 
 
-# Cases Across Boroughs
+```{r, echo=FALSE, results='asis'}
+cat('
+<div style="text-align: center;">
+  <img src="images/turtle.jpg" width="50%" />
+  <p style="font-size:12px; color:gray; margin-top:4px;">
+    Image Credits: Unsplash
+  </p>
+</div>
+')
+```
+
+This page provides an overview of animal health conditions reported across New York City. It begins by describing how case numbers and health outcomes vary by species group and by borough, then maps the spatial distribution of these reports to highlight geographic patterns. Finally, a chi-square analysis explores how species status relates to reported health conditions. Together, these analyses offer insight into where different types of animal health incidents occur and how reporting patterns may reflect both ecological factors and human observation.  
+
+--- 
+
+## Cases Across Boroughs
+
+<br>
 
 ### Number of Cases by Borough
 
@@ -138,8 +137,10 @@ leaflet(map_boro_sf, height = 500) |>
     title = "Borough",
     opacity = 1)
 ```
-  
-<br><br>
+
+The map displays the number of reported cases for each animal class within the selected borough. To map these cases spatially, we used the [Borough Boundaries](https://data.cityofnewyork.us/City-Government/Borough-Boundaries/gthc-hcne/about_data) dataset released by the Department of City Planning (DCP) on NYC OpenData. Darker shading represents boroughs with a higher total number of reported cases. Based on the visualization, Manhattan shows the highest number of reported cases overall. 
+
+<br>
 
 ### Number of Reported Cases by Borough
 
@@ -174,18 +175,17 @@ map_boro |>
   )
 ```
 
-The map displays the number of reported cases for each animal class within the selected borough. To map these cases spatially, we used the [Borough Boundaries](https://data.cityofnewyork.us/City-Government/Borough-Boundaries/gthc-hcne/about_data) dataset released by the Department of City Planning (DCP) on NYC OpenData. Darker shading represents boroughs with a higher total number of reported cases. Based on the visualization, Manhattan shows the highest number of reported cases overall. 
-
 The accompanying bar plot provides a clearer comparison across boroughs. Manhattan has the highest total number of cases, driven largely by small mammals. Manhattan, Queens, and Brooklyn all report particularly high counts for birds/raptors, whereas Staten Island shows the highest numbers for marine mammals, fish, and reptiles/amphibians, and the Bronx reports the highest number of cases involving large mammals.
 
 These patterns may be influenced by differences in human population density and land use. Manhattan, Queens, and Brooklyn have denser human activity, which may increase both encounter rates and incident reporting, especially for small mammals. Human activities in Staten Island often take place near coastal or aquatic environments, making marine animals and other water-dependent species more visible to the public. The Bronx includes the Bronx Zoo and several large parks, which may contribute to a greater presence of large mammals.
 
 Based on these observations, the Parks and Recreation Department could consider allocating more aquatic-animal expertise to Staten Island and strengthening monitoring capacity for its land areas. Additional resources could also be directed toward managing large mammals in the Bronx and reducing human–wildlife disturbances involving small mammals in Manhattan.
 
+--- 
 
-<br><br>
+## Descriptive Analysis of Animal Health Conditions
 
-# Descriptive Analysis of Animal Health Conditions
+<br>
 
 ### Health Conditions by Animal Class
 
@@ -247,7 +247,7 @@ This may be because small mammals (like rats, hamsters, rabbits) are harder to o
   
 These differences suggest that how often animals are reported, and the reasons they are reported, depend largely on how visible they are, how much they interact with people, and how easy it is to notice that they are in distress.
 
-<br><br>
+<br>
 
 ### Health Conditions by Borough
 
@@ -315,9 +315,11 @@ But once the data are split by health condition, several boroughs show patterns 
 
 These differences highlight how each borough’s environment and reporting behavior shape the types of wildlife cases observed.  
 
-<br><br>
+--- 
 
-# Inferential and Associational Analysis
+## Inferential and Associational Analysis
+
+<br>
 
 ### Chi-Square Test: relation between species status and animal condition
 
@@ -395,7 +397,6 @@ plot(res_heatmap)
 The tables of observed and expected counts are shown above, along with the plot of standardized residuals for the two variables. Based on both the contingency table and the residual plot, domestic species are noticeably overrepresented in the Healthy category, while native (non-domestic) species are underrepresented. Domestic species are also underrepresented in the Injured category, whereas native species show the opposite pattern, with more Injured or Unhealthy cases than expected.
 
 One possible explanation is reporting behavior. Domestic animals may be reported for a wider range of reasons, such as being lost, found unattended, or involved in non-medical encounters, which increases the number of Healthy reports. In contrast, native wildlife is more likely to be reported only when something is wrong, such as being injured, sick, or otherwise in distress, leading to higher counts in those categories.  
-
 
 <br><br>
 

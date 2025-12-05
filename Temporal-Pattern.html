@@ -13,7 +13,7 @@
 
 <title>Temporal Pattern</title>
 
-<script src="site_libs/header-attrs-2.30/header-attrs.js"></script>
+<script src="site_libs/header-attrs-2.29/header-attrs.js"></script>
 <script src="site_libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <link href="site_libs/bootstrap-3.3.5/css/flatly.min.css" rel="stylesheet" />
@@ -372,6 +372,7 @@ div.tocify {
 </div>
 
 
+<hr />
 <div style="text-align: center;">
 <img src="images/cute_cat2.jpg" width="60%" />
 <p style="font-size:12px; color:gray; margin-top:4px;">
@@ -386,12 +387,14 @@ in-depth examination of seasonal fluctuations, daily cycles, and
 categorical trends, it seeks to inform proactive planning, improve
 resource allocation, and enhance protection efforts for urban
 wildlife.</p>
+<hr />
 <div id="monthly-trends-analysis" class="section level2">
 <h2>Monthly Trends Analysis</h2>
 <p>This analysis examines seasonal patterns in animal rescue cases to
 identify how different animal categories respond to environmental
 changes throughout the year. Understanding these temporal patterns helps
 predict peak demand periods for wildlife services.</p>
+<p><br></p>
 <div id="monthly-animal-response-trends" class="section level3">
 <h3>Monthly Animal Response Trends</h3>
 <pre class="r"><code>monthly_animal_trends = park_ranger_new |&gt; 
@@ -429,6 +432,7 @@ mon_case_plot = monthly_animal_trends |&gt;
 
 print(mon_case_plot)</code></pre>
 <p><img src="Temporal-Pattern_files/figure-html/unnamed-chunk-3-1.png" width="864" /></p>
+<p><br></p>
 </div>
 <div id="chart-interpretation" class="section level3">
 <h3>Chart Interpretation</h3>
@@ -471,6 +475,7 @@ style="display: inline-block; width: 44%; text-align: center; vertical-align: to
 Image Credits: bestfriends
 </div>
 </div>
+<hr />
 </div>
 </div>
 <div id="temporal-distribution-analysis" class="section level2">
@@ -479,6 +484,7 @@ Image Credits: bestfriends
 distribute across both daily hours and monthly periods, identifying
 optimal response windows and understanding the interplay between human
 activity cycles and wildlife behavior.</p>
+<p><br></p>
 <div id="animal-response-cases-heatmap" class="section level3">
 <h3>Animal Response Cases Heatmap</h3>
 <pre class="r"><code>hourly_monthly_heatmap = park_ranger_new |&gt; 
@@ -539,6 +545,7 @@ case_heatmap = hourly_monthly_heatmap |&gt;
 
 plot(case_heatmap)</code></pre>
 <p><img src="Temporal-Pattern_files/figure-html/unnamed-chunk-5-1.png" width="864" /></p>
+<p><br></p>
 </div>
 <div id="time-month-heatmap-analysis" class="section level3">
 <h3>Time-Month Heatmap Analysis</h3>
@@ -555,6 +562,7 @@ low-human-activity periods.</p>
 Image Credits: bestfriends
 </p>
 </div>
+<hr />
 </div>
 </div>
 <div id="recommendations" class="section level2">
