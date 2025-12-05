@@ -207,15 +207,15 @@ Common actions include `Rehabilitator`, `Unfounded`, and `ACC`. Injured animals 
 ```{r}
 park_model_group = park_model |>
   mutate(
-    action_group = if_else(
+    founded_vs_unfounded = if_else(
       final_ranger_action == "Unfounded",
       "Unfounded",
-      "Other actions"
+      "Founded"
     )
   )
 
 duration_mean = park_model_group |>
-  group_by(action_group) |>
+  group_by(founded_vs_unfounded) |>
   summarise(
     mean_duration = mean(duration_hours, na.rm = TRUE),
     .groups = "drop"
@@ -223,7 +223,7 @@ duration_mean = park_model_group |>
 duration_mean |>
   knitr::kable(
     digits = 3,
-    caption = "Mean Duration by Action Group",
+    caption = "Mean Duration (Founded vs Unfounded)",
     align = "c"
   )
 ```
@@ -233,16 +233,16 @@ duration_mean |>
 ### Density of Raw Action Duration
 ```{r, fig.width=8, fig.height=5, fig.align = "center"}
 ggplot(park_model_group, aes(x = duration_hours,
-                        fill  = action_group,
-                        color = action_group)) +
+                        fill  = founded_vs_unfounded,
+                        color = founded_vs_unfounded)) +
   geom_density(alpha = 0.3, adjust = 1, linewidth = 1) +
   
   geom_vline(data = duration_mean,
-             aes(xintercept = mean_duration, color = action_group),
+             aes(xintercept = mean_duration, color = founded_vs_unfounded),
              linewidth = 0.5, linetype = "dashed") +
   
   labs(
-    title = "Density of Action Duration by Action Group",
+    title = "Density of Action Duration (Founded vs Unfounded)",
     x = "Action Duration (hours)",
     y = "Density",
     fill  = "Action group",
@@ -266,7 +266,7 @@ park_model2_log = park_model_group |>
   mutate(duration_log = log1p(duration_hours))  # log(1 + x)
 
 ggplot(park_model2_log,
-       aes(x = duration_log, fill = action_group, color = action_group)) +
+       aes(x = duration_log, fill = founded_vs_unfounded, color = founded_vs_unfounded)) +
   geom_density(alpha = 0.4, adjust = 1, linewidth = 0.7) +
   labs(
     title = "Density of Log-transformed Action Duration",
@@ -284,11 +284,11 @@ ggplot(park_model2_log,
 
 To improve interpretability, we applied a `log (1 + duration)` transformation, which compresses long outliers and spreads the dense cluster near zero.
 
-- `Unfounded` cases:
+- `Unfounded`:
 These show higher density at lower `log-duration` values, indicating they are typically resolved quickly.
 Their mean duration is about 1.0 hour, confirming short response times.
 
-- `Other actions`:
+- `Founded`:
 These have a broader distribution and greater density at higher `log-duration` values, reflecting the additional time required for assessment, handling, or coordination.
 Their mean duration is higher at 1.52 hours.
 

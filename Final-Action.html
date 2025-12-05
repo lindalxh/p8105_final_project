@@ -325,7 +325,7 @@ div.tocify {
     <div id="navbar" class="navbar-collapse collapse">
       <ul class="nav navbar-nav">
         <li>
-  <a href="about.html">Data</a>
+  <a href="Data-Cleaning.html">Data</a>
 </li>
 <li>
   <a href="Temporal-Pattern.html">Temporal Pattern</a>
@@ -604,15 +604,15 @@ class="section level2">
 <h2>Distribution of Action Duration by Action Group</h2>
 <pre class="r"><code>park_model_group = park_model |&gt;
   mutate(
-    action_group = if_else(
+    founded_vs_unfounded = if_else(
       final_ranger_action == &quot;Unfounded&quot;,
       &quot;Unfounded&quot;,
-      &quot;Other actions&quot;
+      &quot;Founded&quot;
     )
   )
 
 duration_mean = park_model_group |&gt;
-  group_by(action_group) |&gt;
+  group_by(founded_vs_unfounded) |&gt;
   summarise(
     mean_duration = mean(duration_hours, na.rm = TRUE),
     .groups = &quot;drop&quot;
@@ -620,20 +620,20 @@ duration_mean = park_model_group |&gt;
 duration_mean |&gt;
   knitr::kable(
     digits = 3,
-    caption = &quot;Mean Duration by Action Group&quot;,
+    caption = &quot;Mean Duration (Founded vs Unfounded)&quot;,
     align = &quot;c&quot;
   )</code></pre>
 <table>
-<caption>Mean Duration by Action Group</caption>
+<caption>Mean Duration (Founded vs Unfounded)</caption>
 <thead>
 <tr class="header">
-<th align="center">action_group</th>
+<th align="center">founded_vs_unfounded</th>
 <th align="center">mean_duration</th>
 </tr>
 </thead>
 <tbody>
 <tr class="odd">
-<td align="center">Other actions</td>
+<td align="center">Founded</td>
 <td align="center">1.537</td>
 </tr>
 <tr class="even">
@@ -646,16 +646,16 @@ duration_mean |&gt;
 <div id="density-of-raw-action-duration" class="section level3">
 <h3>Density of Raw Action Duration</h3>
 <pre class="r"><code>ggplot(park_model_group, aes(x = duration_hours,
-                        fill  = action_group,
-                        color = action_group)) +
+                        fill  = founded_vs_unfounded,
+                        color = founded_vs_unfounded)) +
   geom_density(alpha = 0.3, adjust = 1, linewidth = 1) +
   
   geom_vline(data = duration_mean,
-             aes(xintercept = mean_duration, color = action_group),
+             aes(xintercept = mean_duration, color = founded_vs_unfounded),
              linewidth = 0.5, linetype = &quot;dashed&quot;) +
   
   labs(
-    title = &quot;Density of Action Duration by Action Group&quot;,
+    title = &quot;Density of Action Duration (Founded vs Unfounded)&quot;,
     x = &quot;Action Duration (hours)&quot;,
     y = &quot;Density&quot;,
     fill  = &quot;Action group&quot;,
@@ -682,7 +682,7 @@ class="section level3">
   mutate(duration_log = log1p(duration_hours))  # log(1 + x)
 
 ggplot(park_model2_log,
-       aes(x = duration_log, fill = action_group, color = action_group)) +
+       aes(x = duration_log, fill = founded_vs_unfounded, color = founded_vs_unfounded)) +
   geom_density(alpha = 0.4, adjust = 1, linewidth = 0.7) +
   labs(
     title = &quot;Density of Log-transformed Action Duration&quot;,
@@ -701,11 +701,11 @@ ggplot(park_model2_log,
 <code>log (1 + duration)</code> transformation, which compresses long
 outliers and spreads the dense cluster near zero.</p>
 <ul>
-<li><p><code>Unfounded</code> cases: These show higher density at lower
+<li><p><code>Unfounded</code>: These show higher density at lower
 <code>log-duration</code> values, indicating they are typically resolved
 quickly. Their mean duration is about 1.0 hour, confirming short
 response times.</p></li>
-<li><p><code>Other actions</code>: These have a broader distribution and
+<li><p><code>Founded</code>: These have a broader distribution and
 greater density at higher <code>log-duration</code> values, reflecting
 the additional time required for assessment, handling, or coordination.
 Their mean duration is higher at 1.52 hours.</p></li>
