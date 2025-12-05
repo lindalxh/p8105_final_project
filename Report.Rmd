@@ -1566,6 +1566,7 @@ Key results:
 ## Discussion
 
 ### Borough and Animal Class
+
 The reporting patterns based on borough may be influenced by differences in human population density and land use. Given Manhattan's exceptionally high population density, it is reasonable that it generates the greatest number of rescue calls. Manhattan, Queens, and Brooklyn have denser human activity, which may increase both encounter rates and incident reporting, leading to high counts for birds/raptors and small mammals. Human activities in Staten Island often take place near coastal or aquatic environments, making marine animals and other water-dependent species more visible to the public, and shows the highest number of calls for marine mammals, fish, and reptiles/amphibians. The Bronx includes the Bronx Zoo and several large parks, which may contribute to the highest number of cases involving large mammals.
 
 Based on these observations, the Parks and Recreation Department could consider allocating more aquatic-animal expertise to Staten Island and strengthening monitoring capacity for its land areas. Additional resources could also be directed toward managing large mammals in the Bronx and reducing human–wildlife disturbances involving small mammals in Manhattan.
@@ -1577,6 +1578,7 @@ The observed temporal patterns marked seasonal peaks and a concentration of case
 These insights enable proactive management: ranger shifts and resource allocation can be optimized around peak periods, while targeted public education can be timed to mitigate seasonal conflicts. Ultimately, this data-driven approach enhances operational efficiency and wildlife protection in urban ecosystems.
 
 ### Health Condition Patterns
+
 Differences in health conditions across species groups and boroughs suggest that many cases are shaped by how easily animals can be seen and how quickly people notice something is wrong. Small mammals often appear in poorer condition because they tend to stay hidden, so problems are discovered later. Birds, on the other hand, are more visible in open areas, making unusual behavior easier for the public to recognize and report. Borough-level patterns reinforce this idea: busy areas like Manhattan may allow animals to be spotted sooner, while lower-density areas such as Staten Island may lead to cases being reported only when animals are already deceased.
 
 These patterns show that reported health conditions reflect both animal behaviors and the environments in which people encounter them. The Parks and Recreation Department may consider encouraging earlier reporting, especially in areas where distressed animals are harder to notice, and offering simple guidance to help residents recognize signs of illness or injury. Increasing public awareness in  boroughs with lower density could improve early detection and reduce the number of cases that are only discovered at severe stages.
@@ -1584,9 +1586,15 @@ These patterns show that reported health conditions reflect both animal behavior
 One possible explanation of the over-represented healthy cases for domestic species is reporting behavior. Domestic animals may be reported for a wider range of reasons, such as being lost, found unattended, or involved in non-medical encounters, which increases the number of Healthy reports. In contrast, native wildlife is more likely to be reported only when something is wrong, such as being injured, sick, or otherwise in distress, leading to higher counts in those categories.
 
 ### Response Duration
-Our analyses show that response duration is driven mainly by operational factors, especially call timing and call source, rather than animal-related characteristics. These findings highlight that delays are largely shaped by staffing patterns, dispatch workflows, and after-hours procedures.
+
+Our exploratory analysis and regression results consistently show that response duration is strongly influenced by operational factors rather than animal-related characteristics. 
+
+Calls made during daytime hours have significantly shorter response times compared with those made in the evening or overnight, reflecting staffing patterns and the availability of on-duty rangers. In contrast, borough and animal condition did not have clear independent effects on response duration. Even after adjusting for other predictors, only Brooklyn showed a significantly longer response duration compared with Manhattan, while all animal-condition categories remained non-significant. However, call source became a strong predictor: calls reported through Central Dispatch or by park employees were associated with substantially shorter response times, suggesting that clearer internal communication channels facilitate faster responses.
+
+Based on these findings, several practical improvements may help reduce delays. Increasing ranger coverage during evening and overnight hours may help address staffing-related delays. In addition, educating the public on how to provide clearer and more direct information when reporting incidents could help reduce ambiguity and improve prioritization, potentially enabling rangers to respond more quickly.
 
 ### Limitations
+
 Several observations in the dataset show a response time of zero, which may indicate that the ranger was already present at the site or that the incident occurred near a ranger station. However, the dataset does not provide explicit documentation of these circumstances, making it unclear whether these values reflect true immediate responses or misrecorded response times. This ambiguity introduces uncertainty in the interpretation of very short response durations and may influence our exploratory analysis and the estimates produced by the linear regression model.
 
 In addition, several broader data limitations may influence how the results should be interpreted. Some animal condition or animal class categories contain relatively few observations, which can make group comparisons and regression estimates less stable. There are also inconsistencies in the recorded timestamps. For example, there are incidents where the `date_and_time_of_ranger_response` occurs before the `date_and_time_of_initial_call`, which is not feasible and suggests recording errors. These issues introduce additional uncertainty and may contribute to unexplained variability in the findings.

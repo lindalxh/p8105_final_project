@@ -15,7 +15,7 @@
 
 <title>Report</title>
 
-<script src="site_libs/header-attrs-2.30/header-attrs.js"></script>
+<script src="site_libs/header-attrs-2.29/header-attrs.js"></script>
 <script src="site_libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <link href="site_libs/bootstrap-3.3.5/css/flatly.min.css" rel="stylesheet" />
@@ -390,9 +390,9 @@ library(fuzzyjoin)
 library(knitr)
 library(base64enc)
 library(leaflet)
-library(sf)
-
-source(&quot;data_cleaning.R&quot;) </code></pre>
+library(sf)</code></pre>
+<pre><code>## Warning: package &#39;sf&#39; was built under R version 4.5.2</code></pre>
+<pre class="r"><code>source(&quot;data_cleaning.R&quot;) </code></pre>
 <div id="tiny-paws-big-rescue" class="section level1">
 <h1>Tiny Paws, Big Rescue:</h1>
 </div>
@@ -2930,11 +2930,27 @@ otherwise in distress, leading to higher counts in those categories.</p>
 </div>
 <div id="response-duration-1" class="section level3">
 <h3>Response Duration</h3>
-<p>Our analyses show that response duration is driven mainly by
-operational factors, especially call timing and call source, rather than
-animal-related characteristics. These findings highlight that delays are
-largely shaped by staffing patterns, dispatch workflows, and after-hours
-procedures.</p>
+<p>Our exploratory analysis and regression results consistently show
+that response duration is strongly influenced by operational factors
+rather than animal-related characteristics.</p>
+<p>Calls made during daytime hours have significantly shorter response
+times compared with those made in the evening or overnight, reflecting
+staffing patterns and the availability of on-duty rangers. In contrast,
+borough and animal condition did not have clear independent effects on
+response duration. Even after adjusting for other predictors, only
+Brooklyn showed a significantly longer response duration compared with
+Manhattan, while all animal-condition categories remained
+non-significant. However, call source became a strong predictor: calls
+reported through Central Dispatch or by park employees were associated
+with substantially shorter response times, suggesting that clearer
+internal communication channels facilitate faster responses.</p>
+<p>Based on these findings, several practical improvements may help
+reduce delays. Increasing ranger coverage during evening and overnight
+hours may help address staffing-related delays. In addition, educating
+the public on how to provide clearer and more direct information when
+reporting incidents could help reduce ambiguity and improve
+prioritization, potentially enabling rangers to respond more
+quickly.</p>
 </div>
 <div id="limitations" class="section level3">
 <h3>Limitations</h3>
