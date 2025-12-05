@@ -237,8 +237,6 @@ This part presents a comprehensive analysis and visualization of temporal patter
 
 This analysis examines seasonal patterns in animal rescue cases to identify how different animal categories respond to environmental changes throughout the year. Understanding these temporal patterns helps predict peak demand periods for wildlife services.
 
-##### Monthly Animal Response Trends
-
 ```{r, fig.width=9, fig.height=5}
 monthly_animal_trends = park_ranger_new |> 
   mutate(
@@ -276,8 +274,6 @@ mon_case_plot = monthly_animal_trends |>
 print(mon_case_plot)
 ```
 
-##### Chart Interpretation
-
 This line chart displays the monthly distribution of animal response cases across 7 reclassified animal categories throughout the year.
 
 Key Findings:
@@ -295,8 +291,6 @@ Key Findings:
 #### Temporal Distribution Analysis
 
 We use heatmap visualization to reveal how animal rescue cases distribute across both daily hours and monthly periods, identifying optimal response windows and understanding the interplay between human activity cycles and wildlife behavior.
-
-##### Animal Response Cases Heatmap
 
 ```{r, fig.width=9, fig.height=5.5}
 hourly_monthly_heatmap = park_ranger_new |> 
@@ -358,8 +352,6 @@ case_heatmap = hourly_monthly_heatmap |>
 plot(case_heatmap)
 
 ```
-
-##### Time-Month Heatmap Analysis
 
 Case distribution primarily concentrates between 8:00 and 18:00, aligning with peak park visitation and diurnal animal activity. Summer exhibits extended evening activity likely due to increased daylight and recreational use, while winter shows contracted midday patterns corresponding to reduced daylight availability. Minimal overnight reporting may reflect limited detection capabilities during low-human-activity periods.
 
