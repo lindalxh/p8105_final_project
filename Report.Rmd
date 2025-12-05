@@ -485,7 +485,7 @@ interactive_map_park = leaflet(map_park_sf, height = 500) |>
   Screenshot of the interactive map on Home page
 </div>
 
-The map above displays the parks in which animal rescue calls occurred, with darker shading indicating a higher total number of reported cases. Each park is clickable, and the corresponding popup provides a breakdown of case counts by animal class. Overall, parks with darker shading tend to be larger in geographic area and are often located in high-density regions, such as major tourist destinations or busy residential neighborhoods. These patterns suggest that both park size and human activity may contribute to the frequency of reported animal incidents.
+[The map](index.html) above displays the parks in which animal rescue calls occurred, with darker shading indicating a higher total number of reported cases. Each park is clickable, and the corresponding popup provides a breakdown of case counts by animal class. Overall, parks with darker shading tend to be larger in geographic area and are often located in high-density regions, such as major tourist destinations or busy residential neighborhoods. These patterns suggest that both park size and human activity may contribute to the frequency of reported animal incidents.
 
 ```{r}
 color_palette_1 = c(
@@ -564,7 +564,7 @@ interactive_map_boro = leaflet(map_boro_sf, height = 500) |>
   Screenshot of the interactive map on Health Condition page
 </div>
 
-The map above displays the total number of animal rescue calls from each borough, with darker shading indicating a higher total number of reported cases. Each borough is clickable, and the corresponding popup presents the bar graph of case counts by animal class. Based on the visualization, Manhattan has the highest number of reported cases overall.
+[The map](Health-Condition.html) above displays the total number of animal rescue calls from each borough, with darker shading indicating a higher total number of reported cases. Each borough is clickable, and the corresponding popup presents the bar graph of case counts by animal class. Based on the visualization, Manhattan has the highest number of reported cases overall.
 
 ```{r}
 color_palette_2 = c(
