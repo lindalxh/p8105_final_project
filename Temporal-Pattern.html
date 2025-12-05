@@ -13,7 +13,7 @@
 
 <title>Temporal Pattern</title>
 
-<script src="site_libs/header-attrs-2.29/header-attrs.js"></script>
+<script src="site_libs/header-attrs-2.30/header-attrs.js"></script>
 <script src="site_libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <link href="site_libs/bootstrap-3.3.5/css/flatly.min.css" rel="stylesheet" />
@@ -325,7 +325,7 @@ div.tocify {
     <div id="navbar" class="navbar-collapse collapse">
       <ul class="nav navbar-nav">
         <li>
-  <a href="about.html">Data</a>
+  <a href="Data-Cleaning.html">Data</a>
 </li>
 <li>
   <a href="Temporal-Pattern.html">Temporal Pattern</a>
@@ -372,13 +372,12 @@ div.tocify {
 </div>
 
 
-<br>
-<div align="center">
-<p><img src="images/cute_cat2.jpg" style="width:60.0%" /></p>
+<div style="text-align: center;">
+<img src="images/cute_cat2.jpg" width="60%" />
+<p style="font-size:12px; color:gray; margin-top:4px;">
+Image Credits: the dodo
+</p>
 </div>
-<p><a
-href="https://www.thedodo.com/daily-dodo/shelter-staff-realize-fierce-little-rescue-kitten-isnt-who-she-seems">image
-source</a></p>
 <p>This page presents a comprehensive analysis and visualization of
 temporal patterns in wildlife incident reports, with the goal of
 generating data-driven insights to optimize rescue response strategies
@@ -429,14 +428,14 @@ mon_case_plot = monthly_animal_trends |&gt;
   scale_color_viridis_d()
 
 print(mon_case_plot)</code></pre>
-<p><img src="Temporal-Pattern_files/figure-html/unnamed-chunk-2-1.png" width="864" /></p>
+<p><img src="Temporal-Pattern_files/figure-html/unnamed-chunk-3-1.png" width="864" /></p>
 </div>
 <div id="chart-interpretation" class="section level3">
 <h3>Chart Interpretation</h3>
 <p>This line chart displays the monthly distribution of animal response
 cases across 7 reclassified animal categories throughout the year.</p>
 <p>Key Findings:</p>
-<ol style="list-style-type: decimal">
+<ul>
 <li><p>Birds and raptors demonstrate a notable increase in cases
 beginning in February, reaching a peak in June, and declining to their
 lowest levels by November, possibly reflecting migratory patterns,
@@ -456,14 +455,24 @@ during warmer conditions.</p></li>
 <li><p>Marine mammals and other categories remain consistently minimal
 with case counts in the single digits, possibly due to their limited
 presence in urban park ecosystems or lower detection rates.</p></li>
-</ol>
+</ul>
 <br>
-<div align="center">
-<p><img src="images/Owl.jpg" style="width:50.0%" /></p>
+<div
+style="display: inline-block; width: 45%; text-align: center; vertical-align: top; margin: 10px;">
+<img src="images/hurt_owl.jpg" /><!-- -->
+<div
+style="font-size: 12px; color: #666; font-style: italic; margin-top: 5px;">
+Image Credits: bestfriends
 </div>
-<p><a
-href="https://bestfriends.org/stories/features/owls-rare-return-best-friends-animal-sanctuary">image
-source</a></p>
+</div>
+<div
+style="display: inline-block; width: 44%; text-align: center; vertical-align: top; margin: 10px;">
+<img src="images/recovered_owl.png" width="424" />
+<div
+style="font-size: 12px; color: #666; font-style: italic; margin-top: 5px;">
+Image Credits: bestfriends
+</div>
+</div>
 </div>
 </div>
 <div id="temporal-distribution-analysis" class="section level2">
@@ -531,7 +540,7 @@ case_heatmap = hourly_monthly_heatmap |&gt;
   )
 
 plot(case_heatmap)</code></pre>
-<p><img src="Temporal-Pattern_files/figure-html/unnamed-chunk-3-1.png" width="864" /></p>
+<p><img src="Temporal-Pattern_files/figure-html/unnamed-chunk-5-1.png" width="864" /></p>
 </div>
 <div id="time-month-heatmap-analysis" class="section level3">
 <h3>Time-Month Heatmap Analysis</h3>
@@ -542,17 +551,16 @@ recreational use, while winter shows contracted midday patterns
 corresponding to reduced daylight availability. Minimal overnight
 reporting may reflect limited detection capabilities during
 low-human-activity periods.</p>
-<br>
-<div align="center">
-<p><img src="images/rooster.jpg" style="width:50.0%" /></p>
-</div>
-<p><a
-href="https://bestfriends.org/stories/julie-castle-blog/answering-call-wild-wild-friends-inside-wildlife-rehabilitation-best">image
-source</a></p>
+<div style="text-align: center;">
+<img src="images/rooster.jpg" width="60%" />
+<p style="font-size:12px; color:gray; margin-top:4px;">
+Image Credits: bestfriends
+</p>
 </div>
 </div>
-<div id="recommendations-section" class="section level2">
-<h2>Recommendations Section</h2>
+</div>
+<div id="recommendations" class="section level2">
+<h2>Recommendations</h2>
 <p>Enhanced ranger coverage during summer afternoons could address
 elevated case frequencies across multiple species. Early spring public
 education initiatives might mitigate conflicts by raising awareness of
@@ -562,13 +570,12 @@ planning. Visitor vigilance during peak seasons and prompt daylight
 reporting could improve response effectiveness, supplemented by
 community monitoring programs and coordinated rehabilitation
 networks.</p>
-<br>
-<div align="center">
-<p><img src="images/falcon.jpg" style="width:60.0%" /></p>
+<div style="text-align: center;">
+<img src="images/falcon.jpg" width="60%" />
+<p style="font-size:12px; color:gray; margin-top:4px;">
+Image Credits: bestfriends
+</p>
 </div>
-<p><a
-href="https://bestfriends.org/stories/julie-castle-blog/answering-call-wild-wild-friends-inside-wildlife-rehabilitation-best">image
-source</a></p>
 </div>
 
 
