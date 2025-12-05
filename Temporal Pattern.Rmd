@@ -14,7 +14,7 @@ source("data_cleaning.R")
 ```{r, echo=FALSE, results='asis'}
 cat('
 <div style="text-align: center;">
-  <img src="images/cute_cat2.jpg" width="60%" />
+  <img src="images/cute_cat.png" width="60%" />
   <p style="font-size:12px; color:gray; margin-top:4px;">
     Image Credits: the dodo
   </p>
