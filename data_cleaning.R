@@ -16,7 +16,7 @@ library(fuzzyjoin)
 library(knitr)
 library(base64enc)
 
-############################## Data Cleaning ##############################
+############################## park_ranger_new ##############################
 
 # 1. Split date and time
 # 2. Remove incorrect records based on call & response time
@@ -126,7 +126,7 @@ park_ranger_new = park_ranger %>%
     infant  = if_else(str_detect(age, "Infant"), 1L, 0L, missing = 0L)
   )
 
-############################## Index Page ##############################
+############################## map_park ##############################
 
 # Match park names with Park Properties names
 # 1. Import parks properties dataset
