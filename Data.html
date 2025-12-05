@@ -325,7 +325,7 @@ div.tocify {
     <div id="navbar" class="navbar-collapse collapse">
       <ul class="nav navbar-nav">
         <li>
-  <a href="Data-Cleaning.html">Data</a>
+  <a href="Data.html">Data</a>
 </li>
 <li>
   <a href="Temporal-Pattern.html">Temporal Pattern</a>
@@ -515,12 +515,12 @@ park_ranger_new = park_ranger %&gt;%
 <h1>Matching Process for Park Properties</h1>
 <p>After comparing the <strong>Park Ranger</strong> and <strong>Parks
 Properties</strong> datasets, we found that many park names in Park
-Ranger (<em>property</em>) did not match the official park names
-(<em>signname</em>) in Parks Properties Specifically, 208 out of 703
-unique <em>property</em> values had no exact match in <em>signname</em>.
-To recover as many matches as possible, we applied the Jaro–Winkler
-algorithm from the fuzzyjoin package to perform inexact matching on all
-unique park names.</p>
+Ranger (<code>property</code>) did not match the official park names
+(<code>signname</code>) in Parks Properties Specifically, 208 out of 703
+unique <code>property</code> values had no exact match in
+<code>signname</code>. To recover as many matches as possible, we
+applied the Jaro–Winkler algorithm from the fuzzyjoin package to perform
+inexact matching on all unique park names.</p>
 <p>We selected Jaro–Winkler algorithm because it is designed for short
 strings such as names, and it places higher weight on common prefixes,
 which is useful for matching park names that share the same beginning
@@ -537,6 +537,125 @@ includes 6,118 reported cases across 546 unique parks. Using
 Jaro–Winkler with a maximum distance threshold of 0.25 resulted in an
 overall matching accuracy of 43.75% among the 208 originally unmatched
 values.</p>
+<pre class="r"><code># Match park names with Park Properties names
+# 1. Import parks properties dataset
+park_prop_df = read_csv(&quot;data/Parks_Properties_20251107.csv&quot;) |&gt; 
+  janitor::clean_names()</code></pre>
+<pre><code>## Rows: 2054 Columns: 34
+## ── Column specification ────────────────────────────────────────────────────────
+## Delimiter: &quot;,&quot;
+## chr (22): ACQUISITIONDATE, ADDRESS, BOROUGH, CLASS, COUNCILDISTRICT, DEPARTM...
+## dbl  (1): PRECINCT
+## num  (7): ACRES, COMMUNITYBOARD, GISOBJID, NYS_ASSEMBLY, NYS_SENATE, OBJECTI...
+## lgl  (4): PERMIT, PIP_RATABLE, RETIRED, WATERFRONT
+## 
+## ℹ Use `spec()` to retrieve the full column specification for this data.
+## ℹ Specify the column types or set `show_col_types = FALSE` to quiet this message.</code></pre>
+<pre class="r"><code># 2. Get park names from both datasets
+park_name_park_ranger = park_ranger_new |&gt;
+  transmute(name_park_ranger = str_to_lower(str_trim(property))) |&gt;
+  distinct() |&gt;
+  arrange(name_park_ranger)
+
+park_name_park_prop = park_prop_df |&gt;
+  transmute(name_park_prop = str_to_lower(str_trim(signname))) |&gt;
+  distinct() |&gt;
+  arrange(name_park_prop)
+
+# 3. Join datasets on inexact matching, left join on ranger data
+# 4. Use Jaro-Winkler algorithm, save pairs with lowest distance (highest similarity)
+fuzzy_matches = 
+  stringdist_join(
+    park_name_park_ranger, park_name_park_prop,
+    by = c(&quot;name_park_ranger&quot; = &quot;name_park_prop&quot;),
+    mode = &quot;left&quot;,
+    method = &quot;jw&quot;, max_dist = 0.25,
+    distance_col = &quot;distance&quot;) |&gt; 
+  group_by(name_park_ranger) |&gt;
+  slice_min(distance, n = 1, with_ties = FALSE) |&gt;
+  ungroup() |&gt;
+  mutate(
+    similarity = 1 - distance,
+    original_park = name_park_ranger,
+    matched_park = name_park_prop) |&gt; 
+  select(original_park, matched_park, similarity) |&gt; 
+  arrange(original_park)
+
+# 5. Output as a .csv file for manual matching 
+write.csv(fuzzy_matches, &quot;data/fuzzy_park_match.csv&quot;, row.names = FALSE)
+
+# Create a new dataframe for mapping
+# 1. Import dataset with final matched park names, get all animal classes
+park_match_df = read_csv(&quot;data/park_match_final.csv&quot;) |&gt; 
+  janitor::clean_names() |&gt; 
+  transmute(
+    original_park = str_to_lower(str_trim(original_park)),
+    final_match = str_to_lower(str_trim(final_match)))</code></pre>
+<pre><code>## Rows: 703 Columns: 4
+## ── Column specification ────────────────────────────────────────────────────────
+## Delimiter: &quot;,&quot;
+## chr (3): original_park, matched_park, final_match
+## dbl (1): similarity
+## 
+## ℹ Use `spec()` to retrieve the full column specification for this data.
+## ℹ Specify the column types or set `show_col_types = FALSE` to quiet this message.</code></pre>
+<pre class="r"><code>animal_classes = c(
+  &quot;Birds / Raptors&quot;, 
+  &quot;Small Mammals&quot;, 
+  &quot;Large Mammals&quot;,
+  &quot;Marine Mammals&quot;, 
+  &quot;Reptiles / Amphibians&quot;,
+  &quot;Fish&quot;, 
+  &quot;Others&quot;)
+
+# 2. Join the matched name to park_ranger_new, remove those don&#39;t have a matched park
+map_park = park_ranger_new |&gt; 
+  select(property, animal_class_new) |&gt; 
+  mutate(property = str_to_lower(str_trim(property))) |&gt; 
+  left_join(park_match_df,
+            by = c(&quot;property&quot; = &quot;original_park&quot;)) |&gt; 
+  select(final_match, animal_class_new) |&gt; 
+  filter(!final_match %in% c(&quot;na&quot;))
+
+# 3. Maintain the order of parks for efficient map rendering 
+# 4. Keep those with largest acres if there are more than one parks have the same name
+# 5. Join map_park to park property with row expansions, remove parks with no cases
+map_park = park_prop_df |&gt; 
+  select(borough, signname, multipolygon, acres) |&gt; 
+  mutate(
+    order = row_number(),
+    name_park_prop = str_to_lower(str_trim(signname)),
+    acres = as.numeric(acres)) |&gt; 
+  group_by(name_park_prop) |&gt; 
+  slice_max(order_by = acres, n = 1) |&gt; 
+  ungroup() |&gt; 
+  select(!acres) |&gt; 
+  left_join(map_park,
+            by = c(&quot;name_park_prop&quot; = &quot;final_match&quot;)) |&gt; 
+  filter(!is.na(animal_class_new)) 
+
+# 6. Get the number of cases for each animal class in each park
+# 7. Keep one row for each park and arrange the df based on original mapping order
+# 8. Change borough name to its full name
+# 9. Get total number of cases for each park
+map_park = map_park |&gt; 
+  group_by(name_park_prop, animal_class_new) |&gt; 
+  summarize(n = n(), .groups = &quot;drop&quot;) |&gt; 
+  pivot_wider(
+    names_from = animal_class_new,
+    values_from = n) |&gt; 
+  left_join(map_park |&gt; select(!animal_class_new),
+            by = c(&quot;name_park_prop&quot; = &quot;name_park_prop&quot;)) |&gt; 
+  distinct(name_park_prop, .keep_all = TRUE) |&gt; 
+  arrange(order) |&gt; 
+  mutate(
+    borough = case_match(borough,
+                         &quot;M&quot; ~ &quot;Manhattan&quot;,
+                         &quot;B&quot; ~ &quot;Brooklyn&quot;,
+                         &quot;R&quot; ~ &quot;Staten Island&quot;,
+                         &quot;Q&quot; ~ &quot;Queens&quot;,
+                         &quot;X&quot; ~ &quot;Bronx&quot;),
+    total_n = rowSums(across(all_of(animal_classes)), na.rm = TRUE))</code></pre>
 </div>
 <div id="cleaned-dataset" class="section level1">
 <h1>Cleaned Dataset</h1>

@@ -34,20 +34,52 @@ source("data_cleaning.R")
 
 <br><br>
 
-<div style="text-align:center;">
-  <img src="images/turtle.jpg" width="50%">
-</div>  
+```{r, echo=FALSE, results='asis'}
+cat('
+<div style="text-align: center;">
+  <img src="images/turtle.jpg" width="50%" />
+  <p style="font-size:12px; color:gray; margin-top:4px;">
+    Image Credits: Unsplash
+  </p>
+</div>
+')
+```
+
+This page analyzes animal health conditions across different species groups and New York City boroughs. Through descriptive statistics, visualizations, and statistical tests, it highlights patterns in reports of healthy, injured, and deceased animals. These insights help us better understand wildlife incidents in the city and support decisions related to ecological management and rescue resource allocation.
 
 <br><br>
 
-# Descriptive Analysis of Animal Health Conditions
 
 ```{r, include=FALSE}
-# Create color palette for health conditions
-custom_colors =
-  c("#0868ac", "#43a2ca", "#7bccc4", "#bae4bc", "#f0f9e8")
+# Create color palette for bar plots
+color_palette_0 = c(
+  "#0868ac",
+  "#43a2ca",
+  "#7bccc4",
+  "#bae4bc",
+  "#f0f9e8"
+)
+
+color_palette_1 = c(
+  "#f0f9e8",
+  "#bae4bc",
+  "#7bccc4",
+  "#43a2ca",
+  "#0868ac"
+)
+
+color_palette_2 = c(
+  "#f0f9e8",
+  "#bae4bc",
+  "#7bccc4",
+  "#43a2ca",
+  "#0868ac",
+  "#084081",
+  "#082A45" 
+)
 ```
 
+# Descriptive Analysis of Animal Health Conditions
 
 ### Health Conditions by Animal Class
 
@@ -79,7 +111,7 @@ plot_ly(
     y     = ~n,
     color = ~animal_condition,
     type  = "bar",
-    colors = custom_colors,
+    colors = color_palette_0,
     hovertemplate = paste(
       "Animal Class: ", health_by_class$animal_class_new, "<br>",
       "Health Condition: ", health_by_class$animal_condition, "<br>",
@@ -107,7 +139,7 @@ This may be because small mammals (like rats, hamsters, rabbits) are harder to o
   
 - Reptiles/Amphibians form a small portion of total cases yet show a relatively higher share of Injured or DOA reports, possibly because people notice them mainly when something is visibly wrong. 
   
-These differences suggest that how often an animal is reported—and why it is reported—depends heavily on visibility, human contact, and the ease of identifying distress across species.  
+These differences suggest that how often animals are reported, and the reasons they are reported, depend largely on how visible they are, how much they interact with people, and how easy it is to notice that they are in distress.
 
 <br><br>
 
@@ -149,7 +181,7 @@ plot_ly(
     y     = ~n,
     color = ~animal_condition,
     type  = "bar",
-    colors = custom_colors,
+    colors = color_palette_0,
     text  = ~hover_text,
     hoverinfo = "text",
     height = 600,
@@ -174,6 +206,7 @@ But once the data are split by health condition, several boroughs show patterns 
 - Manhattan shows slightly fewer Injured cases, which may reflect limited wildlife movement in dense urban areas.  
 
 - The Bronx has slightly more Healthy reports, suggesting that encounters there may involve animals that are active and visible rather than distressed.  
+
 These differences highlight how each borough’s environment and reporting behavior shape the types of wildlife cases observed.  
 
 <br><br>
@@ -305,29 +338,6 @@ map_boro = park_ranger_new |>
 
 ### Map out the total number of cases in borough
 
-
-```{r}
-# create custom color gradient for each borough
-map_boro_palette = c(
-  "#f0f9e8",
-  "#bae4bc",
-  "#7bccc4",
-  "#43a2ca",
-  "#0868ac"
-)
-
-map_boro_palette_2 = c(
-  "#f7fcf5",  
-  "#f0f9e8",
-  "#bae4bc",
-  "#7bccc4",
-  "#43a2ca",
-  "#0868ac",
-  "#084081"  
-)
-```
-
-
 ```{r}
 # for each borough, create a dataframe for number of cases (>0) for each animal class
 
@@ -362,7 +372,7 @@ map_boro_sf = map_boro |>
       "<img src='", map_boro_plot, "' width='260px'>")) |>
   ungroup() |> 
   arrange(total_n) |>
-  mutate(color_hex = map_boro_palette[row_number()]) |> 
+  mutate(color_hex = color_palette_1[row_number()]) |> 
   st_as_sf(wkt = "the_geom", crs = 4326)
 ```
 
@@ -407,7 +417,7 @@ map_boro |>
   ggplot(aes(x = borough, y = cases, fill = animal_class)) +
   geom_col() +
   scale_fill_manual(
-    values = map_boro_palette_2,
+    values = color_palette_2,
     name   = "Animal Class"
   ) +
   labs(
@@ -431,7 +441,13 @@ Based on these observations, the Parks and Recreation Department could consider 
 
 <br><br>
 
-<div style="text-align:center;">
-  <img src="images/thank you.jpg" width="50%">
-</div>  
-
+```{r, echo=FALSE, results='asis'}
+cat('
+<div style="text-align: center;">
+  <img src="images/thank you.jpg" width="50%" />
+  <p style="font-size:12px; color:gray; margin-top:4px;">
+    Image Credits: Unsplash
+  </p>
+</div>
+')
+```
