@@ -1592,7 +1592,7 @@ Patterns in action duration highlight clear differences in operational demands a
 
 Based on these findings, the Parks Department could strengthen support for rehabilitation and ACC-related responses, which drive the longest and most variable durations. Improving triage for calls that frequently end as unfounded may reduce unnecessary deployments. Areas with many unhealthy or injured animals may benefit from additional trained staff, while routine DOA removals could be streamlined to improve system-wide efficiency.
 
-=======
+---
 
 ### Limitations
 
