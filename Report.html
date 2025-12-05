@@ -1816,11 +1816,12 @@ is higher at 1.52 hours.</p></li>
 class="section level3">
 <h3>Chi-Square Test Between Species Status and Animal Condition</h3>
 <p>We were interested in examining the relationship between two
-categorical variables: species status and health condition. We
-anticipated that exotic animals may experience living environments that
-differ substantially from those of native species. Therefore, we
-conducted a chi-square test of independence to evaluate whether species
-status is associated with differences in reported health conditions.</p>
+categorical variables: species status and health condition. The
+expectation was that exotic animals might face living environments that
+differ from those of native species, potentially influencing their
+condition patterns. Therefore, we conducted a chi-square test of
+independence to evaluate whether species status is associated with
+differences in reported health conditions.</p>
 <pre class="r"><code># conduct a chi-square test on species_status and animal_condition
 spec_health_tbl = table(park_ranger_new$species_status, park_ranger_new$animal_condition)
 
@@ -2006,7 +2007,10 @@ noticeably overrepresented in the Healthy category, while native
 (non-domestic) species are underrepresented. Domestic species are also
 underrepresented in the Injured category, whereas native species show
 the opposite pattern, with more Injured or Unhealthy cases than
-expected.</p>
+expected. As expected, exotic species exhibit contrasting yet weak
+associations with health conditions compared to native species. The
+overall weak associations may also be influenced by the limited number
+of exotic cases.</p>
 <p><br></p>
 </div>
 <div id="multiple-linear-regression-for-response-duration"
@@ -2959,26 +2963,29 @@ regression model.</p>
 </div>
 <div id="conclusion" class="section level3">
 <h3>Conclusion</h3>
-<p>Overall, this analysis reveals that wildlife rescue operations in
-urban parks are shaped by a consistent interplay of spatial, temporal,
-and biological factors. Reporting frequency varies distinctly by borough
-and dominant animal class; case volume peaks during daylight hours and
-seasonal windows of high animal activity; reported health conditions
-reflect both species visibility and public detection patterns; response
-times are largely driven by initial report time and call source, instead
-of animal characteristics; and final ranger action varies significantly
-by animal conditions.</p>
-<p>The findings align with ecological expectations, though they also
-reveal some unexpected outcomes. Spatially, case distributions reflect
-borough characteristics, such as higher aquatic incidents in coastal
-Staten Island. Temporally, cases peak in summer and during daytime
-hours, matching wildlife and public activity patterns. Health reports
-correspond to species visibility - birds are more often reported with
-visible injuries, while concealed small mammals are found in poorer
-condition. However, we identified some unexpected patterns: response
-times depend more on call source and time of day than on animal traits,
-and the interaction between final action and animal condition
-significantly affects action duration.</p>
+<p>Overall, the analysis demonstrates how wildlife rescue activity in
+urban parks is influenced by a combination of spatial patterns, temporal
+trends, and certain animal-condition characteristics. Reporting
+frequency varies distinctly by borough and dominant animal class; case
+volume peaks during daylight hours and seasonal windows of high animal
+activity; reported health conditions reflect both species visibility and
+public detection patterns; response times are largely driven by initial
+report time and call source, instead of animal characteristics; and
+final ranger action varies significantly by animal conditions.</p>
+<p>Although the findings generally align with ecological and behavioral
+expectations, they also challenge some of our assumptions about the role
+of animal-related traits in shaping rescue behavior. Spatially, case
+distributions reflect borough characteristics, such as higher aquatic
+incidents in coastal Staten Island. Temporally, cases peak in summer and
+during daytime hours, matching wildlife and public activity patterns.
+Health reports correspond to species visibility - birds are more often
+reported with visible injuries, while concealed small mammals are found
+in poorer condition. Several findings diverged from our initial
+expectations. Response times were influenced more strongly by call
+source and time of day than by any animal traits. Similarly, procedural
+factors were the dominant influence on the amount of time rangers spent
+on site, whereas animal condition had only a small effect and the number
+of animals involved did not significantly change the time required.</p>
 <p>We initially expected to identify clearer patterns and predictors of
 animal injury, but our analyses ultimately revealed more about human
 reporting behaviors and ranger responses. This reflects the nature of
@@ -2986,9 +2993,9 @@ the dataset, which captures only incidents reported by people rather
 than all events affecting wildlife, showing the central role of human
 awareness in shaping the data.</p>
 <p>To summarize, these patterns provide a data-informed foundation for
-understanding the dynamics of human-wildlife interactions in New York
-City and highlight several determinants of incident occurrence and
-system performance.</p>
+understanding human–wildlife interactions in New York City and
+illustrate how various factors contribute to incident occurrence as well
+as ranger response process.</p>
 </div>
 </div>
 </div>
