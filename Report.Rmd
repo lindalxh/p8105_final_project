@@ -1570,6 +1570,12 @@ The reporting patterns based on borough may be influenced by differences in huma
 
 Based on these observations, the Parks and Recreation Department could consider allocating more aquatic-animal expertise to Staten Island and strengthening monitoring capacity for its land areas. Additional resources could also be directed toward managing large mammals in the Bronx and reducing human–wildlife disturbances involving small mammals in Manhattan.
 
+### Temporal Pattern
+
+The observed temporal patterns marked seasonal peaks and a concentration of cases during daylight hours—strongly correlate with animal activity cycles and human visitation in urban parks. This alignment suggests rescue demand is driven by predictable environmental and behavioral factors.
+
+These insights enable proactive management: ranger shifts and resource allocation can be optimized around peak periods, while targeted public education can be timed to mitigate seasonal conflicts. Ultimately, this data-driven approach enhances operational efficiency and wildlife protection in urban ecosystems.
+
 ### Health Condition Patterns
 Differences in health conditions across species groups and boroughs suggest that many cases are shaped by how easily animals can be seen and how quickly people notice something is wrong. Small mammals often appear in poorer condition because they tend to stay hidden, so problems are discovered later. Birds, on the other hand, are more visible in open areas, making unusual behavior easier for the public to recognize and report. Borough-level patterns reinforce this idea: busy areas like Manhattan may allow animals to be spotted sooner, while lower-density areas such as Staten Island may lead to cases being reported only when animals are already deceased.
 
