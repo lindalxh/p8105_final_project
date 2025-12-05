@@ -138,7 +138,8 @@ ranger_model %>%
        x = "Response Duration (hours)",
        y = "Density",
        color = "Borough") +
-  theme_minimal()
+  theme_minimal() + 
+  theme(legend.position = "bottom")
 ```
 
 Because the response-duration distribution is highly right-skewed, with a long tail extending to several hundred hours, we applied a natural log transformation to stabilize the variance and make differences across boroughs more interpretable.

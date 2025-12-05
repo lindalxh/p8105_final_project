@@ -534,7 +534,8 @@ ranger_model %&gt;%
        x = &quot;Response Duration (hours)&quot;,
        y = &quot;Density&quot;,
        color = &quot;Borough&quot;) +
-  theme_minimal()</code></pre>
+  theme_minimal() + 
+  theme(legend.position = &quot;bottom&quot;)</code></pre>
 <p><img src="Ranger-Response_files/figure-html/unnamed-chunk-4-1.png" width="672" /></p>
 <p>Because the response-duration distribution is highly right-skewed,
 with a long tail extending to several hundred hours, we applied a
