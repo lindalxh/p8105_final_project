@@ -390,9 +390,9 @@ library(fuzzyjoin)
 library(knitr)
 library(base64enc)
 library(leaflet)
-library(sf)
-
-source(&quot;data_cleaning.R&quot;) </code></pre>
+library(sf)</code></pre>
+<pre><code>## Warning: package &#39;sf&#39; was built under R version 4.5.2</code></pre>
+<pre class="r"><code>source(&quot;data_cleaning.R&quot;) </code></pre>
 <div id="tiny-paws-big-rescue" class="section level1">
 <h1>Tiny Paws, Big Rescue:</h1>
 </div>
@@ -1435,17 +1435,32 @@ p4 = resp_dur_dist %&gt;%
   theme(text = element_text(size = 24))</code></pre>
 <p><img src="Report_files/figure-html/unnamed-chunk-12-1.png" width="90%" /></p>
 <p>Because response durations are highly right-skewed, the data were
-split more at the lower end (0–1 and 1–4 hours) where most observations
-occur, while broader segments were used for longer delays (4–24 and
-&gt;24 hours).</p>
-<p>The plots show that response duration does not meaningfully differ
-across animal condition categories. All five groups (Healthy, Unhealthy,
-Injured, DOA, and Unknown) display highly overlapping distributions with
-similar central tendencies. The within-condition variability is much
-larger than any between-condition differences. The long right tails are
-present across all categories, especially in the &gt;24 hour panel,
-suggesting that extremely slow responses occur regardless of the
-reported condition.</p>
+divided more finely at the lower end (0–1 and 1–4 hours), where most
+observations occur, and grouped into broader segments for longer delays
+(4–24 and &gt;24 hours).</p>
+<p>Across the four panels, response duration does not differ
+substantially by animal condition. All five groups (Healthy, Unhealthy,
+Injured, DOA, and Unknown) show largely overlapping distributions with
+similar central tendencies.</p>
+<ul>
+<li><p>DOA cases tend to have longer response times than other groups in
+all segments except the 0-1 hour range. This suggests that once delays
+extend beyond the first hour, DOA calls, despite their apparent urgency,
+are often handled later than other conditions.</p></li>
+<li><p>In contrast, healthy animals generally show shorter response
+times than the other groups within the 0-1, 1-4, and 4-24 hour ranges,
+indicating relatively quicker handling; only in the &gt;24-hour range do
+healthy cases show substantial delays.</p></li>
+<li><p>Unhealthy, injured, and unknown animals show broader variability,
+and none of these categories show a consistent pattern of being
+responded to earlier or later.</p></li>
+</ul>
+<p>These patterns suggest that while condition categories provide some
+descriptive context, they do not strongly influence response priority.
+The variability within each condition is greater than any differences
+between conditions. Long right-tail delays appear across all groups,
+especially in the &gt;24-hour range, indicating that extremely slow
+responses occur regardless of the reported condition.</p>
 <p>Overall, the figure indicates that the reported animal condition
 plays only a minimal role.</p>
 </div>
@@ -2904,10 +2919,28 @@ operational factors, especially call timing and call source, rather than
 animal-related characteristics. These findings highlight that delays are
 largely shaped by staffing patterns, dispatch workflows, and after-hours
 procedures.</p>
-<p>At the same time, data limitations such as small sample sizes in some
-categories, potential timestamp inconsistencies, and unmeasured factors
-(e.g., traffic, weather, case urgency) suggest that some effects should
-be interpreted with caution.</p>
+</div>
+<div id="limitations" class="section level3">
+<h3>Limitations</h3>
+<p>Several observations in the dataset show a response time of zero,
+which may indicate that the ranger was already present at the site or
+that the incident occurred near a ranger station. However, the dataset
+does not provide explicit documentation of these circumstances, making
+it unclear whether these values reflect true immediate responses or
+misrecorded response times. This ambiguity introduces uncertainty in the
+interpretation of very short response durations and may influence our
+exploratory analysis and the estimates produced by the linear regression
+model.</p>
+<p>In addition, several broader data limitations may influence how the
+results should be interpreted. Some animal condition or animal class
+categories contain relatively few observations, which can make group
+comparisons and regression estimates less stable. There are also
+inconsistencies in the recorded timestamps. For example, there are
+incidents where the <code>date_and_time_of_ranger_response</code> occurs
+before the <code>date_and_time_of_initial_call</code>, which is not
+feasible and suggests recording errors. These issues introduce
+additional uncertainty and may contribute to unexplained variability in
+the findings.</p>
 </div>
 </div>
 </div>
